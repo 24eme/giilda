@@ -17,7 +17,6 @@ class DRMExportDB2Task extends sfBaseTask
         new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
         new sfCommandOption('periode_max', null, sfCommandOption::PARAMETER_REQUIRED, 'limit on a max periode', null),
         new sfCommandOption('periode_min', null, sfCommandOption::PARAMETER_REQUIRED, 'limit on a min periode', null),
-        new sfCommandOption('file_origine', null, sfCommandOption::PARAMETER_REQUIRED, "fichier origine tel que généré précédemment", null),
         // add your own options here
     ));
 
@@ -41,13 +40,6 @@ EOF;
         $date = date('YmdHis');
         $export = new ExportMouvementsDRMDB2();
 
-        if (isset($options['file_origine'])) {
-          $csv = file($options['file_origine']);
-          return $export->setFacture($csv);
-        }
-
-        $csv = $export->export(MouvementfactureFacturationView::getInstance()->getMouvementsAll(0), $options['periode_max'], $options['periode_min']);
-
         $noLignes = true;
         foreach($csv as $file => $lignes) {
             if(count($lignes)) {
@@ -68,6 +60,5 @@ EOF;
                 $origineFilename = $fileName;
             }
         }
-        $export->setFacture(explode("\r\n", file_get_contents($origineFilename)));
     }
 }
