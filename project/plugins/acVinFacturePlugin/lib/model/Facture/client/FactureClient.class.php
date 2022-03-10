@@ -397,6 +397,11 @@ class FactureClient extends acCouchdbClient {
 
     public static function generateAuthKey($id)
     {
+        if(!sfConfig::get('app_secret')) {
+
+            throw new Exception("Le \"app_secret\" doit être configuré pour pouvoir générer les url authentifiantes");
+        }
+
         return hash('md5', $id . sfConfig::get('app_secret'));
     }
 }

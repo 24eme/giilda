@@ -28,6 +28,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->archivage_document = new ArchivageDocument($this);
     }
 
+    public function updateVersementComptablePaiement() {
+        $versement = true;
+        $date = null;
+        if ($this->exist('paiements')) {
+            foreach ($this->paiements as $p) {
+                $versement = $versement && $p->versement_comptable;
+                if ($p->date > $date) {
+                    $date = $p->date;
+                }
+            }
+        }
+        $this->versement_comptable_paiement = $versement * 1;
+        $this->date_paiement = $date;
+    }
+
     public function updateDatePaiementFromPaiements() {
         $date = null;
         foreach($this->paiements as $p) {
@@ -186,6 +201,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $nb = 0;
       foreach($this->lignes as $k => $l) {
         $nb++;
+        if(!FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+            continue;
+        }
         $nb += count($l->details);
       }
       return $nb;
@@ -583,7 +601,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $paiement->add('execute',false);
       $delai = MandatSepaConfiguration::getInstance()->getDelaiEcheancePrelevement();
       $paiement->date = date('Y-m-d',strtotime($this->date_facturation.$delai));
-      $this->versement_sepa = 0;
+      $this->add('versement_sepa', 0);
     }
 
     public function getNbPaiementsAutomatique(){
@@ -665,6 +683,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function storeDeclarant($doc) {
         $this->numero_adherent = $doc->identifiant;
+        if($doc->exist('num_interne') && $doc->num_interne) {
+            $this->numero_adherent = $doc->num_interne;
+        }
         $declarant = $this->declarant;
         $declarant->nom = $doc->raison_sociale;
 //$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;

@@ -1,4 +1,7 @@
 <?php
+use_helper('Float');
+use_helper('Display');
+
 $prix_u_libelle = FactureConfiguration::getInstance()->getNomTaux();
 $titre_type_facture = "Cotisation interprofessionnelle";
 $qt_libelle = "Volume \\tiny{en hl}";
@@ -34,15 +37,23 @@ foreach ($facture->lignes as $type => $typeLignes) {
   $line_nb++;
 ?>
     \small{\textbf{<?php echo escape_string_for_latex($typeLignes->getLibellePrincipal()); ?>}<?php if($typeLignes->getLibelleSecondaire()): ?> <?php echo escape_string_for_latex($typeLignes->getLibelleSecondaire()); ?><?php endif; ?>} &
+    <?php if(!FactureConfiguration::getInstance()->isPdfLigneDetails()): ?>
+    \multicolumn{1}{r|}{\small{<?php echoArialFloat($typeLignes->getQuantite()); ?>}} &
+    \multicolumn{1}{r|}{\small{<?php echoArialFloat($typeLignes->getPrixUnitaire()); ?>}} &
+    \multicolumn{1}{r}{\small{<?php echoArialFloat($typeLignes->montant_ht); ?>}}
+    <?php else: ?>
     \multicolumn{1}{r|}{~} &
     \multicolumn{1}{r|}{~} &
     \multicolumn{1}{r}{~}
+    <?php endif; ?>
     \\
     <?php
     $nb_pages = 0;
     foreach ($typeLignes->details as $prodHash => $produit) {
-        $line_nb++;
-        include_partial('facture/pdf_generique_tableRow', array('produit' => $produit->getRawValue(), 'facture' => $facture));
+        if(FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+            $line_nb++;
+            include_partial('facture/pdf_generique_tableRow', array('produit' => $produit->getRawValue(), 'facture' => $facture));
+        }
         //cas d'un besoin de changement de page
         if ($line_nb >= $lines_per_page) {
             //on ajoute des blancs

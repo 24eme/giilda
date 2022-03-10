@@ -165,4 +165,9 @@ class CompteClient extends acCouchdbClient {
         }
         $ldap->deleteCompte($identifiant, $verbose);
     }
+
+    public static function canSaveContactEntity() {
+        return (sfConfig::get('app_compte_synchro') === false)? false : true;
+
+    }
 }

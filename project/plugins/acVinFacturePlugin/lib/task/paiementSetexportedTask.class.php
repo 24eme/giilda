@@ -41,8 +41,9 @@ EOF;
         return;
     }
     foreach($facture->paiements as $p) {
-        $p->versement_comptable_paiement = 1;
+        $p->versement_comptable = 1;
     }
+    $facture->versement_comptable_paiement = 1;
     $facture->save();
   }
 }

@@ -113,7 +113,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $regions;
     }
 
-    public function getEtablissementsObj($withSuspendu = true) {
+    public function getEtablissementsObj($withSuspendu = true, $withSocietesLiees = false) {
         $etablissements = array();
         foreach ($this->etablissements as $id => $obj) {
             $etb = EtablissementClient::getInstance()->find($id);
@@ -126,6 +126,14 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
             $etablissements[$id]->etablissement = $etb;
             $etablissements[$id]->ordre = $obj->ordre;
         }
+        if($withSocietesLiees && $this->exist('societes_liees')) {
+            foreach($this->societes_liees as $idSociete) {
+                $societe = SocieteClient::getInstance()->find($idSociete);
+                foreach($societe->getEtablissementsObj() as $id => $etb) {
+                    $etablissements[$id] = clone $etb;
+                }
+            }
+        }
         return $etablissements;
     }
 
@@ -136,7 +144,11 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
         foreach ($etablissements as $id => $etbObj) {
             $etablissement = $etbObj->etablissement;
-            $compte = $this->getCompte($etablissement->compte);
+            try {
+                $compte = $this->getCompte($etablissement->compte);
+            } catch (sfException $e) {
+                continue;
+            }
             if ($compte->compte_type == CompteClient::TYPE_COMPTE_SOCIETE) {
                 return $etablissement;
             }
@@ -155,6 +167,20 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
             }
         }
         return $this->comptes;
+    }
+
+    public function addAndSaveSocieteLiee($societe) {
+        $this->add('societes_liees');
+        if(!in_array($societe->_id, $this->societes_liees->toArray())) {
+            $this->societes_liees->add(null, $societe->_id);
+        }
+        $this->save();
+
+        $societe->add('societes_liees');
+        if(!in_array($this->_id, $societe->societes_liees->toArray())) {
+            $societe->societes_liees->add(null, $this->_id);
+        }
+        $societe->save();
     }
 
     private function addToComptes($compte) {
@@ -486,7 +512,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function getCommentaire() {
         $c = $this->_get('commentaire');
-        $c1 = $this->getMasterCompte()->get('commentaire');
+        $c1 = ($this->getMasterCompte())? $this->getMasterCompte()->get('commentaire') : null;
         if ($c && $c1) {
             return $c . "\n" . $c1;
         }
@@ -496,6 +522,15 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         if ($c1) {
             return $c1;
         }
+    }
+
+    public function getSocietesLieesIds() {
+        if(!$this->exist('societes_liees')) {
+
+            return array($this->_id);
+        }
+
+        return array_merge(array($this->_id), $this->societes_liees->toArray());
     }
 
     public function addCommentaire($s) {

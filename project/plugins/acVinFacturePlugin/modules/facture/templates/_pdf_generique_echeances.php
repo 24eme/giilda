@@ -11,7 +11,7 @@ $echeances = $facture->getEcheancesPapillon();
 \begin{tabular}{|p{0mm} p{87mm} | p{36mm} p{36mm} p{36mm}|}
             \hline
 	\multicolumn{2}{|>{\columncolor[rgb]{0.8,0.8,0.8}}c|}{\centering \small{\textbf{Modalités de règlement}}} &
-	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{<?php if($facture->getNbPaiementsAutomatique()): ?> Références à rappeler en cas de non prélèvement auto.<?php else: ?>Références à rappeler avec le règlement<?php endif; ?>}}} \\
+	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Références de facturation}}} \\
 
         \CutlnPapillonEntete
         <?php if($facture->getNbPaiementsAutomatique()): ?>
@@ -23,7 +23,7 @@ $echeances = $facture->getEcheancesPapillon();
       \multicolumn{1}{c}{\small{Montant TTC}} \\
 
                   \centering \small{~} &
-                  \centering \fontsize{7}{8}\selectfont sur votre compte n° \textbf{<?php echo $facture->getSociete()->getMandatSepa()->getNumeroCompte() ?>} le \textbf{<?php echo format_date($facture->paiements[0]->date,'dd/MM/yyyy'); ?>} &
+                  \centering \fontsize{7}{8}\selectfont sur votre compte \textbf{<?php echo $facture->getSociete()->getMandatSepa()->getBanqueNom() ?>} n° \textbf{<?php echo $facture->getSociete()->getMandatSepa()->getNumeroCompte() ?>} le \textbf{<?php echo format_date($facture->paiements[0]->date,'dd/MM/yyyy'); ?>} &
 
                   \centering \small{\textbf{<?php echo format_date($facture->date_echeance,'dd/MM/yyyy'); ?>}} &
                   \centering \small{\FactureRefCodeComptableClient~/~\FactureNum} &

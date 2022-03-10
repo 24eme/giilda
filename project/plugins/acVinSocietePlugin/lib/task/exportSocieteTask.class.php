@@ -27,18 +27,19 @@ EOF;
   const ISCLIENT = 1;
   const ISFOURNISSEUR = 2;
 
-  private function printSociete($societe, $compte, $isclient = 1) {
+  private function printSociete($societe, $compte, $isclient = 1, $mandatSepaActif = false) {
     if (!$this->includeSuspendu && !$societe->isActif()) {
 	return ;
     }
     print $compte.";";
-    print $societe->raison_sociale.";";
+    print $societe->getIntitule().";";
+    print $societe->getRaisonSocialeWithoutIntitule().";";
     if ($isclient == self::ISCLIENT) {
       print "CLIENT;";
     }else{
       print "FOURNISSEUR;";
     }
-    print $societe->raison_sociale_abregee.";";
+    print strtoupper(substr($societe->getRaisonSocialeWithoutIntitule(), 0, 5)).";";
     print preg_replace('/;.*/', '', $societe->getSiegeAdresses()).";";
     if (preg_match('/;/', $societe->getSiegeAdresses())) {
         print str_replace(';', '-', preg_replace('/.*;/', '', $societe->getSiegeAdresses()));
@@ -46,14 +47,14 @@ EOF;
     print ";";
     print $societe->siege->code_postal.";";
     print $societe->siege->commune.";";
-    print "France;";
+    print "FRANCE;";
     print ";"; //NAF
     print $societe->no_tva_intracommunautaire.";";
     print $societe->siret.";";
     print $societe->statut.";";
     print $societe->date_modification.";";
-    print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";"; 
-    print preg_replace('/[^\+0-9]/i', '', $societe->fax).";"; 
+    print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";";
+    print preg_replace('/[^\+0-9]/i', '', $societe->fax).";";
     print $societe->email.";";
     print $this->routing->generate('societe_visualisation', $societe, true).';';
     try {
@@ -64,6 +65,15 @@ EOF;
       print "INCONNUE;";
     }
     print $societe->isActif().';';
+    if ($mandatSepaActif) {
+        $ms = $societe->getMandatSepa();
+        if ($ms && $ms->is_actif && $ms->getIban()) {
+            print $ms->getBanqueNom().";";
+            print (substr($ms->getIban(), 0, 2) == 'FR')? 'FRANCE;' : substr($ms->getIban(), 0, 2).";";
+            print $ms->getBic().";";
+            print $ms->getIban().";";
+        }
+    }
     print "\n";
   }
 
@@ -73,6 +83,8 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
+    $onlyFactures = getenv('EXPORT_SOCIETE_ONLY_FACTURES');
+
     $this->includeSuspendu = false;
     if (isset($options['all']) && $options['all']) {
 	$this->includeSuspendu = true;
@@ -80,17 +92,32 @@ EOF;
 
     $this->routing = clone ProjectConfiguration::getAppRouting();
 
-    echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;Actif;\n";
 
-    foreach(SocieteAllView::getInstance()->findByInterpro('INTERPRO-declaration') as $socdata) {
+    try {
+        $mandatSepaConfiguration = MandatSepaConfiguration::getInstance();
+        $mandatSepaActif = $mandatSepaConfiguration->isActive();
+    } catch (Exception $e) {
+        $mandatSepaActif = false;
+    }
+
+    $mandatSepaEntetes = ($mandatSepaActif)? 'Banque;Pays;BIC;IBAN;' : '';
+
+    echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;Actif;$mandatSepaEntetes\n";
+
+    if ($onlyFactures) {
+        $societes = FactureEtablissementView::getInstance()->getAllSocietesForCompta();
+    } else {
+        $societes = SocieteAllView::getInstance()->findByInterpro('INTERPRO-declaration');
+    }
+    foreach($societes as $socdata) {
       $soc = SocieteClient::getInstance()->find($socdata->id);
-      if (!$soc->code_comptable_client && ! $soc->code_comptable_fournisseur) 
+      if (!$soc->code_comptable_client && ! $soc->code_comptable_fournisseur)
 	continue;
       if ($soc->code_comptable_client) {
-	$this->printSociete($soc, $soc->code_comptable_client, self::ISCLIENT);
+	$this->printSociete($soc, $soc->code_comptable_client, self::ISCLIENT, $mandatSepaActif);
       }
       if ($soc->code_comptable_fournisseur) {
-	$this->printSociete($soc, $soc->code_comptable_fournisseur, self::ISFOURNISSEUR);
+	$this->printSociete($soc, $soc->code_comptable_fournisseur, self::ISFOURNISSEUR, $mandatSepaActif);
       }
     }
   }

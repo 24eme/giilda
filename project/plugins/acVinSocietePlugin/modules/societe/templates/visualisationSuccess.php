@@ -35,6 +35,11 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
+                      <?php foreach($societe->getSocietesLieesIds() as $societeLieeId): ?>
+                        <?php $societeLiee = SocieteClient::getInstance()->find($societeLieeId); ?>
+                        <?php if(!$societeLiee || $societeLiee->_id == $societe->_id): continue; endif; ?>
+                        <a href="<?php echo url_for('societe_visualisation', $societeLiee) ?>"><span class="glyphicon glyphicon-link"></span> <?php echo $societeLiee->raison_sociale ?></a>
+                      <?php endforeach; ?>
                         <p class="lead" style="margin-bottom: 5px;">
                             <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
                             <?php if ($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
@@ -53,7 +58,6 @@
 
                 <?php if ($societe->getMasterCompte()->exist('droits')): ?>
                 <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
-    <?php if ($societe->getMasterCompte()->exist('droits') && $societe->getMasterCompte()->hasDroit(Roles::TELEDECLARATION)): ?>
                         <p>
                             <strong>Login de télédéclaration :</strong> <?php echo $societe->getMasterCompte()->getLogin(); ?>
                             <?php if (strpos($societe->getMasterCompte()->mot_de_passe, '{TEXT}') !== false) : ?>
@@ -76,8 +80,7 @@
                                 ?>
                                 <p>Email de télédéclaration : <?php echo $societe->getEmailTeledeclaration(); ?></p>
                             <?php endif; ?>
-        <?php endif; ?>
-    <?php endif; ?>
+                    <?php endif; ?>
                     <p><?php if ($societe->getMasterCompte()->exist('droits')): ?>
                             <strong>Droits :</strong>
                             <?php foreach ($societe->getMasterCompte()->getDroits() as $droit) : ?>
