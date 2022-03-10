@@ -147,15 +147,16 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public static function extractIntitule($raisonSociale) {
-        $intitules = "EARL|EI|ETS|EURL|GAEC|GFA|HOIRIE|IND|M|MM|Mme|MME|MR|MADAME|MONSIEUR|SA|SARL|SAS|SASU|SC|SCA|SCE|SCEA|SCEV|SCI|SCV|SFF|SICA|SNC|SPH|STE|STEF";
+        $intitules = "EARL|EI|ETS|EURL|GAEC|GFA|HOIRIE|IND|M|MM|Mme|MME|MR|MADAME|MONSIEUR|SA|SARL|SAS|SASU|SC|SCA|SCE|SCEA|SCEV|SCI|SCV|SFF|SICA|SNC|SPH|STE|STEF|S\.A\.S\.|DOMAINE|S\.A\.|SA VINS|DOM\.|SASL DOMAINE";
+        $intitulesExclude = "DOMAINE D";
         $intitule = null;
 
-        if(preg_match("/^(".$intitules.") /", $raisonSociale, $matches)) {
+        if(preg_match("/^(".$intitules.") /", $raisonSociale, $matches) && !preg_match("/^(".$intitulesExclude.") /", $raisonSociale, $matches)) {
             $intitule = $matches[1];
-            $raisonSociale = preg_replace("/^".$intitule." /", "", $raisonSociale);
+            $raisonSociale = preg_replace("/^".$intitule." /", "", $raisonSociale &&  && !preg_match("/^(".$intitulesExclude.") /", $raisonSociale, $matches));
         }
 
-        if(preg_match("/ \((".$intitules.")\)$/", $raisonSociale, $matches)) {
+        if(preg_match("/ \((".$intitules.")\)$/", $raisonSociale, $matches) && !preg_match("/ \((".$intitulesExclude.")\)$/", $raisonSociale, $matches)) {
             $intitule = $matches[1];
             $raisonSociale = preg_replace("/ \((".$intitule.")\)$/", "", $raisonSociale);
         }
