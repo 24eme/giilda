@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(107);
+$t = new lime_test(111);
 
 $nego2 =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region_2')->getEtablissement();
 if (!$nego2->hasRegimeCrd()) {
@@ -41,6 +41,12 @@ foreach($drm->favoris->details->sorties as $favoris_first => $v) {
     break;
 }
 $drm->favoris->details->sorties->remove($favoris_first);
+
+$drm->add('transmission_douane')->success = true;
+$drm->get('transmission_douane')->horodatage = date(DATE_RFC3339_EXTENDED);
+$drm->get('transmission_douane')->id_declaration = 1234567;
+$drm->get('transmission_douane')->coherente = true;
+
 $drm->update();
 $drm->save();
 $drm->validate();
@@ -64,6 +70,12 @@ $t->ok($drm->isImport(), "La drm est une drm importé");
 $details = $drm->get($produit_hash.'/details/DEFAUT');
 $t->ok(!$details->canSetStockDebutMois(), "Le stock début de mois n'est pas éditable");
 $details->sorties->ventefrancecrd = 100;
+
+$drm->add('transmission_douane')->success = true;
+$drm->get('transmission_douane')->horodatage = date(DATE_RFC3339_EXTENDED);
+$drm->get('transmission_douane')->id_declaration = 1234567;
+$drm->get('transmission_douane')->coherente = true;
+
 $drm->update();
 $drm->save();
 $drm->validate();
@@ -265,6 +277,9 @@ $drm->save();
 $t->is($drm->_get('precedente'), null, "La drm précédente n'est pas stocké");
 $t->ok($drm->isImport(), "La drm modificatrice est importé");
 
+$t->ok($drm->exist('transmission_douane'), "Le noeud transmission douane est présent dans la M01 de janvier");
+$t->is($drm->transmission_douane->toArray(true, false), DRMClient::getInstance()->find($drm01Id)->transmission_douane->toArray(true, false), 'Le noeud transmission est identique');
+
 $details = $drm->get($produit_hash.'/details/DEFAUT');
 $t->ok($details->canSetStockDebutMois(), "Le stock début est éditable");
 $details->stocks_debut->initial = $details->stocks_debut->initial + 500;
@@ -286,6 +301,8 @@ $t->is($drm->_id, $drm02Id."-M01", "La master est la M01");
 $t->is($drm->_get('precedente'), $drm01Id."-M01", "La drm précédente est la M01 d'Avril");
 $t->is($drm->get($produit_hash.'/details/DEFAUT')->stocks_fin->final, 1301, "La modification de stock a été répercuté sur la DRM de février");
 
+$t->ok($drm->exist('transmission_douane'), "La modificatrice a repris le noeud transmission_douane de la M0");
+$t->is($drm->transmission_douane->toArray(true, false), DRMClient::getInstance()->find($drm02Id)->transmission_douane->toArray(true, false), 'Le noeud transmission est identique');
 
 $t->comment("Création d'une modificatrice pour la DRM de Mars");
 

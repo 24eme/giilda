@@ -1195,6 +1195,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$drm_modificatrice->exist('favoris')) {
             $drm_modificatrice->buildFavoris($this);
         }
+
+        if ($this->exist('transmission_douane') && $this->transmission_douane->success
+            && $this->transmission_douane->id_declaration
+            && $this->transmission_douane->coherente === true) {
+
+            $drm_modificatrice->add('transmission_douane', $this->transmission_douane);
+        }
+
         return $drm_modificatrice;
     }
 
