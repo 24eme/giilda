@@ -25,7 +25,7 @@ class ExportFacturePaiementsCSV {
     }
 
     public static function getHeaderCsv() {
-        return "Identifiant;Raison Sociale;Code comptable client;Numéro facture;Date de paiement;Montant;Type de reglement;Commentaire;Montant restant a payer;Execute;Exporte;Facture doc ID;paiement ID\n";
+        return "Identifiant;Raison Sociale;Code comptable client;Numéro facture;Date de paiement;Montant;Type de reglement;Commentaire;Montant restant a payer;Execute;Exporte;Facture doc ID;paiement ID;code journal\n";
     }
 
     public function export() {
@@ -43,6 +43,7 @@ class ExportFacturePaiementsCSV {
     public function exportFacturePaiements($date_max = null, $set_verse = false) {
 
         $societe = $this->facture->getSociete();
+        $code_journal = FactureConfiguration::getInstance()->getCodeJournal();
 
         $date_facturation = DateTime::createFromFormat("Y-m-d",$this->facture->date_facturation)->format("d/m/Y");
         $facture = $this->facture;
@@ -69,6 +70,7 @@ class ExportFacturePaiementsCSV {
               $csv .= $paiement->versement_comptable.";";
               $csv .= $facture->_id.";";
               $csv .= $paiement->getHash().';';
+              $csv .= $code_journal.';';
               $csv .= "\n";
           }
         }

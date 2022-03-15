@@ -165,4 +165,9 @@ class FactureConfiguration {
       return '';
     }
 
+    public function getCodeJournal() {
+
+        return isset($this->configuration['code_journal']) ? $this->configuration['code_journal'] : null;
+    }
+
 }
