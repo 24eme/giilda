@@ -40,6 +40,8 @@ EOF;
         $date = date('YmdHis');
         $export = new ExportMouvementsDRMDB2();
 
+        $csv = $export->export(MouvementfactureFacturationView::getInstance()->getMouvementsAll(0), $options['periode_max'], $options['periode_min']);
+
         $noLignes = true;
         foreach($csv as $file => $lignes) {
             if(count($lignes)) {
