@@ -15,7 +15,7 @@ class SV12Contrat extends BaseSV12Contrat {
             return null;
         }
         $mouvement->vrac_destinataire = $this->getDocument()->declarant->nom;
-        $mouvement->region = $this->getVendeur()->region;
+        $mouvement->region = ($this->getVendeur())? $this->getVendeur()->getRegion() : $this->getAcheteur()->getRegion();
         $mouvement->cvo = 0.0;
 
         if ($this->getVrac()) {
@@ -237,6 +237,7 @@ class SV12Contrat extends BaseSV12Contrat {
         $this->vendeur_nom = $contratinfo['vendeur_nom'];
         $this->volume_prop = (isset($contratinfo['volume_prop'])) ? $contratinfo['volume_prop'] : null;
         $this->volume = (isset($contratinfo['volume'])) ? $contratinfo['volume'] : null;
+        $this->cvo = $this->getTauxCvo();
     }
 
 }

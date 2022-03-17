@@ -66,19 +66,20 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
       if (!$this->isValid()) {
 	       throw $this->getErrorSchema();
       }
+
+      $typeKey = ($this->_raisinetmout)? $this->values['raisinetmout'] : SV12Client::SV12_TYPEKEY_VENDANGE ;
+
       if (!isset($this->values['withviti']) || !$this->values['withviti']) {
-	         $sv12Contrat = $this->_sv12->contrats->add(SV12Client::SV12_KEY_SANSVITI.str_replace('/', '-', $this->values['hashref']));
-	         $sv12Contrat->updateNoContrat($this->getConfig()->get($this->values['hashref']));
+	         $sv12Contrat = $this->_sv12->contrats->add(SV12Client::SV12_KEY_SANSVITI.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']));
+             $sv12Contrat->updateNoContrat($this->getConfig()->getConfigurationProduit($this->values['hashref']), array('contrat_type' => $typeKey, 'volume' => $this->values['volume']));
 	         return $sv12Contrat;
       }
 
       $etablissement = EtablissementClient::getInstance()->find($this->values['identifiant']);
-
-      $typeKey = ($this->_raisinetmout)? $this->values['raisinetmout'] : SV12Client::SV12_TYPEKEY_VENDANGE ;
       $sv12Contrat = $this->_sv12->contrats->add(SV12Client::SV12_KEY_SANSCONTRAT.'-'.$etablissement->identifiant.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']));
 
       echo "update no contrat avec viti\n";
-      $sv12Contrat->updateNoContrat($this->getConfig()->get($this->values['hashref']), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $typeKey,'volume' => $this->values['volume']));
+      $sv12Contrat->updateNoContrat($this->getConfig()->getConfigurationProduit($this->values['hashref']), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $typeKey,'volume' => $this->values['volume']));
 
     }
 
