@@ -36,4 +36,9 @@ class SV12Configuration {
 
         return $this->configuration['actif'];
     }
+
+    public function noViti() {
+
+        return (!isset($this->configuration['no_viti']))? false : $this->configuration['no_viti'];
+    }
 }

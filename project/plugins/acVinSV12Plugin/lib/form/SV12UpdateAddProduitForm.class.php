@@ -12,7 +12,7 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
     $this->_sv12 = $sv12;
     $this->_raisinetmout = (isset($options['raisinetmout']))? $options['raisinetmout'] : true;
     $this->_config = $this->getConfig();
-    $defaults = array('withviti' => 'withviti');
+    $defaults = (SV12Configuration::getInstance()->noViti())? array() : array('withviti' => 'withviti');
     parent::__construct($sv12, $defaults, $options, $CSRFSecret);
   }
 

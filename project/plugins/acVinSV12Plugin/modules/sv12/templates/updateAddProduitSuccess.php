@@ -41,6 +41,7 @@
                     <?php echo $form['identifiant']->render(array('class' => 'form-control select2autocomplete input-md', 'placeholder' => 'Rechercher')); ?>
                 </div>
             </div>
+        </div>
             <div class="form-group">
                 <?php echo $form['volume']->renderLabel(null, array("class" => "col-sm-2 control-label")); ?>
                 <div class="col-sm-3">
@@ -51,7 +52,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         <div class="row">
             <div class="col-xs-4 text-left">
                 <a tabindex="-1" href="<?php echo url_for("sv12_update", $sv12) ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Annuler</a>
@@ -72,4 +72,5 @@
             $('.lienviti').hide();
         }
     });
+    $('#sv12_add_produit_withviti').trigger( "change" );
 </script>
