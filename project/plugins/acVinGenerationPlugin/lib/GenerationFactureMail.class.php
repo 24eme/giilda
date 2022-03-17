@@ -5,7 +5,7 @@ class GenerationFactureMail extends GenerationAbstract {
     public function generateMailForADocumentId($id) {
         $facture = FactureClient::getInstance()->find($id);
 
-        if(!$facture->getSociete()->getEmailTeledeclaration()) {
+        if(!$facture->getSociete()->getEmailCompta()) {
             echo $facture->getSociete()->_id."\n";
             return;
         }
@@ -79,7 +79,7 @@ Le BIVC");
 
         $facture = FactureClient::getInstance()->find($factureId);
 
-        return array($date, $facture->getNumeroPieceComptable(), $facture->identifiant, $facture->declarant->raison_sociale, $facture->getSociete()->getEmailTeledeclaration(), $statut, $facture->_id);
+        return array($date, $facture->getNumeroPieceComptable(), $facture->identifiant, $facture->declarant->raison_sociale, $facture->getSociete()->getEmailCompta(), $statut, $facture->_id);
     }
 
     public function generate() {
