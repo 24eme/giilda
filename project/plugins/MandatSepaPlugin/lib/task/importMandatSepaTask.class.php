@@ -47,7 +47,13 @@ EOF;
 
             $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($societe);
 
-            if (!in_array($datas[1], array('PC', 'CB'))) {
+            if(!$datas[14] && $mandatSepa) {
+                echo "Manda supprimé : ".$mandatSepa->_id."\n";
+                $mandatSepa->delete();
+                continue;
+            }
+
+            if(!$datas[14]) {
                 continue;
             }
 
