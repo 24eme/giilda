@@ -70,7 +70,14 @@ class MandatSepa extends BaseMandatSepa {
     }
     return $this->debiteur->iban;
   }
-  
+
+  public function getBanqueNom(){
+    if (!$this->debiteur->banque_nom) {
+      return '';
+    }
+    return $this->debiteur->banque_nom;
+  }
+
   public function getIbanFormate() {
     if (!$this->debiteur->iban) {
       return '';

@@ -5,13 +5,10 @@ class ExportFactureCSV_declarvin {
     const TYPE_LIGNE_LIGNE = 'LIGNE';
     const TYPE_LIGNE_ECHEANCE = 'ECHEANCE';
     const TYPE_LIGNE_TVA = 'TVA';
+    const CODE_TVA = 'C03';
 
     public function __construct($ht = false) {
     	$this->ht = $ht;
-    }
-
-    public static function printHeaderAnneeComptable() {
-        echo self::printHeaderBase() . ";code postal;commune;type societe\n";
     }
 
     public static function printHeader() {
@@ -40,9 +37,6 @@ class ExportFactureCSV_declarvin {
             return;
         }
         $societe = null;
-        if ($export_annee_comptable) {
-            $societe = SocieteClient::getInstance()->find($facture->identifiant);
-        }
         foreach ($facture->lignes as $t => $lignes) {
             $origine_mvt = "";
             foreach ($lignes->origine_mouvements as $keyDoc => $mvt) {
@@ -56,19 +50,13 @@ class ExportFactureCSV_declarvin {
 		$libelle = $lignes->libelle.' - '.$detail->libelle;
                 echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $libelle
                 . ';'.$code_compte.';;' . $identifiant_analytique . ';;' . $this->getSens($detail->montant_ht, "CREDIT") . ';' . $this->getMontant($detail->montant_ht, "CREDIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_LIGNE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ';' . $detail->origine_type . ';' . "PRODUIT_TYPE" . ';' . $origine_mvt . ';' . $detail->quantite . ';' . $detail->prix_unitaire
-                . ";";
-                if ($export_annee_comptable) {
-                    echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
-                }
+                . ";".self::CODE_TVA.";".$facture->numero_piece_comptable;
 
                 echo "\n";
             }
         }
 	if (!$this->ht) {
-	        echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - '.Date::francizeDate($facture->date_facturation).' - '.$facture->declarant->nom. ';' . $this->getSageCompteGeneral($facture) . ';;;;' . $this->getSens($facture->taxe, "CREDIT") . ';' . $this->getMontant($facture->taxe, "CREDIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_TVA . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;";
-	        if ($export_annee_comptable) {
-        	    echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
-	        }
+	        echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - '.Date::francizeDate($facture->date_facturation).' - '.$facture->declarant->nom. ';' . $this->getSageCompteGeneral($facture) . ';;;;' . $this->getSens($facture->taxe, "CREDIT") . ';' . $this->getMontant($facture->taxe, "CREDIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_TVA . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;".self::CODE_TVA.";".$facture->numero_piece_comptable;
 	        echo "\n";
 	}
 
@@ -77,18 +65,12 @@ class ExportFactureCSV_declarvin {
             $i = 0;
             foreach ($facture->echeances as $e) {
                 $i++;
-                echo $prefix_sage.';' . $e->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');4110000;' . $facture->code_comptable_client . ';;' . $e->echeance_date . ';' . $this->getSens($e->montant_ttc, "DEBIT") . ';' . $this->getMontant($e->montant_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;";
-                if ($export_annee_comptable) {
-                    echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
-                }
+                echo $prefix_sage.';' . $e->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');4110000;' . $facture->code_comptable_client . ';;' . $e->echeance_date . ';' . $this->getSens($e->montant_ttc, "DEBIT") . ';' . $this->getMontant($e->montant_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;".self::CODE_TVA.";".$facture->numero_piece_comptable;
 
                 echo "\n";
             }
         } else {
-            echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - '.Date::francizeDate($facture->date_facturation).' - '.$facture->declarant->nom.';4110000;' . $facture->code_comptable_client . ';;' . $facture->date_echeance . ';' . $this->getSens($facture->total_ttc, "DEBIT") . ';' . $this->getMontant($facture->total_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;";
-            if ($export_annee_comptable) {
-                echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
-            }
+            echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - '.Date::francizeDate($facture->date_facturation).' - '.$facture->declarant->nom.';4110000;' . $facture->code_comptable_client . ';;' . $facture->date_echeance . ';' . $this->getSens($facture->total_ttc, "DEBIT") . ';' . $this->getMontant($facture->total_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;".self::CODE_TVA.";".$facture->numero_piece_comptable;
 
             echo "\n";
         }

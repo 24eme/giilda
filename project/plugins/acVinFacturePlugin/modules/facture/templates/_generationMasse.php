@@ -30,7 +30,7 @@
             <div class="col-xs-4">
                 <div class="input-group">
                     <?php echo $generationForm["seuil"]->render(); ?>
-                    <span class="input-group-addon">€</span>
+                    <span class="input-group-addon"><strong>€ TTC</strong></span>
                 </div>
             </div>
         </div>

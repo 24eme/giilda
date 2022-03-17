@@ -19,6 +19,9 @@ class DRMDetailSortiesForm  extends acCouchdbObjectForm {
             if (strpos($certif, 'AUTRE') === 0 && strpos($certif, 'AUTRESVINS') === false && !preg_match("#/(TRANQ|EFF)/#", $this->getObject()->getHash()) && $this->getObject()->getParent()->code_douane != "BOISSONS_FERMENTEES_AUTRES" && !in_array($key, array('distillationusageindustriel', 'destructionperte', 'manquant', 'vracsanscontratsuspendu', 'lies', 'usageindustriel', 'rebeches', 'consommationfamilialedegustation', 'autre', 'repli', 'exoversutilisateurauto', 'exoversutilisateurauto'))) {
                 $disabled = true;
             }
+            if ($certif == 'AUTRE' && !preg_match("#/(TRANQ|EFF)/#", $this->getObject()->getHash()) && in_array($key, array('ventefrancecrd', 'exporttaxe'))) {
+                $disabled = true;
+            }
             if(preg_match('/MATIERES_PREMIERES/', $this->getObject()->getParent()->code_douane) && $value->details == "ALCOOLPUR") {
                 $disabled = true;
             }

@@ -4,7 +4,8 @@ all:
       pdf_nom_interpro: "CIVA"
       pdf_ordre_cheque: "Conseil Interprofessionnel des Vins d'Alsace"
       prefix_sage: "VEN"
-      tva_compte: "44570100"
+      tva_compte: "44578"
+      defaut_compte: "75620"
       stockage_code_produit: "identifiant_analytique"
       pdf_produit: false
       pdf_nom_ref_client: "N° ADHÉRENT"

@@ -32,13 +32,14 @@ EOF;
 	return ;
     }
     print $compte.";";
-    print $societe->raison_sociale.";";
+    print $societe->getIntitule().";";
+    print $societe->getRaisonSocialeWithoutIntitule().";";
     if ($isclient == self::ISCLIENT) {
       print "CLIENT;";
     }else{
       print "FOURNISSEUR;";
     }
-    print $societe->raison_sociale_abregee.";";
+    print strtoupper(substr($societe->getRaisonSocialeWithoutIntitule(), 0, 5)).";";
     print preg_replace('/;.*/', '', $societe->getSiegeAdresses()).";";
     if (preg_match('/;/', $societe->getSiegeAdresses())) {
         print str_replace(';', '-', preg_replace('/.*;/', '', $societe->getSiegeAdresses()));
@@ -46,7 +47,7 @@ EOF;
     print ";";
     print $societe->siege->code_postal.";";
     print $societe->siege->commune.";";
-    print "France;";
+    print "FRANCE;";
     print ";"; //NAF
     print $societe->no_tva_intracommunautaire.";";
     print $societe->siret.";";
@@ -55,7 +56,8 @@ EOF;
     print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";";
     print preg_replace('/[^\+0-9]/i', '', $societe->fax).";";
     print $societe->email.";";
-    print $this->routing->generate('societe_visualisation', $societe, true).';';
+    print ';';
+    //print $this->routing->generate('societe_visualisation', $societe, true).';';
     try {
       if ($isclient == self::ISCLIENT) {
 	print $societe->getRegionViticole(false).';';
@@ -67,8 +69,8 @@ EOF;
     if ($mandatSepaActif) {
         $ms = $societe->getMandatSepa();
         if ($ms && $ms->is_actif && $ms->getIban()) {
-            print ";";
-            print substr($ms->getIban(), 0, 2).";";
+            print $ms->getBanqueNom().";";
+            print (substr($ms->getIban(), 0, 2) == 'FR')? 'FRANCE;' : substr($ms->getIban(), 0, 2).";";
             print $ms->getBic().";";
             print $ms->getIban().";";
         }
@@ -81,6 +83,8 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
+
+    $onlyFactures = getenv('EXPORT_SOCIETE_ONLY_FACTURES');
 
     $this->includeSuspendu = false;
     if (isset($options['all']) && $options['all']) {
@@ -101,7 +105,12 @@ EOF;
 
     echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;Actif;$mandatSepaEntetes\n";
 
-    foreach(SocieteAllView::getInstance()->findByInterpro('INTERPRO-declaration') as $socdata) {
+    if ($onlyFactures) {
+        $societes = FactureEtablissementView::getInstance()->getAllSocietesForCompta();
+    } else {
+        $societes = SocieteAllView::getInstance()->findByInterpro('INTERPRO-declaration');
+    }
+    foreach($societes as $socdata) {
       $soc = SocieteClient::getInstance()->find($socdata->id);
       if (!$soc->code_comptable_client && ! $soc->code_comptable_fournisseur)
 	continue;
