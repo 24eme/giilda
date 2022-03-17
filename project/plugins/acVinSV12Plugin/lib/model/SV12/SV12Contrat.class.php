@@ -32,6 +32,11 @@ class SV12Contrat extends BaseSV12Contrat {
           $mouvement->facturable = 1;
         }
 
+        if(VracConfiguration::getInstance()->getRepartitionCvo() == "100"){
+          $mouvement->cvo = $this->getTauxCvo();
+          $mouvement->facturable = 1;
+        }
+
         return $mouvement;
     }
 
