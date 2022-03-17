@@ -58,7 +58,7 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
     public function getProduits()
     {
         $date = $this->_sv12->getFirstDayOfPeriode();
-        return $this->_config->formatProduits($date);
+        return $this->_config->formatProduitsSV12($date);
     }
 
     public function addProduit()
