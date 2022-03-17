@@ -147,7 +147,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public static function extractIntitule($raisonSociale) {
-        $intitules = "EARL|EI|ETS|EURL|GAEC|GFA|HOIRIE|IND|M|MM|Mme|MME|MR|MADAME|MONSIEUR|SA|SARL|SAS|SASU|SC|SCA|SCE|SCEA|SCEV|SCI|SCV|SFF|SICA|SNC|SPH|STE|STEF|S\.A\.S\.|DOMAINE|S\.A\.|SA VINS|DOM\.|SASL DOMAINE";
+        $intitules = "SA VINS|EARL|EI|ETS|EURL|GAEC|GFA|HOIRIE|IND|M|MM|Mme|MME|MR|MADAME|MONSIEUR|SA|SARL|SAS|SASU|SC|SCA|SCE|SCEA|SCEV|SCI|SCV|SFF|SICA|SNC|SPH|STE|STEF|S\.A\.S\.|DOMAINE|S\.A\.|DOM\.|SASL DOMAINE";
         $intitulesExclude = "DOMAINE D";
         $intitule = null;
 
