@@ -34,24 +34,26 @@ EOF;
                 continue;
             }
             $datas = explode(",", preg_replace('/"/', '', str_replace("\n", "", $line)));
+
+            if (!in_array($datas[1], array('PC', 'CB'))) {
+                continue;
+            }
+
             $societe = SocieteClient::getInstance()->find($datas[0]);
-            if (!$societe && $datas[1] == 'PC') {
+            if (!$societe) {
                 echo sprintf("warning;société non trouvée %s\n", implode(',',$datas));
                 continue;
             }
-            if (!$societe) {
-                continue;
-            }
+
             $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($societe);
 
-            if ($datas[1] != 'PC' && $mandatSepa && $mandatSepa->is_actif) {
-                $mandatSepa->is_actif = 0;
-                $mandatSepa->save();
-                echo sprintf("succes;Désactivation de %s\n", $mandatSepa->_id);
+            if(!$datas[14] && $mandatSepa) {
+                echo "Manda supprimé : ".$mandatSepa->_id."\n";
+                $mandatSepa->delete();
                 continue;
             }
 
-            if ($datas[1] != 'PC') {
+            if(!$datas[14]) {
                 continue;
             }
 
@@ -63,8 +65,14 @@ EOF;
             $mandatSepa->debiteur->banque_commune = $datas[3];
             $mandatSepa->debiteur->iban = $datas[14];
             $mandatSepa->debiteur->bic = $datas[15];
-            $mandatSepa->is_actif = 1;
-            $mandatSepa->is_signe = 1;
+            $mandatSepa->is_actif = 0;
+            $mandatSepa->is_signe = 0;
+
+            if ($datas[1] == 'PC') {
+                $mandatSepa->is_actif = 1;
+                $mandatSepa->is_signe = 1;
+            }
+
             $isNew = $mandatSepa->isNew();
             $saved = $mandatSepa->save();
             if($isNew) {
