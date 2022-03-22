@@ -25,7 +25,7 @@ class ExportFacturePaiementsCSV {
     }
 
     public static function getHeaderCsv() {
-        return "Identifiant;Raison Sociale;Code comptable client;Numéro facture;Date de paiement;Montant;Type de reglement;Commentaire;Montant restant a payer;Execute;Exporte;Facture doc ID;paiement ID;code journal\n";
+        return "Identifiant;Raison Sociale;Code comptable client;Numéro facture;Date de paiement;Montant;Type de reglement;Commentaire;Montant restant a payer;Execute;Exporte;Facture doc ID;Paiement ID;Code journal;Numéro remise; Numéro compte\n";
     }
 
     public function export() {
@@ -71,6 +71,8 @@ class ExportFacturePaiementsCSV {
               $csv .= $facture->_id.";";
               $csv .= $paiement->getHash().';';
               $csv .= $code_journal.';';
+              $csv .= $paiement->getNumeroRemise().';';
+              $csv .= '4110000;';
               $csv .= "\n";
           }
         }
