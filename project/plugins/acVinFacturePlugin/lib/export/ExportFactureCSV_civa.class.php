@@ -16,7 +16,7 @@ class ExportFactureCSV_civa {
     }
 
     private static function printHeaderBase() {
-        echo "code journal;date;date de saisie;numero de facture;libelle;compte general;compte tiers;compte analytique;date echeance;sens;montant;piece;mode de paiement;id couchdb;type ligne;nom client;code comptable client;origine type;produit type;origine id; volume; cvo; code tva; num piece; mode de reglement";
+        echo "code journal;date;date de saisie;numero de facture;libelle;compte general;compte tiers;compte analytique;date echeance;sens;montant;piece;reference;id couchdb;type ligne;nom client;code comptable client;origine type;produit type;origine id; volume; cvo; code tva; num piece; mode de reglement";
     }
 
     public function printFacture($doc_or_id, $export_annee_comptable = false) {
