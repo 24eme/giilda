@@ -108,7 +108,7 @@ class DRMESDetails extends BaseDRMESDetails {
     public function createMouvement($mouvement, $detail) {
         $volume = $detail->volume;
         if ($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($detail->getHash())) {
-            $volume = $volume - $this->getDocument()->motherGet($detail->getHash())->volume;
+            $volume = round($volume - $this->getDocument()->motherGet($detail->getHash())->volume, FloatHelper::getInstance()->getMaxDecimalAuthorized());
         }
 
         $config = $this->getConfig();
