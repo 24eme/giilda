@@ -44,6 +44,8 @@ class ExportFacturePaiementsCSV {
 
         $societe = $this->facture->getSociete();
         $code_journal = FactureConfiguration::getInstance()->getCodeJournal();
+        $general_compte = FactureConfiguration::getInstance()->getGeneralCompte();
+        $banque_compte = FactureConfiguration::getInstance()->getBanqueCompte();
 
         $date_facturation = DateTime::createFromFormat("Y-m-d",$this->facture->date_facturation)->format("d/m/Y");
         $facture = $this->facture;
@@ -77,6 +79,24 @@ class ExportFacturePaiementsCSV {
               $csv .= $numRemise.';';
               $csv .= $general_compte.';';
               $csv .= "\n";
+              if ($numRemise && $banque_compte) {
+                  $csv .= $csv_prefix;
+                  $csv .= $paiement->date.";";
+                  $csv .= $this->floatHelper->formatFr($paiement->montant,2,2).";";
+                  $csv .= $paiement->type_reglement.";";
+                  $csv .= ";";
+                  $csv .= ";";
+                  $csv .= ";";
+                  $csv .= ";";
+                  $csv .= $facture->_id.";";
+                  $csv .= $paiement->getHash().';';
+                  $csv .= $facture->date_facturation.';';
+                  $csv .= 'DEBIT;';
+                  $csv .= $code_journal.';';
+                  $csv .= $numRemise.';';
+                  $csv .= $banque_compte.';';
+                  $csv .= "\n";
+              }
           }
         }
 
