@@ -159,7 +159,7 @@ class MouvementfactureFacturationView extends acCouchdbView {
         $mouvement->origine = $row->key[self::KEYS_ORIGIN];
         $mouvement->matiere = $row->key[self::KEYS_MATIERE];
         $mouvement->detail_libelle = $row->value[self::VALUE_DETAIL_LIBELLE];
-        $mouvement->quantite = $row->value[self::VALUE_QUANTITE];
+        $mouvement->quantite = round($row->value[self::VALUE_QUANTITE], FloatHelper::getInstance()->getMaxDecimalAuthorized());
         $mouvement->prix_unitaire = $row->value[self::VALUE_PRIX_UNITAIRE];
         $mouvement->prix_ht = $mouvement->quantite * $row->value[self::VALUE_PRIX_UNITAIRE];
         $mouvement->id_doc = $row->value[self::VALUE_ID_DOC];

@@ -15,7 +15,7 @@ class SV12Contrat extends BaseSV12Contrat {
             return null;
         }
         $mouvement->vrac_destinataire = $this->getDocument()->declarant->nom;
-        $mouvement->region = $this->getVendeur()->region;
+        $mouvement->region = ($this->getVendeur())? $this->getVendeur()->getRegion() : $this->getAcheteur()->getRegion();
         $mouvement->cvo = 0.0;
 
         if ($this->getVrac()) {
@@ -29,6 +29,11 @@ class SV12Contrat extends BaseSV12Contrat {
         if(VracConfiguration::getInstance()->getRepartitionCvo() == "50"){
           $coeff = ($this->isVendeurRegion())? 0.5 : 0.0;
           $mouvement->cvo = $this->getTauxCvo() * $coeff;
+          $mouvement->facturable = 1;
+        }
+
+        if(VracConfiguration::getInstance()->getRepartitionCvo() == "100"){
+          $mouvement->cvo = $this->getTauxCvo();
           $mouvement->facturable = 1;
         }
 
@@ -204,7 +209,7 @@ class SV12Contrat extends BaseSV12Contrat {
 
     public function getProduitObject() {
 
-        return ConfigurationClient::getCurrent()->get($this->produit_hash);
+        return ConfigurationClient::getCurrent()->getConfigurationProduit($this->produit_hash);
     }
 
     public function getContratTypeLibelle() {
@@ -220,7 +225,7 @@ class SV12Contrat extends BaseSV12Contrat {
         if ($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID] != $this->produit_hash ||
                 $this->vendeur_identifiant != $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID] ||
                 $this->contrat_type != $viewinfo[VracClient::VRAC_VIEW_TYPEPRODUIT]) {
-            $produit = ConfigurationClient::getCurrent()->get($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID]);
+            $produit = ConfigurationClient::getCurrent()->getConfigurationProduit($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID]);
             return $this->updateNoContrat($produit, array('contrat_type' => $viewinfo[VracClient::VRAC_VIEW_TYPEPRODUIT], 'vendeur_identifiant' => $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID], 'vendeur_nom' => $viewinfo[VracClient::VRAC_VIEW_VENDEUR_NOM], 'contrat_numero' => $this->contrat_numero, 'volume' => $this->volume, 'volume_prop' => $this->volume_prop));
         }
         return;
@@ -233,10 +238,11 @@ class SV12Contrat extends BaseSV12Contrat {
         $this->contrat_type = $contratinfo['contrat_type'];
         $this->produit_libelle = $produit->getLibelleFormat( null, "%format_libelle% %la%");
         $this->produit_hash = $produit->getHash();
-        $this->vendeur_identifiant = $contratinfo['vendeur_identifiant'];
-        $this->vendeur_nom = $contratinfo['vendeur_nom'];
+        $this->vendeur_identifiant = (isset($contratinfo['vendeur_nom'])) ? $contratinfo['vendeur_identifiant'] : null;
+        $this->vendeur_nom = (isset($contratinfo['vendeur_nom'])) ? $contratinfo['vendeur_nom'] : null;
         $this->volume_prop = (isset($contratinfo['volume_prop'])) ? $contratinfo['volume_prop'] : null;
         $this->volume = (isset($contratinfo['volume'])) ? $contratinfo['volume'] : null;
+        $this->cvo = $this->getTauxCvo();
     }
 
 }

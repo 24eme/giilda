@@ -100,8 +100,10 @@ class DAEExportCsv {
         if(!$vrac) {
             return;
         }
-
         $date = DRMClient::getInstance()->buildDate(preg_replace("/DRM-[0-9]+-([0-9]{6}).*/", '\1', $mouvement->doc_id));
+        if (strlen($date) != 6 || !is_numeric($date)) {
+            $date = preg_replace("/.*-([0-9]{4})-([0-9]{2}).*/", '\1-\2', $mouvement->doc_id);
+        }
         $produit = ConfigurationClient::getConfiguration($date)->getConfigurationProduit($vrac->produit);
         $cp = ($vrac->vendeur->code_postal)? preg_replace("/([0-9]{2})[0-9]{3}/","$1",$vrac->vendeur->code_postal) : "";
         $complement = "";
