@@ -67,7 +67,6 @@ $conclusionrejet = $subvention->approbations->conclusionrejet;
 \def\ContactDossierTel{<?php echo escape_string_for_latex($subvention->infos->contacts->telephone); ?>}
 \def\ContactDossierEmail{<?php echo escape_string_for_latex($subvention->infos->contacts->email); ?>}
 \def\DateSignature{<?php echo format_date($subvention->signature_date, 'D'); ?>}
-\def\logos{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logos_region_occitanie.jpg}
 
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0pt}
@@ -95,7 +94,7 @@ $conclusionrejet = $subvention->approbations->conclusionrejet;
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=19.5cm]{\logos}
+  \includegraphics[width=19.5cm]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logos_region_occitanie.jpg}
 \end{figure}
 
 \maketitle
