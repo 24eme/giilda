@@ -25,7 +25,7 @@ class ExportFacturePaiementsCSV {
     }
 
     public static function getHeaderCsv() {
-        return "Identifiant;Raison Sociale;Code comptable client;Numéro facture;Date de paiement;Montant;Type de reglement;Commentaire;Montant restant a payer;Execute;Exporte;Facture doc ID;Paiement ID;Code journal;Numéro remise; Numéro compte\n";
+        return "Identifiant;Raison Sociale;Code comptable client;Numéro facture;Date de paiement;Montant;Type de reglement;Commentaire;Montant restant a payer;Execute;Exporte;Facture doc ID;Paiement ID;Date facture;Sens;Code journal;Numéro remise; Numéro compte\n";
     }
 
     public function export() {
@@ -44,6 +44,8 @@ class ExportFacturePaiementsCSV {
 
         $societe = $this->facture->getSociete();
         $code_journal = FactureConfiguration::getInstance()->getCodeJournal();
+        $general_compte = FactureConfiguration::getInstance()->getGeneralCompte();
+        $banque_compte = FactureConfiguration::getInstance()->getBanqueCompte();
 
         $date_facturation = DateTime::createFromFormat("Y-m-d",$this->facture->date_facturation)->format("d/m/Y");
         $facture = $this->facture;
@@ -60,6 +62,7 @@ class ExportFacturePaiementsCSV {
               if ($set_verse) {
                   $paiement->versement_comptable = true;
               }
+              $numRemise = $paiement->getNumeroRemise();
               $csv .= $csv_prefix;
               $csv .= $paiement->date.";";
               $csv .= $this->floatHelper->formatFr($paiement->montant,2,2).";";
@@ -70,10 +73,30 @@ class ExportFacturePaiementsCSV {
               $csv .= $paiement->versement_comptable.";";
               $csv .= $facture->_id.";";
               $csv .= $paiement->getHash().';';
+              $csv .= $facture->date_facturation.';';
+              $csv .= 'CREDIT;';
               $csv .= $code_journal.';';
-              $csv .= $paiement->getNumeroRemise().';';
-              $csv .= '4110000;';
+              $csv .= $numRemise.';';
+              $csv .= $general_compte.';';
               $csv .= "\n";
+              if ($numRemise && $banque_compte) {
+                  $csv .= $csv_prefix;
+                  $csv .= $paiement->date.";";
+                  $csv .= $this->floatHelper->formatFr($paiement->montant,2,2).";";
+                  $csv .= $paiement->type_reglement.";";
+                  $csv .= ";";
+                  $csv .= ";";
+                  $csv .= ";";
+                  $csv .= ";";
+                  $csv .= $facture->_id.";";
+                  $csv .= $paiement->getHash().';';
+                  $csv .= $facture->date_facturation.';';
+                  $csv .= 'DEBIT;';
+                  $csv .= $code_journal.';';
+                  $csv .= $numRemise.';';
+                  $csv .= $banque_compte.';';
+                  $csv .= "\n";
+              }
           }
         }
 
