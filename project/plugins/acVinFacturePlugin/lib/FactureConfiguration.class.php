@@ -170,4 +170,14 @@ class FactureConfiguration {
         return isset($this->configuration['code_journal']) ? $this->configuration['code_journal'] : null;
     }
 
+    public function getBanqueCompte() {
+
+        return isset($this->configuration['banque_compte']) ? $this->configuration['banque_compte'] : null;
+    }
+
+    public function getGeneralCompte() {
+
+        return isset($this->configuration['general_compte']) ? $this->configuration['general_compte'] : null;
+    }
+
 }
