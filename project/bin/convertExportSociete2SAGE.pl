@@ -20,12 +20,12 @@ while(<STDIN>) {
 	    print "type (client/fournisseur) (VINSI) : " if ($verbose);
 	    print "0\n";
 	    print "numéro de compte (VINSI) : " if ($verbose);
-	    print "41100000\n";
+	    print "411000\n";
 	}else{
 	    print "type (client/fournisseur) (VINSI) : " if ($verbose);
 	    print "1\n";
 	    print "numéro de compte (VINSI) : " if ($verbose);
-	    print "40100000\n";
+	    print "401000\n";
 	}
 	print "qualité : " if ($verbose);
     print substr($field[1], 0, 35)."\n";
@@ -44,7 +44,7 @@ while(<STDIN>) {
 	print "région : " if ($verbose);
 	print "\n";
 	print "pays (VINSI) : " if ($verbose);
-	print substr(encode_utf8(decode_utf8($field[9])), 0, 35)."\n";
+	print encode_utf8(substr(decode_utf8($field[9]), 0, 35))."\n";
 	print "raccourci : " if ($verbose);
 	print "\n";
 	print "numéro devise : " if ($verbose);
@@ -220,11 +220,10 @@ while(<STDIN>) {
 	print "\n";
 	print "compte général rattaché : " if ($verbose);
 	if ($field[3] eq "CLIENT") {
-	    print "41100000\n";
+	    print "411000\n";
 	}else{
-	    print "40100000\n";
+	    print "401000\n";
 	}
-	if ($field[21] || $field[22] || $field[23] || $field[24]) {
         print "Balise Règlement : " if ($verbose);
         print "#MRLT\n";
         print "Numéro règlement : " if ($verbose);
@@ -250,6 +249,7 @@ while(<STDIN>) {
         print "Valeur répartition : " if ($verbose);
         print "0.00\n";
 
+    if ($field[21] || $field[22] || $field[23] || $field[24]) {
 	    print "Balise Banque : " if ($verbose);
 	    print "#MBQT\n";
 	    print "Type banque : " if ($verbose);

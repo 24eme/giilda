@@ -27,6 +27,7 @@ class ExportFactureCSV_declarvin {
             $facture = FactureClient::getInstance()->find($doc_or_id);
         }
         $prefix_sage = FactureConfiguration::getInstance()->getPrefixSage();
+        $compte_general = FactureConfiguration::getInstance()->getGeneralCompte();
 
         if(FactureConfiguration::getInstance()->getPrefixSageDivers() && $facture->isFactureDivers()) {
             $prefix_sage = FactureConfiguration::getInstance()->getPrefixSageDivers();
@@ -65,12 +66,12 @@ class ExportFactureCSV_declarvin {
             $i = 0;
             foreach ($facture->echeances as $e) {
                 $i++;
-                echo $prefix_sage.';' . $e->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');4110000;' . $facture->code_comptable_client . ';;' . $e->echeance_date . ';' . $this->getSens($e->montant_ttc, "DEBIT") . ';' . $this->getMontant($e->montant_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;".self::CODE_TVA.";".$facture->numero_piece_comptable;
+                echo $prefix_sage.';' . $e->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');'.$compte_general.';' . $facture->code_comptable_client . ';;' . $e->echeance_date . ';' . $this->getSens($e->montant_ttc, "DEBIT") . ';' . $this->getMontant($e->montant_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;".self::CODE_TVA.";".$facture->numero_piece_comptable;
 
                 echo "\n";
             }
         } else {
-            echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - '.Date::francizeDate($facture->date_facturation).' - '.$facture->declarant->nom.';4110000;' . $facture->code_comptable_client . ';;' . $facture->date_echeance . ';' . $this->getSens($facture->total_ttc, "DEBIT") . ';' . $this->getMontant($facture->total_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;".self::CODE_TVA.";".$facture->numero_piece_comptable;
+            echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - '.Date::francizeDate($facture->date_facturation).' - '.$facture->declarant->nom.';'.$compte_general.';' . $facture->code_comptable_client . ';;' . $facture->date_echeance . ';' . $this->getSens($facture->total_ttc, "DEBIT") . ';' . $this->getMontant($facture->total_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;".self::CODE_TVA.";".$facture->numero_piece_comptable;
 
             echo "\n";
         }

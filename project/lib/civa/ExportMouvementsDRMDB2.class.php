@@ -217,23 +217,6 @@ class ExportMouvementsDRMDB2
         return $csv;
     }
 
-    public function setFacture($origines) {
-      $drms = array();
-      foreach($origines as $o) {
-        $ids = explode(':', $o);
-        if (!isset($drm[$ids[0]])){
-          $drm = DRMClient::getInstance()->find($ids[0]);
-          $drms[$ids[0]] = $drm->_id;
-          foreach($drm->getMouvements() as $k => $mvts) {
-            foreach($mvts as $key => $m) {
-              $m->facture = 1;
-            }
-          }
-          $drm->save();
-        }
-      }
-    }
-
     protected function aggregateMouvements($mouvements) {
         $db2 = array();
         foreach($mouvements as $mouvement) {

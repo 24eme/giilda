@@ -36,6 +36,14 @@ class Configuration extends BaseConfiguration {
         return $this->declaration->formatProduits($date, null, null, $format, $attributes);
     }
 
+    // Adaptation SV12 a DeclarVins
+    public function formatProduitsSV12($date = null, $format = "%format_libelle% (%code_produit%)", $attributes = array()) {
+        return $this->formatProduits($date, $format, $attributes);
+    }
+    public function getConfigurationProduit($hash) {
+        return $this->get($hash);
+    }
+
     public function getCepagesAutorises($date = null, $attributes = array()) {
     	$cepages = array();
     	foreach($this->declaration->getProduits($date, "INTERPRO-declaration", null, $attributes) as $produit) {

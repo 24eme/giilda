@@ -1,3 +1,4 @@
+<?php include_partial('sv12/preTemplate'); ?>
 <?php include_partial('sv12/breadcrumb', array('sv12' => $sv12)); ?>
 
 <section id="principal" class="sv12">
@@ -26,3 +27,4 @@
         </div>
     </form>
 </section>
+<?php include_partial('sv12/postTemplate'); ?>

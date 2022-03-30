@@ -5,6 +5,7 @@ class DRMDetailSortiesForm  extends acCouchdbObjectForm {
     public function configure() {
     	$configurationDetail = $this->getObject()->getParent()->getConfig();
         $certif = $this->getObject()->getParent()->getCertification()->getKey();
+        $genre = $this->getObject()->getParent()->getGenre()->getKey();
         $appellation = $this->getObject()->getParent()->getAppellation()->getkey();
         $drm = $this->getObject()->getDocument();
     	foreach ($configurationDetail->getSortiesSorted() as $key => $value) {
@@ -16,7 +17,7 @@ class DRMDetailSortiesForm  extends acCouchdbObjectForm {
             if ($key == 'contrat' && !preg_match('/AOC/', $certif)) {
                 $disabled = true;
             }
-            if (strpos($certif, 'AUTRE') === 0 && strpos($certif, 'AUTRESVINS') === false && !preg_match("#/(TRANQ|EFF)/#", $this->getObject()->getHash()) && $this->getObject()->getParent()->code_douane != "BOISSONS_FERMENTEES_AUTRES" && !in_array($key, array('distillationusageindustriel', 'destructionperte', 'manquant', 'vracsanscontratsuspendu', 'lies', 'usageindustriel', 'rebeches', 'consommationfamilialedegustation', 'autre', 'repli', 'exoversutilisateurauto', 'exoversutilisateurauto'))) {
+            if ((strpos($certif, 'AUTRE') === 0 || strpos($genre, 'VCI') === 0) && strpos($certif, 'AUTRESVINS') === false && !preg_match("#/(TRANQ|EFF)/#", $this->getObject()->getHash()) && $this->getObject()->getParent()->code_douane != "BOISSONS_FERMENTEES_AUTRES" && !in_array($key, array('distillationusageindustriel', 'destructionperte', 'manquant', 'vracsanscontratsuspendu', 'lies', 'usageindustriel', 'rebeches', 'consommationfamilialedegustation', 'autre', 'repli', 'exoversutilisateurauto', 'exoversutilisateurauto'))) {
                 $disabled = true;
             }
             if ($certif == 'AUTRE' && !preg_match("#/(TRANQ|EFF)/#", $this->getObject()->getHash()) && in_array($key, array('ventefrancecrd', 'exporttaxe'))) {
