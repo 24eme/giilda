@@ -5,6 +5,7 @@ class DRMDetailEntreesForm extends acCouchdbObjectForm {
     public function configure() {
         $configurationDetail = $this->getObject()->getParent()->getConfig();
         $certif = $this->getObject()->getParent()->getCertification()->getkey();
+        $genre = $this->getObject()->getParent()->getGenre()->getkey();
         $appellation = $this->getObject()->getParent()->getAppellation()->getkey();
         $drm = $this->getObject()->getDocument();
         $declassementIgp = (DRMConfiguration::getInstance()->hasDeclassementIgp())?  '/AOC/' :'/AOC|IGP/';
@@ -19,7 +20,7 @@ class DRMDetailEntreesForm extends acCouchdbObjectForm {
             if ($value->readable) {
                 if (!$value->writable || $disabled || (preg_match($declassementIgp, $certif) && ($key == 'declassement'))
                     || (($certif == 'AUTRES') && !preg_match("#/(TRANQ|EFF)/#", $this->getObject()->getHash()) && ($key != 'recolte') && ($key != 'revendication') && ($key != 'transfertsrecolte') && ($key != 'regularisation'))
-                    || (($certif == 'AUTRE') && !preg_match("#/(TRANQ|EFF)/#", $this->getObject()->getHash()) && $key == 'retourmarchandisetaxees')
+                    || (($certif == 'AUTRE' || $genre == 'VCI') && !preg_match("#/(TRANQ|EFF)/#", $this->getObject()->getHash()) && $key == 'retourmarchandisetaxees')
                     || (preg_match('/USAGESINDUSTRIELS/', $appellation) && (!$value->restriction_lies))
 		                || (preg_match('/VINSSIG/', $certif) && $key == 'repli' && !preg_match("/déclassement/i", $value->getLibelle())))
                 {
