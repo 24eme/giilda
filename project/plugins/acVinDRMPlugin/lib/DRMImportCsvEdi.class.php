@@ -830,6 +830,38 @@ private function importMouvementsFromCSV($just_check = false) {
       }
     }
 
+    if ($cat_key == 'sorties') {
+        $certif = $drmDetails->getCertification()->getKey();
+        $genre = $drmDetails->getGenre()->getKey();
+        $appellation = $drmDetails->getAppellation()->getKey();
+        $codeDouane = $drmDetails->code_douane;
+        $configTypeKey = $drmDetails->getConfig()->getSortiesSorted();
+        $configTypeKey = (isset($configTypeKey[$type_key]))? $configTypeKey[$type_key] : null;
+        $disabled = ($configTypeKey)? ((!preg_match('/AOC/', $certif) && ($type_key == 'repli'  && !preg_match("/déclassement/i", $configTypeKey->getLibelle()))) || (preg_match('/USAGESINDUSTRIELS/', $appellation) && (!$configTypeKey->restriction_lies))) : false;
+        if ($type_key == 'contrathorsinterpro' && preg_match('/AOC/', $certif)) {
+            $disabled = true;
+        }
+        if ($type_key == 'contrat' && !preg_match('/AOC/', $certif)) {
+            $disabled = true;
+        }
+        if ((strpos($certif, 'AUTRE') === 0 || strpos($genre, 'VCI') === 0) && strpos($certif, 'AUTRESVINS') === false && !preg_match("#/(TRANQ|EFF)/#", $drmDetails->getHash()) && $codeDouane != "BOISSONS_FERMENTEES_AUTRES" && !in_array($type_key, array('distillationusageindustriel', 'destructionperte', 'manquant', 'vracsanscontratsuspendu', 'lies', 'usageindustriel', 'rebeches', 'consommationfamilialedegustation', 'autre', 'repli', 'exoversutilisateurauto', 'exoversutilisateurauto'))) {
+            $disabled = true;
+        }
+        if ($certif == 'AUTRE' && !preg_match("#/(TRANQ|EFF)/#", $drmDetails->getHash()) && in_array($type_key, array('ventefrancecrd', 'exporttaxe'))) {
+            $disabled = true;
+        }
+        if($configTypeKey && preg_match('/MATIERES_PREMIERES/', $codeDouane) && $$configTypeKey->details == "ALCOOLPUR") {
+            $disabled = true;
+        }
+        if ($type_key == 'vci' && $drmDetails->getDocument()->isNegoce()) {
+            $disabled = true;
+        }
+        if ($disabled) {
+          $this->csvDoc->addErreur($this->typeMouvementNotAllowedError($num_ligne, $csvRow));
+          continue;
+        }
+    }
+
     if($just_check) {
       continue;
     }
@@ -1254,6 +1286,10 @@ private function categorieMouvementNotFoundError($num_ligne, $csvRow) {
 
 private function typeMouvementNotFoundError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le type de mouvement n'a pas été trouvé");
+}
+
+private function typeMouvementNotAllowedError($num_ligne, $csvRow) {
+  return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le type de mouvement n'est pas permis avec ce produit");
 }
 
 private function typeMouvementCompatibiliteError($num_ligne, $csvRow) {
