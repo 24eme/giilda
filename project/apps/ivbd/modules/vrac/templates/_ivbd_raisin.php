@@ -242,7 +242,7 @@ le bordereau. Si la retiraison intervenait avant la date précitée, la délivra
 %PARTIE 5 bis%
 \circled{5}~~\textbf{bis - Résiliation du contrat :}\\
 \hspace*{0.5cm}
-En cas de non-respect par l'acheteur des dates de retiraison ci-dessus mentionnées, le vendeur pourra invoquer l'article 1657 du code civil : "Annulation\\
+En cas de non-respect par l'acheteur des dates de retiraison ci-dessus mentionnées, le vendeur ne pourra invoquer l'article 1657 du code civil : "Annulation\\
 \hspace*{0.5cm}
 de droit de la vente pour non-enlèvement de la vendange à la date prévue".\\
 \hspace*{0.5cm}
