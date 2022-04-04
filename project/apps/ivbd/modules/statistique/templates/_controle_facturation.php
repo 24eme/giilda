@@ -96,11 +96,13 @@ use_helper('IvbdStatistique');
 		}
 	}
 	ksort($appellationByCouleurCsv);
-
 	$csv = "Appellation;Sorties sous contrats (vrac) hl;CVO €/hl;Facturation attendue €;Sorties hors contrats (bouteilles) hl;CVO €/hl;Facturation attendue €;total sorties réelles à facturer hl;CVO €/hl;Facturation attendue €\n";
 
 	foreach ($appellationByCouleurCsv as $couleur => $couleurLines) {
-		ksort($couleurLines);
+            if (isset($couleurLines['ztotal']) && !$couleurLines['ztotal'][1] && !$couleurLines['ztotal'][3] && !$couleurLines['ztotal'][4] && !$couleurLines['ztotal'][6] && !$couleurLines['ztotal'][7] && !$couleurLines['ztotal'][9]) {
+                continue;
+            }
+    		ksort($couleurLines);
 			foreach ($couleurLines as $produitKey => $line) {
 				if(is_array($line)){
 					foreach ($line as $key => $value) {
