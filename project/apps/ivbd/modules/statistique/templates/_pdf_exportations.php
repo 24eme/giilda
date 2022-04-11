@@ -26,7 +26,6 @@ if($compare){
 \usepackage[framemethod=tikz]{mdframed}
 \usepackage{lastpage}
 
-\def\LOGO{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_ivbd.png}
 \renewcommand{\arraystretch}{1.2}
 \makeatletter
 \setlength{\@fptop}{5pt}
@@ -39,7 +38,7 @@ if($compare){
 \renewcommand{\familydefault}{\sfdefault}
 \fancyfoot[R]{\thepage~/~\pageref{LastPage}}
 \fancyfoot[L]{<?php echo strftime("%e %B %Y", time()) ?>}
-\fancyhead[L]{\includegraphics[scale=0.6]{\LOGO}}
+\fancyhead[L]{\includegraphics[scale=0.6]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_ivbd.png}}
 \fancypagestyle{fstyle_0}{
 \fancyhead[C]{Volume exporté par pays et par couleur pour <?php if (count($appellations) > 1): ?>les appellations : \\ \textbf{<?php echo implode(', ', $appellations); ?>}<?php elseif (count($appellations) > 0): ?>l'appellation \textbf{<?php echo $appellations[0]; ?>}<?php else: ?>les vins d'\textbf{IVBD}<?php endif; ?><?php if ($periode): ?>\\Période du \textbf{<?php echo $periode[0] ?>} au \textbf{<?php echo $periode[1] ?>}<?php endif; ?>}
 }

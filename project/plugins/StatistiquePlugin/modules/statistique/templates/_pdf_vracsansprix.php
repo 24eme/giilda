@@ -9,6 +9,7 @@ $ressortissant->ville = $csv[0][4];
 $ressortissant->commune = $csv[0][4];
 include_partial('facture/pdf_generique_prelatex', array('pdf_titre' => "Prix d'achats", 'ressortissant' => $ressortissant));
 include_partial('facture/pdf_generique_entete');
+use_helper('Display');
 
 ?>
 \fontsize{10}{12}\selectfont
@@ -37,8 +38,8 @@ if ($i) pdf_newpage();
 \multicolumn{1}{|c|}{\textbf{Date}} & \multicolumn{1}{c|}{\textbf{Vendeur}} & \multicolumn{1}{c|}{\textbf{Appellation /  Couleur}} & \multicolumn{1}{c|}{\textbf{hl}} & \multicolumn{1}{c|}{\textbf{Prix/hl Vrac}} & \multicolumn{1}{c|}{\textbf{Prix/Bt Tiré-Bouché}} \\ \hline
 <?php for(; $i < count($csv) && $i < $max ; $i++): $c = $csv[$i]; ?>
 <?php echo preg_replace('/(\d{4})-(\d{2})-(\d{2})/', '$3/$2/$1', $c[5]); ?>                &
-<?php echo $c[6]; ?>                &
-<?php echo $c[7]; ?>                &
+<?php echo escape_string_for_latex($c[6]); ?>                &
+<?php echo escape_string_for_latex($c[7]); ?>                &
 <?php printf("%.02f", $c[8]); ?>    &
   ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~   &
   ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~   \\ \hline
