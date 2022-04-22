@@ -13,6 +13,7 @@ class PaiementsSetexportedTask extends sfBaseTask
 			    new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
 			    new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
 			    new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+                new sfCommandOption('deversement', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', false),
 
       // add your own options here
     ));
@@ -33,6 +34,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     $id = $arguments['factureid'];
+    $versementComptable = (!$options['deversement'])? 1 : 0;
     $facture = FactureClient::getInstance()->find($id);
     if (!$facture) {
         throw new sfException("$id non trouvée");
@@ -41,9 +43,9 @@ EOF;
         return;
     }
     foreach($facture->paiements as $p) {
-        $p->versement_comptable = 1;
+        $p->versement_comptable = $versementComptable;
     }
-    $facture->versement_comptable_paiement = 1;
+    $facture->versement_comptable_paiement = $versementComptable;
     $facture->save();
   }
 }
