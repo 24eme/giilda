@@ -850,7 +850,7 @@ private function importMouvementsFromCSV($just_check = false) {
         if ($certif == 'AUTRE' && !preg_match("#/(TRANQ|EFF)/#", $drmDetails->getHash()) && in_array($type_key, array('ventefrancecrd', 'exporttaxe'))) {
             $disabled = true;
         }
-        if($configTypeKey && preg_match('/MATIERES_PREMIERES/', $codeDouane) && $$configTypeKey->details == "ALCOOLPUR") {
+        if($configTypeKey && preg_match('/MATIERES_PREMIERES/', $codeDouane) && $configTypeKey->details == "ALCOOLPUR") {
             $disabled = true;
         }
         if ($type_key == 'vci' && $drmDetails->getDocument()->isNegoce()) {
