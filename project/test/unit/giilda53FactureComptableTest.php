@@ -65,7 +65,7 @@ foreach ($arrayCompta as $cpt => $row) {
     }
     $fieldArray = explode(";",$row);
 
-    $t->is(count($fieldArray), 23, "Le nombre de champs pour la ligne $cpt du fichier de compta est bien ".count($fieldArray));
+    $t->is(count($fieldArray), 24, "Le nombre de champs pour la ligne $cpt du fichier de compta est bien ".count($fieldArray));
     $t->is($fieldArray[0], $prefixComptable, "Le préfix est ".$prefixComptable);
 
     $dateF = preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/',$fieldArray[1]);
