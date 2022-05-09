@@ -22,7 +22,7 @@ foreach ($conf->declaration->filter('details') as $configDetails) {
 }
 
 $has_sous_generation = (count(GenerationConfiguration::getInstance()->getSousGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES)) > 0);
-$t = new lime_test(($has_sous_generation) ? 69 : 68);
+$t = new lime_test(($has_sous_generation) ? 70 : 69);
 
 $t->comment("Configuration");
 
@@ -41,6 +41,13 @@ $paramFacturation =  array(
 );
 
 $societeViti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
+
+$t->comment("Suppression des factures précédentes pour ".$societeViti->identifiant);
+foreach(FactureSocieteView::getInstance()->findBySociete($societeViti) as $row) {
+    $f = FactureClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
+    FactureClient::getInstance()->deleteDoc($f);
+}
+
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
 $t->comment("Suppression des DRM précédentes pour ".$viti->identifiant);
 foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
@@ -129,6 +136,8 @@ foreach($facture->lignes as $lignes) {
 $t->ok(!$doublons, "Aucune ligne (par libellé) en doublon");
 
 $t->is($nbLignes, $nbmvt, "La facture à ".$nbmvt." lignes");
+
+$t->is(count(FactureSocieteView::getInstance()->findBySociete($societeViti)), 1, "La récupération des factures depuis la vue renvoit 1 facture");
 
 if($application == "ivbd") {
     $t->is($facture->campagne, (date('Y')+1)."", "La campagne est de la facture est sur l'année viticole");
