@@ -34,11 +34,11 @@ if($application == "civa") {
     exit(0);
 }
 
-
 $societeViti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
 $facture = null;
-foreach (FactureSocieteView::getInstance()->findBySociete($societeViti) as $id => $facture) {
-    $facture = FactureClient::getInstance()->find($id);
+
+foreach (FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta() as $row) {
+    $facture = FactureClient::getInstance()->find($row->id);
 }
 
 if($facture){
@@ -52,7 +52,11 @@ if($facture){
   ob_end_clean();
 }
 
-$t = new lime_test(1 + $nbLignes * 9);
+$t = new lime_test(3 + $nbLignes * 9);
+
+$t->is(count(FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta()), 2, "Récupération des factures non versé en compta");
+$t->is(count(FactureSocieteView::getInstance()->getAllFacturesForCompta()), count(FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta()), "Récupération de toutes les factures");
+
 $t->comment("Création d'un export de facturation à partir des facture pour une société");
 
 

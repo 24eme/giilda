@@ -843,8 +843,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
               }
           }
       }
-      if($this->exist('versement_sepa') || $versement_sepa) {
-          $this->add('versement_sepa', $versement_sepa);
-      }
+      $this->versement_sepa = $versement_sepa;
     }
 }
