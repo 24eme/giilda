@@ -28,31 +28,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->archivage_document = new ArchivageDocument($this);
     }
 
-    public function updateVersementComptablePaiement() {
-        $versement = true;
-        $date = null;
-        if ($this->exist('paiements')) {
-            foreach ($this->paiements as $p) {
-                $versement = $versement && $p->versement_comptable;
-                if ($p->date > $date) {
-                    $date = $p->date;
-                }
-            }
-        }
-        $this->versement_comptable_paiement = $versement * 1;
-        $this->date_paiement = $date;
-    }
-
-    public function updateDatePaiementFromPaiements() {
-        $date = null;
-        foreach($this->paiements as $p) {
-            if ($p->date > $date) {
-                $date = $p->date;
-            }
-        }
-        return $this->date_paiement = $date;
-    }
-
     public function updateMontantPaiement() {
         $this->_set('montant_paiement', $this->paiements->getPaiementsTotal());
     }
@@ -868,6 +843,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
               }
           }
       }
-      $this->versement_sepa = $versement_sepa;
+      if($this->exist('versement_sepa') || $versement_sepa) {
+          $this->add('versement_sepa', $versement_sepa);
+      }
     }
 }
