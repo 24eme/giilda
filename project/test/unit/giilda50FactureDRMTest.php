@@ -21,6 +21,8 @@ foreach ($conf->declaration->filter('details') as $configDetails) {
     }
 }
 
+sfConfig::set('app_secret', 'test_secret');
+
 $has_sous_generation = (count(GenerationConfiguration::getInstance()->getSousGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES)) > 0);
 $t = new lime_test(($has_sous_generation) ? 70 : 69);
 
