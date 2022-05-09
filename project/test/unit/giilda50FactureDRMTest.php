@@ -181,9 +181,10 @@ $mailGenerator = GenerationClient::getInstance()->getGenerator($generationMail, 
 $t->is(get_class($mailGenerator), "GenerationFactureMail", "classe d'éxécution de la génération de mail");
 
 $mail = $mailGenerator->generateMailForADocumentId($facture->_id);
+$mailContent = str_replace(array("=", "\n", "\r"), '', $mail);
 $t->ok(get_class($mail), "Génération du mail d'une facture");
-$t->ok(strpos($mail, "https"), "Le mail contient une url");
-$t->ok(!strpos($mail, "symfony"), "L'url n'a pas symfony");
+$t->ok(strpos($mailContent, "https://"), "Le mail contient une url");
+$t->ok(!strpos($mailContent, "symfony"), "L'url n'a pas symfony");
 $mailGenerator->generate();
 
 $t->is($generationMail->statut, GenerationClient::GENERATION_STATUT_GENERE, "Statut généré");
