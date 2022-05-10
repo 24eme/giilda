@@ -37,9 +37,9 @@ EOF;
         $all_factures = FactureEtablissementView::getInstance()->getPaiementNonVerseeEnCompta();
         foreach($all_factures as $vfacture) {
 
-          $facture = FactureClient::getInstance()->find($vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]);
+          $facture = FactureClient::getInstance()->find($vfacture->id);
           if(!$facture) {
-              throw new sfException(sprintf("Document %s introuvable", $vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]));
+              throw new sfException(sprintf("Document %s introuvable", $vfacture->id));
           }
           $export = new ExportFacturePaiementsCSV($facture, false, true);
           echo $export->exportFacturePaiements();
