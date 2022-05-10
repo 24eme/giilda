@@ -36,14 +36,14 @@ EOF;
         }
         $app = $options['application'];
         echo ExportFacturePaiementsCSV::getHeaderCsv();
-        $all_factures = FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta();
+        $all_factures = FactureEtablissementView::getInstance()->getPaiementNonVerseeEnCompta();
         foreach($all_factures as $vfacture) {
 
           $facture = FactureClient::getInstance()->find($vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]);
           if(!$facture) {
               throw new sfException(sprintf("Document %s introuvable", $vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]));
           }
-          $export = new ExportFacturePaiementsCSV($facture, false);
+          $export = new ExportFacturePaiementsCSV($facture, false, true);
           echo $export->exportFacturePaiements();
         }
     }

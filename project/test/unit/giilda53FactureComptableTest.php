@@ -69,6 +69,12 @@ $facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societe
 ));
 $facture->save();
 
+$paiement = $facture->add('paiements')->add();
+$paiement->date = date('Y-m-d');
+$paiement->montant = $facture->total_ttc / 2;
+$facture->updateMontantPaiement();
+$facture->save();
+
 $facture = null;
 foreach (FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta() as $row) {
     $facture = FactureClient::getInstance()->find($row->id);
@@ -85,13 +91,12 @@ if($facture){
   ob_end_clean();
 }
 
-$t = new lime_test(3 + $nbLignes * 9);
-
-$t->is(count(FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta()), 2, "Récupération des factures non versé en compta");
-$t->is(count(FactureSocieteView::getInstance()->getAllFacturesForCompta()), count(FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta()), "Récupération de toutes les factures");
+$t = new lime_test(9 + $nbLignes * 9);
 
 $t->comment("Création d'un export de facturation à partir des facture pour une société");
 
+$t->is(count(FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta()), 1, "Récupération des factures non versé en compta");
+$t->is(count(FactureSocieteView::getInstance()->getAllFacturesForCompta()), count(FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta()), "Récupération de toutes les factures");
 
 $arrayCompta = explode("\n",$exportCompta);
 
@@ -151,3 +156,29 @@ foreach ($arrayCompta as $cpt => $row) {
 }
 
 $t->is($nbLignesCSV, $nbLignes, "Le nombre de ligne pour la compta est ".$nbLignes);
+
+
+$t->is($facture->versement_comptable, 0, "La facture n'est pas versé en compta");
+
+$t->comment("Versement de la facture en compta");
+
+$facture->setVerseEnCompta();
+$facture->save();
+
+$t->is($facture->versement_comptable, 1, "La facture est versé en compta");
+$t->is(count(FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta()), 0, "Aucune facture non versé en compta");
+
+$t->comment("Export du paiement");
+
+$t->is(count(FactureSocieteView::getInstance()->getPaiementNonVerseeEnCompta()), 1, "Une facture ayant des paiements non versé en compta");
+
+$facture = FactureClient::getInstance()->find(current(FactureSocieteView::getInstance()->getPaiementNonVerseeEnCompta())->id);
+
+$export = new ExportFacturePaiementsCSV($facture, false, true);
+$t->is(count(explode("\n", $export->exportFacturePaiements())), 2, "Une ligne de csv pour l'export des paiements");
+
+$facture->paiements[0]->versement_comptable = 1;
+$facture->save();
+
+$t->is(count(FactureSocieteView::getInstance()->getPaiementNonVerseeEnCompta()), 0, "Plus de paiement non versé");
+

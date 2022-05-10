@@ -42,6 +42,22 @@ class FactureEtablissementView extends acCouchdbView
                     ->getView($this->design, $this->view)->rows;
     }
 
+    public function getPaiementNonVerseeEnCompta() {
+
+        return acCouchdbManager::getClient()
+                ->startkey(array(self::VERSEMENT_TYPE_PAIEMENT, 0))
+                ->endkey(array(self::VERSEMENT_TYPE_PAIEMENT, 0, array()))
+                ->getView($this->design, $this->view)->rows;
+    }
+
+    public function getPaiementNonExecuteSepa() {
+
+        return acCouchdbManager::getClient()
+                ->startkey(array(self::VERSEMENT_TYPE_SEPA, 0))
+                ->endkey(array(self::VERSEMENT_TYPE_SEPA, 0, array()))
+                ->getView($this->design, $this->view)->rows;
+    }
+
     public function getAllSocietesForCompta() {
         $items = $this->getAllFacturesForCompta();
         $societes = array();
