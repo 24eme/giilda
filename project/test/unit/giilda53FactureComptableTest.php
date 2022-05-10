@@ -3,6 +3,8 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
+$conf = ConfigurationClient::getInstance()->getCurrent();
+
 $prefixComptable = null;
 $codeCompteEcheance = null;
 $codeCompteTVA = null;
@@ -35,8 +37,39 @@ if($application == "civa") {
 }
 
 $societeViti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
-$facture = null;
+$viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
+foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
+  $drm = DRMClient::getInstance()->find($k);
+  $drm->delete(false);
+}
+foreach(FactureSocieteView::getInstance()->findBySociete($societeViti) as $row) {
+    $f = FactureClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
+    FactureClient::getInstance()->deleteDoc($f);
+}
 
+$produits = array_keys($conf->getProduits());
+$produit_hash = array_shift($produits);
+$periode = date('Ym');
+$drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode, true);
+$details = $drm->addProduit($produit_hash, 'details');
+$details->stocks_debut->initial = 1000;
+$details->sorties->ventefrancecrd = 200;
+$drm->update();
+$drm->save();
+$drm->validate();
+$drm->save();
+
+$facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, array(
+    "modele" => "DRM",
+    "date_facturation" => date('Y').'-08-01',
+    "date_mouvement" => null,
+    "type_document" => GenerationClient::TYPE_DOCUMENT_FACTURES,
+    "message_communication" => null,
+    "seuil" => null,
+));
+$facture->save();
+
+$facture = null;
 foreach (FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta() as $row) {
     $facture = FactureClient::getInstance()->find($row->id);
 }
