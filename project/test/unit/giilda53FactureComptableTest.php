@@ -3,6 +3,8 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
+$conf = ConfigurationClient::getInstance()->getCurrent();
+
 $prefixComptable = null;
 $codeCompteEcheance = null;
 $codeCompteTVA = null;
@@ -34,11 +36,48 @@ if($application == "civa") {
     exit(0);
 }
 
-
 $societeViti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
+$viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
+foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
+  $drm = DRMClient::getInstance()->find($k);
+  $drm->delete(false);
+}
+foreach(FactureSocieteView::getInstance()->findBySociete($societeViti) as $row) {
+    $f = FactureClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
+    FactureClient::getInstance()->deleteDoc($f);
+}
+
+$produits = array_keys($conf->getProduits());
+$produit_hash = array_shift($produits);
+$periode = date('Ym');
+$drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode, true);
+$details = $drm->addProduit($produit_hash, 'details');
+$details->stocks_debut->initial = 1000;
+$details->sorties->ventefrancecrd = 200;
+$drm->update();
+$drm->save();
+$drm->validate();
+$drm->save();
+
+$facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, array(
+    "modele" => "DRM",
+    "date_facturation" => date('Y').'-08-01',
+    "date_mouvement" => null,
+    "type_document" => GenerationClient::TYPE_DOCUMENT_FACTURES,
+    "message_communication" => null,
+    "seuil" => null,
+));
+$facture->save();
+
+$paiement = $facture->add('paiements')->add();
+$paiement->date = date('Y-m-d');
+$paiement->montant = $facture->total_ttc / 2;
+$facture->updateMontantPaiement();
+$facture->save();
+
 $facture = null;
-foreach (FactureSocieteView::getInstance()->findBySociete($societeViti) as $id => $facture) {
-    $facture = FactureClient::getInstance()->find($id);
+foreach (FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta() as $row) {
+    $facture = FactureClient::getInstance()->find($row->id);
 }
 
 if($facture){
@@ -52,9 +91,12 @@ if($facture){
   ob_end_clean();
 }
 
-$t = new lime_test(1 + $nbLignes * 9);
+$t = new lime_test(9 + $nbLignes * 9);
+
 $t->comment("Création d'un export de facturation à partir des facture pour une société");
 
+$t->is(count(FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta()), 1, "Récupération des factures non versé en compta");
+$t->is(count(FactureSocieteView::getInstance()->getAllFacturesForCompta()), count(FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta()), "Récupération de toutes les factures");
 
 $arrayCompta = explode("\n",$exportCompta);
 
@@ -65,7 +107,7 @@ foreach ($arrayCompta as $cpt => $row) {
     }
     $fieldArray = explode(";",$row);
 
-    $t->is(count($fieldArray), 23, "Le nombre de champs pour la ligne $cpt du fichier de compta est bien ".count($fieldArray));
+    $t->is(count($fieldArray), 24, "Le nombre de champs pour la ligne $cpt du fichier de compta est bien ".count($fieldArray));
     $t->is($fieldArray[0], $prefixComptable, "Le préfix est ".$prefixComptable);
 
     $dateF = preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/',$fieldArray[1]);
@@ -114,3 +156,29 @@ foreach ($arrayCompta as $cpt => $row) {
 }
 
 $t->is($nbLignesCSV, $nbLignes, "Le nombre de ligne pour la compta est ".$nbLignes);
+
+
+$t->is($facture->versement_comptable, 0, "La facture n'est pas versé en compta");
+
+$t->comment("Versement de la facture en compta");
+
+$facture->setVerseEnCompta();
+$facture->save();
+
+$t->is($facture->versement_comptable, 1, "La facture est versé en compta");
+$t->is(count(FactureSocieteView::getInstance()->getFactureNonVerseeEnCompta()), 0, "Aucune facture non versé en compta");
+
+$t->comment("Export du paiement");
+
+$t->is(count(FactureSocieteView::getInstance()->getPaiementNonVerseeEnCompta()), 1, "Une facture ayant des paiements non versé en compta");
+
+$facture = FactureClient::getInstance()->find(current(FactureSocieteView::getInstance()->getPaiementNonVerseeEnCompta())->id);
+
+$export = new ExportFacturePaiementsCSV($facture, false, true);
+$t->is(count(explode("\n", $export->exportFacturePaiements())), 2, "Une ligne de csv pour l'export des paiements");
+
+$facture->paiements[0]->versement_comptable = 1;
+$facture->save();
+
+$t->is(count(FactureSocieteView::getInstance()->getPaiementNonVerseeEnCompta()), 0, "Plus de paiement non versé");
+
