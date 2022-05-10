@@ -8,9 +8,7 @@ class exportFacturePaiementsTask extends sfBaseTask
         $this->addOptions(array(
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
-            new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
-            new sfCommandOption('non_verse_comptablement', null, sfCommandOption::PARAMETER_REQUIRED, 'Que les versements comptable non réalisé (par defaut: false)', false),
-            // add your own options here
+            new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default')
         ));
 
         $this->namespace        = 'export';
