@@ -1,4 +1,5 @@
 <?php use_helper('SV12'); ?>
+<?php include_partial('sv12/preTemplate'); ?>
 
 <?php include_partial('sv12/breadcrumb', array('sv12' => $sv12)); ?>
 <?php
@@ -66,3 +67,4 @@ $types_contrats = array_merge(VracClient::getTypes(), array(SV12Client::SV12_TYP
         </div>
     </form>
 </section>
+<?php include_partial('sv12/postTemplate'); ?>

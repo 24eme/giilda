@@ -29,8 +29,6 @@ foreach ($dataExport as $pays => $appellations) {
 $nb_produits = count($produits);
 if($nb_produits): ?>
 
-    \newpage
-
     <?php
     $nb_pages = ceil($nb_produits / $nb_produits_per_page);
     $nb_produits_displayed = 0;
@@ -71,27 +69,33 @@ if($nb_produits): ?>
                 $libelle = $produits[$indexProduit];
                 if(!preg_match("|VCI|", $libelle)){
                     $produits_labelles[] = $libelle;
-                }                
+                }
             }
         }
-        ?>
+$lineid = 0;
+foreach ($list_pays as $counter => $pays): ?>
+<?php if (($lineid++ % 35) == 0): ?>
+    <?php if($lineid > 1): ?>
+        \end{tabular}
+    <?php endif; ?>
+\newpage
 
-        <?php echo $entete; ?>
-        
-        \cline{2-<?php echo $maxCol-1; ?>}
+<?php echo $entete; ?>
 
-        \begin{large}
-        \textbf{<?php echo $libelleCertif; ?> }
-        \end{large} &
-        <?php $i = 1; $nbcol = 0; $tabTotal = ["Total" => array()];?>
-        <?php foreach ($produits_labelles as $libelle): ?>
-            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($libelle); ?>}}}}&
-            <?php $i++; $tabTotal["Total"][$i] = 0;?>
-        <?php $nbcol = $i; endforeach; ?>
-        \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{TOTAL}}}}
-        \\
-        \hline
- <?php foreach ($list_pays as $counter => $pays): ?>
+\cline{2-<?php echo $maxCol-1; ?>}
+
+\begin{large}
+\textbf{<?php echo $libelleCertif; ?> }
+\end{large} &
+<?php $i = 1; $nbcol = 0; $tabTotal = ["Total" => array()];?>
+<?php foreach ($produits_labelles as $libelle): ?>
+    \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($libelle); ?>}}}}&
+    <?php $i++; $tabTotal["Total"][$i] = 0;?>
+<?php $nbcol = $i; endforeach; ?>
+\multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{TOTAL}}}}
+\\
+\hline
+<?php endif; ?>
     \multicolumn{1}{|l|}{\small{<?php echo ConfigurationClient::getInstance()->getCountry($pays) ?>}} &
     <?php $i = 1; ?>
     <?php $totalh = 0; ?>

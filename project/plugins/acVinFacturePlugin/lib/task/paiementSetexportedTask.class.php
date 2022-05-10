@@ -6,13 +6,15 @@ class PaiementsSetexportedTask extends sfBaseTask
   {
     // // add your own arguments here
     $this->addArguments(array(
-			    new sfCommandArgument('factureid', null, sfCommandOption::PARAMETER_REQUIRED, 'Facture id'),
+	    new sfCommandArgument('factureid', null, sfCommandOption::PARAMETER_REQUIRED, 'Facture id'),
+	    new sfCommandArgument('date_paiement', null, sfCommandOption::PARAMETER_REQUIRED, 'Date du paiement'),
     ));
 
     $this->addOptions(array(
 			    new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
 			    new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
 			    new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+                new sfCommandOption('deversement', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', false),
 
       // add your own options here
     ));
@@ -33,6 +35,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     $id = $arguments['factureid'];
+    $versementComptable = (!$options['deversement'])? 1 : 0;
     $facture = FactureClient::getInstance()->find($id);
     if (!$facture) {
         throw new sfException("$id non trouvée");
@@ -41,7 +44,10 @@ EOF;
         return;
     }
     foreach($facture->paiements as $p) {
-        $p->versement_comptable_paiement = 1;
+        if($p->date != $arguments['date_paiement']) {
+            continue;
+        }
+        $p->versement_comptable = $versementComptable;
     }
     $facture->save();
   }

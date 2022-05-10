@@ -146,6 +146,11 @@ class FactureConfiguration {
         return $this->configuration['seuil_minimum'];
     }
 
+    public function isPdfLigneDetails() {
+
+        return $this->configuration['pdf_ligne_details'];
+    }
+
     public function getReglement() {
       if (isset($this->configuration['reglement'])) {
         return $this->configuration['reglement'];
@@ -158,6 +163,21 @@ class FactureConfiguration {
         return $this->configuration['reglement_avoir'];
       }
       return '';
+    }
+
+    public function getCodeJournal() {
+
+        return isset($this->configuration['code_journal']) ? $this->configuration['code_journal'] : null;
+    }
+
+    public function getBanqueCompte() {
+
+        return isset($this->configuration['banque_compte']) ? $this->configuration['banque_compte'] : null;
+    }
+
+    public function getGeneralCompte() {
+
+        return isset($this->configuration['general_compte']) ? $this->configuration['general_compte'] : null;
     }
 
 }

@@ -5,22 +5,24 @@ class GenerationFactureMail extends GenerationAbstract {
     public function generateMailForADocumentId($id) {
         $facture = FactureClient::getInstance()->find($id);
 
-        if(!$facture->getSociete()->getEmailTeledeclaration()) {
+        if(!$facture->getSociete()->getEmailCompta()) {
             echo $facture->getSociete()->_id."\n";
             return;
         }
 
+        $interpro = sfConfig::get('app_teledeclaration_interpro');
+
         $message = Swift_Message::newInstance()
          ->setFrom(sfConfig::get('app_mail_from_email'))
          ->setTo($facture->getSociete()->getEmailCompta())
-         ->setSubject("Facture n°".$facture->getNumeroInterpro()." - BIVC")
+         ->setSubject("Facture n°".$facture->getNumeroInterpro()." - ".$interpro)
          ->setBody("Bonjour,
 
-Une nouvelle facture du BIVC est disponible, vous pouvez la télécharger directement en cliquant sur le lien : <".ProjectConfiguration::getAppRouting()->generate('facture_pdf_auth', array('id' => $facture->_id, 'auth' => FactureClient::generateAuthKey($id)), true).">
+Une nouvelle facture du ".$interpro." est disponible, vous pouvez la télécharger directement en cliquant sur le lien : ".ProjectConfiguration::getAppRouting()->generate('facture_pdf_auth', array('id' => $facture->_id, 'auth' => FactureClient::generateAuthKey($id)), true)."
 
 Bien cordialement,
 
-Le BIVC");
+Le ".$interpro);
 
         return $message;
     }
@@ -79,7 +81,7 @@ Le BIVC");
 
         $facture = FactureClient::getInstance()->find($factureId);
 
-        return array($date, $facture->getNumeroPieceComptable(), $facture->identifiant, $facture->declarant->raison_sociale, $facture->getSociete()->getEmailTeledeclaration(), $statut, $facture->_id);
+        return array($date, $facture->getNumeroPieceComptable(), $facture->identifiant, $facture->declarant->raison_sociale, $facture->getSociete()->getEmailCompta(), $statut, $facture->_id);
     }
 
     public function generate() {

@@ -2,6 +2,16 @@
 
 class compteActions extends sfCredentialActions {
 
+    private static $checkSaveContactEntityActions = array('ajout', 'modification', 'switchStatus', 'GenerateCodeCreation', 'addtag', 'removetag');
+
+    public function preExecute()
+    {
+        $defaults = $this->getRoute()->getDefaults();
+        if (isset($defaults['action']) && in_array($defaults['action'], self::$checkSaveContactEntityActions)) {
+            $this->checkSaveContactEntity();
+        }
+    }
+
     public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->compte = CompteClient::getInstance()->createCompteFromSociete($this->societe);

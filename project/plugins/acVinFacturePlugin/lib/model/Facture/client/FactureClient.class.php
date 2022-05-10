@@ -29,6 +29,14 @@ class FactureClient extends acCouchdbClient {
     const FACTURE_PAIEMENT_AVOIR = "AVOIR";
     const FACTURE_PAIEMENT_PRELEVEMENT_AUTO = "PRELEVEMENT_AUTO";
 
+    public static $codesRemises = array(
+        self::FACTURE_PAIEMENT_CHEQUE => '01',
+        self::FACTURE_PAIEMENT_VIREMENT => '02',
+        self::FACTURE_PAIEMENT_CB => '02',
+        self::FACTURE_PAIEMENT_PRELEVEMENT_AUTO => '02',
+        self::FACTURE_PAIEMENT_ESPECE => '03',
+    );
+
     public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12_NEGO, self::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE);
     public static $type_facture_mouvement = array(self::TYPE_FACTURE_MOUVEMENT_DRM => 'Facturation DRM',self::FACTURE_LIGNE_ORIGINE_TYPE_SV12 => 'Facturation SV12 globale',self::FACTURE_LIGNE_ORIGINE_TYPE_SV12_NEGO => 'Facturation SV12 Négociants', self::TYPE_FACTURE_MOUVEMENT_DIVERS => 'Facturation libre');
 
@@ -397,6 +405,11 @@ class FactureClient extends acCouchdbClient {
 
     public static function generateAuthKey($id)
     {
+        if(!sfConfig::get('app_secret')) {
+
+            throw new Exception("Le \"app_secret\" doit être configuré pour pouvoir générer les url authentifiantes");
+        }
+
         return hash('md5', $id . sfConfig::get('app_secret'));
     }
 }

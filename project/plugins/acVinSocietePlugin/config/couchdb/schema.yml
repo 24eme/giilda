@@ -12,6 +12,7 @@ Societe:
       statut: { }
       code_comptable_client: { }
       code_comptable_fournisseur: { }
+      num_interne: { required: false }
       teledeclaration_email: { required: false }
       paiement_douane_moyen: { required: false }
       paiement_douane_frequence: { required: false }
@@ -61,6 +62,12 @@ Societe:
                 fields:
                   nom: {}
                   ordre: {}
+      societes_liees:
+        type: array_collection
+        required: false
+        definition:
+          fields:
+            '*': { }
       etablissements :
         type: collection
         definition:

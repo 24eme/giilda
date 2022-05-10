@@ -28,16 +28,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->archivage_document = new ArchivageDocument($this);
     }
 
-    public function updateDatePaiementFromPaiements() {
-        $date = null;
-        foreach($this->paiements as $p) {
-            if ($p->date > $date) {
-                $date = $p->date;
-            }
-        }
-        return $this->date_paiement = $date;
-    }
-
     public function updateMontantPaiement() {
         $this->_set('montant_paiement', $this->paiements->getPaiementsTotal());
     }
@@ -186,6 +176,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $nb = 0;
       foreach($this->lignes as $k => $l) {
         $nb++;
+        if(!FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+            continue;
+        }
         $nb += count($l->details);
       }
       return $nb;
@@ -530,7 +523,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function storeOrigines() {
         foreach ($this->getLignes() as $ligne) {
             foreach ($ligne->origine_mouvements as $idorigine => $null) {
-                if (!array_key_exists($idorigine, $this->origines))
+                if (!array_key_exists($idorigine, $this->origines->toArray(true, false)))
                     $this->origines->add($idorigine, $idorigine);
             }
         }
@@ -583,7 +576,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $paiement->add('execute',false);
       $delai = MandatSepaConfiguration::getInstance()->getDelaiEcheancePrelevement();
       $paiement->date = date('Y-m-d',strtotime($this->date_facturation.$delai));
-      $this->versement_sepa = 0;
+      $this->add('versement_sepa', 0);
     }
 
     public function getNbPaiementsAutomatique(){
@@ -620,6 +613,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function save() {
+        $this->updateVersementSepa();
+
         parent::save();
         $this->saveDocumentsOrigine();
     }
@@ -654,10 +649,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if (!$this->versement_comptable) {
             $this->versement_comptable = 0;
         }
-
-        if (!$this->versement_comptable_paiement) {
-            $this->versement_comptable_paiement = 0;
+        if (!$this->exist('paiements') || !count($this->paiements)) {
+            $this->versement_comptable_paiement = 1;
         }
+        $this->updateVersementComptablePaiement();
 
         $this->archivage_document->preSave();
         $this->numero_piece_comptable = $this->getNumeroPieceComptable();
@@ -665,6 +660,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function storeDeclarant($doc) {
         $this->numero_adherent = $doc->identifiant;
+        if($doc->exist('num_interne') && $doc->num_interne) {
+            $this->numero_adherent = $doc->num_interne;
+        }
         $declarant = $this->declarant;
         $declarant->nom = $doc->raison_sociale;
 //$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
@@ -749,6 +747,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $this->_set('versement_comptable', 1);
     }
 
+    public function setPaiementVerseEnCompta() {
+        return $this->_set('versement_comptable', 1);
+    }
+
     public function setDeVerseEnCompta() {
         return $this->_set('versement_comptable', 0);
     }
@@ -806,5 +808,45 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
 
         $this->_set('telechargee', $date);
+    }
+
+    public function updateVersementComptablePaiement() {
+        $versement = true;
+        $date = null;
+        if ($this->exist('paiements')) {
+            foreach ($this->paiements as $p) {
+                $versement = $versement && $p->versement_comptable;
+                if ($p->date > $date) {
+                    $date = $p->date;
+                }
+            }
+        }
+        $this->versement_comptable_paiement = $versement * 1;
+        $this->date_paiement = $date;
+    }
+
+    public function updateDatePaiementFromPaiements() {
+        $date = null;
+        foreach($this->paiements as $p) {
+            if ($p->date > $date) {
+                $date = $p->date;
+            }
+        }
+        return $this->date_paiement = $date;
+    }
+
+    public function updateVersementSepa(){
+      $versement_sepa = 1;
+      if ($this->exist('paiements')) {
+          foreach($this->paiements as $paiement){
+              if (! $paiement->exist('execute')) {
+                  continue;
+              }
+              if(!$paiement->execute){
+                  $versement_sepa = 0;
+              }
+          }
+      }
+      $this->versement_sepa = $versement_sepa;
     }
 }

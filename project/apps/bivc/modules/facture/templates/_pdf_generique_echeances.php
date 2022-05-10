@@ -33,7 +33,8 @@ $echeances = $facture->getEcheancesPapillon();
         <?php else: ?>
         <?php $nb = count($echeances) ; foreach ($echeances as $key => $papillon) : ?>
         &
-   \centering \fontsize{7}{8}\selectfont Par chèque à l'ordre : <?php echo ($chequesOrdre)? $chequesOrdre : "Ordre chèque"; ?> \\ ~ &
+    \centering \fontsize{7}{8}\selectfont Par chèque à l'ordre : <?php echo ($chequesOrdre)? $chequesOrdre : "Ordre chèque"; ?> \\ ~ &
+
 
     \centering \small{Echéance} &
     \centering \small{Client~/~Facture} &
@@ -44,9 +45,9 @@ $echeances = $facture->getEcheancesPapillon();
 
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
                 \centering \small{\FactureRefCodeComptableClient~/~\FactureNum} &
-                \multicolumn{1}{r}{\small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}}  \\
+                \multicolumn{1}{r}{\small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}} \\
 
-
+               \multicolumn{2}{|c|}{~} & \multicolumn{3}{c}{\centering\fontsize{7}{8}\selectfont Si paiement par chèque, ne pas agrafer.} \\
         <?php endforeach; ?>
       <?php endif; ?>
       \CutlnPapillon

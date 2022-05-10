@@ -93,6 +93,7 @@ SV12:
                         volume: { type: float }
                         cvo: { type: float }
                         region: {}
+                        interpro: {required: false}
                         facture: { type: integer }
                         facturable: { type: integer }
                         date: {  }

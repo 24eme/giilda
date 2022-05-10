@@ -1,7 +1,9 @@
+<?php include_partial('sv12/preTemplate'); ?>
+
 <?php include_partial('sv12/breadcrumb', array('sv12' => $sv12)); ?>
 
 <section id="principal" class="sv12">
-    <div class="row" style="opacity: 0.7">
+    <div class="row" style="opacity: 0.7" id="formEtablissementChoice">
         <div class="col-xs-12">
              <?php include_component('sv12', 'formEtablissementChoice', array('identifiant' => $sv12->etablissement->_id, 'autofocus' => true)) ?>
         </div>
@@ -37,3 +39,5 @@
             </div>
         </div>
 </section>
+
+<?php include_partial('sv12/postTemplate'); ?>

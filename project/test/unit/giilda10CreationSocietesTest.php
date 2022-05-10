@@ -26,7 +26,7 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test') as $k => $v) 
 }
 
 
-$t = new lime_test(10);
+$t = new lime_test(17);
 $t->comment('création des différentes sociétés');
 
 $codePostalRegion = "92100";
@@ -159,3 +159,37 @@ try {
 }catch(sfException $e) {
   $t->fail("Changement de statut de la societe viti");
 }
+
+$societelie1 = SocieteClient::getInstance()->createSociete("société lié 1 test", SocieteClient::TYPE_OPERATEUR);
+$societelie1->pays = "FR";
+$societelie1->code_postal = $codePostalRegion;
+$societelie1->commune = "Neuilly sur seine";
+$societelie1->save();
+$id = $societelie1->getidentifiant();
+$compte = CompteClient::getInstance()->findByIdentifiant($id.'01');
+$compte->addTag('test', 'test_societe_lie_1');
+$compte->addTag('test', 'test');
+$compte->save();
+$t->is($compte->tags->automatique->toArray(true, false), array('societe', 'ressortissant'), "Création de société lié 1 crée un compte du même type");
+
+$societelie2 = SocieteClient::getInstance()->createSociete("société lié 2 test", SocieteClient::TYPE_OPERATEUR);
+$societelie2->pays = "FR";
+$societelie2->code_postal = $codePostalRegion;
+$societelie2->commune = "Neuilly sur seine";
+$societelie2->save();
+$id = $societelie2->getidentifiant();
+$compte = CompteClient::getInstance()->findByIdentifiant($id.'01');
+$compte->addTag('test', 'test_societe_lie_2');
+$compte->addTag('test', 'test');
+$compte->save();
+$t->is($compte->tags->automatique->toArray(true, false), array('societe', 'ressortissant'), "Création de société lié 2 crée un compte du même type");
+
+$t->ok(!$societelie2->exist('societes_liees'), "La champ société liés n'existe pas");
+$societelie2->addAndSaveSocieteLiee($societelie1);
+$t->ok($societelie2->exist('societes_liees'), 'La champ société liés existe');
+$t->is($societelie2->societes_liees[0], $societelie1->_id, "L'id de la société 1 a été ajouté dans la société 2");
+$societelie1 = SocieteClient::getInstance()->find($societelie1->_id);
+$t->ok($societelie1->exist('societes_liees'), 'La champ société liés existe');
+$t->is($societelie1->societes_liees[0], $societelie2->_id, "L'id de la société 2 a été ajouté dans la société 1");
+
+

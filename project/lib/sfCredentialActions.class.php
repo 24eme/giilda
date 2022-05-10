@@ -20,6 +20,12 @@ class sfCredentialActions extends sfActions {
     const CREDENTIAL_AUTRE = "autre";
     const CREDENTIAL_BUREAU = "bureau";
 
+    public function checkSaveContactEntity() {
+        if (!CompteClient::canSaveContactEntity()) {
+            throw new Exception('Les droits en ecriture ne sont pas activés (app_compte_synchro === false)');
+        }
+    }
+
     protected function getUserCredential() {
         $users = $this->getUser()->getCredentials();
         if (in_array(self::CREDENTIAL_ADMIN, $users)) {

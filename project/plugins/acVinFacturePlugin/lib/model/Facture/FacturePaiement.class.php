@@ -16,4 +16,10 @@ class FacturePaiement extends BaseFacturePaiement {
         return $ret;
     }
 
+    public function getNumeroRemise() {
+        $codeRemise = ($this->type_reglement && isset(FactureClient::$codesRemises[$this->type_reglement]))? FactureClient::$codesRemises[$this->type_reglement] : null;
+        $date = str_replace('-', '', $this->date);
+        return ($codeRemise && $date)? $date.$codeRemise : null;
+    }
+
 }

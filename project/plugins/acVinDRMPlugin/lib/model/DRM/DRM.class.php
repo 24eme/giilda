@@ -233,12 +233,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $produitTav = ($produit->getTav()) ?: null;
             $p = $this->addProduit($produitConfig->getHash(), $produit->getParent()->getKey(), $produit->denomination_complementaire, $produitTav);
 
-            if(DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+            if(DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getInstance()->getPeriodePrecedente($this->periode)) {
                 $p->stocks_debut->initial = $produit->total;
                 $p->stocks_debut->revendique = $produit->total_revendique;
             }
 
-            if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+            if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getInstance()->getPeriodePrecedente($this->periode)) {
                 $p->stocks_debut->revendique = $produit->total_revendique;
                 $p->stocks_debut->initial = $produit->total;
                 $p->produit_libelle = $produit->produit_libelle;
@@ -267,7 +267,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
         }
 
-        if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+        if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getInstance()->getPeriodePrecedente($this->periode)) {
             $this->precedente = $drm->_id;
             $this->document_precedent = null;
         }
@@ -1195,6 +1195,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$drm_modificatrice->exist('favoris')) {
             $drm_modificatrice->buildFavoris($this);
         }
+
+        if ($this->exist('transmission_douane') && $this->transmission_douane->success
+            && $this->transmission_douane->id_declaration
+            && $this->transmission_douane->coherente === true) {
+
+            $drm_modificatrice->add('transmission_douane', $this->transmission_douane);
+        }
+
         return $drm_modificatrice;
     }
 
