@@ -21,12 +21,10 @@ foreach ($conf->declaration->filter('details') as $configDetails) {
     }
 }
 
-foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationClient::TYPE_DOCUMENT_FACTURES, GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS)) as $row) {
-    GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
-}
+sfConfig::set('app_secret', 'test_secret');
 
 $has_sous_generation = (count(GenerationConfiguration::getInstance()->getSousGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES)) > 0);
-$t = new lime_test(($has_sous_generation) ? 69 : 68);
+$t = new lime_test(($has_sous_generation) ? 70 : 69);
 
 $t->comment("Configuration");
 
@@ -45,6 +43,13 @@ $paramFacturation =  array(
 );
 
 $societeViti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
+
+$t->comment("Suppression des factures précédentes pour ".$societeViti->identifiant);
+foreach(FactureSocieteView::getInstance()->findBySociete($societeViti) as $row) {
+    $f = FactureClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
+    FactureClient::getInstance()->deleteDoc($f);
+}
+
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
 $t->comment("Suppression des DRM précédentes pour ".$viti->identifiant);
 foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
@@ -134,6 +139,8 @@ $t->ok(!$doublons, "Aucune ligne (par libellé) en doublon");
 
 $t->is($nbLignes, $nbmvt, "La facture à ".$nbmvt." lignes");
 
+$t->is(count(FactureSocieteView::getInstance()->findBySociete($societeViti)), 1, "La récupération des factures depuis la vue renvoit 1 facture");
+
 if($application == "ivbd") {
     $t->is($facture->campagne, (date('Y')+1)."", "La campagne est de la facture est sur l'année viticole");
 } else {
@@ -174,9 +181,10 @@ $mailGenerator = GenerationClient::getInstance()->getGenerator($generationMail, 
 $t->is(get_class($mailGenerator), "GenerationFactureMail", "classe d'éxécution de la génération de mail");
 
 $mail = $mailGenerator->generateMailForADocumentId($facture->_id);
+$mailContent = str_replace(array("=", "\n", "\r"), '', $mail);
 $t->ok(get_class($mail), "Génération du mail d'une facture");
-$t->ok(strpos($mail, "https"), "Le mail contient une url");
-$t->ok(!strpos($mail, "symfony"), "L'url n'a pas symfony");
+$t->ok(strpos($mailContent, "https://"), "Le mail contient une url");
+$t->ok(!strpos($mailContent, "symfony"), "L'url n'a pas symfony");
 $mailGenerator->generate();
 
 $t->is($generationMail->statut, GenerationClient::GENERATION_STATUT_GENERE, "Statut généré");
