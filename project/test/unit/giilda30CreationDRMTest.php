@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(44);
+$t = new lime_test(51);
 $t->comment("création d'une DRM avec des sorties facturables et non");
 
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
@@ -292,3 +292,26 @@ foreach ($mvts_sorted as $type_mvt_drm => $mvts_grouped) {
 }
 $t->ok($baseLibelleFound, $drmNext->_id." : le libelle du mvt du produit est bien $baseLibelle");
 $t->ok($denomComplLibelleFound, $drmNext->_id." : le libelle du mvt du produit est bien $denomComplLibelle");
+
+$t->comment("Ajout d'un produit générique à partir d'un code INAO avec une hash défaut");
+
+$drm = DRMClient::getInstance()->createDoc($viti->identifiant, (date('Y')-1)."01", true);
+$drm->save();
+
+$produit1 = $drm->addProduitByInao("1B888X8", "AOC Grand Cru du Haut-Piquette");
+$produit2 = $drm->addProduitByInao("1B999X9", "AOC Grand Cru Côtes de Porc");
+
+$produit1 = $drm->get($produit1->getHash());
+$produit2 = $drm->get($produit2->getHash());
+
+$t->ok($drm->exist(DRMConfiguration::getInstance()->getEdiDefaultProduitHash("1B888X8")), "Le hash produit a été créé dans la DRM");
+
+$t->is($produit1->denomination_complementaire
+, "AOC Grand Cru du Haut-Piquette", "Le libellé produit est stocké dans la dénomination");
+$t->is($produit1->produit_libelle, $produit1->denomination_complementaire, "Le libellé produit est la dénomination");
+$t->is($produit1->code_inao, "1B888X8", "Le code INAO est stocké");
+
+$t->is($produit2->denomination_complementaire
+, "AOC Grand Cru Côtes de Porc", "Le libellé produit est stocké dans la dénomination");
+$t->is($produit2->produit_libelle, $produit2->denomination_complementaire, "Le libellé produit est la dénomination");
+$t->is($produit2->code_inao, "1B999X9", "Le code INAO est stocké");
