@@ -52,7 +52,7 @@
                     </div>
 <?php endif ?>
                 </div>
-                <?php if($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
+                <?php if($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN) || $sf_user->isUsurpationCompte()): ?>
                 <div class="text-right">
                   <a href="<?php echo url_for('drm_choix_produit_add_produit_inao', $drm) ?>"><small>Ajouter un produit qui n'est pas dans le catalogue</small></a>
                 </div>
