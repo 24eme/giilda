@@ -52,6 +52,11 @@
                     </div>
 <?php endif ?>
                 </div>
+                <?php if($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
+                <div class="text-right">
+                  <a href="<?php echo url_for('drm_choix_produit_add_produit_inao', $drm) ?>"><small>Ajouter un produit qui n'est pas dans le catalogue</small></a>
+                </div>
+                <?php endif; ?>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Abandonner</button>
