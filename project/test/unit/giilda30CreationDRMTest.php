@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(51);
+$t = new lime_test(52);
 $t->comment("création d'une DRM avec des sorties facturables et non");
 
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
@@ -315,3 +315,10 @@ $t->is($produit2->denomination_complementaire
 , "AOC Grand Cru Côtes de Porc", "Le libellé produit est stocké dans la dénomination");
 $t->is($produit2->produit_libelle, $produit2->denomination_complementaire, "Le libellé produit est la dénomination");
 $t->is($produit2->code_inao, "1B999X9", "Le code INAO est stocké");
+
+try {
+    $drm->addProduitByInao(ConfigurationClient::getInstance()->getCurrent()->get($produit_hash)->getCodeDouane(), "AOC qui existe déjà");
+    $t->fail("Impossible d'ajouter un produit dont le code inao est dans le catalogue");
+} catch(Exception $e) {
+    $t->pass("Impossible d'ajouter un produit dont le code inao est dans le catalogue");
+}

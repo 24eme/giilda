@@ -139,6 +139,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function addProduitByInao($inao, $libelleProduit) {
+        if(count($this->getConfig()->identifyProductByCodeDouane($inao))) {
+            throw new Exception("Le code INAO ".$inao." est présent dans le catalogue produit, il ne peut pas être ajouté via cette méthode");
+        }
+
         $produit = $this->addProduit(DRMConfiguration::getInstance()->getEdiDefaultProduitHash($inao), DRM::DETAILS_KEY_SUSPENDU, $libelleProduit);
         $produit->code_inao = $inao;
         $produit->produit_libelle = $libelleProduit;
