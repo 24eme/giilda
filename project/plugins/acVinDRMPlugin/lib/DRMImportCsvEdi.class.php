@@ -847,7 +847,7 @@ private function importMouvementsFromCSV($just_check = false) {
         if ((strpos($certif, 'AUTRE') === 0 || strpos($genre, 'VCI') === 0) && strpos($certif, 'AUTRESVINS') === false && !preg_match("#/(TRANQ|EFF)/#", $drmDetails->getHash()) && $codeDouane != "BOISSONS_FERMENTEES_AUTRES" && !in_array($type_key, array('distillationusageindustriel', 'destructionperte', 'manquant', 'vracsanscontratsuspendu', 'lies', 'usageindustriel', 'rebeches', 'consommationfamilialedegustation', 'autre', 'repli', 'exoversutilisateurauto', 'exoversutilisateurauto'))) {
             $disabled = true;
         }
-        if ($certif == 'AUTRE' && !preg_match("#/(TRANQ|EFF)/#", $drmDetails->getHash()) && in_array($type_key, array('ventefrancecrd', 'exporttaxe'))) {
+        if ($certif == 'AUTRE' && !preg_match("#/(TRANQ|EFF|MOU)/#", $drmDetails->getHash()) && in_array($type_key, array('ventefrancecrd', 'exporttaxe'))) {
             $disabled = true;
         }
         if($configTypeKey && preg_match('/MATIERES_PREMIERES/', $codeDouane) && $configTypeKey->details == "ALCOOLPUR") {
