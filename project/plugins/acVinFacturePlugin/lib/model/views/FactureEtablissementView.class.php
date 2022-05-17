@@ -2,9 +2,9 @@
 
 class FactureEtablissementView extends acCouchdbView
 {
-    const KEYS_CLIENT_ID = 1;
-    const KEYS_VERSEMENT_COMPTABLE = 0;
-    const KEYS_FACTURE_ID = 2;
+    const KEYS_CLIENT_ID = 2;
+    const KEYS_VERSEMENT_COMPTABLE = 1;
+    const KEYS_FACTURE_ID = 3;
 
     const VALUE_DATE_FACTURATION = 0;
     const VALUE_ORIGINES = 1;
@@ -37,8 +37,8 @@ class FactureEtablissementView extends acCouchdbView
     public function getAllFacturesForCompta() {
 
        return acCouchdbManager::getClient()
-                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 0))
-                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 0, array()))
+                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE))
+                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, array()))
                     ->getView($this->design, $this->view)->rows;
     }
 
