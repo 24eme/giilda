@@ -221,6 +221,12 @@ class DRMRouting {
             'control' => array('edition'),
         )));
 
+        $r->prependRoute('drm_choix_produit_add_produit_inao', new DRMRoute('/drm/:identifiant/edition/:periode_version/ajout-produits-inao', array('module' => 'drm_ajout_produit',
+            'action' => 'choixAjoutProduitsInao'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+            'type' => 'object',
+            'control' => array('edition'),
+        )));
+
         $r->prependRoute('drm_matiere_premiere', new DRMRoute('/drm/:identifiant/edition/:periode_version/matiere-premiere', array('module' => 'drm_edition',
             'action' => 'matierePremiere'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
