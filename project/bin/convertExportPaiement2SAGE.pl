@@ -24,11 +24,10 @@ while(<STDIN>) {
 	print "#MECG\n";
 	print "code journal;" if ($verbose);
 	print $field[15]."\n";
-	print "date facture;" if ($verbose);
-	$field[13] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
-	print $field[13]."\n";
 	print "date paiement;" if ($verbose);
 	$field[4] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
+	print $field[4]."\n";
+	print "date paiement;" if ($verbose);
 	print $field[4]."\n";
 	print "piece;" if ($verbose);
 	print $field[15].$field[16]."\n";
