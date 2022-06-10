@@ -26,48 +26,48 @@ class DAE extends BaseDAE implements InterfaceDeclarantDocument {
     protected function initDocuments() {
         $this->declarant_document = new DeclarantDocument($this);
     }
-    
+
     public function getConfig() {
     	$date = (!$this->date) ? date('Y-m-d') : $this->date;
-    	
+
     	return ConfigurationClient::getConfiguration($date);
     }
-    
+
     public function getProduitsConfig($date = null) {
     	if (!$date || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date)) {
     		$date = (!$this->date) ? date('Y-m-d') : $this->date;
     	}
-    
+
     	return $this->getConfig()->formatProduits($date, "%format_libelle%", array());
     }
-    
-    public function getLabels() {    
-    	return array('CONVENT' => 'Conventionnel', 'BIO' => 'Biologique', 'HVE3' => 'Haute Valeur Envrionnementale (HVE - niveau 3)', 'VDD' => 'Vignerons en Développement Durable', 'DEMETER' => 'Demeter', 'N_ET_P' => 'Nature et Progrès', 'BIODYVIN' => 'Biodyvin', 'BIO_COHE' => 'Bio Cohérence', 'T_VITIS' => 'Terra Vitis', 'AUTRE' => 'Autre');
+
+    public function getLabels() {
+    	return array('CONVENT' => 'Conventionnel', 'BIO' => 'Biologique / Biodynamie', 'ENV' => 'Certifications Environnementales (HVE3 / Terra Vitis / Vignerons Engagés)', 'AUTRE' => 'Autre');
     }
-    
-    public function getMentions() {    
+
+    public function getMentions() {
     	return array('DOMAINE' => 'Domaine', 'CHATEAU' => 'Château', 'CLOS' => 'Clos', 'MAS' => 'Mas', 'AUTRE' => 'Autre');
     }
-    
+
     public function getTypes() {
-        return array('CHR' => 'Café / Hôtel / Restaurant', 'CAVISTE' => 'Caviste', 'GD' => 'Grande Distribution (Leclerc / Carrefour...)', 'GROSSIST' => 'Grossiste-CHR', 'HARD' => 'Hard Discount  (LIDL / ALDI / Leader Price...)', 'IMPORTAT' => 'Importateur', 'N_HORS_R' => 'Négociant hors région', 'N_VDR' => 'Négociant/Union Vallée du Rhône', 'ON_TRADE' => 'Export on trade', 'OFF_TRAD' => 'Export off trade', 'VPC' => 'Vente par correspondance / internet', 'V_CAVEAU' => 'Vente sur place', 'V_SALON' => 'Vente sur salon', 'AUTRE' => 'Autre');
+        return array('TRAD' => 'Circuits Traditionnels', 'CHR' => 'Café / Hôtel / Restaurant', 'CAVISTE' => 'Caviste', 'GROSSIST' => 'Grossiste', 'GD' => 'Grande Distribution', 'HARD' => 'Hard Discount', 'EXPORT' => 'Export', 'IMPORTAT' => 'Importateur', 'ON_TRADE' => 'Export on trade', 'OFF_TRAD' => 'Export off trade', 'N_HORS_R' => 'Négociant hors région', 'N_VDR' => 'Négociant/Union Vallée du Rhône', 'PART' => 'Vente aux particuliers', 'VPC' => 'Vente par correspondance / internet', 'V_CAVEAU' => 'Vente sur place', 'V_SALON' => 'Vente sur salon', 'AUTRE' => 'Autre');
     }
-    
+
     public function getConditionnements() {
-    	return array('VRAC' => 'Vrac', 'BOUTEILL' => 'Bouteille', 'BIB' => 'Bag In Box', 'POCHE' => 'Poche', 'CUBI' => 'Cubi', 'BRICK' => 'Tetrabrick', 'AUTRE' => 'Autre');
+    	return array('VRAC' => 'Vrac', 'BOUTEILL' => 'Bouteille', 'BIB' => 'Bag In Box / Poche / Cubi', 'CAN' => 'Canette', 'AUTRE' => 'Autre');
     }
-    
+
     public function getDateObject()
     {
     	return ($this->date)? new DateTime($this->date) : null;
     }
-    
+
     public function getLiteralPeriode()
     {
     	sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
     	return ($this->date)? ucfirst(format_date($this->date, 'MMMM yyyy', 'fr_FR')) : null;
     }
-    
+
     public function calculateDatas()
     {
     	if (preg_match('/CL_/', $this->contenance_key)) {
