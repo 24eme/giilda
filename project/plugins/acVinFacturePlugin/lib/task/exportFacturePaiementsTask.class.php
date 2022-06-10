@@ -8,9 +8,7 @@ class exportFacturePaiementsTask extends sfBaseTask
         $this->addOptions(array(
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
-            new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
-            new sfCommandOption('non_verse_comptablement', null, sfCommandOption::PARAMETER_REQUIRED, 'Que les versements comptable non réalisé (par defaut: false)', false),
-            // add your own options here
+            new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default')
         ));
 
         $this->namespace        = 'export';
@@ -36,14 +34,14 @@ EOF;
         }
         $app = $options['application'];
         echo ExportFacturePaiementsCSV::getHeaderCsv();
-        $all_factures = FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta();
+        $all_factures = FactureEtablissementView::getInstance()->getPaiementNonVerseeEnCompta();
         foreach($all_factures as $vfacture) {
 
-          $facture = FactureClient::getInstance()->find($vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]);
+          $facture = FactureClient::getInstance()->find($vfacture->id);
           if(!$facture) {
-              throw new sfException(sprintf("Document %s introuvable", $vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]));
+              throw new sfException(sprintf("Document %s introuvable", $vfacture->id));
           }
-          $export = new ExportFacturePaiementsCSV($facture, false);
+          $export = new ExportFacturePaiementsCSV($facture, false, true);
           echo $export->exportFacturePaiements();
         }
     }

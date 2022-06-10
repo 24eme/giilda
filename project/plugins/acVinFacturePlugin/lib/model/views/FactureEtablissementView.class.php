@@ -2,9 +2,9 @@
 
 class FactureEtablissementView extends acCouchdbView
 {
-    const KEYS_CLIENT_ID = 1;
-    const KEYS_VERSEMENT_COMPTABLE = 0;
-    const KEYS_FACTURE_ID = 2;
+    const KEYS_CLIENT_ID = 2;
+    const KEYS_VERSEMENT_COMPTABLE = 1;
+    const KEYS_FACTURE_ID = 3;
 
     const VALUE_DATE_FACTURATION = 0;
     const VALUE_ORIGINES = 1;
@@ -16,6 +16,9 @@ class FactureEtablissementView extends acCouchdbView
     const VALUE_DECLARANT = 7;
     const VALUE_DATE_PAIEMENT = 8;
 
+    const VERSEMENT_TYPE_FACTURE = "FACTURE";
+    const VERSEMENT_TYPE_PAIEMENT = "PAIEMENT";
+    const VERSEMENT_TYPE_SEPA = "SEPA";
 
     public static function getInstance() {
 
@@ -26,15 +29,33 @@ class FactureEtablissementView extends acCouchdbView
     public function getFactureNonVerseeEnCompta() {
 
        return acCouchdbManager::getClient()
-                    ->startkey(array(0))
-                    ->endkey(array(0, array()))
+                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 0))
+                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 0, array()))
                     ->getView($this->design, $this->view)->rows;
     }
 
     public function getAllFacturesForCompta() {
 
        return acCouchdbManager::getClient()
+                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE))
+                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, array()))
                     ->getView($this->design, $this->view)->rows;
+    }
+
+    public function getPaiementNonVerseeEnCompta() {
+
+        return acCouchdbManager::getClient()
+                ->startkey(array(self::VERSEMENT_TYPE_PAIEMENT, 0))
+                ->endkey(array(self::VERSEMENT_TYPE_PAIEMENT, 0, array()))
+                ->getView($this->design, $this->view)->rows;
+    }
+
+    public function getPaiementNonExecuteSepa() {
+
+        return acCouchdbManager::getClient()
+                ->startkey(array(self::VERSEMENT_TYPE_SEPA, 0))
+                ->endkey(array(self::VERSEMENT_TYPE_SEPA, 0, array()))
+                ->getView($this->design, $this->view)->rows;
     }
 
     public function getAllSocietesForCompta() {
@@ -48,12 +69,12 @@ class FactureEtablissementView extends acCouchdbView
 
     public function findBySociete($societe) {
             $rows = acCouchdbManager::getClient()
-                    ->startkey(array(0, $societe->identifiant))
-                    ->endkey(array(0, $societe->identifiant, array()))
+                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant))
+                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, array()))
                     ->getView($this->design, $this->view)->rows;
             $factures = array_merge($rows, acCouchdbManager::getClient()
-                    ->startkey(array(1, $societe->identifiant))
-                    ->endkey(array(1, $societe->identifiant, array()))
+                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant))
+                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, array()))
                     ->getView($this->design, $this->view)->rows);
 
             $facturesResult = array();
@@ -67,8 +88,8 @@ class FactureEtablissementView extends acCouchdbView
 
     public function getYearFaturesBySociete($societe) {
         $factures = acCouchdbManager::getClient()
-                ->startkey(array(1, $societe->identifiant, 'FACTURE-'.$societe->identifiant.'-'.(date('Y') - 1).date('md').'00'))
-                ->endkey(array(1, $societe->identifiant, 'FACTURE-'.$societe->identifiant.'-ZZZZZZZZZZ'))
+                ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, 'FACTURE-'.$societe->identifiant.'-'.(date('Y') - 1).date('md').'00'))
+                ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, 'FACTURE-'.$societe->identifiant.'-ZZZZZZZZZZ'))
                 ->getView($this->design, $this->view)->rows;
 
         $facturesResult = array();

@@ -6,7 +6,8 @@ class PaiementsSetexportedTask extends sfBaseTask
   {
     // // add your own arguments here
     $this->addArguments(array(
-			    new sfCommandArgument('factureid', null, sfCommandOption::PARAMETER_REQUIRED, 'Facture id'),
+	    new sfCommandArgument('factureid', null, sfCommandOption::PARAMETER_REQUIRED, 'Facture id'),
+	    new sfCommandArgument('date_paiement', null, sfCommandOption::PARAMETER_REQUIRED, 'Date du paiement'),
     ));
 
     $this->addOptions(array(
@@ -43,9 +44,11 @@ EOF;
         return;
     }
     foreach($facture->paiements as $p) {
+        if($p->date != $arguments['date_paiement']) {
+            continue;
+        }
         $p->versement_comptable = $versementComptable;
     }
-    $facture->versement_comptable_paiement = $versementComptable;
     $facture->save();
   }
 }

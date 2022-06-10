@@ -3,7 +3,7 @@ use_helper('Date');
 ?>
 <h2>Historique des factures de <?php echo $societe->getRaisonSociale() ?></h2>
 <?php if (count($factures)): ?>
-<table class="table table-striped">
+<table style="margin-bottom: 10px;" class="table table-striped">
     <thead>
         <tr>
             <th class="col-xs-1">Type</th>
@@ -87,4 +87,11 @@ use_helper('Date');
 </table>
 <?php else: ?>
     <p class="text-center text-muted"><i>Aucune Facture</i></p>
+<?php endif; ?>
+<?php if(count($societe->getSocietesLieesIds()) >= 2): ?>
+<p>Voir l'historique de : <?php foreach($societe->getSocietesLieesIds() as $societeLieeId): ?>
+  <?php $societeLiee = SocieteClient::getInstance()->find($societeLieeId); ?>
+  <?php if(!$societeLiee || $societeLiee->_id == $societe->_id): continue; endif; ?>
+  <a href="<?php echo url_for('facture_societe', $societeLiee) ?>"><span class="glyphicon glyphicon-link"></span> <?php echo $societeLiee->raison_sociale ?></a>
+<?php endforeach; ?></p>
 <?php endif; ?>
