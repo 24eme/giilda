@@ -20,7 +20,6 @@ $appellations = (isset($options['appellations']) && count($options['appellations
 \usepackage[framemethod=tikz]{mdframed}
 \usepackage{lastpage}
 
-\def\LOGO{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_ivbd.png}
 \renewcommand{\arraystretch}{1.2}
 \makeatletter
 \setlength{\@fptop}{5pt}
@@ -33,7 +32,7 @@ $appellations = (isset($options['appellations']) && count($options['appellations
 \renewcommand{\familydefault}{\sfdefault}
 \fancyfoot[R]{\thepage~/~\pageref{LastPage}}
 \fancyfoot[L]{<?php echo strftime("%e %B %Y", time()) ?>}
-\fancyhead[L]{\includegraphics[scale=0.6]{\LOGO}}
+\fancyhead[L]{\includegraphics[scale=0.6]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_ivbd.png}}
 \fancypagestyle{fstyle}{
 	<?php if($appellations): ?>
 

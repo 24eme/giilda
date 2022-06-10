@@ -13,7 +13,7 @@ class ProduitDroitForm extends BaseForm {
                 
                
 		$this->setValidators(array(
-			'date' => new sfValidatorDate(array('required' => false)),
+			'date' => new sfValidatorDate(array('required' => false, 'datetime_output' => 'Y-m-d', 'date_format' => '~(?<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~')),
 			'taux' => new sfValidatorString(array('required' => false))
 		));
 		if ($droit = $this->getOption('droit')) {

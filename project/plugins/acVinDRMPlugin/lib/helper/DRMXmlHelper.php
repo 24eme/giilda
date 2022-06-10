@@ -113,6 +113,8 @@ function sortForLot1($tabXml) {
             $xmlSorted['entrees-periode']['entree-droits-suspendus'] = $tabXml['entrees-periode']['entree-droits-suspendus'];
         if (isset($tabXml['entrees-periode']['travail-a-facon']))
             $xmlSorted['entrees-periode']['travail-a-facon'] = $tabXml['entrees-periode']['travail-a-facon'];
+            if (isset($tabXml['entrees-periode']['achats']))
+                $xmlSorted['entrees-periode']['achats'] = $tabXml['entrees-periode']['achats'];
         if (isset($tabXml['entrees-periode']['autres-entrees']))
             $xmlSorted['entrees-periode']['autres-entrees'] = $tabXml['entrees-periode']['autres-entrees'];
         if (isset($tabXml['entrees-periode']['replacements']))
@@ -141,11 +143,19 @@ function sortForLot1($tabXml) {
                 $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['lies-vins-distilles'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['lies-vins-distilles'];
             if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties']))
                 $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'];
+            if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['ventes']))
+                $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['ventes'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['ventes'];
 
         }
-				if (isset($tabXml['sorties-periode']['autres-sorties'])){
-					$xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'] = $tabXml['sorties-periode']['autres-sorties'];
-				}
+        if (isset($tabXml['sorties-periode']['ventes'])){
+            $xmlSorted['sorties-periode']['ventes'] = $tabXml['sorties-periode']['ventes'];
+        }
+        if (isset($tabXml['sorties-periode']['replacement-suspension'])){
+            $xmlSorted['sorties-periode']['replacement-suspension'] = $tabXml['sorties-periode']['replacement-suspension'];
+        }
+        if (isset($tabXml['sorties-periode']['autres-sorties'])){
+            $xmlSorted['sorties-periode']['autres-sorties'] = $tabXml['sorties-periode']['autres-sorties'];
+        }
     }
     $xmlSorted['stock-fin-periode'] = (isset($tabXml['stock-fin-periode']))? $tabXml['stock-fin-periode'] : 0;
     return $xmlSorted;

@@ -36,11 +36,10 @@
                 <div class="col-xs-1 text-center h4 text-muted" style="padding-left: 0;">Quantité</div>
             </div>
             <?php
-            foreach ($form['mouvements'] as $k => $mvtsForm) {
-              foreach ($mvtsForm as $sk => $mvtForm) {
-                $object = ($k != 'nouveau')? $form->getObject()->mouvements->get($k)->get($sk) : null;
-                include_partial('itemMouvementFacture', array('mvtForm' => $mvtForm, 'object' => $object));
-              }
+            foreach ($form['mouvements'] as $k => $mvtForm) {
+              $kExploded = explode('_', $k);
+              $object = ($kExploded[1] != 'nouveau')? $form->getObject()->mouvements->get($kExploded[1])->get($kExploded[2]) : null;
+              include_partial('itemMouvementFacture', array('mvtForm' => $mvtForm, 'object' => $object));
             }
             ?>
         </div>
@@ -51,7 +50,7 @@
             <a class="btn btn-default btn-lg btn-upper" tabindex="-1" href="<?php echo url_for('facture_mouvements') ?>">Retour</a>
         </div>
         <div class="col-xs-6 text-right">
-            <input type="button" class="btn btn-success btn-lg btn-upper" value="Valider" onclick="this.form.submit();" />
+            <input type="submit" class="btn btn-success btn-lg btn-upper" value="Valider" />
         </div>
     </div>
 

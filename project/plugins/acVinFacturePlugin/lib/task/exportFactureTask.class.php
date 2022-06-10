@@ -43,7 +43,7 @@ EOF;
             return ;
 	    }
         foreach(FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta() as $vfacture) {
-    	     $export->printFacture($vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]);
+    	     $export->printFacture($vfacture->id);
         }
     }
 }

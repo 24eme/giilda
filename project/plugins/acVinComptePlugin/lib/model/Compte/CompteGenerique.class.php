@@ -146,6 +146,36 @@ abstract class CompteGenerique extends acCouchdbDocument {
         return $this->_get('fax');
     }
 
+    public static function extractIntitule($raisonSociale) {
+        $intitules = "SA VINS|EARL|EI|ETS|EURL|GAEC|GFA|HOIRIE|IND|M|MM|Mme|MME|MR|MADAME|MONSIEUR|SA|SARL|SAS|SASU|SC|SCA|SCE|SCEA|SCEV|SCI|SCV|SFF|SICA|SNC|SPH|STE|STEF|S\.A\.S\.|DOMAINE|S\.A\.|DOM\.|SASL DOMAINE";
+        $intitulesExclude = "DOMAINE D";
+        $intitule = null;
+
+        if(preg_match("/^(".$intitules.") /", $raisonSociale, $matches) && !preg_match("/^(".$intitulesExclude.")/", $raisonSociale)) {
+            $intitule = $matches[1];
+            $raisonSociale = preg_replace("/^".$intitule." /", "", $raisonSociale);
+        }
+
+        if(preg_match("/ \((".$intitules.")\)$/", $raisonSociale, $matches) && !preg_match("/ \((".$intitulesExclude.")\)$/", $raisonSociale)) {
+            $intitule = $matches[1];
+            $raisonSociale = preg_replace("/ \((".$intitule.")\)$/", "", $raisonSociale);
+        }
+
+        return array($intitule, $raisonSociale);
+    }
+
+    public function getIntitule() {
+        $extract = $this->extractIntitule($this->raison_sociale);
+
+        return $extract[0];
+    }
+
+    public function getRaisonSocialeWithoutIntitule() {
+        $extract = $this->extractIntitule($this->raison_sociale);
+
+        return $extract[1];
+    }
+
     public static function isSameAdresseComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
         if
         (

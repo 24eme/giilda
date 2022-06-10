@@ -9,9 +9,9 @@ class FactureLatex extends GenericLatex {
   //Entête première page
   const NB_LIGNES_ENTETE = 8;
   //bloc total  + TVA
-  const NB_LIGNES_REGLEMENT = 15;
+  const NB_LIGNES_REGLEMENT = 10;
   //papillon de règlement
-  const NB_LIGNES_PAPILLONS_FIXE = 2;
+  const NB_LIGNES_PAPILLONS_FIXE = 4;
   const NB_LIGNES_PAPILLONS_PAR_ECHEANCE = 4;
 
   function __construct(Facture $f, $config = null) {

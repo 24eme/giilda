@@ -15,10 +15,34 @@ class FactureLigne extends BaseFactureLigne {
         $mouvements = array();
         foreach ($this->origine_mouvements as $idDoc => $mouvsKeys) {
             foreach ($mouvsKeys as $mouvKey) {
-                $mouvements[] = Factureclient::getInstance()->getDocumentOrigine($idDoc)->findMouvement($mouvKey, $this->getDocument()->identifiant);
+                $identifiant = $this->getDocument()->identifiant;
+                if(!EtablissementClient::getInstance()->getFormatIdentifiant()) {
+                        $identifiant = explode("-", $idDoc)[1];
+                }
+                $mouvements[] = Factureclient::getInstance()->getDocumentOrigine($idDoc)->findMouvement($mouvKey, $identifiant);
             }
         }
         return $mouvements;
+    }
+
+    public function getQuantite() {
+        $quantite = 0;
+        foreach ($this->details as $detail) {
+            $quantite += $detail->quantite;
+        }
+        return $quantite;
+    }
+
+    public function getPrixUnitaire() {
+        $prixUnitaire = null;
+        foreach ($this->details as $detail) {
+            if($prixUnitaire !== null && $prixUnitaire != $detail->prix_unitaire) {
+                return null;
+            }
+            $prixUnitaire = $detail->prix_unitaire;
+        }
+
+        return $prixUnitaire;
     }
 
     public function facturerMouvements() {
@@ -50,8 +74,12 @@ class FactureLigne extends BaseFactureLigne {
         $this->montant_ht = 0;
         $this->montant_tva = 0;
         foreach ($this->details as $detail) {
-            $detail->montant_ht = round($detail->quantite * $detail->prix_unitaire, 2);
-            $detail->montant_tva = round($detail->taux_tva * $detail->montant_ht, 2);
+            $detail->montant_ht = $detail->quantite * $detail->prix_unitaire;
+            $detail->montant_tva = $detail->taux_tva * $detail->montant_ht;
+            if(FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+                $detail->montant_ht = round($detail->montant_ht, 2);
+                $detail->montant_tva = round($detail->montant_tva, 2);
+            }
 
             $this->montant_ht += $detail->montant_ht;
             $this->montant_tva += $detail->montant_tva;

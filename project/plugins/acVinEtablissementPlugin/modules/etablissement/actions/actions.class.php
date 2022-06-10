@@ -2,6 +2,16 @@
 
 class etablissementActions extends sfCredentialActions {
 
+    private static $checkSaveContactEntityActions = array('ajout', 'modification', 'switchStatus', 'reinitCrd');
+
+    public function preExecute()
+    {
+        $defaults = $this->getRoute()->getDefaults();
+        if (isset($defaults['action']) && in_array($defaults['action'], self::$checkSaveContactEntityActions)) {
+            $this->checkSaveContactEntity();
+        }
+    }
+
     public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->applyRights();
@@ -62,7 +72,7 @@ class etablissementActions extends sfCredentialActions {
         $this->etablissement->save();
         return $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablissement->identifiant));
     }
-    
+
 
 
     public function executeReinitCrd(sfWebRequest $request) {

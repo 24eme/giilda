@@ -25,6 +25,7 @@ Facture:
       region: {}
       versement_comptable: {type: integer}
       versement_comptable_paiement: {type: integer}
+      versement_sepa: {type: integer}
       arguments:
         type: collection
         definition:
@@ -142,7 +143,7 @@ Facture:
               definition:
                 fields:
                   date : { }
-                  montant: { }
+                  montant: { type: float }
                   type_reglement: { }
                   commentaire: { }
                   execute: {required: false}
