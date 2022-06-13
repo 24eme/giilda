@@ -918,15 +918,7 @@ private function importMouvementsFromCSV($just_check = false) {
       }
     } else {
       $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
-      if($cat_key == "stocks_debut" && !is_null($oldVolume) && $oldVolume != "") {
-        if ($drmDetails->canSetStockDebutMois()) {
-            $drmDetails->getOrAdd($cat_key)->add($type_key, $detailTotalVol);
-        }else {
-            $this->drm->commentaire .= sprintf("IMPORT de %s le stock_debut %s de %s hl n'a pas été pris en compte\n", $drmDetails->getLibelle(), $type_key, $detailTotalVol);
-        }
-      } else {
-        $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
-      }
+      $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
     }
 
     if(isset($csvRow[self::CSV_CAVE_COMMENTAIRE]) && $csvRow[self::CSV_CAVE_COMMENTAIRE] && trim($csvRow[self::CSV_CAVE_COMMENTAIRE])) {
