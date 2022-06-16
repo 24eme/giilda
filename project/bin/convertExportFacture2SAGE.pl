@@ -180,7 +180,7 @@ sub printSageEntryFunction {
     print "numero compte tiers contre partie;" if ($verbose);
     print "\n";
     print "intitule;" if ($verbose);
-    print encode_utf8(substr(decode_utf8($field[4]), 0, 35))."\n";
+    print encode_utf8(substr(decode_utf8($field[4]), 0, 120))."\n";
     print "numero reglement;" if ($verbose);
 	print $field[24]."\n";
     print "date echeance;" if ($verbose);
