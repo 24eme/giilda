@@ -45,8 +45,10 @@ while(<STDIN>) {
 	    print "\n";
 	    print "1\n";
 	    print "date;" if ($verbose);
+        $date_echeance =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	    print $date_echeance."\n";
 	    print "date saisie;" if ($verbose);
+        $date =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	    print $date."\n";
 	    print "code client;" if ($verbose);
 	    print $code_client."\n";
