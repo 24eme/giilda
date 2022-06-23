@@ -69,4 +69,23 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
         }
     }
 
+    public function executeChoixAjoutProduitsInao(sfWebRequest $request) {
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->drm = $this->getRoute()->getDRM();
+        $this->form = new DRMAddProduitByInaoForm($this->drm);
+        if (!$request->isMethod(sfRequest::POST)) {
+
+            return sfView::SUCCESS;
+        }
+        $this->form->bind($request->getParameter($this->form->getName()));
+        if (!$this->form->isValid()) {
+
+            return sfView::SUCCESS;
+        }
+
+        $this->form->save();
+
+        return $this->redirect('drm_choix_produit', $this->drm);
+    }
+
 }

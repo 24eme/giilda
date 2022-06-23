@@ -5,7 +5,7 @@ class SocieteRoute extends sfObjectRoute implements InterfaceSocieteRoute, Inter
 
     protected function getObjectForParameters($parameters = null) {
       $this->societe = SocieteClient::getInstance()->find($parameters['identifiant']);
-      if (sfContext::getInstance()->getUser()->hasTeledeclaration() && sfContext::getInstance()->getUser()->getCompte()->id_societe != $this->societe->_id) {
+      if (sfContext::getInstance()->getUser()->hasTeledeclaration() && ! in_array(sfContext::getInstance()->getUser()->getCompte()->id_societe, $this->societe->getSocietesLieesIds())) {
           throw new sfError404Exception("Vous n'avez pas le droit d'accéder à cette page");
       }
       $module = sfContext::getInstance()->getRequest()->getParameterHolder()->get('module');

@@ -131,6 +131,11 @@ class FactureConfiguration {
         return $this->configuration['export_relances'];
     }
 
+    public function getExportSV12() {
+
+        return $this->configuration['export_sv12'];
+    }
+
     public function getTeledeclaration() {
 
         return $this->configuration['teledeclaration'];

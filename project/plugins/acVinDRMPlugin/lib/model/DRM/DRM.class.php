@@ -138,6 +138,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->getProduit($hash, $detailsKey, $denomination_complementaire, $tav);
     }
 
+    public function addProduitByInao($inao, $libelleProduit) {
+        if(count($this->getConfig()->identifyProductByCodeDouane($inao))) {
+            throw new Exception("Le code INAO ".$inao." est présent dans le catalogue produit, il ne peut pas être ajouté via cette méthode");
+        }
+
+        $produit = $this->addProduit(DRMConfiguration::getInstance()->getEdiDefaultProduitHash($inao), DRM::DETAILS_KEY_SUSPENDU, $libelleProduit);
+        $produit->code_inao = $inao;
+        $produit->produit_libelle = $libelleProduit;
+
+        return $produit;
+    }
+
     public function getDepartement() {
         if ($this->declarant->code_postal) {
             return substr($this->declarant->code_postal, 0, 2);

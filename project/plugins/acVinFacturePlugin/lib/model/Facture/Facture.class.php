@@ -228,7 +228,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if (($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
             foreach ($ligneByType->origines as $origine) {
                 $keyOrigin = explode(':', $origine);
-                $keyOriginWithoutModificatrice = preg_replace('/(.*)-M[0-9]+$/', '$1', $keyOrigin[0]);
+                $keyOriginWithoutModificatrice = preg_replace('/(.*)-(M|R)[0-9]+$/', '$1', $keyOrigin[0]);
                 if (!array_key_exists($keyOriginWithoutModificatrice, $keysOrigin)) {
                     $keysOrigin[$keyOriginWithoutModificatrice] = array();
                 }
