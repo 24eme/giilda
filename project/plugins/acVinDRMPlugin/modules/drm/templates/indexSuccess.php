@@ -4,10 +4,10 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <?php include_component('drm', 'formEtablissementChoice') ?>
+        <?php include_component('drm', 'formEtablissementChoice', array('autofocus' => true)) ?>
     </div>
 </div>
-<?php if($nb_results) : ?>    
+<?php if($nb_results) : ?>
 <div class="row col-xs-12">
     <h2>Liste des DRM ayant des points d'attention</h2>
     <table class="table table-bordered table-condensed table-striped">
@@ -24,7 +24,7 @@
 		<?php foreach ($drm_controles as $identifiant => $drm_controle): ?>
             <tr>
             	<td class="text-center" ><a href="<?php $redirect = is_null($drm_controle->doc['valide']['date_saisie']) ? "drm_validation" : "drm_visualisation"; echo url_for($redirect, array('identifiant' => $drm_controle->doc['identifiant'], 'periode_version' => $drm_controle->doc['periode'])) ?>"><?php echo $drm_controle->doc["periode"]; ?></a></td>
-                <td class="text-center"><?php if(is_null($drm_controle->doc['valide']['date_saisie'])){echo $drm_controle->doc['date_modification'];}else{echo $drm_controle->doc['valide']['date_saisie'];}?></td>                    
+                <td class="text-center"><?php if(is_null($drm_controle->doc['valide']['date_saisie'])){echo $drm_controle->doc['date_modification'];}else{echo $drm_controle->doc['valide']['date_saisie'];}?></td>
                 <td class="text-left">
                     <a href="<?php echo url_for($redirect, array('identifiant' => $drm_controle->doc['identifiant'], 'periode_version' => $drm_controle->doc['periode'])) ?>">
                         <?php echo $drm_controle->doc["societe"]["raison_sociale"]." (".$drm_controle->doc['identifiant'].")"; ?>
