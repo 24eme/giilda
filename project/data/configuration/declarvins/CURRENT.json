@@ -1,0 +1,8 @@
+{
+   "_id" : "CURRENT",
+   "configurations" : {
+       "1900-01-01" : "CONFIGURATION"
+   },
+   "type" : "Current"
+}
+
