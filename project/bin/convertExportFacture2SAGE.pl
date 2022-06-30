@@ -45,8 +45,10 @@ while(<STDIN>) {
 	    print "\n";
 	    print "1\n";
 	    print "date;" if ($verbose);
+        $date_echeance =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	    print $date_echeance."\n";
 	    print "date saisie;" if ($verbose);
+        $date =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	    print $date."\n";
 	    print "code client;" if ($verbose);
 	    print $code_client."\n";
@@ -180,7 +182,7 @@ sub printSageEntryFunction {
     print "numero compte tiers contre partie;" if ($verbose);
     print "\n";
     print "intitule;" if ($verbose);
-    print encode_utf8(substr(decode_utf8($field[4]), 0, 35))."\n";
+    print encode_utf8(substr(decode_utf8($field[4]), 0, 120))."\n";
     print "numero reglement;" if ($verbose);
 	print $field[24]."\n";
     print "date echeance;" if ($verbose);
