@@ -90,10 +90,6 @@ class CompteLdap extends acVinLdap
             $info['telephoneNumber']  = $compte->telephone_bureau;
         }
 
-        if ($compte->fax) {
-            $info['facsimileTelephoneNumber'] = $compte->fax;
-        }
-
         if ($compte->telephone_mobile) {
             $info['mobile']           = $compte->telephone_mobile;
         }
