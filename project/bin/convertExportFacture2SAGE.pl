@@ -10,6 +10,11 @@ my $totalHt = 0;
 my $totalTva = 0;
 my @infosHt = ();
 my @infosTva = ();
+my $max_miva = 30;
+
+if ($ENV{MAX_MIVA}) {
+    $max_miva = $ENV{MAX_MIVA};
+}
 
 while(<STDIN>) {
 	chomp;
@@ -266,6 +271,6 @@ sub printSageEntryFunction {
 		print "empty;" if ($verbose);
 	    print "\n";
 		print "tiers;" if ($verbose);
-		print encode_utf8(substr(decode_utf8($field[15]), 0, 60))."\n";
+		print encode_utf8(substr(decode_utf8($field[15]), 0, $max_miva))."\n";
 	}
 }
