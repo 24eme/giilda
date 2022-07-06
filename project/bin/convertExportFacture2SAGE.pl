@@ -11,9 +11,13 @@ my $totalTva = 0;
 my @infosHt = ();
 my @infosTva = ();
 my $max_miva = 30;
+my $max_intitule = 35;
 
-if ($ENV{MAX_MIVA}) {
-    $max_miva = $ENV{MAX_MIVA};
+if ($ENV{EXPOR_SAGE_MAX_MIVA}) {
+    $max_miva = $ENV{EXPOR_SAGE_MAX_MIVA};
+}
+if ($ENV{EXPOR_SAGE_MAX_INTITULE}) {
+    $max_intitule = $ENV{EXPOR_SAGE_MAX_INTITULE};
 }
 
 while(<STDIN>) {
@@ -187,7 +191,7 @@ sub printSageEntryFunction {
     print "numero compte tiers contre partie;" if ($verbose);
     print "\n";
     print "intitule;" if ($verbose);
-    print encode_utf8(substr(decode_utf8($field[4]), 0, 120))."\n";
+    print encode_utf8(substr(decode_utf8($field[4]), 0, $max_intitule))."\n";
     print "numero reglement;" if ($verbose);
 	print $field[24]."\n";
     print "date echeance;" if ($verbose);
