@@ -348,7 +348,7 @@ class statistiqueActions extends sfActions {
         $result = $index->search($elasticaQuery);
         $hits = $result->getResults();
         $csv_file = '';
-        $csv_file .= "#Statut;Type transaction;Num. archive;Num. contrat;Teledeclare;Date signature;Date saisie;Vendeur id;Vendeur nom;Acheteur id;Acheteur nom;Representant id;Representant nom;Courtier id;Courtier nom;Produit;Millesime;Volume propose;Volume enleve;Prix initial unitaire;Contrat Interne";
+        $csv_file .= "#Statut;Type transaction;Num. archive;Num. contrat;Teledeclare;Date signature;Date saisie;Vendeur id;Vendeur nom;Vendeur Code postal;Vendeur commune;Acheteur id;Acheteur nom;Acheteur Code postal;Acheteur commune;Representant id;Representant nom;Courtier id;Courtier nom;Produit;Millesime;Volume propose;Volume enleve;Prix initial unitaire;Contrat Interne";
         $csv_file .= "\n";
         foreach ($hits as $hit):
         	$item = $hit->getData();
@@ -375,9 +375,17 @@ class statistiqueActions extends sfActions {
         	$csv_file .= ";";
         	$csv_file .= $item['doc']['vendeur']['nom'];
         	$csv_file .= ";";
+			$csv_file .= $item['doc']['vendeur']['code_postal'];
+			$csv_file .= ";";
+			$csv_file .= $item['doc']['vendeur']['commune'];
+        	$csv_file .= ";";
         	$csv_file .= $item['doc']['acheteur_identifiant'];
         	$csv_file .= ";";
         	$csv_file .= $item['doc']['acheteur']['nom'];
+			$csv_file .= ";";
+			$csv_file .= $item['doc']['acheteur']['code_postal'];
+			$csv_file .= ";";
+			$csv_file .= $item['doc']['acheteur']['commune'];
         	$csv_file .= ";";
         	if ($item['doc']['representant_identifiant'] != $item['doc']['vendeur_identifiant']) {
 	        	$csv_file .= $item['doc']['representant_identifiant'];

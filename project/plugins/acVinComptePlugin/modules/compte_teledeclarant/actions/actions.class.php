@@ -197,4 +197,56 @@ class compte_teledeclarantActions extends sfActions {
         return $this->renderText(file_get_contents($path));
     }
 
+    private function checkApiAccess(sfWebRequest $request) {
+        $secret = sfConfig::get('app_viticonnect_secret');;
+        $login = $request->getParameter('login');
+        $epoch = $request->getParameter('epoch');
+        if(abs(time() - $epoch) > 30) {
+            http_response_code(403);
+            die('Forbidden');
+        }
+        $md5 = $request->getParameter('md5');
+        if ($md5 != md5($secret."/".$login."/".$epoch)) {
+            http_response_code(401);
+            die("Unauthorized");
+        }
+    }
+
+    public function executeViticonnectApi(sfWebRequest $request)
+    {
+        $this->checkApiAccess($request);
+        $login = $request->getParameter('login');
+        $compte = acCouchdbManager::getClient('Compte')->retrieveByLogin(strtolower($login));
+        if (!$compte) {
+            http_response_code(401);
+            die("Unauthorized $login");
+        }
+
+        $this->entities = array('raison_sociale' => [], 'cvi' => [], 'siret' => [], 'ppm' => [], 'accise' => [], 'tva' => []);
+        $this->entities_number = 0;
+        foreach($compte->getSociete()->getEtablissementsObj() as $e) {
+            $this->entities['raison_sociale'][] = htmlspecialchars($e->etablissement->raison_sociale, ENT_XML1, 'UTF-8');
+            $this->entities['cvi'][] = str_replace(' ', '', $e->etablissement->cvi);
+            $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
+            $this->entities['accises'][] = str_replace(' ', '', $e->etablissement->no_accises);
+            $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
+            $this->entities_number++;
+        }
+        $this->setLayout(false);
+        $this->getResponse()->setHttpHeader('Content-Type', 'text/plain');
+    }
+
+    public function executeViticonnectCheck(sfWebRequest $request)
+    {
+        $this->checkApiAccess($request);
+        $login = $request->getParameter('login');
+        $comptes = EtablissementAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, $login);
+        if(count($comptes) == 1) {
+            echo "Found";
+            exit;
+        }
+        http_response_code(404);
+        die('Not found');
+
+    }
 }

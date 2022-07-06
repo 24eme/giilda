@@ -41,6 +41,9 @@ class FactureGenerationForm extends BaseForm {
 
     public function getChoices() {
         $choices = array_merge(FactureClient::getInstance()->getTypeFactureMouvement());
+      if (FactureConfiguration::getInstance()->getExportSV12()) {
+        $choices = array_merge($choices, array(FactureClient::TYPE_FACTURE_MOUVEMENT_SV12 => 'Facturation SV12'));
+        }
         if (FactureConfiguration::getInstance()->getExportShell()) {
           $choices = array_merge($choices, array(self::TYPE_GENERATION_EXPORT => 'Export comptable'));
 	      }
