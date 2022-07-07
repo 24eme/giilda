@@ -1,0 +1,17 @@
+all:
+  configuration:
+    societe:
+      extras:
+        cvi: { nom: "cvi" }
+        civaba: { nom: "civaba" }
+        siret: { nom: "siret" }
+        no_accises: { nom: "no_accises" }
+        carte_pro: { nom: "carte_pro" }
+        code_comptable: { nom: "code_comptable" }
+        famille: { nom: "famille" }
+        site_internet: { nom: "site_internet" }
+        adherent_organisme: { nom: "adherent_organisme" }
+        declaration_commune: { nom: "declaration_commune" }
+        declaration_insee: { nom: "declaration_insee" }
+        maison_mere: { nom: "maison_mere" }
+        maison_mere_raison_sociale: { nom: "maison_mere_raison_sociale" }
