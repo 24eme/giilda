@@ -1,6 +1,7 @@
 all:
   configuration:
     societe:
+      identifiant_saisi:  "CVI/CIVABA"
       extras:
         cvi: { nom: "cvi" }
         civaba: { nom: "civaba" }

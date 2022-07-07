@@ -25,4 +25,15 @@ class SocieteConfiguration {
         return isset($this->configuration['extras']) ? $this->configuration['extras'] : array();
     }
 
+    public function isIdentifiantSaisi() {
+        return isset($this->configuration['identifiant_saisi']) && ($this->configuration['identifiant_saisi']);
+    }
+
+    public function getIdentifiantSaisiLibelle() {
+        if (!$this->isIdentifiantSaisi()) {
+            return false;
+        }
+        return $this->configuration['identifiant_saisi'];
+    }
+
 }
