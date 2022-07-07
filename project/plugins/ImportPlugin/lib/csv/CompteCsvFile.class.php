@@ -186,19 +186,20 @@ class CompteCsvFile extends CsvFile
     }
 
     public static function getCsvHeader() {
-        $csv = "#nom complet;type;civilité;nom;prénom;adresse;adresse complémentaire;code postal;commune;pays;téléphone bureau;téléphone mobile;téléphone perso;fax;email;commentaire;id société;type société;société raison sociale;société adresse;société adresse complémentaire;société code postal;société commune;société téléphone;société fax;société email;code de création;";
+        $csv = "identifiant;nom complet;type;intitule;nom;prénom;adresse;adresse complémentaire;code postal;commune;pays;téléphone bureau;téléphone mobile;téléphone perso;fax;email;commentaire;id société;type société;société raison sociale;société adresse;société adresse complémentaire;société code postal;société commune;société téléphone;société fax;société email;code de création;statut;date creation;date cloture;";
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
             $csv .= $item['nom'].';';
         }
 
-        return $csv;
+        return $csv."\n";
     }
 
     public static function toCsvLigne($compte) {
         $societe_informations = $compte->societe_informations;
 
         $csv = null;
+        $csv .= '"'.$compte->identifiant. '";';
         $csv .= '"'.$compte->nom_a_afficher. '";';
         $csv .= '"'.CompteClient::getInstance()->createTypeFromOrigines($compte->origines).'";';
         $csv .= '"'.$compte->civilite. '";';
@@ -215,7 +216,7 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.$compte->fax. '";';
         $csv .= '"'.$compte->email. '";';
         $csv .= '"'.$compte->commentaire. '";';
-        $csv .= '"'.preg_replace('/SOCIETE-/', '', $compte->id_societe). '";';
+        $csv .= '"'.str_replace('SOCIETE-', '', $compte->id_societe). '";';
         $csv .= '"'.$compte->societe_informations->type. '";';
         $csv .= '"'.$compte->societe_informations->raison_sociale. '";';
         $csv .= '"'.$compte->societe_informations->adresse. '";';
@@ -226,6 +227,9 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.$compte->societe_informations->fax. '";';
         $csv .= '"'.$compte->societe_informations->email. '";';
         $csv .= '"'.((strpos($compte->mot_de_passe, '{TEXT}') !== false) ? str_replace("{TEXT}", "", $compte->mot_de_passe) : null) . '";';
+        $csv .= $compte->statut. ';';
+        $csv .= (isset($compte->date_creation) ? $compte->date_creation : '').';';
+        $csv .= ';';
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
             $value = null;

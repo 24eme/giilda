@@ -11,8 +11,11 @@ all:
         code_comptable: { nom: "code_comptable", auto: true }
         famille: { nom: "famille", auto: true }
         site_internet: { nom: "site_internet", auto: true }
+        sous_region_viticole: { nom: "sous_region_viticole" }
         adherent_organisme: { nom: "adherent_organisme" }
         declaration_commune: { nom: "declaration_commune" }
         declaration_insee: { nom: "declaration_insee" }
+        societes_liees_identifiant: { nom: "societes_liees_identifiant", auto: true }
         maison_mere: { nom: "maison_mere" }
         maison_mere_raison_sociale: { nom: "maison_mere_raison_sociale" }
+        maison_mere_siret: { nom: "maison_mere_raison_sociale" }
