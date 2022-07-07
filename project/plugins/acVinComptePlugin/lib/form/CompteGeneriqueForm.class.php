@@ -67,6 +67,13 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setValidator('telephone_mobile', new sfValidatorString(array('required' => false)));
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
         $this->setValidator('site_internet', new sfValidatorString(array('required' => false)));
+
+        foreach($this->getExtrasEditables() as $k => $e) {
+            $this->setWidget('extra_'.$k, new bsWidgetFormInput());
+            $this->widgetSchema->setLabel('extra_'.$k, $e['nom']);
+            $this->setValidator('extra_'.$k, new sfValidatorString(array('required' => false)));
+        }
+
     }
 
     protected function updateDefaultsFromObject() {
@@ -88,6 +95,15 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setDefault('fax', $this->getObject()->getFax());
         $this->setDefault('site_internet', $this->getObject()->getSiteInternet());
 
+        $compte = $this->getObject()->getMasterCompte();
+        if ($compte) {
+            foreach($this->getExtrasEditables(true) as $k => $e) {
+                if ($compte->exist('extras')) {
+                    $this->setDefault('extra_'.$k, $e['value']);
+                }
+            }
+        }
+
         $defaultDroits = array();
         $compte = $this->getObject()->getMasterCompte();
         if($compte) {
@@ -97,6 +113,14 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
             }
         }
         $this->setDefault('droits', $defaultDroits);
+    }
+
+    public function getExtrasEditables() {
+        $compte = $this->getObject()->getMasterCompte();
+        if (!$compte) {
+            return array();
+        }
+        return $compte->getExtrasEditables();
     }
 
     public function doUpdateObject($values) {
@@ -121,6 +145,9 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $compte = $this->getObject()->getMasterCompte();
         if(!$compte) {
             return;
+        }
+        foreach($this->getExtrasEditables() as $k => $e) {
+            $compte->add('extras')->add($k, $values['extra_'.$k]);
         }
         if(isset($values['droits'])){
             $compte->remove("droits");
