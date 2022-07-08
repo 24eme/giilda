@@ -16,6 +16,6 @@ all:
         declaration_commune: { nom: "declaration_commune" }
         declaration_insee: { nom: "declaration_insee" }
         societes_liees_identifiant: { nom: "societes_liees_identifiant", auto: true }
-        maison_mere: { nom: "maison_mere" }
+        maison_mere_identifiant: { nom: "maison_mere_identifiant" }
         maison_mere_raison_sociale: { nom: "maison_mere_raison_sociale" }
         maison_mere_siret: { nom: "maison_mere_raison_sociale" }
