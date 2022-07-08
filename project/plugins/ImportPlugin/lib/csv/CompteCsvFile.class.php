@@ -186,7 +186,7 @@ class CompteCsvFile extends CsvFile
     }
 
     public static function getCsvHeader() {
-        $csv = "identifiant;nom complet;type;intitule;nom;prénom;adresse;adresse complémentaire;code postal;commune;pays;téléphone bureau;téléphone mobile;téléphone perso;fax;email;commentaire;société identifiant;société type;société raison sociale;société adresse;société adresse complémentaire;société code postal;société commune;société téléphone;société fax;société email;code de création;statut;date creation;date cloture;";
+        $csv = "identifiant;nom complet;type;fonction;intitule;nom;prénom;adresse;adresse complémentaire;code postal;commune;pays;téléphone bureau;téléphone mobile;téléphone perso;fax;email;commentaire;société identifiant;société type;société raison sociale;société adresse;société adresse complémentaire;société code postal;société commune;société téléphone;société fax;société email;code de création;statut;date creation;date cloture;";
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
             $csv .= $item['nom'].';';
@@ -202,6 +202,7 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.$compte->identifiant. '";';
         $csv .= '"'.$compte->nom_a_afficher. '";';
         $csv .= '"'.CompteClient::getInstance()->createTypeFromOrigines($compte->origines).'";';
+        $csv .= '"'.$compte->fonction. '";';
         $csv .= '"'.$compte->civilite. '";';
         $csv .= '"'.$compte->prenom. '";';
         $csv .= '"'.$compte->nom. '";';
