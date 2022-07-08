@@ -204,8 +204,8 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.CompteClient::getInstance()->createTypeFromOrigines($compte->origines).'";';
         $csv .= '"'.$compte->fonction. '";';
         $csv .= '"'.$compte->civilite. '";';
-        $csv .= '"'.$compte->prenom. '";';
         $csv .= '"'.$compte->nom. '";';
+        $csv .= '"'.$compte->prenom. '";';
         $csv .= '"'.$compte->adresse. '";';
         $csv .= '"'.$compte->adresse_complementaire. '";';
         $csv .= '"'.$compte->code_postal. '";';
