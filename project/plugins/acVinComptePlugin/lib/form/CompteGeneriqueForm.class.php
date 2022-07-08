@@ -120,7 +120,7 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         if (!$compte) {
             return array();
         }
-        return $compte->getExtrasEditables();
+        return $compte->getExtrasEditables(true);
     }
 
     public function doUpdateObject($values) {

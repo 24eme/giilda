@@ -139,7 +139,7 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
                   if ($compte->exist('extras') && $compte->get('extras')->exist($k)): ?>
               <div class="form-group">
                   <label class="col-xs-4 control-label"><?php echo $e['nom']; ?></label>
-                  <div class="col-xs-8"><?php echo $compte->get('extras')->get($k); ?>
+                  <div class="col-xs-8"><?php echo $compte->get('extras')->get($k); ?></div>
               </div>
               <?php endif; endif; ?>
         <?php endforeach; ?>
