@@ -1407,7 +1407,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         foreach ($to_removes as $removeRegime => $crds) {
             $this->getOrAdd('crds')->remove($removeRegime);
-            $this->getOrAdd('crds')->add($newCrdRegime, $crds);
+            if(!$this->getOrAdd('crds')->exist($newCrdRegime)) {
+                $this->getOrAdd('crds')->add($newCrdRegime, $crds);
+            }
         }
         foreach ($this->getProduits() as $produit) {
           $this->switchDetailsCrdRegime($produit,$newCrdRegime,DRM::DETAILS_KEY_SUSPENDU);

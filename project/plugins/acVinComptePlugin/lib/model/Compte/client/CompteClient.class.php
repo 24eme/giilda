@@ -18,7 +18,7 @@ class CompteClient extends acCouchdbClient {
     }
 
     public function getId($identifiant) {
-        if (! ($identifiant * 1)) {
+        if (SocieteConfiguration::getInstance()->isIdentifiantSaisi() || ! (intval($identifiant))) {
             return 'COMPTE-' . $identifiant;
         }
         return 'COMPTE-' . sprintf('%08d', $identifiant);

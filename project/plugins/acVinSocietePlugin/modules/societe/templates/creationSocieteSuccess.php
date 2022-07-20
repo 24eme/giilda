@@ -12,6 +12,13 @@
         <form class="form-horizontal" action="<?php echo url_for('societe_creation'); ?>" method="post">
             <div id="recherche_societe" class="col-md-8 panel panel-default">
                 <div class="panel-body">
+                <?php if (isset($form['identifiant'])): ?>
+                    <div class="form-group<?php if ($form['identifiant']->hasError()): ?> has-error<?php endif; ?>">
+                        <?php echo $form['identifiant']->renderError(); ?>
+                        <?php echo $form['identifiant']->renderLabel(null, array("class" => "col-xs-6 control-label")); ?>
+                        <div class="col-xs-6"><?php echo $form['identifiant']->render(array("class" => "form-control first-focus", "autofocus" => "autofocus")); ?></div>
+                    </div>
+                <?php endif; ?>
                     <div class="form-group<?php if ($form['raison_sociale']->hasError()): ?> has-error<?php endif; ?>">
                         <?php echo $form['raison_sociale']->renderError(); ?>
                         <?php echo $form['raison_sociale']->renderLabel(null, array("class" => "col-xs-6 control-label")); ?>
