@@ -83,8 +83,8 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATVISA{<?php echo $vrac->numero_archive ?>}
 \def\CONTRATDATEENTETE{<?php echo format_date($vrac->valide->date_saisie) ?>}
 
-\def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE <?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>de vins AOP et IGP<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS): ?>de Moût<?php else: ?>de Vendange<?php endif; ?>}
-\def\CONTRATSOUSTITRE{<?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>produits dans le Sud-Ouest<?php else: ?>destinés à l'élaboration d'AOP ou d'IGP du Sud-Ouest<?php endif; ?>}
+\def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE <?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>de vins AOP et IGP<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS): ?>de Moût<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>de vins AOP et IGP<?php else: ?>de Vendange<?php endif; ?>}
+\def\CONTRATSOUSTITRE{<?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>produits dans le Sud-Ouest<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>produits dans le Sud-Ouest retiraison bouteille<?php else: ?>destinés à l'élaboration d'AOP ou d'IGP du Sud-Ouest<?php endif; ?>}
 
 
 \def\CONTRATVENDEURNOM{<?php echo display_latex_string($vendeur_raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}

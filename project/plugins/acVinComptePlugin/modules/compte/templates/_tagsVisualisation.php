@@ -30,4 +30,16 @@
             <i class="glyphicon glyphicon-plus"></i>
         </a>
     </div>
+    <?php $extras = $compte->getExtrasEditables() ; if (count($extras)): ?>
+        <div class="col-xs-12">
+          <hr/>
+          <p><strong>Champs extras :</strong></p>
+        <?php foreach($extras as $k => $e):?>
+          <div class="col-xs-3">
+            <label><?php echo $e['nom']; ?> : </label> <span><?php echo $e['value']; ?></span>
+          </div>
+        <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
 </div>

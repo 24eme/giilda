@@ -66,7 +66,7 @@
 \def\CONTRATVISA{<?php echo $vrac->numero_archive ?>}
 \def\CONTRATDATEENTETE{<?php echo format_date($vrac->valide->date_saisie) ?>}
 
-\def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE <?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>de vin AOP et IGP<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS): ?>de Moût<?php else: ?>de Vendange<?php endif; ?>}
+\def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE <?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>de vin AOP et IGP<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS): ?>de Moût<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>de vins AOP et IGP<?php else: ?>de Vendange<?php endif; ?>}
 \def\CONTRATSOUSTITRE{}
 <?php
 $vendeur_raison_sociale = ($vrac->vendeur->raison_sociale) ?

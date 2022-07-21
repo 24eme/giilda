@@ -39,7 +39,8 @@ class FloatHelper
         $float = null;
 
         if(count(explode(".", $number."")) >= 2) {
-            list($int, $float) = explode(".", $number);
+            list($int, $float) = explode(".", sprintf("%.10f", $number));
+            $float = rtrim($float, '0');
         }
 
         $defaultDecimalFormat = (is_null($defaultDecimalFormat)) ? $this->getDefaultDecimalFormat() : $defaultDecimalFormat;
@@ -53,6 +54,9 @@ class FloatHelper
             $nbDecimal = $maxDecimalAuthorized;
         }
 		$separate = ($milliSeparate)? ' ' : '';
+        if ($number < 1 && $number > -1) {
+            return sprintf('%.'.$nbDecimal.'f', $number);
+        }
         return number_format($number, $nbDecimal, '.', $separate);
     }
 

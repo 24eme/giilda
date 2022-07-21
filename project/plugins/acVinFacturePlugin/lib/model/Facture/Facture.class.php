@@ -693,6 +693,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return 0;
     }
 
+    public function getRestantDu() {
+
+        return round($this->total_ttc - $this->getMontantPaiement(), 2);
+    }
+
     public function getCodeComptableClient() {
         return $this->_get('code_comptable_client');
     }
