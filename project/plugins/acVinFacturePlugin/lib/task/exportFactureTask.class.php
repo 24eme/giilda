@@ -38,6 +38,10 @@ EOF;
         }
 
         if ($options['factureid']) {
+            $facture = FactureClient::getInstance()->find($options['factureid']);
+            if (!$facture) {
+                return;
+            }
 		    $export->printFacture($options['factureid']);
 
             return ;
