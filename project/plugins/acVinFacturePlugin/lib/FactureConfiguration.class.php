@@ -185,4 +185,12 @@ class FactureConfiguration {
         return isset($this->configuration['general_compte']) ? $this->configuration['general_compte'] : null;
     }
 
+    public function getDelaiRelance1() {
+        return isset($this->configuration['delai_relance1']) ? $this->configuration['delai_relance1'] : null;
+    }
+
+    public function getDelaiRelance2() {
+        return isset($this->configuration['delai_relance2']) ? $this->configuration['delai_relance2'] : null;
+    }
+
 }
