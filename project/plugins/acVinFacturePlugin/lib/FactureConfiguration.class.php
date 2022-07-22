@@ -193,4 +193,15 @@ class FactureConfiguration {
         return isset($this->configuration['delai_relance2']) ? $this->configuration['delai_relance2'] : null;
     }
 
+    public function getRelances() {
+        $delais = array();
+        if ($delai = $this->getDelaiRelance1()) {
+            $delais[1] = $delai;
+        }
+        if ($delai = $this->getDelaiRelance2()) {
+            $delais[2] = $delai;
+        }
+        return $delais;
+    }
+
 }
