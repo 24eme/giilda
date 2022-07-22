@@ -4,10 +4,15 @@ class factureGenerateRelancePdfTask extends sfBaseTask
 {
     protected function configure()
     {
+        $this->addArguments(array(
+    			    new sfCommandArgument('relancesCsv', null, sfCommandOption::PARAMETER_REQUIRED, 'Csv des relances'),
+        ));
+
         $this->addOptions(array(
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+            new sfCommandOption('filename', null, sfCommandOption::PARAMETER_REQUIRED, 'Nom du fichier'),
         ));
 
         $this->namespace        = 'facture';
@@ -25,37 +30,48 @@ EOF;
     {
       $databaseManager = new sfDatabaseManager($this->configuration);
       $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
+      sfContext::createInstance($this->configuration);
+      if(!$options['application']){
+        throw new sfException("Le choix de l'application est obligatoire");
 
-      $contextInstance = sfContext::createInstance($this->configuration);
-
-      $items = FactureEtablissementView::getInstance()->getFactureNonPaye();
-      $today = date('Y-m-d');
-      $factureConf = FactureConfiguration::getInstance();
-      $relances = array(array(), array());
-
-      foreach($items as $item) {
-          $dateFacture = $item->value[FactureEtablissementView::VALUE_DATE_FACTURATION];
-          $facture = FactureClient::getInstance()->find($item->id);
-          if ($facture->needRelance($factureConf->getDelaiRelance1(), 1)) {
-              if (!isset($relances[0][$facture->identifiant])) {
-                  $relances[0][$facture->identifiant] = array();
-              }
-              $relances[0][$facture->identifiant][] = $facture;
-          }
-          if ($facture->needRelance($factureConf->getDelaiRelance2(), 2)) {
-              if (!isset($relances[1][$facture->identifiant])) {
-                  $relances[1][$facture->identifiant] = array();
-              }
-              $relances[1][$facture->identifiant][] = $facture;
-          }
       }
-      foreach($relances as $index => $etablissements) {
-        foreach($etablissements as $id => $factures) {
-            $pdf = new FactureRelanceLatex($index+1, $factures);
-        	$filename = $pdf->generate();
-        }
+      $app = $options['application'];
+      // Organise par relance et etablissement
+      $relances = array();
+      $infos = array();
+      foreach (file($arguments['relancesCsv']) as $ligne) {
+          $datas = explode(';', $ligne);
+          $index = $datas[1].'_'.$datas[3];
+          if (!isset($relances[$index])) {
+              $relances[$index] = array();
+          }
+          if (!isset($infos[$index])) {
+              $infos[$index] = $this->getSocieteInfosObject($datas);
+          }
+          $relances[$index][] = $datas;
+      }
+      foreach($relances as $key => $items) {
+      	$pdf = new FactureRelanceLatex($infos[$key], $items, str_replace('.pdf', "_$key", $options['filename']));
+      	$path = $pdf->generatePDF();
+        echo "SUCCESS PDF generated at $path\n";
       }
 
+    }
+
+    private function getSocieteInfosObject($datas) {
+        return (object) array(
+                'id_relance' => $datas[1],
+                'nb_relance' => $datas[2],
+                'date_relance' => $datas[0],
+                'identifiant' => $datas[3],
+                'code_comptable' => $datas[11],
+                'raison_sociale' => $datas[4],
+                'nom' => $datas[4],
+                'adresse' => $datas[5],
+                'adresse_complementaire' => $datas[6],
+                'code_postal' => $datas[8],
+                'commune' => $datas[7]
+        );
     }
 
 }
