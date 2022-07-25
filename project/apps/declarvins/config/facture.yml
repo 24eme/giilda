@@ -34,3 +34,5 @@ all:
       teledeclaration: false
       seuil_minimum: 100
       code_journal: 'BQ1'
+      delai_relance1: '+45 days'
+      delai_relance2: '+65 days'

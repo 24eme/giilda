@@ -854,4 +854,19 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       }
       $this->versement_sepa = $versement_sepa;
     }
+
+    public function needRelance($delai, $relance) {
+        $relances = count($this->getOrAdd('relances'))+1;
+        return (date('Y-m-d') > date("Y-m-d", strtotime($this->date_facturation.$delai)) && $relance == $relances);
+    }
+
+    public function getNumberToRelance() {
+        $relances = FactureConfiguration::getInstance()->getRelances();
+        foreach($relances as $num => $delai) {
+            if ($this->needRelance($delai, $num)) {
+                return $num;
+            }
+        }
+        return false;
+    }
 }
