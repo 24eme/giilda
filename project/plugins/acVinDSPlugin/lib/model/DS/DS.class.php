@@ -264,6 +264,10 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 						return true;
 					if ($subvalue->dont_vraclibre_millesime_courant != $old->dont_vraclibre_millesime_courant)
 						return true;
+					if ($subvalue->stock_declare_millesime_precedent != $old->stock_declare_millesime_precedent)
+						return true;
+					if ($subvalue->dont_vraclibre_millesime_precedent != $old->dont_vraclibre_millesime_precedent)
+						return true;
 					if ($subvalue->stock_declare_millesime_anterieur != $old->stock_declare_millesime_anterieur)
 						return true;
 					if ($subvalue->dont_vraclibre_millesime_anterieur != $old->dont_vraclibre_millesime_anterieur)
