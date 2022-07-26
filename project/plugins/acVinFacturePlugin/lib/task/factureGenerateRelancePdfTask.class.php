@@ -58,7 +58,7 @@ EOF;
       	$pdf = new FactureRelanceLatex($infos[$key], $items, str_replace('.pdf', "_$key", $options['filename']));
       	$path = $pdf->generatePDF();
         $destdir = $options['directory'].'/'.$pdf->getPublicFileName();
-        copy($path, $destdir) or die("pb rename $file $destdir");
+        copy($path, $destdir) or die("pb rename $path $destdir");
         $hasPdf = true;
       }
       if ($hasPdf) exec('pdftk '.str_replace('.pdf', "*.pdf", $options['directory'].'/'.$options['filename']).' cat output '.$options['directory'].'/'.$options['filename']);
