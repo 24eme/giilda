@@ -8,8 +8,8 @@ php symfony export:facture-relances $SYMFONYTASKOPTIONS --entete=0 --env=prod >>
 PDFDIR=$TMP/pdf/
 mkdir -p $PDFDIR
 
-php symfony facture:generate-relance-pdf $SYMFONYTASKOPTIONS --trace --filename="$(date +%Y%m%d_premiere_relance.pdf)" --directory=$PDFDIR $TMP/$(date +%Y%m%d_relances.csv) 1
-php symfony facture:generate-relance-pdf $SYMFONYTASKOPTIONS --trace --filename="$(date +%Y%m%d_derniere_relance.pdf)" --directory=$PDFDIR $TMP/$(date +%Y%m%d_relances.csv) 2
+php symfony facture:generate-relance-pdf $SYMFONYTASKOPTIONS --filename="$(date +%Y%m%d_premiere_relance.pdf)" --directory=$PDFDIR $TMP/$(date +%Y%m%d_relances.csv) 1
+php symfony facture:generate-relance-pdf $SYMFONYTASKOPTIONS --filename="$(date +%Y%m%d_derniere_relance.pdf)" --directory=$PDFDIR $TMP/$(date +%Y%m%d_relances.csv) 2
 
 cat $TMP/$(date +%Y%m%d_relances.csv) | grep "FACTURE-" | while read ligne; do
     FACTUREID=$(echo -n $ligne | cut -d ';' -f 18)
