@@ -2,9 +2,6 @@
 use_helper('Display');
 use_helper('Date');
 ?>
-\def\InterproAdresse{<?php echo $infos->adresse; ?> \\
-		       <?php echo $infos->code_postal.' '.$infos->commune; ?>}
-\def\InterproContact{}
 
 \def\FactureReglement{ <?php echo FactureConfiguration::getInstance()->getReglement(); ?> }
 \def\TVA{20}
@@ -23,7 +20,9 @@ use_helper('Date');
       &  &  \multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
 \\
 }
-\lhead{
+
+\lhead{\includegraphics[scale=0.7]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_". sfConfig::get('sf_app').".png"; ?>}}
+\rhead{
  \textbf{\NomInterpro} \\
  \InterproAdresse \\
  \begin{small} \textbf{\begin{footnotesize}\InterproContact\end{footnotesize}}\\ \end{small}
@@ -34,13 +33,12 @@ use_helper('Date');
          SIRET~\InterproSIRET ~-~\InterproAPE ~- TVA~Intracommunutaire~\InterproTVAIntracomm
 \end{tiny}
  }
-\rhead{\includegraphics[scale=0.7]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_". sfConfig::get('sf_app').".png"; ?>}}
 \begin{document}
 \noindent{
 \begin{minipage}[t]{0.5\textwidth}
 	\begin{flushleft}
 
-	\textbf{<?php echo ($infos['nb_relance'] > 1)? 'DERNIÈRE' : 'PREMIÈRE'; ?> RELANCE} \\
+	\textbf{<?php echo ($infos->nb_relance > 1)? 'DERNIÈRE' : 'PREMIÈRE'; ?> RELANCE} \\
 	\vspace{0.2cm}
 	\begin{tikzpicture}
 		\node[inner sep=1pt] (tab0){
