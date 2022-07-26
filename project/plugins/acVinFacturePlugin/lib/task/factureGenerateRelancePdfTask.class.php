@@ -70,7 +70,8 @@ EOF;
                 'adresse' => $datas[5],
                 'adresse_complementaire' => $datas[6],
                 'code_postal' => $datas[8],
-                'commune' => $datas[7]
+                'commune' => $datas[7],
+                'date_derniere_relance' => $datas[16]
         );
     }
 
