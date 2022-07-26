@@ -13,7 +13,7 @@ php symfony facture:generate-relance-pdf $SYMFONYTASKOPTIONS --filename="$(date 
 
 cat $TMP/$(date +%Y%m%d_relances.csv) | grep "FACTURE-" | while read ligne; do
     FACTUREID=$(echo -n $ligne | cut -d ';' -f 18)
-    echo php symfony facture:addrelance $SYMFONYTASKOPTIONS $FACTUREID;
+    php symfony facture:addrelance $SYMFONYTASKOPTIONS $FACTUREID;
 done
 
 if [ -e $PDFDIR/$(date +%Y%m%d_premiere_relance.pdf) ]
