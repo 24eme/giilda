@@ -871,7 +871,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getDateDerniereRelance() {
-        $relances = $this->getOrAdd('relances');
+        $relances = $this->getOrAdd('relances')->toArray(true, false);
         return (count($relances) > 0)? array_pop($relances) : null;
+    }
+
+    public function addRelance($date = null) {
+        if (!$date) {
+            $date = date('Y-m-d');
+        }
+        $relances = $this->getOrAdd('relances');
+        $relances->add(null, $date);
     }
 }

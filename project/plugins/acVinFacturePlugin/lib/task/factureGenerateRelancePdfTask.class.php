@@ -6,6 +6,7 @@ class factureGenerateRelancePdfTask extends sfBaseTask
     {
         $this->addArguments(array(
     			    new sfCommandArgument('relancesCsv', null, sfCommandOption::PARAMETER_REQUIRED, 'Csv des relances'),
+                    new sfCommandArgument('numRelance', null, sfCommandOption::PARAMETER_REQUIRED, 'Numero de relance'),
         ));
 
         $this->addOptions(array(
@@ -13,6 +14,7 @@ class factureGenerateRelancePdfTask extends sfBaseTask
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
             new sfCommandOption('filename', null, sfCommandOption::PARAMETER_REQUIRED, 'Nom du fichier'),
+            new sfCommandOption('directory', null, sfCommandOption::PARAMETER_REQUIRED, 'Output directory'),
         ));
 
         $this->namespace        = 'facture';
@@ -35,13 +37,13 @@ EOF;
         throw new sfException("Le choix de l'application est obligatoire");
 
       }
-      $app = $options['application'];
       // Organise par relance et etablissement
       $relances = array();
       $infos = array();
       foreach (file($arguments['relancesCsv']) as $ligne) {
           $datas = explode(';', $ligne);
           if (strpos($datas[17], 'FACTURE-') === false) continue;
+          if ($arguments['numRelance'] != $datas[2]) continue;
           $index = $datas[1].'_'.$datas[3];
           if (!isset($relances[$index])) {
               $relances[$index] = array();
@@ -51,12 +53,15 @@ EOF;
           }
           $relances[$index][] = $datas;
       }
+      $hasPdf = false;
       foreach($relances as $key => $items) {
       	$pdf = new FactureRelanceLatex($infos[$key], $items, str_replace('.pdf', "_$key", $options['filename']));
       	$path = $pdf->generatePDF();
-        echo "SUCCESS PDF generated at $path\n";
+        $destdir = $options['directory'].'/'.$pdf->getPublicFileName();
+        copy($path, $destdir) or die("pb rename $path $destdir");
+        $hasPdf = true;
       }
-
+      if ($hasPdf) exec('pdftk '.str_replace('.pdf', "*.pdf", $options['directory'].'/'.$options['filename']).' cat output '.$options['directory'].'/'.$options['filename']);
     }
 
     private function getSocieteInfosObject($datas) {
