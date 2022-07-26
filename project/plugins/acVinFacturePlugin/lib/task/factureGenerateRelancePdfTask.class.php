@@ -14,6 +14,7 @@ class factureGenerateRelancePdfTask extends sfBaseTask
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
             new sfCommandOption('filename', null, sfCommandOption::PARAMETER_REQUIRED, 'Nom du fichier'),
+            new sfCommandOption('directory', null, sfCommandOption::PARAMETER_REQUIRED, 'Output directory'),
         ));
 
         $this->namespace        = 'facture';
@@ -55,7 +56,9 @@ EOF;
       foreach($relances as $key => $items) {
       	$pdf = new FactureRelanceLatex($infos[$key], $items, str_replace('.pdf', "_$key", $options['filename']));
       	$path = $pdf->generatePDF();
-        echo "SUCCESS PDF generated at $path\n";
+        $destdir = $options['directory'].'/'.$pdf->getPublicFileName();
+        copy($path, $destdir) or die("pb rename $file $destdir");
+        $hasPdf = true;
       }
 
     }
