@@ -53,6 +53,7 @@ EOF;
           }
           $relances[$index][] = $datas;
       }
+      $hasPdf = false;
       foreach($relances as $key => $items) {
       	$pdf = new FactureRelanceLatex($infos[$key], $items, str_replace('.pdf', "_$key", $options['filename']));
       	$path = $pdf->generatePDF();
@@ -60,7 +61,7 @@ EOF;
         copy($path, $destdir) or die("pb rename $file $destdir");
         $hasPdf = true;
       }
-
+      if ($hasPdf) exec('pdftk '.str_replace('.pdf', "*.pdf", $options['directory'].'/'.$options['filename']).' cat output '.$options['directory'].'/'.$options['filename']);
     }
 
     private function getSocieteInfosObject($datas) {
