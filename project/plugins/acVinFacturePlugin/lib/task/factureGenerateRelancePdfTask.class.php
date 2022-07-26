@@ -6,6 +6,7 @@ class factureGenerateRelancePdfTask extends sfBaseTask
     {
         $this->addArguments(array(
     			    new sfCommandArgument('relancesCsv', null, sfCommandOption::PARAMETER_REQUIRED, 'Csv des relances'),
+                    new sfCommandArgument('numRelance', null, sfCommandOption::PARAMETER_REQUIRED, 'Numero de relance'),
         ));
 
         $this->addOptions(array(
@@ -35,13 +36,13 @@ EOF;
         throw new sfException("Le choix de l'application est obligatoire");
 
       }
-      $app = $options['application'];
       // Organise par relance et etablissement
       $relances = array();
       $infos = array();
       foreach (file($arguments['relancesCsv']) as $ligne) {
           $datas = explode(';', $ligne);
           if (strpos($datas[17], 'FACTURE-') === false) continue;
+          if ($arguments['numRelance'] != $datas[2]) continue;
           $index = $datas[1].'_'.$datas[3];
           if (!isset($relances[$index])) {
               $relances[$index] = array();
