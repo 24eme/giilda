@@ -41,6 +41,7 @@ EOF;
       $infos = array();
       foreach (file($arguments['relancesCsv']) as $ligne) {
           $datas = explode(';', $ligne);
+          if (strpos($datas[17], 'FACTURE-') === false) continue;
           $index = $datas[1].'_'.$datas[3];
           if (!isset($relances[$index])) {
               $relances[$index] = array();
