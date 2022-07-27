@@ -7,6 +7,7 @@ class GenerationClient extends acCouchdbClient {
     const TYPE_DOCUMENT_RELANCE = 'RELANCE';
     const TYPE_DOCUMENT_EXPORT_CSV = 'EXPORTCSV';
     const TYPE_DOCUMENT_EXPORT_SHELL = 'EXPORT';
+    const TYPE_DOCUMENT_EXPORT_RELANCES = 'RELANCES';
     const TYPE_DOCUMENT_VRACSSANSPRIX = 'VRACSSANSPRIX';
     const TYPE_DOCUMENT_FACTURES_MAILS = 'FACTUREMAIL';
     const TYPE_DOCUMENT_FACTURES_PAPIER = 'FACTUREPAPIER';
@@ -128,6 +129,10 @@ class GenerationClient extends acCouchdbClient {
             case GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL:
 
                 return 'GenerationExportShell';
+
+            case GenerationClient::TYPE_DOCUMENT_EXPORT_RELANCES:
+
+                return 'GenerationExportRelances';
 
             case GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX:
 
