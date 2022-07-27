@@ -200,15 +200,15 @@ class CompteCsvFile extends CsvFile
 
         $csv = null;
         $csv .= '"'.$compte->identifiant. ($virtuel ? '_VIRTUEL' : null).'";';
-        $csv .= '"'.$compte->nom_a_afficher. '";';
+        $csv .= '"'.str_replace('"', '\"', $compte->nom_a_afficher). '";';
         $csv .= '"'.CompteClient::getInstance()->createTypeFromOrigines($compte->origines).($virtuel ? '_VIRTUEL' : null).'";';
         $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->civilite : null). '";';
-        $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->nom : null). '";';
+        $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? str_replace('"', '\"', $compte->nom) : null). '";';
         $csv .= '"'.$compte->fonction. '";';
         $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->civilite : null). '";';
-        $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->nom : null). '";';
+        $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? str_replace('"', '\"', $compte->nom) : null). '";';
         $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->prenom : null). '";';
-        $csv .= '"'.$compte->adresse. '";';
+        $csv .= '"'.str_replace('"', '\"', $compte->adresse). '";';
         $csv .= '"'.$compte->adresse_complementaire. '";';
         $csv .= '"'.$compte->code_postal. '";';
         $csv .= '"'.$compte->commune. '";';
@@ -218,10 +218,10 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.$compte->telephone_perso. '";';
         $csv .= '"'.$compte->fax. '";';
         $csv .= '"'.$compte->email. '";';
-        $csv .= '"'.$compte->commentaire. '";';
+        $csv .= '"'.str_replace('"', '\"', $compte->commentaire). '";';
         $csv .= '"'.str_replace('SOCIETE-', '', $compte->id_societe). '";';
         $csv .= '"'.$compte->societe_informations->type. '";';
-        $csv .= '"'.$compte->societe_informations->raison_sociale. '";';
+        $csv .= '"'.str_replace('"', '\"', $compte->societe_informations->raison_sociale). '";';
         $csv .= '"'.$compte->societe_informations->adresse. '";';
         $csv .= '"'.$compte->societe_informations->adresse_complementaire. '";';
         $csv .= '"'.$compte->societe_informations->code_postal. '";';
@@ -235,7 +235,7 @@ class CompteCsvFile extends CsvFile
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
             $value = null;
             if(isset($compte->extras->{$key})) {
-                $value = $compte->extras->{$key};
+                $value = str_replace('"', '\"', $compte->extras->{$key});
             }
             $csv .= '"'.str_replace('SOCIETE-', '', $value).'";';
         }
