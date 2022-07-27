@@ -186,26 +186,28 @@ class CompteCsvFile extends CsvFile
     }
 
     public static function getCsvHeader() {
-        $csv = "identifiant;nom complet;type;fonction;intitule;nom;prénom;adresse;adresse complémentaire;code postal;commune;pays;téléphone bureau;téléphone mobile;téléphone perso;fax;email;commentaire;société identifiant;société type;société raison sociale;société adresse;société adresse complémentaire;société code postal;société commune;société téléphone;société fax;société email;code de création;statut;date creation;date cloture;";
+        $csv = "identifiant;nom complet;type;intitule;raison_sociale;fonction;civilite;nom;prénom;adresse;adresse complémentaire;code postal;commune;pays;téléphone bureau;téléphone mobile;téléphone perso;fax;email;commentaire;société identifiant;société type;société raison sociale;société adresse;société adresse complémentaire;société code postal;société commune;société téléphone;société fax;société email;code de création;statut;";
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
             $csv .= $item['nom'].';';
         }
 
-        return $csv."\n";
+        return $csv."droits;tags automatiques;tags manuels;id_couchdb origine\n";
     }
 
-    public static function toCsvLigne($compte) {
+    public static function toCsvLigne($compte, $virtuel = false) {
         $societe_informations = $compte->societe_informations;
 
         $csv = null;
-        $csv .= '"'.$compte->identifiant. '";';
+        $csv .= '"'.$compte->identifiant. ($virtuel ? '_VIRTUEL' : null).'";';
         $csv .= '"'.$compte->nom_a_afficher. '";';
-        $csv .= '"'.CompteClient::getInstance()->createTypeFromOrigines($compte->origines).'";';
+        $csv .= '"'.CompteClient::getInstance()->createTypeFromOrigines($compte->origines).($virtuel ? '_VIRTUEL' : null).'";';
+        $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->civilite : null). '";';
+        $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->nom : null). '";';
         $csv .= '"'.$compte->fonction. '";';
-        $csv .= '"'.$compte->civilite. '";';
-        $csv .= '"'.$compte->nom. '";';
-        $csv .= '"'.$compte->prenom. '";';
+        $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->civilite : null). '";';
+        $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->nom : null). '";';
+        $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->prenom : null). '";';
         $csv .= '"'.$compte->adresse. '";';
         $csv .= '"'.$compte->adresse_complementaire. '";';
         $csv .= '"'.$compte->code_postal. '";';
@@ -227,19 +229,21 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.$compte->societe_informations->telephone. '";';
         $csv .= '"'.$compte->societe_informations->fax. '";';
         $csv .= '"'.$compte->societe_informations->email. '";';
-        $csv .= '"'.((strpos($compte->mot_de_passe, '{TEXT}') !== false) ? str_replace("{TEXT}", "", $compte->mot_de_passe) : null) . '";';
+        $csv .= '"'.((strpos($compte->mot_de_passe, '{TEXT}') !== false) ? str_replace("{TEXT}", "", $compte->mot_de_passe) : "COMPTE_CREE") . '";';
         $csv .= $compte->statut. ';';
-        $csv .= (isset($compte->date_creation) ? $compte->date_creation : '').';';
-        $csv .= ';';
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
             $value = null;
             if(isset($compte->extras->{$key})) {
                 $value = $compte->extras->{$key};
             }
-            $csv .= '"'.$value.'";';
+            $csv .= '"'.str_replace('SOCIETE-', '', $value).'";';
         }
 
+        $csv .= (isset($compte->droits) ? implode("|", $compte->droits) : null).';';
+        $csv .= (isset($compte->tags->automatique) ? implode("|", $compte->tags->automatique) : null).';';
+        $csv .= (isset($compte->tags->manuel) ? implode("|", $compte->tags->manuel) : null).';';
+        $csv .= (isset($compte->origines[0]) ? $compte->origines[0] : $compte->_id).';';
         $csv .= "\n";
 
         return $csv;

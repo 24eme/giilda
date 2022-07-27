@@ -61,6 +61,11 @@ EOF;
             if(!isset($compte->societe_informations)) {
                 continue;
             }
+            if($compte->compte_type == "ETABLISSEMENT" && $compte->identifiant == str_replace("SOCIETE-", "", $compte->id_societe)) {
+                $compteSociete = clone $compte;
+                $compteSociete->origines = array($compteSociete->id_societe);
+                echo CompteCsvFile::toCsvLigne($compteSociete, true);
+            }
             echo CompteCsvFile::toCsvLigne($compte);
         }
 
