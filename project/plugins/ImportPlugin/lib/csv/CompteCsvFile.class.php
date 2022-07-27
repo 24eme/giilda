@@ -209,7 +209,7 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? str_replace('"', '', $compte->nom) : null). '";';
         $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->prenom : null). '";';
         $csv .= '"'.str_replace('"', '', $compte->adresse). '";';
-        $csv .= '"'.$compte->adresse_complementaire. '";';
+        $csv .= '"'.str_replace('"', '', $compte->adresse_complementaire). '";';
         $csv .= '"'.$compte->code_postal. '";';
         $csv .= '"'.$compte->commune. '";';
         $csv .= '"'.$compte->pays. '";';
@@ -222,8 +222,8 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.str_replace('SOCIETE-', '', $compte->id_societe). '";';
         $csv .= '"'.$compte->societe_informations->type. '";';
         $csv .= '"'.str_replace('"', '', $compte->societe_informations->raison_sociale). '";';
-        $csv .= '"'.$compte->societe_informations->adresse. '";';
-        $csv .= '"'.$compte->societe_informations->adresse_complementaire. '";';
+        $csv .= '"'.str_replace('"', '', $compte->societe_informations->adresse). '";';
+        $csv .= '"'.str_replace('"', '', $compte->societe_informations->adresse_complementaire). '";';
         $csv .= '"'.$compte->societe_informations->code_postal. '";';
         $csv .= '"'.$compte->societe_informations->commune. '";';
         $csv .= '"'.$compte->societe_informations->telephone. '";';
