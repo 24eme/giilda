@@ -16,6 +16,7 @@ cat $TMP/$(date +%Y%m%d_relances.csv) | grep "FACTURE-" | while read ligne; do
     php symfony facture:addrelance $SYMFONYTASKOPTIONS $FACTUREID;
 done
 
+echo "$TMP/$(date +%Y%m%d_relances.csv)|$(date +%Y%m%d_relances.csv)|Export CSV des relances"
 if [ -e $PDFDIR/$(date +%Y%m%d_premiere_relance.pdf) ]
 then
     echo "$PDFDIR/$(date +%Y%m%d_premiere_relance.pdf)|$(date +%Y%m%d_premiere_relance.pdf)|Courriers de première relance"
