@@ -4,7 +4,7 @@ class FactureGenerationForm extends BaseForm {
 
     const TYPE_DOCUMENT_TOUS = "TOUS";
     const TYPE_GENERATION_EXPORT = "EXPORT";
-    const TYPE_GENERATION_RELANCES = "RELANCE";
+    const TYPE_GENERATION_RELANCES = "EXPORTRELANCE";
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults['date_facturation'] = date('d/m/Y');
