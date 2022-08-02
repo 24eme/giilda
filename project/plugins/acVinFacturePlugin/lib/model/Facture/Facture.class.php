@@ -304,9 +304,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 if($configuration->existProduit($ligneByType->produit_hash)){
                   $produit_configuration = $configuration->getProduit($ligneByType->produit_hash);
                 }else{
-                  $hashTransformed = preg_replace('/(.*)\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)/',"$1",$ligneByType->produit_hash);
+                  $hashTransformed = preg_replace('/(.*)\/([a-zA-Z0-9]+)\/([a-zA-Z0-9-]+)/',"$1",$ligneByType->produit_hash);
 
                   $produit_configuration = $configuration->getProduit($hashTransformed);
+                }
+
+                if(!$produit_configuration) {
+                    throw new Exception("Pas de produit trouvé ".$ligneByType->produit_hash);
                 }
                 $codeProduit = $produit_configuration->getCodeComptable();
 
