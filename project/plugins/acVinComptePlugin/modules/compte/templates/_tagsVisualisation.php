@@ -30,7 +30,7 @@
             <i class="glyphicon glyphicon-plus"></i>
         </a>
     </div>
-    <?php $extras = $compte->getExtrasEditables() ; if (count($extras)): ?>
+    <?php $extras = $compte->getExtrasEditables() ; if ((!isset($hideExtras) || !$hideExtras) && count($extras)): ?>
         <div class="col-xs-12">
           <hr/>
           <p><strong>Champs extras :</strong></p>
