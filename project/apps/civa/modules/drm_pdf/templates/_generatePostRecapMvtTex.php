@@ -34,6 +34,7 @@ if($nb_produits): ?>
     $nb_produits_displayed = 0;
     $size_col = 25;
     $size_col_sp = 40;
+    $tabTotal = ["Total" => array()];
     for ($index_page = 0; $index_page < $nb_pages; $index_page++): ?>
         <?php
         $index_first_produit = $index_page * $nb_produits_per_page;
@@ -87,10 +88,10 @@ foreach ($list_pays as $counter => $pays): ?>
 \begin{large}
 \textbf{<?php echo $libelleCertif; ?> }
 \end{large} &
-<?php $i = 1; $nbcol = 0; $tabTotal = ["Total" => array()];?>
+<?php $i = 1; $nbcol = 0;?>
 <?php foreach ($produits_labelles as $libelle): ?>
     \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($libelle); ?>}}}}&
-    <?php $i++; $tabTotal["Total"][$i] = 0;?>
+    <?php $i++; if (!isset($tabTotal["Total"][$i])){$tabTotal["Total"][$i] = 0;}?>
 <?php $nbcol = $i; endforeach; ?>
 \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{TOTAL}}}}
 \\
