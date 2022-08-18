@@ -95,16 +95,20 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 			return DSClient::getDocumentRepriseProduits($this->identifiant, $this->date_stock);
 	}
 
+    public function save()
+    {
+        $master = $this->getSuivante();
+
+        $this->referente = ($master && $master->_id === $this->_id) ? 1 : 0;
+
+        parent::save();
+    }
+
 	public function devalidate()
 	{
 		$this->valide->date_saisie = null;
 		$this->valide->date_signee = null;
 		$this->valide->identifiant = null;
-		$this->referente = 0;
-		if ($mother = $this->getMother()) {
-			$mother->referente = 1;
-			$mother->save();
-		}
 	}
 
 	public function validate()
@@ -112,11 +116,6 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 		$this->valide->date_saisie = date('Y-m-d');
 		$this->valide->date_signee = $this->valide->date_saisie;
 		$this->valide->identifiant = $this->identifiant;
-		$this->referente = 1;
-		if ($mother = $this->getMother()) {
-			$mother->referente = 0;
-			$mother->save();
-		}
 	}
 
 	public function isValidee()
