@@ -447,4 +447,12 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
     }
 
+    public function haveLiaison($etablissement){
+        foreach ($this->liaisons_operateurs as $key => $value) {
+            if($value->id_etablissement == $etablissement->_id ){
+                return true;
+            }
+        }
+        return false;
+    }
 }
