@@ -8,15 +8,7 @@ if (!($conf->declaration->exist('details/sorties/creationvrac')) || ($conf->decl
     exit(0);
 }
 
-<<<<<<< Updated upstream
-$t = new lime_test(32);
-=======
-<<<<<<< Updated upstream
-$t = new lime_test(31);
-=======
-$t = new lime_test(69);
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+$t = new lime_test(67);
 
 $nego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
 $nego_horsregion = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_horsregion')->getEtablissement();
@@ -105,19 +97,11 @@ $drm_mod->update();
 $drm_mod->save();
 $drm_mod->validate();
 $drm_mod->save();
-<<<<<<< Updated upstream
-$t->is($drm_mod->getMaster()->_id, $drm_mod->_id, "La modificatrice est bien le document maitre");
-$t->is($creationvrac2->acheteur, $creationvrac2->getVrac()->acheteur_identifiant, $drm_mod->_id." : L'acheteur stocké est le même que l'acheteur du contrat");
-=======
-<<<<<<< Updated upstream
-=======
 $t->is($drm_mod->getMaster()->_id, $drm_mod->_id, "La modificatrice est bien le document maitre");
 
 
 
 $t->is($creationvrac2->acheteur, $creationvrac2->getVrac()->acheteur_identifiant, $drm_mod->_id." : L'acheteur stocké est le même que l'acheteur du contrat");
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 $drm_mod->updateVracs();
 $drm_mod->save();
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)->rows), 1, $drm_mod->_id." : le changement d'acheteur du mouvement de vrac ne change rien pour le viti");

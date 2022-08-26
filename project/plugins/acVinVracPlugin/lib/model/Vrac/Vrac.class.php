@@ -671,6 +671,8 @@ class Vrac extends BaseVrac {
         $this->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
       }
       $this->update();
+      $this->setInterneTrueIfLiaison();
+
       return parent::save();
     }
 
@@ -1047,7 +1049,7 @@ class Vrac extends BaseVrac {
         return ($this->responsable == Vrac::VRAC_RESPONSABLE_REPRESENTANT);
     }
 
-    public function setInterne(){
+    public function setInterneTrueIfLiaison(){
         $etabAcheteur = EtablissementClient::getInstance()->findByIdentifiant($this->getAcheteurObject()->getIdentifiant());
         $etabVendeur = EtablissementClient::getInstance()->findByIdentifiant($this->getVendeurObject()->getIdentifiant());
         if($etabAcheteur->haveLiaison($etabVendeur) && $etabVendeur->haveLiaison($etabAcheteur)){
