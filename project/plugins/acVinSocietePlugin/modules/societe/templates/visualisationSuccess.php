@@ -87,6 +87,16 @@
                                 <label class="label label-default"><?php echo isset(Roles::$teledeclarationLibelles[$droit]) ? Roles::$teledeclarationLibelles[$droit] : $droit; ?></label>
                             <?php endforeach; ?>
                 <?php endif; ?></p>
+                    <p><?php if(isset($etablissement) && $etablissement->liaisons_operateurs): ?>
+                           <strong>Etablissements liés :</strong> <!--(entités parentes)-->
+                          <?php
+                          foreach($etablissement->getEtablissementsLies() as $id_etablissement=> $nom_etablissement){ ?>
+                            <a href=<?php echo url_for('etablissement_visualisation', array('identifiant' => $id_etablissement)); ?>><?php echo($nom_etablissement);?></a>
+                        <?php
+                          }
+                      endif;
+                        ?>
+                    </p>
                 </div>
 <?php endif; ?>
             <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">

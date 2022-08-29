@@ -455,4 +455,12 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
         return false;
     }
+
+    public function getEtablissementsLies(){
+        $result=array();
+        foreach($this->liaisons_operateurs as $id => $tab){
+            $result[$tab['id_etablissement']]=$tab['libelle_etablissement'];
+        }
+        return $result;
+    }
 }
