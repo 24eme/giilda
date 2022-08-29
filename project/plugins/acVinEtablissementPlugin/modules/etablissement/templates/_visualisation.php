@@ -57,14 +57,18 @@
             </div>
         </div>
     <?php endif; ?>
-
-    <?php if($etablissement->liaisons_operateurs): ?>
+    <?php $nb_etablissements_liés = count($etablissement->liaisons_operateurs);?>
+    <?php if($etablissement->liaisons_operateurs && $nb_etablissements_liés > 0): ?>
       <div class="list-group-item text-center">
         <div class="row">
           <div class="col-xs-12  text-left">
               <div class="row">
                   <div class="col-xs-3">
-                      <strong>Etablissements liés :</strong> <!--(entités parentes)-->
+                      <?php if ($nb_etablissements_liés == 1): ?>
+                        <strong>Etablissement lié :</strong>
+                      <?php else: ?>
+                        <strong>Etablissements liés :</strong>
+                      <?php endif ?>
                   </div>
                   <div class="col-xs-9">
                     <?php
