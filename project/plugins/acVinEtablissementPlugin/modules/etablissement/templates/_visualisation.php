@@ -58,6 +58,27 @@
         </div>
     <?php endif; ?>
 
+    <?php if($etablissement->liaisons_operateurs): ?>
+      <div class="list-group-item text-center">
+        <div class="row">
+          <div class="col-xs-12  text-left">
+              <div class="row">
+                  <div class="col-xs-3">
+                      <strong>Etablissements liés :</strong> <!--(entités parentes)-->
+                  </div>
+                  <div class="col-xs-9">
+                    <?php
+                    foreach($etablissement->getEtablissementsLies() as $id_etablissement=> $nom_etablissement){ ?>
+                      <a href=<?php echo url_for('etablissement_visualisation', array('identifiant' => $id_etablissement)); ?>><?php echo($nom_etablissement);?></a>
+                  <?php
+                }?>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    <?php endif; ?>
+
     <?php if($etablissement->exist('mois_stock_debut')): ?>
       <div class="list-group-item text-center">
         <div class="row">
