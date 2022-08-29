@@ -36,28 +36,14 @@ class createLiaisonEtablissementTask extends sfBaseTask
     $idEtablissement2 = $arguments['idEtablissement2'];
 
     $etab1 = EtablissementClient::getInstance()->find($idEtablissement1);
-
     $etab2 = EtablissementClient::getInstance()->find($idEtablissement2);
-
 
     $etab1->addLiaison('ADHERENT', $etab2, true);
     $etab2->addLiaison('ADHERENT', $etab1, true);
 
+    $etab1->save();
+    $etab2->save();
 
-    try {
-        $etab1->save();
-    } catch (Exception $exc) {
-        echo $exc->getTraceAsString();
-    }
-    // print_r();
-
-    // print_r($etab2);Etablissement.class.php
-
-    // var_dump($etab1->getSociete());
-    // exit;
-    // $etab1->save(false,false,false);
-    //
-    // $etab2->save(false,false,false);
 
   }
 }
