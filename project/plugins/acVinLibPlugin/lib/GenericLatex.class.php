@@ -17,12 +17,20 @@ class GenericLatex {
     return $fn;
   }
 
+  private static function createIfNeeded($s) {
+    if ( !file_exists($s) ) {
+        mkdir($s, intval('0777',8));
+        chmod($s, intval('0777',8));
+    }
+    return $s;
+  }
+
   public function getLatexDestinationDir() {
-    return sfConfig::get('sf_root_dir')."/data/latex/";
+    return self::createIfNeeded(sfConfig::get('sf_app_cache_dir')."/latex/");
   }
 
   protected function getTEXWorkingDir() {
-    return "/tmp/";
+    return self::createIfNeeded(sfConfig::get('sf_app_cache_dir')."/latex_tmp/");
   }
 
   public function generatePDF() {
