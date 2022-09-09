@@ -230,7 +230,13 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.$compte->societe_informations->telephone. '";';
         $csv .= '"'.$compte->societe_informations->fax. '";';
         $csv .= '"'.$compte->societe_informations->email. '";';
-        $csv .= '"'.((strpos($compte->mot_de_passe, '{TEXT}') !== false) ? str_replace("{TEXT}", "", $compte->mot_de_passe) : "COMPTE_CREE") . '";';
+        $statutCreationCompte = str_replace("{TEXT}", "", $compte->mot_de_passe);
+        if($compte->mot_de_passe && strpos($compte->mot_de_passe, '{TEXT}') === false) {
+            $statutCreationCompte = "COMPTE_CREE";
+        } else {
+            $statutCreationCompte = "CODE_NON_GENERE";
+        }
+        $csv .= '"'.$statutCreationCompte.'";';
         $csv .= $compte->statut. ';';
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
