@@ -3,7 +3,7 @@
     <?php if ($compte->email) : ?>
         <div class="row">
             <div class="col-xs-3">
-                <strong>Email <?php if ($compte->isSocieteContact()) { echo " compta"; } ?> :</strong>
+                <strong>Email<?php if ($compte->isSocieteContact()) { echo "&nbsp;compta"; } ?>&nbsp;:</strong>
             </div>
             <div class="col-xs-9">
                 <a href="mailto:<?php echo $compte->email; ?>"><?php echo $compte->email; ?></a>
@@ -13,7 +13,7 @@
     <?php if ($compte->telephone_perso) : ?>
         <div class="row">
             <div class="col-xs-3">
-                <strong>Tél. perso : </strong>
+                <strong>Tél.&nbsp;perso&nbsp;:</strong>
             </div>
             <div class="col-xs-9">
                 <a href="callto:<?php echo $compte->telephone_perso; ?>"><?php echo $compte->telephone_perso; ?></a>
@@ -23,7 +23,7 @@
     <?php if ($compte->telephone_bureau) : ?>
         <div class="row">
             <div class="col-xs-3">
-                <strong>Tél. bureau : </strong>
+                <strong>Tél.&nbsp;bureau&nbsp;:</strong>
             </div>
             <div class="col-xs-9"><a href="callto:<?php echo $compte->telephone_bureau; ?>"><?php echo $compte->telephone_bureau; ?></a>
             </div>
@@ -32,7 +32,7 @@
     <?php if ($compte->telephone_mobile) : ?>
         <div class="row">
             <div class="col-xs-3">
-                <strong>Tél. mobile : </strong>
+                <strong>Tél.&nbsp;mobile&nbsp;:</strong>
             </div>
             <div class="col-xs-9">
                 <a href="callto:<?php echo $compte->telephone_mobile; ?>"><?php echo $compte->telephone_mobile; ?></a>
@@ -42,7 +42,7 @@
     <?php if ($compte->fax) : ?>
         <div class="row">
             <div class="col-xs-3">
-                <strong>Fax : </strong>
+                <strong>Fax&nbsp;:</strong>
             </div>
             <div class="col-xs-9">
                 <a href="callto:<?php echo $compte->fax; ?>"><?php echo $compte->fax; ?></a>
@@ -52,7 +52,7 @@
     <?php if ($compte->exist('site_internet') && $compte->site_internet) : ?>
         <div class="row">
             <div class="col-xs-3">
-                <strong>Site Internet : </strong>
+                <strong>Site&nbsp;Internet&nbsp;:</strong>
             </div>
             <div class="col-xs-9">
                 <a href="<?php echo $compte->site_internet; ?>"><?php echo $compte->site_internet; ?></a>

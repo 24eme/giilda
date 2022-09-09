@@ -27,7 +27,7 @@
           }
     ?>
 		<tr>
-			<td><strong><?php echo $libelle ?></strong></td>
+      <td><strong><?php echo $libelle ?><?php if (! $stocks->denomination_complementaire && $detail === "BIOL") echo " (".$detail.")"; ?></strong></td>
 			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'stock_declare_millesime_courant') ?>"><?php if($stocks->stock_declare_millesime_courant !== null): ?><?php echoFloat($stocks->stock_declare_millesime_courant) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
 			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'dont_vraclibre_millesime_courant') ?>"><?php if($stocks->dont_vraclibre_millesime_courant !== null): ?><?php echoFloat($stocks->dont_vraclibre_millesime_courant) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
 			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'stock_declare_millesime_precedent') ?>"><?php if($stocks->stock_declare_millesime_precedent !== null): ?><?php echoFloat($stocks->stock_declare_millesime_precedent) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
