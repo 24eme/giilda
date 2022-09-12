@@ -36,4 +36,8 @@ class SocieteConfiguration {
         return $this->configuration['identifiant_saisi'];
     }
 
+    public function isElasticDisabled() {
+        return isset($this->configuration['elastic_disabled']) && ($this->configuration['elastic_disabled']);
+    }
+
 }
