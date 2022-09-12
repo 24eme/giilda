@@ -32,6 +32,9 @@ class SocieteAllView extends acCouchdbView
     }
 
     private function findByInterproAndStatutELASTIC($interpro, $statut, $typesocietes, $q, $limit) {
+        if (SocieteConfiguration::getInstance()->isElasticDisabled()) {
+            throw new Exception('Elastic is disabled');
+        }
       $query = array();
       foreach (explode(' ', $q) as $s) {
 	$query[] = "*$q*";
