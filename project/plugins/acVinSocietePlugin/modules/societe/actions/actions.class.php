@@ -70,11 +70,17 @@ class societeActions extends sfCredentialActions {
             if ($this->form->isValid()) {
                 $values = $this->form->getValues();
                 $rs = str_replace('.', '-dot-', $values['raison_sociale']);
-                $identifiant = null;
+
+                $args = [
+                    'type' => $values['type'],
+                    'raison_sociale' => $rs
+                ];
+
                 if (isset($values['identifiant'])) {
-                    $identifiant = $values['identifiant'];
+                    $args['identifiant'] = $values['identifiant'];
                 }
-                $this->redirect('societe_creation_doublon', array('type' => $values['type'], 'raison_sociale' => $rs, 'identifiant' => $identifiant));
+
+                $this->redirect('societe_creation_doublon', $args);
             }
         }
     }
