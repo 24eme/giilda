@@ -76,7 +76,7 @@
         </div>
     <?php endif; ?>
     <div class="list-group-item list-group-item-xs<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
-        <?php include_partial('compte/tagsVisualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>
+        <?php include_partial('compte/tagsVisualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true, 'hideExtras' => (isset($hideExtras)))); ?>
     </div>
 
 </div>

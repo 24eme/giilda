@@ -26,6 +26,12 @@ Facture:
       versement_comptable: {type: integer}
       versement_comptable_paiement: {type: integer}
       versement_sepa: {type: integer}
+      relances:
+        required: false
+        type: array_collection
+        definition:
+          fields:
+            '*': { }
       arguments:
         type: collection
         definition:

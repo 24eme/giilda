@@ -22,7 +22,7 @@ class ExportFactureRelanceCSV {
     }
 
     public static function getHeaderCsv() {
-        return "Date de relance;Numéro relance;Nieme Relance;Identifiant;Raison Sociale;Adresse;Commune;Code postal;SIRET;Numero d'adhérent;Code comptable;Numéro facture;Date de facture;Montant TTC;Montant Du;Facture doc ID\n";
+        return "Date de relance;Numéro relance;Nieme Relance;Identifiant;Raison Sociale;Adresse;Adresse complementaire;Commune;Code postal;SIRET;Numero d'adhérent;Code comptable;Numéro facture;Date de facture;Montant TTC;Montant Du;Date derniere relance;Facture doc ID\n";
     }
 
     public function export() {
@@ -34,8 +34,10 @@ class ExportFactureRelanceCSV {
         }
 
         $societe = $this->facture->getSociete();
+        $idRelance = date('Ymd').$this->facture->code_comptable_client;
+        $numberRelance = $this->facture->getNumberToRelance();
 
-        $csv .= date('Y-m-d').";;;".$this->facture->identifiant.";".$societe->raison_sociale.";".$this->protectString($societe->siege->adresse).";".$this->protectString($societe->siege->adresse_complementaire).";".$this->protectString($societe->siege->commune).";".$societe->siege->commune.";".$societe->siege->code_postal.";".$societe->siret.";".$this->facture->numero_adherent.";".$this->facture->code_comptable_client.";".$this->facture->numero_facture.";".$this->facture->date_facturation.";".$this->facture->total_ttc.";".$this->facture->getRestantDu().";".$this->facture->_id."\n";
+        $csv .= date('Y-m-d').";".$idRelance.";".$numberRelance.";".$this->facture->identifiant.";".$societe->raison_sociale.";".$this->protectString($societe->siege->adresse).";".$this->protectString($societe->siege->adresse_complementaire).";".$this->protectString($societe->siege->commune).";".$societe->siege->code_postal.";".$societe->siret.";".$this->facture->numero_adherent.";".$this->facture->code_comptable_client.";".$this->facture->numero_facture.";".$this->facture->date_facturation.";".$this->facture->total_ttc.";".$this->facture->getRestantDu().";".$this->facture->getDateDerniereRelance().";".$this->facture->_id."\n";
 
         return $csv;
     }

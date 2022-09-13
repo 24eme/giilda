@@ -1,6 +1,6 @@
 <?php
 
-class exportFacturePaiementsTask extends sfBaseTask
+class exportFactureRelancesTask extends sfBaseTask
 {
     protected function configure()
     {
@@ -14,13 +14,13 @@ class exportFacturePaiementsTask extends sfBaseTask
         ));
 
         $this->namespace        = 'export';
-        $this->name             = 'facture-paiements';
+        $this->name             = 'facture-relances';
         $this->briefDescription = '';
         $this->detailedDescription = <<<EOF
 The [testFacture|INFO] task does things.
 Call it with:
 
-    [php symfony export:facture-paiements|INFO]
+    [php symfony export:facture-relances|INFO]
 EOF;
     }
 
@@ -35,26 +35,27 @@ EOF;
 
         }
         $app = $options['application'];
+        $factureConf = FactureConfiguration::getInstance();
         if($options["entete"]) {
-            echo ExportFacturePaiementsCSV::getHeaderCsv();
+            echo ExportFactureRelanceCSV::getHeaderCsv();
         }
         if ($options['factureid']) {
             $facture = FactureClient::getInstance()->find($options['factureid']);
-            if (!$facture) {
+            if (!$facture||($facture->getNumberToRelance() === false)) {
                 return;
             }
-            $export = new ExportFacturePaiementsCSV($facture, false, false);
-            echo $export->exportFacturePaiements();
+            $export = new ExportFactureRelanceCSV($facture, false);
+            echo $export->export();
             return ;
 	    }
-        $all_factures = FactureEtablissementView::getInstance()->getPaiementNonVerseeEnCompta();
+        $all_factures = FactureEtablissementView::getInstance()->getFactureNonPaye();
         foreach($all_factures as $vfacture) {
           $facture = FactureClient::getInstance()->find($vfacture->id);
-          if(!$facture) {
-              throw new sfException(sprintf("Document %s introuvable", $vfacture->id));
+          if(!$facture||($facture->getNumberToRelance() === false)) {
+              continue;
           }
-          $export = new ExportFacturePaiementsCSV($facture, false, true);
-          echo $export->exportFacturePaiements();
+          $export = new ExportFactureRelanceCSV($facture, false);
+          echo $export->export();
         }
     }
 }

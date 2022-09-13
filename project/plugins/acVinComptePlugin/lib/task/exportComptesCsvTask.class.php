@@ -34,7 +34,7 @@ class exportComptesCsvTask extends sfBaseTask
 
         $this->addOptions(array(
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'civa'),
-            new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
+            new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
         ));
 
@@ -60,6 +60,11 @@ EOF;
             $compte = CompteClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
             if(!isset($compte->societe_informations)) {
                 continue;
+            }
+            if($compte->compte_type == "ETABLISSEMENT" && $compte->identifiant == str_replace("SOCIETE-", "", $compte->id_societe)) {
+                $compteSociete = clone $compte;
+                $compteSociete->origines = array($compteSociete->id_societe);
+                echo CompteCsvFile::toCsvLigne($compteSociete, true);
             }
             echo CompteCsvFile::toCsvLigne($compte);
         }

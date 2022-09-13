@@ -70,11 +70,17 @@ class societeActions extends sfCredentialActions {
             if ($this->form->isValid()) {
                 $values = $this->form->getValues();
                 $rs = str_replace('.', '-dot-', $values['raison_sociale']);
-                $identifiant = null;
+
+                $args = [
+                    'type' => $values['type'],
+                    'raison_sociale' => $rs
+                ];
+
                 if (isset($values['identifiant'])) {
-                    $identifiant = $values['identifiant'];
+                    $args['identifiant'] = $values['identifiant'];
                 }
-                $this->redirect('societe_creation_doublon', array('type' => $values['type'], 'raison_sociale' => $rs, 'identifiant' => $identifiant));
+
+                $this->redirect('societe_creation_doublon', $args);
             }
         }
     }
@@ -89,8 +95,16 @@ class societeActions extends sfCredentialActions {
         $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type, $this->raison_sociale, $this->identifiant);
 
         if (!count($this->societesDoublons)) {
-            exit;
-            $this->redirect('societe_nouvelle', array('type' => $this->type, 'raison_sociale' => $request->getParameter('raison_sociale', false), 'identifiant' => $this->identifiant));
+            $args = [
+                'type' => $this->type,
+                'raison_sociale' => $request->getParameter('raison_sociale', false)
+            ];
+
+            if ($this->identifiant) {
+                $args['identifiant'] = $this->identifiant;
+            }
+
+            $this->redirect('societe_nouvelle', $args);
         }
     }
 

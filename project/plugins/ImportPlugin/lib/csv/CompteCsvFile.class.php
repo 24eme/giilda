@@ -186,28 +186,31 @@ class CompteCsvFile extends CsvFile
     }
 
     public static function getCsvHeader() {
-        $csv = "identifiant;nom complet;type;fonction;intitule;nom;prénom;adresse;adresse complémentaire;code postal;commune;pays;téléphone bureau;téléphone mobile;téléphone perso;fax;email;commentaire;société identifiant;société type;société raison sociale;société adresse;société adresse complémentaire;société code postal;société commune;société téléphone;société fax;société email;code de création;statut;date creation;date cloture;";
+        $csv = "identifiant;login;nom complet;type;intitule;raison_sociale;fonction;civilite;nom;prénom;adresse;adresse complémentaire;code postal;commune;pays;téléphone bureau;téléphone mobile;téléphone perso;fax;email;commentaire;société identifiant;société type;société raison sociale;société adresse;société adresse complémentaire;société code postal;société commune;société téléphone;société fax;société email;code de création;statut;";
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
             $csv .= $item['nom'].';';
         }
 
-        return $csv."\n";
+        return $csv."droits;tags automatiques;tags manuels;url;id_couchdb origine\n";
     }
 
-    public static function toCsvLigne($compte) {
+    public static function toCsvLigne($compte, $virtuel = false) {
         $societe_informations = $compte->societe_informations;
 
         $csv = null;
+        $csv .= '"'.$compte->identifiant. ($virtuel ? '_VIRTUEL' : null).'";';
         $csv .= '"'.$compte->identifiant. '";';
-        $csv .= '"'.$compte->nom_a_afficher. '";';
-        $csv .= '"'.CompteClient::getInstance()->createTypeFromOrigines($compte->origines).'";';
+        $csv .= '"'.str_replace('"', '', $compte->nom_a_afficher). '";';
+        $csv .= '"'.CompteClient::getInstance()->createTypeFromOrigines($compte->origines).($virtuel ? '_VIRTUEL' : null).'";';
+        $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->civilite : null). '";';
+        $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? str_replace('"', '', $compte->nom) : null). '";';
         $csv .= '"'.$compte->fonction. '";';
-        $csv .= '"'.$compte->civilite. '";';
-        $csv .= '"'.$compte->nom. '";';
-        $csv .= '"'.$compte->prenom. '";';
-        $csv .= '"'.$compte->adresse. '";';
-        $csv .= '"'.$compte->adresse_complementaire. '";';
+        $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->civilite : null). '";';
+        $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? str_replace('"', '', $compte->nom) : null). '";';
+        $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->prenom : null). '";';
+        $csv .= '"'.str_replace('"', '', $compte->adresse). '";';
+        $csv .= '"'.str_replace('"', '', $compte->adresse_complementaire). '";';
         $csv .= '"'.$compte->code_postal. '";';
         $csv .= '"'.$compte->commune. '";';
         $csv .= '"'.$compte->pays. '";';
@@ -216,30 +219,39 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.$compte->telephone_perso. '";';
         $csv .= '"'.$compte->fax. '";';
         $csv .= '"'.$compte->email. '";';
-        $csv .= '"'.$compte->commentaire. '";';
+        $csv .= '"'.str_replace('"', '', $compte->commentaire). '";';
         $csv .= '"'.str_replace('SOCIETE-', '', $compte->id_societe). '";';
         $csv .= '"'.$compte->societe_informations->type. '";';
-        $csv .= '"'.$compte->societe_informations->raison_sociale. '";';
-        $csv .= '"'.$compte->societe_informations->adresse. '";';
-        $csv .= '"'.$compte->societe_informations->adresse_complementaire. '";';
+        $csv .= '"'.str_replace('"', '', $compte->societe_informations->raison_sociale). '";';
+        $csv .= '"'.str_replace('"', '', $compte->societe_informations->adresse). '";';
+        $csv .= '"'.str_replace('"', '', $compte->societe_informations->adresse_complementaire). '";';
         $csv .= '"'.$compte->societe_informations->code_postal. '";';
         $csv .= '"'.$compte->societe_informations->commune. '";';
         $csv .= '"'.$compte->societe_informations->telephone. '";';
         $csv .= '"'.$compte->societe_informations->fax. '";';
         $csv .= '"'.$compte->societe_informations->email. '";';
-        $csv .= '"'.((strpos($compte->mot_de_passe, '{TEXT}') !== false) ? str_replace("{TEXT}", "", $compte->mot_de_passe) : null) . '";';
+        $statutCreationCompte = str_replace("{TEXT}", "", $compte->mot_de_passe);
+        if($compte->mot_de_passe && strpos($compte->mot_de_passe, '{TEXT}') === false) {
+            $statutCreationCompte = "COMPTE_CREE";
+        } else {
+            $statutCreationCompte = "CODE_NON_GENERE";
+        }
+        $csv .= '"'.$statutCreationCompte.'";';
         $csv .= $compte->statut. ';';
-        $csv .= (isset($compte->date_creation) ? $compte->date_creation : '').';';
-        $csv .= ';';
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
             $value = null;
             if(isset($compte->extras->{$key})) {
-                $value = $compte->extras->{$key};
+                $value = str_replace('"', '', $compte->extras->{$key});
             }
-            $csv .= '"'.$value.'";';
+            $csv .= '"'.str_replace('SOCIETE-', '', $value).'";';
         }
 
+        $csv .= (isset($compte->droits) ? implode("|", $compte->droits) : null).';';
+        $csv .= (isset($compte->tags->automatique) ? implode("|", $compte->tags->automatique) : null).';';
+        $csv .= (isset($compte->tags->manuel) ? implode("|", $compte->tags->manuel) : null).';';
+        $csv .= ProjectConfiguration::getAppRouting()->generate('societe_visualisation', array('identifiant' => str_replace('SOCIETE-', '', $compte->id_societe)), true).';';
+        $csv .= (isset($compte->origines[0]) ? $compte->origines[0] : $compte->_id).';';
         $csv .= "\n";
 
         return $csv;
