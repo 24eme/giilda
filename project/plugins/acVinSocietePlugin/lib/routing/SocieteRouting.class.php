@@ -45,8 +45,9 @@ class SocieteRouting {
             ))
         );
 
-        $r->prependRoute('societe_nouvelle', new sfRoute('/societe-nouvelle/:type/:raison_sociale/:identifiant', array('module' => 'societe',
-            'action' => 'societeNew',  'identifiant' => self::CREATION_IDENTIFIANT_DEFAULT)));
+        $r->prependRoute('societe_nouvelle', new sfRoute('/societe-nouvelle/:type/:identifiant', array(
+            'module' => 'societe', 'action' => 'societeNew', 'identifiant' => self::CREATION_IDENTIFIANT_DEFAULT
+        )));
 
 
         $r->prependRoute('societe_modification', new SocieteRoute('/societe/:identifiant/modification', array('module' => 'societe',
