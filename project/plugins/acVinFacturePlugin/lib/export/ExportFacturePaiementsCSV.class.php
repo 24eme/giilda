@@ -5,8 +5,6 @@ class ExportFacturePaiementsCSV {
     protected $facture = null;
     protected $header = false;
 
-    protected $floatHelper = null;
-
     public function __construct($doc_or_id, $header = true, $que_les_non_verses_comptablement = false) {
         if ($doc_or_id instanceof Facture) {
             $this->facture = $doc_or_id;
@@ -65,10 +63,10 @@ class ExportFacturePaiementsCSV {
               $numRemise = $paiement->getNumeroRemise();
               $csv .= $csv_prefix;
               $csv .= $paiement->date.";";
-              $csv .= $this->floatHelper->formatFr($paiement->montant,2,2).";";
+              $csv .= round($paiement->montant,2).";";
               $csv .= $paiement->type_reglement.";";
               $csv .= $paiement->commentaire.";";
-              $csv .= $this->floatHelper->formatFr($facture->total_ttc - $facture->montant_paiement,2,2).';';
+              $csv .= round($facture->total_ttc - $facture->montant_paiement,2).';';
               $csv .= $paiement->exist('execute') ? $paiement->execute.";" : ";";
               $csv .= $paiement->versement_comptable.";";
               $csv .= $facture->_id.";";
@@ -82,7 +80,7 @@ class ExportFacturePaiementsCSV {
               if ($numRemise && $banque_compte) {
                   $csv .= $csv_prefix;
                   $csv .= $paiement->date.";";
-                  $csv .= $this->floatHelper->formatFr($paiement->montant,2,2).";";
+                  $csv .= round($paiement->montant,2).";";
                   $csv .= $paiement->type_reglement.";";
                   $csv .= ";";
                   $csv .= ";";
