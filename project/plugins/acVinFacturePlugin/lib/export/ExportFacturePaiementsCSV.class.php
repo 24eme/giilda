@@ -23,7 +23,7 @@ class ExportFacturePaiementsCSV {
     }
 
     public static function getHeaderCsv() {
-        return "Identifiant;Raison Sociale;Code comptable client;Numéro facture;Date de paiement;Montant;Type de reglement;Commentaire;Montant restant a payer;Execute;Exporte;Facture doc ID;Paiement ID;Date facture;Sens;Code journal;Numéro remise; Numéro compte\n";
+        return "Identifiant;Raison Sociale;Code comptable client;Numero facture;Date de paiement;Montant;Type de reglement;Commentaire;Montant restant a payer;Execute;Exporte;Facture doc ID;Paiement ID;Date facture;Sens;Code journal;Numero remise; Numero compte\n";
     }
 
     public function export() {
