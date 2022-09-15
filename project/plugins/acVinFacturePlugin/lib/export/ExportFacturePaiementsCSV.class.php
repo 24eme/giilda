@@ -16,7 +16,6 @@ class ExportFacturePaiementsCSV {
             echo sprintf("WARNING;Le document n'existe pas %s\n", $doc_or_id);
             return;
         }
-       $this->floatHelper = FloatHelper::getInstance();
 
         $this->header = $header;
         $this->que_les_non_verses_comptablement = $que_les_non_verses_comptablement;
