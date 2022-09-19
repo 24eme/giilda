@@ -24,9 +24,9 @@
                     <?php echo $generationForm["date_mouvement"]->render(array("class" => "form-control", "placeholder" => "Prise en compte des mouvements jusqu'au")); ?>
             </div>
         </div>
-        <div class="form-group <?php if ($generationForm["message_communication"]->hasError()): ?>has-error<?php endif; ?>">
-            <?php echo $generationForm["message_communication"]->renderError(); ?>
-            <?php echo $generationForm["message_communication"]->renderLabel("Seuil minimum", array("class" => "col-xs-4 control-label")); ?>
+        <div class="form-group <?php if ($generationForm["seuil"]->hasError()): ?>has-error<?php endif; ?>">
+            <?php echo $generationForm["seuil"]->renderError(); ?>
+            <?php echo $generationForm["seuil"]->renderLabel("Seuil minimum", array("class" => "col-xs-4 control-label")); ?>
             <div class="col-xs-4">
                 <div class="input-group">
                     <?php echo $generationForm["seuil"]->render(); ?>
