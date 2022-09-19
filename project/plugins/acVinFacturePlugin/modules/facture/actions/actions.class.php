@@ -2,6 +2,10 @@
 
 class factureActions extends sfActions {
 
+    private function getRegion(sfWebRequest $request) {
+        return $request->getParameter('region', $this->getUser()->getCompte()->getRegionViticole());
+    }
+
     public function executeIndex(sfWebRequest $request) {
         $this->form = new FactureSocieteChoiceForm('INTERPRO-declaration');
         $region = (FactureConfiguration::getInstance()->getRegionsFacturables())? $this->getRegion($request) : null;
