@@ -19,16 +19,19 @@ class GenerationFacturePDF extends GenerationPDF {
 
     public function preGeneratePDF() {
         parent::preGeneratePDF();
+        $arguments = $this->generation->arguments->toArray();
 
         $regions = null;
         if(sfConfig::get('app_facturation_region')) {
             $regions[] = sfConfig::get('app_facturation_region');
         }
+        if (isset($arguments['region'])) {
+            $regions = [$arguments['region']];
+        }
 
         $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse($regions);
 
         $mouvementsBySoc = FactureClient::getInstance()->getMouvementsNonFacturesBySoc($allMouvementsByRegion);
-        $arguments = $this->generation->arguments->toArray();
         if (!isset($arguments['modele']) || !$arguments['modele']) {
             throw new sfException("Le modele n'existe pas dans les arguments de la génération");
         }
