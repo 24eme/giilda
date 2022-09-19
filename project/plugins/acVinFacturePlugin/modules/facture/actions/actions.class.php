@@ -4,7 +4,8 @@ class factureActions extends sfActions {
 
     public function executeIndex(sfWebRequest $request) {
         $this->form = new FactureSocieteChoiceForm('INTERPRO-declaration');
-        $this->generationForm = new FactureGenerationForm();
+        $region = (FactureConfiguration::getInstance()->getRegionsFacturables())? $this->getRegion($request) : null;
+        $this->generationForm = ($region)? new FactureGenerationForm(['region' => $region], ['export'=> true]) : new FactureGenerationForm(null, ['export'=> true]);
         $this->generations = GenerationClient::getInstance()->findHistoryWithType(array(
             GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL,
             GenerationClient::TYPE_DOCUMENT_EXPORT_RELANCES,
@@ -62,7 +63,8 @@ class factureActions extends sfActions {
     }
 
     public function executeGeneration(sfWebRequest $request) {
-        $this->form = new FactureGenerationForm();
+        $region = (FactureConfiguration::getInstance()->getRegionsFacturables())? $this->getRegion($request) : null;
+        $this->form = ($region)? new FactureGenerationForm(['region' => $region]) : new FactureGenerationForm();
         $filters_parameters = array();
         if (!$request->isMethod(sfWebRequest::POST)) {
 
@@ -90,6 +92,9 @@ class factureActions extends sfActions {
         }
         if (isset($filters_parameters['seuil'])) {
             $generation->arguments->add('seuil', $filters_parameters['seuil']);
+        }
+        if (isset($filters_parameters['region'])) {
+            $generation->arguments->add('region', $filters_parameters['region']);
         }
         $generation->save();
 
@@ -346,6 +351,9 @@ class factureActions extends sfActions {
         }
         if(isset($values['seuil'])) {
             $filters_parameters['seuil'] = $values['seuil']*1.0;
+        }
+        if(isset($values['region'])) {
+            $filters_parameters['region'] = $values['region'];
         }
         return $filters_parameters;
     }

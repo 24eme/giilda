@@ -36,6 +36,13 @@ class FactureGenerationForm extends BaseForm {
             'date_mouvement' => 'Dernière date de prise en compte des mouvements :',
             'date_facturation' => 'Date de facturation :'
         ));
+
+        if ($regions = FactureConfiguration::getInstance()->getRegionsFacturables()) {
+            $this->setWidget('region', new bsWidgetFormChoice(array('choices' => $regions), array("required" => "required")));
+            $this->setValidator('region', new sfValidatorChoice(array('choices' => array_keys($regions), 'required' => true)));
+            $this->widgetSchema->setLabel('region', "Région facturée :");
+        }
+
         $this->widgetSchema->setNameFormat('facture_generation[%s]');
     }
 
