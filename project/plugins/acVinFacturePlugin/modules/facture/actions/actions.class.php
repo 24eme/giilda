@@ -288,6 +288,24 @@ class factureActions extends sfActions {
         $this->redirect('facture_societe', array('identifiant' => $this->facture->identifiant));
     }
 
+    public function executeAttente(sfWebRequest $request)
+    {
+        $this->mouvements = [];
+
+        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->getRegion());
+
+        foreach ($mouvements_en_attente as $m) {
+            if (empty($m->key[MouvementfactureFacturationView::KEYS_ETB_ID])) {
+                continue;
+            }
+
+            $this->mouvements[$m->key[MouvementfactureFacturationView::KEYS_ETB_ID]][] = $m;
+        }
+
+
+        $this->withDetails = $request->getParameter('details', false);
+    }
+
     private function constructFactureFiltersParameters() {
         $values = $this->form->getValues();
         $filters_parameters = array();

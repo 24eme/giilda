@@ -19,7 +19,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h3>Générer toutes les factures</h3>
+        <h3>Générer toutes les factures <small>(<a href="<?php echo url_for('facture_en_attente'); ?>">mvts en attentes</a>)</small></h3>
         <?php include_component('facture','generationMasse'); ?>
     </div>
 </div>
