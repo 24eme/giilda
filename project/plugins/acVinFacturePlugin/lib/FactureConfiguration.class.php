@@ -204,4 +204,8 @@ class FactureConfiguration {
         return $delais;
     }
 
+    public function getRegionsFacturables() {
+        return isset($this->configuration['regions_facturables']) ? $this->configuration['regions_facturables'] : [];
+    }
+
 }
