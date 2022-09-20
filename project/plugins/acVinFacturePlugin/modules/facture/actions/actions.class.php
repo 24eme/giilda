@@ -307,7 +307,7 @@ class factureActions extends sfActions {
     {
         $this->mouvements = [];
 
-        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->getRegion());
+        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->getRegion($request));
 
         foreach ($mouvements_en_attente as $m) {
             if (empty($m->key[MouvementfactureFacturationView::KEYS_ETB_ID])) {
