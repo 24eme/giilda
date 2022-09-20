@@ -1050,6 +1050,10 @@ class Vrac extends BaseVrac {
     }
 
     public function setInterneTrueIfLiaison(){
+        if ($this->getAcheteurObject() === null || $this->getVendeurObject() === null) {
+            return $this;
+        }
+
         $etabAcheteur = EtablissementClient::getInstance()->findByIdentifiant($this->getAcheteurObject()->getIdentifiant());
         $etabVendeur = EtablissementClient::getInstance()->findByIdentifiant($this->getVendeurObject()->getIdentifiant());
         if($etabAcheteur->haveLiaison($etabVendeur) && $etabVendeur->haveLiaison($etabAcheteur)){
