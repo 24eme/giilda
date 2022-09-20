@@ -21,7 +21,7 @@ use_helper('Float');
         <?php
         try {
             $no_region = ! count($societe->getRegionsViticoles());
-            include_partial('facture/mouvements', array('mouvements' => $mouvements, 'societe' => $societe, 'form' => $form));
+            include_partial('facture/mouvements', array('mouvements' => $mouvements, 'societe' => $societe));
         }catch(Exception $e) {
             echo "<p><i>Societé n'ayant pas de région (ou hors région), impossible d'afficher ses éventuels mouvements passés.</i></p>";
         }
