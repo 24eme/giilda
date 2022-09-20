@@ -38,6 +38,7 @@ class factureActions extends sfActions {
 
     public function executeMouvementsList(sfWebRequest $request) {
         sfContext::getInstance()->getResponse()->setTitle('FACTURES LIBRES');
+        $this->region = $this->getRegion($request);
         $this->factureMouvementsAll = MouvementsFactureClient::getInstance()->startkey('MOUVEMENTSFACTURE-0000000000')->endkey('MOUVEMENTSFACTURE-9999999999')->execute();
         $this->factureMouvementsAll = $this->factureMouvementsAll->getDatas();
         krsort($this->factureMouvementsAll);
