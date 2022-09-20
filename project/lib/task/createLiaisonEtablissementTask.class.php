@@ -4,13 +4,11 @@ class createLiaisonEtablissementTask extends sfBaseTask
 {
   protected function configure()
   {
+
     // // add your own arguments here
     $this->addArguments(array(
-      new sfCommandArgument('idEtablissement1', sfCommandArgument::REQUIRED, 'Id de l\'établissement 1 pour liaison'),
-      new sfCommandArgument('idEtablissement2', sfCommandArgument::REQUIRED, 'Id de l\'établissement 2 pour liaison'),
-
+        new sfCommandArgument('fromDate', sfCommandArgument::REQUIRED, 'date au format yyyy-mm-dd à partir du quel on parcours les contrats pour créer les liens s\'il y en a')
     ));
-
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
@@ -32,18 +30,24 @@ class createLiaisonEtablissementTask extends sfBaseTask
 
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $idEtablissement1 = $arguments['idEtablissement1'];
-    $idEtablissement2 = $arguments['idEtablissement2'];
+    $fromDate = $arguments['fromDate']; //format YYYY-MM-DD
 
-    $etab1 = EtablissementClient::getInstance()->find($idEtablissement1);
-    $etab2 = EtablissementClient::getInstance()->find($idEtablissement2);
+    $contratsInterne = VracClient::getInstance()->retrieveAllInterne($fromDate);
 
-    $etab1->addLiaison('ADHERENT', $etab2, true);
-    $etab2->addLiaison('ADHERENT', $etab1, true);
+    foreach($contratsInterne as $contrat){
 
-    $etab1->save();
-    $etab2->save();
+        $etabAcheteur = EtablissementClient::getInstance()->findByIdentifiant($contrat->getAcheteurObject()->getIdentifiant());
+        $etabVendeur = EtablissementClient::getInstance()->findByIdentifiant($contrat->getVendeurObject()->getIdentifiant());
 
+        if(!$etabAcheteur->haveLiaison($etabVendeur)){
+            $etabAcheteur->addLiaison('ADHERENT', $etabVendeur, true);
+        }
 
+        if(!$etabVendeur->haveLiaison($etabAcheteur)){
+            $etabVendeur->addLiaison('ADHERENT', $etabAcheteur, true);
+        }
+        $etabAcheteur->save();
+        $etabVendeur->save();
+    }
   }
 }
