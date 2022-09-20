@@ -42,8 +42,9 @@ class factureActions extends sfActions {
 
     public function executeMouvementsedition(sfWebRequest $request) {
         $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-' . $request->getParameter('id'));
+        $region = $this->getRegion($request);
 
-        $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration'));
+        $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration', 'region' => $region));
 
         if (!$request->isMethod(sfWebRequest::POST)) {
             return sfView::SUCCESS;
@@ -134,8 +135,9 @@ class factureActions extends sfActions {
     public function executeMonEspace(sfWebRequest $request) {
         $this->form = new FactureGenerationForm();
         $this->societe = $this->getRoute()->getSociete();
+        $region = $this->getRegion($request);
         $this->factures = FactureSocieteView::getInstance()->findBySociete($this->societe);
-        $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
+        $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe, $region);
 
         $this->compte = $this->societe->getMasterCompte();
     }

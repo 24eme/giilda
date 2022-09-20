@@ -8,11 +8,15 @@
 class FactureMouvementsEditionForm extends acCouchdbObjectForm {
 
     protected $interpro_id;
+    protected $region;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->interpro_id = "INTERPRO-declaration";
         if(isset($options['interpro_id'])) {
             $this->interpro_id = $options['interpro_id'];
+        }
+        if(isset($options['region'])) {
+            $this->region = $options['region'];
         }
         parent::__construct($object, $options, $CSRFSecret);
     }
@@ -22,7 +26,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         $this->setValidator("libelle", new sfValidatorString(array("required" => true)));
         $this->widgetSchema->setLabel('libelle', 'Libellé opération');
 
-        $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject(), array('interpro_id' => $this->interpro_id)));
+        $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject(), array('interpro_id' => $this->interpro_id, 'region' => $this->region)));
 
         $this->widgetSchema->setNameFormat('facture_mouvements_edition[%s]');
     }
@@ -69,9 +73,12 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
             $mvt->facture = 0;
           }
           $mvt->facturable = 1;
-          if ($societe) {
+          if ($this->region) {
+              $mvt->region = $this->region;
+          } elseif ($societe) {
             $mvt->region = ($societe->getRegionViticole(false))? $societe->getRegionViticole() : $societe->type_societe;
           }
+
           $mvt->date = $this->getObject()->date;
           $mvt->vrac_numero = $ordre;
           $ordre++;

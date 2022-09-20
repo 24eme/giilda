@@ -3,11 +3,15 @@
 class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm {
 
     protected $interpro_id;
+    protected $region;
     protected $isreadonly = array();
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         if(isset($options['interpro_id'])) {
             $this->interpro_id = $options['interpro_id'];
+        }
+        if(isset($options['region'])) {
+            $this->region = $options['region'];
         }
         if ($object && $object->facture) {
             $this->isreadonly = array('readonly' => 'readonly', 'disabled' => 'disabled');
@@ -35,7 +39,7 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
     protected function updateDefaultsFromObject() {
       parent::updateDefaultsFromObject();
       $this->setDefault('identifiant', EtablissementClient::getInstance()->getSocieteIdentifiant($this->getObject()->identifiant));
-      $lastMouvement = $this->getObject()->getDocument()->getLastMouvement();
+      $lastMouvement = $this->getObject()->getDocument()->getLastMouvement($this->region);
       if ($this->getObject()->getKey() == 'nouveau' && $lastMouvement) {
         $this->setDefault('identifiant_analytique', $lastMouvement->identifiant_analytique);
         $this->setDefault('libelle', $lastMouvement->libelle);
@@ -53,7 +57,7 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
     }
 
     public function getIdentifiantsAnalytiques() {
-        return ComptabiliteClient::getInstance()->findCompta()->getAllIdentifiantsAnalytiquesArrayForCompta();
+        return ComptabiliteClient::getInstance()->findCompta($this->region)->getAllIdentifiantsAnalytiquesArrayForCompta();
     }
 
 }
