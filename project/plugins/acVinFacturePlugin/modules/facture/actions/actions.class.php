@@ -3,13 +3,16 @@
 class factureActions extends sfActions {
 
     private function getRegion(sfWebRequest $request) {
-        return $request->getParameter('region', $this->getUser()->getCompte()->getRegionViticole());
+        if (FactureConfiguration::getInstance()->getRegionsFacturables()) {
+            return $request->getParameter('region', $this->getUser()->getCompte()->getRegionViticole());
+        }
+        return null;
     }
 
     public function executeIndex(sfWebRequest $request) {
         $this->form = new FactureSocieteChoiceForm('INTERPRO-declaration');
-        $region = (FactureConfiguration::getInstance()->getRegionsFacturables())? $this->getRegion($request) : null;
-        $this->generationForm = ($region)? new FactureGenerationForm(['region' => $region], ['export'=> true]) : new FactureGenerationForm(null, ['export'=> true]);
+        $this->region = $this->getRegion($request);
+        $this->generationForm = ($this->region)? new FactureGenerationForm(['region' => $this->region], ['export'=> true]) : new FactureGenerationForm(null, ['export'=> true]);
         $this->generations = GenerationClient::getInstance()->findHistoryWithType(array(
             GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL,
             GenerationClient::TYPE_DOCUMENT_EXPORT_RELANCES,
@@ -68,7 +71,7 @@ class factureActions extends sfActions {
     }
 
     public function executeGeneration(sfWebRequest $request) {
-        $region = (FactureConfiguration::getInstance()->getRegionsFacturables())? $this->getRegion($request) : null;
+        $region = $this->getRegion($request);
         $this->form = ($region)? new FactureGenerationForm(['region' => $region]) : new FactureGenerationForm();
         $filters_parameters = array();
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -133,7 +136,6 @@ class factureActions extends sfActions {
     }
 
     public function executeMonEspace(sfWebRequest $request) {
-        $this->form = new FactureGenerationForm();
         $this->societe = $this->getRoute()->getSociete();
         $region = $this->getRegion($request);
         $this->factures = FactureSocieteView::getInstance()->findBySociete($this->societe);
