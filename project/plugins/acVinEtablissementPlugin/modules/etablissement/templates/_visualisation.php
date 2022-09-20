@@ -73,7 +73,7 @@
                   <div class="col-xs-9">
                     <?php
                     foreach($etablissement->getEtablissementsLies() as $id_etablissement=> $nom_etablissement){ ?>
-                      <a href=<?php echo url_for('etablissement_visualisation', array('identifiant' => $id_etablissement)); ?>><?php echo($nom_etablissement);?></a>
+                      <a href=<?php echo url_for('etablissement_visualisation', array('identifiant' => $id_etablissement)); ?>><?php echo($nom_etablissement);?></a>&nbsp&nbsp&nbsp
                   <?php
                 }?>
                   </div>

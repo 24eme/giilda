@@ -850,8 +850,6 @@ class VracClient extends acCouchdbClient {
 
         $rangeFilter = new Elastica_Filter_Range();
 
-        // $oneWeekAgo = date('Y-m-d', strtotime("-1 week"));
-
         $rangeFilter->addField('doc.valide.date_saisie',array('from' => $fromdate,'to' => date("Y-m-d")));
         $elasticaFilterBool->addMust($rangeFilter);
 
