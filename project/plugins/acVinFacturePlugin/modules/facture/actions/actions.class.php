@@ -18,7 +18,7 @@ class factureActions extends sfActions {
             GenerationClient::TYPE_DOCUMENT_EXPORT_RELANCES,
             GenerationClient::TYPE_DOCUMENT_FACTURES,
             GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX
-        ), 10);
+        ), 10, $this->region);
         sfContext::getInstance()->getResponse()->setTitle('FACTURE');
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));

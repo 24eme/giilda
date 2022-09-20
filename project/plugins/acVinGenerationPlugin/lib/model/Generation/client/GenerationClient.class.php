@@ -34,7 +34,7 @@ class GenerationClient extends acCouchdbClient {
     }
 
 
-    public function findHistoryWithType($types, $limit = 100) {
+    public function findHistoryWithType($types, $limit = 100, $region = null) {
         if(!is_array($types)) {
             $types = array($types);
         }
@@ -43,8 +43,8 @@ class GenerationClient extends acCouchdbClient {
 
         foreach($types as $type) {
             $rows = array_merge($rows, acCouchdbManager::getClient()
-                        ->startkey(array($type, array()))
-                        ->endkey(array($type))
+                        ->startkey(array($type, $region, array()))
+                        ->endkey(array($type, $region))
                         ->descending(true)
                         ->limit($limit)
                         ->getView("generation", "history")
