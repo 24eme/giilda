@@ -39,21 +39,23 @@ class createLiaisonEtablissementTask extends sfBaseTask
         $etabAcheteur = EtablissementClient::getInstance()->findByIdentifiant($contrat->getAcheteurObject()->getIdentifiant());
         $etabVendeur = EtablissementClient::getInstance()->findByIdentifiant($contrat->getVendeurObject()->getIdentifiant());
 
-        if($etabAcheteur == $etabVendeur){
+        if($etabAcheteur === $etabVendeur){
             echo("Acheteur et Vendeur sont les mêmes : ".$etabAcheteur->_id."\n");
+            continue;
         }
 
-        elseif(!$etabAcheteur->haveLiaison($etabVendeur)){
+        if(!$etabAcheteur->haveLiaison($etabVendeur)){
             echo("Liaison crée entre ".$etabAcheteur->_id." et ".$etabVendeur->_id."\n");
             $etabAcheteur->addLiaison('ADHERENT', $etabVendeur, true);
             $etabAcheteur->save();
         }
 
-        elseif(!$etabVendeur->haveLiaison($etabAcheteur)){
+        if(!$etabVendeur->haveLiaison($etabAcheteur)){
             echo("Liaison crée entre ".$etabVendeur->_id." et ".$etabAcheteur->_id."\n");
             $etabVendeur->addLiaison('ADHERENT', $etabAcheteur, true);
             $etabVendeur->save();
         }
+
     }
   }
 }
