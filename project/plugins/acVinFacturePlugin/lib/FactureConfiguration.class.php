@@ -204,8 +204,8 @@ class FactureConfiguration {
         return $delais;
     }
 
-    public function getRegionsFacturables() {
-        return isset($this->configuration['regions_facturables']) ? $this->configuration['regions_facturables'] : [];
+    public function isMultiInterproFacturables() {
+        return isset($this->configuration['multi_interpro_facturables']) ? $this->configuration['multi_interpro_facturables'] : false;
     }
 
 }
