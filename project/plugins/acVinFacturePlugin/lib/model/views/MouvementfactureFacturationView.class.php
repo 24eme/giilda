@@ -5,17 +5,18 @@ class MouvementfactureFacturationView extends acCouchdbView {
     const KEYS_FACTURE = 0;
     const KEYS_FACTURABLE = 1;
     const KEYS_REGION = 2;
-    const KEYS_ETB_ID = 3;
-    const KEYS_ORIGIN = 4;
-    const KEYS_MATIERE = 5;
-    const KEYS_PRODUIT_ID = 6;
-    const KEYS_PERIODE = 7;
-    const KEYS_DATE = 8;
-    const KEYS_CONTRAT_ID = 9;
-    const KEYS_VRAC_DEST = 10;
-    const KEYS_MVT_TYPE = 11;
-    const KEYS_DETAIL_ID = 12;
-    const KEYS_TYPE_DRM = 13;
+    const KEYS_INTERPRO = 3;
+    const KEYS_ETB_ID = 4;
+    const KEYS_ORIGIN = 5;
+    const KEYS_MATIERE = 6;
+    const KEYS_PRODUIT_ID = 7;
+    const KEYS_PERIODE = 8;
+    const KEYS_DATE = 9;
+    const KEYS_CONTRAT_ID = 10;
+    const KEYS_VRAC_DEST = 11;
+    const KEYS_MVT_TYPE = 12;
+    const KEYS_DETAIL_ID = 13;
+    const KEYS_TYPE_DRM = 14;
     const VALUE_PRODUIT_LIBELLE = 0;
     const VALUE_TYPE_LIBELLE = 1;
     const VALUE_QUANTITE = 2;
@@ -56,10 +57,10 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return $rows;
     }
 
-    protected function getRowsByIdentifiant($identifiantStart, $identifiantEnd, $paramRegion, $facturee, $facturable, $reduceLevel = false) {
+    protected function getRowsByIdentifiant($identifiantStart, $identifiantEnd, $paramRegion, $facturee, $facturable, $reduceLevel = false, $interpro = null) {
         $view = $this->client
-                        ->startkey(array($facturee, $facturable, $paramRegion, $identifiantStart))
-                        ->endkey(array($facturee, $facturable, $paramRegion, $identifiantEnd, array()));
+                        ->startkey(array($facturee, $facturable, $paramRegion, $interpro, $identifiantStart))
+                        ->endkey(array($facturee, $facturable, $paramRegion, $interpro, $identifiantEnd, array()));
 
         if(!$reduceLevel) {
             $view->reduce(false);
