@@ -117,13 +117,13 @@ class MouvementfactureFacturationView extends acCouchdbView {
                                 ->getView($this->design, $this->view)->rows);
     }
 
-    public function getMouvementsEnAttente($region = null)
+    public function getMouvementsEnAttente($interproFacturable = null)
     {
         $start = [0,1];
         $end = [0,1, []];
-        if ($region) {
-            $start = [0,1,$region];
-            $end = [0,1,$region,[]];
+        if ($interproFacturable) {
+            $start = [0,1,$interproFacturable];
+            $end = [0,1,$interproFacturable,[]];
         }
         return $this->client->startkey($start)
                                 ->endkey($end)

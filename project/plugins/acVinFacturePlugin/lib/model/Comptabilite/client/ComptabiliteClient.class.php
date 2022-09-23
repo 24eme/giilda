@@ -9,8 +9,8 @@ class ComptabiliteClient extends acCouchdbClient {
       return acCouchdbManager::getClient("Comptabilite");
     }
 
-    public function findCompta($region = null) {
-        $id = $this->determineId($region);
+    public function findCompta($interpro = null) {
+        $id = $this->determineId($interpro);
         $compta = $this->find($id);
         if(!$compta) {
             $compta = new Comptabilite();
@@ -19,7 +19,7 @@ class ComptabiliteClient extends acCouchdbClient {
         return $compta;
     }
 
-    private function determineId($region = null) {
-        return ($region)? self::DOC_ID.'-'.$region : self::DOC_ID;
+    private function determineId($interpro = null) {
+        return ($interpro)? self::DOC_ID.'-'.$interpro : self::DOC_ID;
     }
 }

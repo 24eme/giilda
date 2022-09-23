@@ -2,23 +2,23 @@
 
 class factureActions extends sfActions {
 
-    private function getRegion(sfWebRequest $request) {
-        if (FactureConfiguration::getInstance()->getRegionsFacturables()) {
-            return $request->getParameter('region', $this->getUser()->getCompte()->getRegionViticole());
+    private function getInterproFacturable(sfWebRequest $request) {
+        if ($this->getUser()->hasCredential(AppUser::CREDENTIAL_ADMIN) && FactureConfiguration::getInstance()->isMultiInterproFacturables()) {
+            return $request->getParameter('interpro', $this->getUser()->getCompte()->getInterproFacturable());
         }
         return null;
     }
 
     public function executeIndex(sfWebRequest $request) {
         $this->form = new FactureSocieteChoiceForm('INTERPRO-declaration');
-        $this->region = $this->getRegion($request);
-        $this->generationForm = ($this->region)? new FactureGenerationForm(['region' => $this->region], ['export'=> true]) : new FactureGenerationForm(null, ['export'=> true]);
+        $this->interproFacturable = $this->getInterproFacturable($request);
+        $this->generationForm = ($this->interproFacturable)? new FactureGenerationForm(['interpro' => $this->interproFacturable], ['export'=> true]) : new FactureGenerationForm(null, ['export'=> true]);
         $this->generations = GenerationClient::getInstance()->findHistoryWithType(array(
             GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL,
             GenerationClient::TYPE_DOCUMENT_EXPORT_RELANCES,
             GenerationClient::TYPE_DOCUMENT_FACTURES,
             GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX
-        ), 10, $this->region);
+        ), 10, $this->interproFacturable);
         sfContext::getInstance()->getResponse()->setTitle('FACTURE');
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -38,7 +38,7 @@ class factureActions extends sfActions {
 
     public function executeMouvementsList(sfWebRequest $request) {
         sfContext::getInstance()->getResponse()->setTitle('FACTURES LIBRES');
-        $this->region = $this->getRegion($request);
+        $this->interproFacturable = $this->getInterproFacturable($request);
         $this->factureMouvementsAll = MouvementsFactureClient::getInstance()->startkey('MOUVEMENTSFACTURE-0000000000')->endkey('MOUVEMENTSFACTURE-9999999999')->execute();
         $this->factureMouvementsAll = $this->factureMouvementsAll->getDatas();
         krsort($this->factureMouvementsAll);
@@ -46,9 +46,9 @@ class factureActions extends sfActions {
 
     public function executeMouvementsedition(sfWebRequest $request) {
         $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-' . $request->getParameter('id'));
-        $region = $this->getRegion($request);
+        $interproFacturable = $this->getInterproFacturable($request);
 
-        $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration', 'region' => $region));
+        $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration', 'interproFacturable' => $interproFacturable));
 
         if (!$request->isMethod(sfWebRequest::POST)) {
             return sfView::SUCCESS;
@@ -72,8 +72,8 @@ class factureActions extends sfActions {
     }
 
     public function executeGeneration(sfWebRequest $request) {
-        $region = $this->getRegion($request);
-        $this->form = ($region)? new FactureGenerationForm(['region' => $region]) : new FactureGenerationForm();
+        $interproFacturable = $this->getInterproFacturable($request);
+        $this->form = ($interproFacturable)? new FactureGenerationForm(['interproFacturable' => $interproFacturable]) : new FactureGenerationForm();
         $filters_parameters = array();
         if (!$request->isMethod(sfWebRequest::POST)) {
 
@@ -102,8 +102,8 @@ class factureActions extends sfActions {
         if (isset($filters_parameters['seuil'])) {
             $generation->arguments->add('seuil', $filters_parameters['seuil']);
         }
-        if (isset($filters_parameters['region'])) {
-            $generation->arguments->add('region', $filters_parameters['region']);
+        if (isset($filters_parameters['interproFacturable'])) {
+            $generation->arguments->add('interpro', $filters_parameters['interproFacturable']);
         }
         $generation->save();
 
@@ -138,7 +138,7 @@ class factureActions extends sfActions {
 
     public function executeMonEspace(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
-        $region = $this->getRegion($request);
+        $this->interproFacturable = $this->getInterproFacturable($request);
         $this->factures = FactureSocieteView::getInstance()->findBySociete($this->societe);
         $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe, $region);
 
@@ -238,8 +238,8 @@ class factureActions extends sfActions {
     }
 
     public function executeComptabiliteEdition(sfWebRequest $request) {
-        $region = $this->getRegion($request);
-        $compta = ComptabiliteClient::getInstance()->findCompta($region);
+        $interproFacturable = $this->getInterproFacturable($request);
+        $compta = ComptabiliteClient::getInstance()->findCompta($interproFacturable);
         $this->form = new ComptabiliteEditionForm($compta);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -307,7 +307,7 @@ class factureActions extends sfActions {
     {
         $this->mouvements = [];
 
-        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->getRegion($request));
+        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->getInterproFacturable($request));
 
         foreach ($mouvements_en_attente as $m) {
             if (empty($m->key[MouvementfactureFacturationView::KEYS_ETB_ID])) {
@@ -362,8 +362,8 @@ class factureActions extends sfActions {
         if(isset($values['seuil'])) {
             $filters_parameters['seuil'] = $values['seuil']*1.0;
         }
-        if(isset($values['region'])) {
-            $filters_parameters['region'] = $values['region'];
+        if(isset($values['interpro'])) {
+            $filters_parameters['interpro'] = $values['interpro'];
         }
         return $filters_parameters;
     }

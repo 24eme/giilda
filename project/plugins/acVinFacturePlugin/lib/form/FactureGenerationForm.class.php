@@ -37,10 +37,10 @@ class FactureGenerationForm extends BaseForm {
             'date_facturation' => 'Date de facturation :'
         ));
 
-        if ($regions = FactureConfiguration::getInstance()->getRegionsFacturables()) {
-            $this->setWidget('region', new bsWidgetFormChoice(array('choices' => $regions), array("required" => "required")));
-            $this->setValidator('region', new sfValidatorChoice(array('choices' => array_keys($regions), 'required' => true)));
-            $this->widgetSchema->setLabel('region', "Région facturée :");
+        if ($this->getDefault('interpro')) {
+            $this->setWidget('interpro', new bsWidgetFormInput());
+            $this->setValidator('interpro', new sfValidatorString());
+            $this->widgetSchema->setLabel('interpro', "Région facturée :");
         }
 
         $this->widgetSchema->setNameFormat('facture_generation[%s]');

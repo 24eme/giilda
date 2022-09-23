@@ -2,6 +2,6 @@ function(doc) {
     if (doc.type != "Generation") {
         return;
     }
-    var region = (doc.arguments && doc.arguments.region)? doc.arguments.region : null;
-    emit([doc.type_document, region, doc.date_emission, doc.identifiant], [doc.nb_documents, doc.documents, doc.somme, doc.statut, doc.libelle]);
+    var interpro = (doc.arguments && doc.arguments.interpro)? doc.arguments.interpro : null;
+    emit([doc.type_document, interpro, doc.date_emission, doc.identifiant], [doc.nb_documents, doc.documents, doc.somme, doc.statut, doc.libelle]);
 }

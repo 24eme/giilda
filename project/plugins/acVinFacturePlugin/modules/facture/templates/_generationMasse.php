@@ -34,12 +34,12 @@
                 </div>
             </div>
         </div>
-        <?php if (isset($generationForm["region"])): ?>
-        <div class="form-group <?php if ($generationForm["region"]->hasError()): ?>has-error<?php endif; ?>">
-            <?php echo $generationForm["region"]->renderError(); ?>
-            <?php echo $generationForm["region"]->renderLabel("Région facturée", array("class" => "col-xs-4 control-label")); ?>
+        <?php if (isset($generationForm["interpro"])): ?>
+        <div class="form-group <?php if ($generationForm["interpro"]->hasError()): ?>has-error<?php endif; ?>">
+            <?php echo $generationForm["interpro"]->renderError(); ?>
+            <?php echo $generationForm["interpro"]->renderLabel("Région facturée", array("class" => "col-xs-4 control-label")); ?>
             <div class="col-xs-4">
-                <?php echo $generationForm["region"]->render(array("class" => "form-control")); ?>
+                <?php echo $generationForm["interpro"]->render(array("class" => "form-control", "readonly" => "readonly")); ?>
             </div>
         </div>
         <?php endif; ?>

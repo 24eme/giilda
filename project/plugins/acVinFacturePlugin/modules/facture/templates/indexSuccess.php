@@ -13,7 +13,7 @@
 <div class="row">
     <div class="col-xs-12">
         <h2>Génération des factures</h3>
-        <?php include_partial('historiqueGeneration', array('generations' => $generations, 'region' => $region)); ?>
+        <?php include_partial('historiqueGeneration', array('generations' => $generations, 'interproFacturable' => $interproFacturable)); ?>
     </div>
 </div>
 

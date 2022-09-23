@@ -30,8 +30,8 @@ class generationActions extends sfActions {
   public function executeList(sfWebRequest $request) {
       $this->type = $request['type_document'];
       $this->limit = $request->getParameter("limite", 100);
-      $this->region = $request->getParameter("region");
-      $this->historyGeneration = GenerationClient::getInstance()->findHistoryWithType($this->type, $this->limit, $this->region);
+      $this->interpro = $request->getParameter("interpo");
+      $this->historyGeneration = GenerationClient::getInstance()->findHistoryWithType($this->type, $this->limit, $this->interpro);
   }
 
   public function executeReload(sfWebRequest $request) {

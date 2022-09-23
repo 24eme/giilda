@@ -40,19 +40,19 @@ use_helper('Float');
             <tbody>
                 <?php
                   foreach ($factureMouvementsAll as $factureMouvement):
-                    if ($region && !in_array($region, $factureMouvement->getRegionsFacturables()->getRawValue())) continue;
+                    if ($interproFacturable && !in_array($interproFacturable, $factureMouvement->getInterprosFacturables()->getRawValue())) continue;
                 ?>
                     <tr class="vertical-center">
                         <td class="col-xs-4 text-left"><?php echo $factureMouvement->libelle; ?></td>
                         <td class="col-xs-1 text-center"><?php echo Date::francizeDate($factureMouvement->date); ?></td>
-                        <td class="col-xs-2 text-center"><?php echo $factureMouvement->getNbMvts($region) . ' (' . $factureMouvement->getNbMvtsAFacture($region) . ')'; ?></td>
-                        <td class="col-xs-2 text-right"><?php echo sprintFloat($factureMouvement->getTotalHt($region)) . '&nbsp;&euro; (' . sprintFloat($factureMouvement->getTotalHtAFacture($region)) . '&nbsp;&euro;)'; ?></td>
+                        <td class="col-xs-2 text-center"><?php echo $factureMouvement->getNbMvts($interproFacturable) . ' (' . $factureMouvement->getNbMvtsAFacture($interproFacturable) . ')'; ?></td>
+                        <td class="col-xs-2 text-right"><?php echo sprintFloat($factureMouvement->getTotalHt($interproFacturable)) . '&nbsp;&euro; (' . sprintFloat($factureMouvement->getTotalHtAFacture($interproFacturable)) . '&nbsp;&euro;)'; ?></td>
                         <td class="col-xs-2 text-center">
 
                             <div class="col-xs-6 text-right">
                                 <a href="<?php echo url_for('facture_mouvements_edition', array('id' => $factureMouvement->identifiant)); ?>" class="btn btn-default">Modifier</a>
                             </div>
-                            <?php if (!$factureMouvement->getNbMvtsAFacture($region)): ?>
+                            <?php if (!$factureMouvement->getNbMvtsAFacture($interproFacturable)): ?>
                                 <div class="col-xs-6 text-left">
                                     <a class="btn btn-default" href="<?php echo url_for('facture_mouvements_supprimer', array('id' => $factureMouvement->identifiant)); ?>">
                                         <span class="glyphicon glyphicon-remove"></span>

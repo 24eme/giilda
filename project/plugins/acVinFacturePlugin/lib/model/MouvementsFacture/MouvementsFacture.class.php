@@ -16,11 +16,11 @@ class MouvementsFacture extends BaseMouvementsFacture {
         $this->_id = MouvementsFactureClient::getInstance()->getId($this->identifiant);
     }
 
-    public function getMvtsByRegion($region = null) {
+    public function getMvtsByInterpro($interpro = null) {
         $mvts = [];
         foreach ($this->mouvements as $etbKey => $mvtsEtb) {
             foreach ($mvtsEtb as $mvtKey => $mvt) {
-                if($region && $mvt->region && $mvt->region != $region) continue;
+                if($interpro && $mvt->interpro != $interpro) continue;
                 if (!isset($mvts[$etbKey])) {
                     $mvts[$etbKey] = [];
                 }
@@ -30,17 +30,17 @@ class MouvementsFacture extends BaseMouvementsFacture {
         return $mvts;
     }
 
-    public function getNbMvts($region = null) {
+    public function getNbMvts($interpro = null) {
         $nb_mvt = 0;
-        foreach ($this->getMvtsByRegion($region) as $etbKey => $mvtsEtb) {
+        foreach ($this->getMvtsByInterpro($interpro) as $etbKey => $mvtsEtb) {
             $nb_mvt += count($mvtsEtb);
         }
         return $nb_mvt;
     }
 
-    public function getNbMvtsAFacture($region = null) {
+    public function getNbMvtsAFacture($interpro = null) {
         $nb_mvt = 0;
-        foreach ($this->getMvtsByRegion($region) as $etbKey => $mvtsEtb) {
+        foreach ($this->getMvtsByInterpro($interpro) as $etbKey => $mvtsEtb) {
             foreach ($mvtsEtb as $mvtKey => $mvt) {
             if ($mvt->facturable && !$mvt->facture) {
                     $nb_mvt ++;
@@ -50,13 +50,13 @@ class MouvementsFacture extends BaseMouvementsFacture {
         return $nb_mvt;
     }
 
-    public function getNbSocietes($region = null) {
-        return count($this->getMvtsByRegion($region));
+    public function getNbSocietes($interpro = null) {
+        return count($this->getMvtsByInterpro($interpro));
     }
 
-    public function getTotalHt($region = null) {
+    public function getTotalHt($interpro = null) {
         $montant = 0;
-        foreach ($this->getMvtsByRegion($region) as $etbKey => $mvtsEtb) {
+        foreach ($this->getMvtsByInterpro($interpro) as $etbKey => $mvtsEtb) {
             foreach ($mvtsEtb as $mvtKey => $mvt) {
                 if ($mvt->facturable) {
                     $montant += $mvt->getPrixHt();
@@ -66,9 +66,9 @@ class MouvementsFacture extends BaseMouvementsFacture {
         return $montant;
     }
 
-    public function getTotalHtAFacture($region = null) {
+    public function getTotalHtAFacture($interpro = null) {
         $montant = 0;
-        foreach ($this->getMvtsByRegion($region) as $etbKey => $mvtsEtb) {
+        foreach ($this->getMvtsByInterpro($interpro) as $etbKey => $mvtsEtb) {
             foreach ($mvtsEtb as $mvtKey => $mvt) {
                 if ($mvt->facturable && !$mvt->facture) {
                     $montant += $mvt->getPrixHt();
@@ -92,9 +92,9 @@ class MouvementsFacture extends BaseMouvementsFacture {
         throw new sfException(sprintf('The mouvement %s of the document %s does not exist', $cle_mouvement, $this->document->get('_id')));
     }
 
-    public function getStartIndexForSaisieForm($region = null) {
+    public function getStartIndexForSaisieForm($interpro = null) {
         $index = 0;
-        foreach($this->getSortedMvts($region) as $mvt) {
+        foreach($this->getSortedMvts($interpro) as $mvt) {
           if ($mvt->facture && $index < $mvt->vrac_numero) {
             $index = $mvt->vrac_numero;
           }
@@ -103,17 +103,17 @@ class MouvementsFacture extends BaseMouvementsFacture {
         return $index;
     }
 
-    public function getLastMouvement($region = null) {
-        $mvts = $this->getSortedMvts($region);
+    public function getLastMouvement($interpro = null) {
+        $mvts = $this->getSortedMvts($interpro);
         if (isset($mvts['999_nouveau_nouveau'])) {
           unset($mvts['999_nouveau_nouveau']);
         }
         return end($mvts);
     }
 
-    public function getSortedMvts($region = null) {
+    public function getSortedMvts($interpro = null) {
       $result = array();
-      foreach($this->getMvtsByRegion($region) as $id => $mvts) {
+      foreach($this->getMvtsByInterpro($interpro) as $id => $mvts) {
         foreach($mvts as $key => $mvt) {
           $result[$mvt->getIndexForSaisieForm()] = $mvt;
         }
@@ -122,16 +122,16 @@ class MouvementsFacture extends BaseMouvementsFacture {
       return $result;
     }
 
-    public function getRegionsFacturables() {
-        $regions = [];
+    public function getInterprosFacturables() {
+        $interpros = [];
         foreach ($this->mouvements as $etbKey => $mvtsEtb) {
             foreach ($mvtsEtb as $mvtKey => $mvt) {
-                if ($mvt->region && !in_array($mvt->region, $regions)) {
-                    $regions[] = $mvt->region;
+                if ($mvt->interpro && !in_array($mvt->interpro, $interpros)) {
+                    $interpros[] = $mvt->interpro;
                 }
             }
         }
-        return $regions;
+        return $interpros;
     }
 
 }
