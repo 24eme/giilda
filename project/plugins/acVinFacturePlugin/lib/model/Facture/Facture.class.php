@@ -111,8 +111,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function constructIds($doc) {
         if (!$doc)
             throw new sfException('Pas de document attribué');
-
-        $this->region = $doc->getRegionViticole();
         $this->identifiant = $doc->identifiant;
         $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($this->identifiant, date('Ymd'));
         $this->_id = FactureClient::getInstance()->getId($this->identifiant, $this->numero_facture);

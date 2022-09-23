@@ -30,7 +30,7 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return acCouchdbManager::getView('mouvementfacture', 'facturation');
     }
 
-    protected function getRowsBySociete($societe, $facturee, $facturable, $reduceLevel = false, $region = null) {
+    protected function getRowsBySociete($societe, $facturee, $facturable, $reduceLevel = false) {
         try {
             $paramRegion = ($societe->type_societe != SocieteClient::TYPE_OPERATEUR) ? SocieteClient::TYPE_AUTRE : $societe->getRegionViticole();
         } catch (Exception $e) {
@@ -70,9 +70,9 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return $view->getView($this->design, $this->view)->rows;
     }
 
-    protected function getMouvementsBySociete($societe, $facturee, $facturable, $region = null) {
+    protected function getMouvementsBySociete($societe, $facturee, $facturable) {
 
-        return $this->getRowsBySociete($societe, $facturee, $facturable, false, $region);
+        return $this->getRowsBySociete($societe, $facturee, $facturable, false);
     }
 
     public function getMouvementsBySocieteWithReduce($societe, $facturee, $facturable, $level) {
@@ -103,9 +103,9 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return $rows;
     }
 
-    public function getMouvementsNonFacturesBySociete($societe, $region = null) {
+    public function getMouvementsNonFacturesBySociete($societe) {
 
-        return $this->buildMouvements($this->getMouvementsBySociete($societe, 0, 1, $region));
+        return $this->buildMouvements($this->getMouvementsBySociete($societe, 0, 1));
     }
 
     public function getMouvementsAll($facturee) {
