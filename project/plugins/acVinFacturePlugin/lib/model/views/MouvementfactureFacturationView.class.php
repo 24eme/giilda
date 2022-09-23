@@ -181,6 +181,7 @@ class MouvementfactureFacturationView extends acCouchdbView {
         $mouvement->origines = $row->value[self::VALUE_ID_ORIGINE];
         $mouvement->facturable = $row->key[self::KEYS_FACTURABLE];
         $mouvement->region = $row->key[self::KEYS_REGION];
+        $mouvement->interpro = $row->key[self::KEYS_INTERPRO];
         if ($mouvement->origine == "MouvementsFacture") {
             $mouvement->nom_facture = $mouvement->matiere;
         }

@@ -194,6 +194,7 @@ MouvementsFacture:
                         facture: { type: integer }
                         facturable: { type: integer }
                         region : { }
+                        interpro : { }
                         date : { }
                         vrac_numero : { } #Utilisé pour l'ordre
 
