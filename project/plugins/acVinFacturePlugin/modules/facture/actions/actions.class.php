@@ -102,8 +102,8 @@ class factureActions extends sfActions {
         if (isset($filters_parameters['seuil'])) {
             $generation->arguments->add('seuil', $filters_parameters['seuil']);
         }
-        if (isset($filters_parameters['interproFacturable'])) {
-            $generation->arguments->add('interpro', $filters_parameters['interproFacturable']);
+        if (isset($filters_parameters['interpro'])) {
+            $generation->arguments->add('interpro', $filters_parameters['interpro']);
         }
         $generation->save();
 
