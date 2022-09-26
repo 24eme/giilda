@@ -51,7 +51,7 @@ class MouvementfactureFacturationView extends acCouchdbView {
             $identifiantsSupplementaire[str_replace("ETABLISSEMENT-", "", $id)] = str_replace("ETABLISSEMENT-", "", $id);
         }
         foreach($identifiantsSupplementaire as $identifiant) {
-            $rows = array_merge($rows, $this->getRowsByIdentifiant($identifiant, $identifiant, $paramRegion, $facturee, $facturable, $reduceLevel));
+            $rows = array_merge($rows, $this->getRowsByIdentifiant($identifiant, $identifiant, $paramRegion, $facturee, $facturable, $reduceLevel, $interpro));
         }
 
         return $rows;
@@ -59,9 +59,8 @@ class MouvementfactureFacturationView extends acCouchdbView {
 
     protected function getRowsByIdentifiant($identifiantStart, $identifiantEnd, $paramRegion, $facturee, $facturable, $reduceLevel = false, $interpro = null) {
         $view = $this->client
-                        ->startkey(array($facturee, $facturable, $paramRegion, $interpro, $identifiantStart))
-                        ->endkey(array($facturee, $facturable, $paramRegion, $interpro, $identifiantEnd, array()));
-
+                        ->startkey(array($facturee, $facturable, $interpro, $paramRegion, $interpro, $identifiantStart))
+                        ->endkey(array($facturee, $facturable, $interpro, $paramRegion, $interpro, $identifiantEnd, array()));
         if(!$reduceLevel) {
             $view->reduce(false);
         } else {

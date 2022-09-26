@@ -251,12 +251,12 @@ class FactureClient extends acCouchdbClient {
         if(!$mouvements || !count($mouvements)) {
             return null;
         }
-
         $facture = $this->createDocFromMouvements($mouvements,
                                             $societe,
                                             $parameters['modele'],
                                             $parameters['date_facturation'],
-                                            $parameters['message_communication']);
+                                            $parameters['message_communication'],
+                                            $parameters['interpro']);
 
         return $facture;
     }
