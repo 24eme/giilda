@@ -118,35 +118,39 @@ class MouvementfactureFacturationView extends acCouchdbView {
                                 ->getView($this->design, $this->view)->rows);
     }
 
-    public function getMouvementsEnAttente($interproFacturable = null)
-    {
-        $start = [0,1];
-        $end = [0,1, []];
-        if ($interproFacturable) {
-            $start = [0,1,$interproFacturable];
-            $end = [0,1,$interproFacturable,[]];
+    private function queryMouvements($facturee, $facturable, $interpro = null, $region = null, $level = null) {
+        $start = [$facturee,$facturable, $interpro];
+        $end = [$facturee,$facturable, $interpro];
+        if ($region) {
+            $start[] = $region;
+            $end[] = $region;
         }
-        return $this->client->startkey($start)
-                                ->endkey($end)
-                                ->reduce(false)
-                                ->getView($this->design, $this->view)->rows;
+        $end[] = [];
+        $view = $this->client->startkey($start)->endkey($end);
+        if ($level) {
+            $view->reduce(true)->group_level($level)
+        } else {
+            $view->reduce(false);
+        }
+        return $view->getView($this->design, $this->view)->rows;
     }
 
-    public function getMouvements($facturee, $facturable, $level) {
-
-        return $this->buildMouvements($this->consolidationMouvements($this->client
-                                ->startkey(array($facturee, $facturable))
-                                ->endkey(array($facturee, $facturable, array()))
-                                ->reduce(true)->group_level($level)
-                                ->getView($this->design, $this->view)->rows));
+    public function getMouvementsEnAttente($interpro = null, $region = null) {
+        return $this->queryMouvements(0, 1, $interpro, $region);
     }
 
-    public function getMouvementsFacturablesByRegions($facturee, $facturable, $region, $level) {
-        return $this->buildMouvements($this->consolidationMouvements($this->client
-                                ->startkey(array($facturee, $facturable, $region))
-                                ->endkey(array($facturee, $facturable, $region, array()))
-                                ->reduce(true)->group_level($level)
-                                ->getView($this->design, $this->view)->rows));
+    public function getMouvements($facturee, $facturable, $interpro, $level) {
+        return $this->buildMouvements(
+                    $this->consolidationMouvements(
+                        $this->queryMouvements($facturee, $facturable, $interpro, null, $level)
+                ));
+    }
+
+    public function getMouvementsFacturablesByRegions($facturee, $facturable, $interpro, $region, $level) {
+        return $this->buildMouvements(
+                    $this->consolidationMouvements(
+                        $this->queryMouvements($facturee, $facturable, $interpro, $region, $level)
+                ));
     }
 
     protected function buildMouvements($rows) {
