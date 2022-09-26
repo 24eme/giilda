@@ -4,8 +4,8 @@ class MouvementfactureFacturationView extends acCouchdbView {
 
     const KEYS_FACTURE = 0;
     const KEYS_FACTURABLE = 1;
-    const KEYS_REGION = 2;
-    const KEYS_INTERPRO = 3;
+    const KEYS_INTERPRO = 2;
+    const KEYS_REGION = 3;
     const KEYS_ETB_ID = 4;
     const KEYS_ORIGIN = 5;
     const KEYS_MATIERE = 6;
