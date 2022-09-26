@@ -31,14 +31,14 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return acCouchdbManager::getView('mouvementfacture', 'facturation');
     }
 
-    protected function getRowsBySociete($societe, $facturee, $facturable, $reduceLevel = false) {
+    protected function getRowsBySociete($societe, $facturee, $facturable, $reduceLevel = false, $interpro = null) {
         try {
             $paramRegion = ($societe->type_societe != SocieteClient::TYPE_OPERATEUR) ? SocieteClient::TYPE_AUTRE : $societe->getRegionViticole();
         } catch (Exception $e) {
             $paramRegion = array();
         }
 
-        $rows = $this->getRowsByIdentifiant(EtablissementClient::getInstance()->getFirstIdentifiant($societe->identifiant), EtablissementClient::getInstance()->getLastIdentifiant($societe->identifiant), $paramRegion, $facturee, $facturable, $reduceLevel);
+        $rows = $this->getRowsByIdentifiant(EtablissementClient::getInstance()->getFirstIdentifiant($societe->identifiant), EtablissementClient::getInstance()->getLastIdentifiant($societe->identifiant), $paramRegion, $facturee, $facturable, $reduceLevel, $interpro);
 
         $identifiantsSupplementaire = array();
         foreach($societe->etablissements as $id => $infos) {
@@ -71,19 +71,19 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return $view->getView($this->design, $this->view)->rows;
     }
 
-    protected function getMouvementsBySociete($societe, $facturee, $facturable) {
+    protected function getMouvementsBySociete($societe, $facturee, $facturable, $interpro = null) {
 
-        return $this->getRowsBySociete($societe, $facturee, $facturable, false);
+        return $this->getRowsBySociete($societe, $facturee, $facturable, false, $interpro);
     }
 
-    public function getMouvementsBySocieteWithReduce($societe, $facturee, $facturable, $level) {
+    public function getMouvementsBySocieteWithReduce($societe, $facturee, $facturable, $level, $interpro = null) {
 
         if($societe == SocieteClient::TYPE_OPERATEUR) {
             // On s'assure qu'il y a une region viticole pour les opérateurs car cette méthode renvoi une Exception si ce n'est pas le cas
             $societe->getRegionViticole();
         }
 
-        return $this->buildMouvements($this->consolidationMouvements($this->getRowsBySociete($societe, $facturee, $facturable, $level)));
+        return $this->buildMouvements($this->consolidationMouvements($this->getRowsBySociete($societe, $facturee, $facturable, $level, $interpro)));
     }
 
     protected function consolidationMouvements($rows) {

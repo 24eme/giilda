@@ -118,17 +118,17 @@ class FactureClient extends acCouchdbClient {
         return MouvementfactureFacturationView::KEYS_VRAC_DEST + 1;
     }
 
-    public function getFacturationForSociete($societe) {
-        return MouvementfactureFacturationView::getInstance()->getMouvementsBySocieteWithReduce($societe, 0, 1, $this->getReduceLevelForFacturation());
+    public function getFacturationForSociete($societe, $interpro = null) {
+        return MouvementfactureFacturationView::getInstance()->getMouvementsBySocieteWithReduce($societe, 0, 1, $this->getReduceLevelForFacturation(), $interpro);
     }
 
-    public function getMouvementsForMasse($regions) {
+    public function getMouvementsForMasse($interpro, $regions) {
         if (!$regions) {
-            return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1, $this->getReduceLevelForFacturation());
+            return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1, $interpro, $this->getReduceLevelForFacturation());
         }
         $mouvementsByRegions = array();
         foreach ($regions as $region) {
-            $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1, $region, $this->getReduceLevelForFacturation()), $mouvementsByRegions);
+            $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1, $interpro, $region, $this->getReduceLevelForFacturation()), $mouvementsByRegions);
         }
 
         ksort($mouvementsByRegions);
@@ -235,7 +235,10 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function createAndSaveFacturesBySociete($societe, $parameters) {
-        $mouvements = array($societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($societe));
+        if (!isset($parameters['interpro'])) {
+            $parameters['interpro'] = null;
+        }
+        $mouvements = array($societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($societe, $parameters['interpro']));
         $mouvements = FactureClient::getInstance()->filterWithParameters($mouvements, $parameters);
 
         if(!count($mouvements)) {
