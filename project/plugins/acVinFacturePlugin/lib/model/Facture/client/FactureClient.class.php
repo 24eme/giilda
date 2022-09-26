@@ -65,7 +65,7 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-' . $idClient . '-' . $date . '00')->endkey('FACTURE-' . $idClient . '-' . $date . '99')->execute($hydrate);
     }
 
-    public function createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication) {
+    public function createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication = null, $intepro = null) {
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);
@@ -91,6 +91,9 @@ class FactureClient extends acCouchdbClient {
             $facture->addOneMessageCommunication($message_communication);
         }
         $facture->storeEmetteur();
+        if ($interpro) {
+            $facture->interpro = $interpro;
+        }
         return $facture;
     }
 

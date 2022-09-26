@@ -23,6 +23,7 @@ Facture:
       avoir: {required: false}
       taux_tva: {required: false}
       region: {}
+      interpro: {}
       versement_comptable: {type: integer}
       versement_comptable_paiement: {type: integer}
       versement_sepa: {type: integer}
