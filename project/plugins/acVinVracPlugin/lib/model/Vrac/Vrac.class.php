@@ -1056,7 +1056,11 @@ class Vrac extends BaseVrac {
 
         $etabAcheteur = EtablissementClient::getInstance()->findByIdentifiant($this->getAcheteurObject()->getIdentifiant());
         $etabVendeur = EtablissementClient::getInstance()->findByIdentifiant($this->getVendeurObject()->getIdentifiant());
-        if($etabAcheteur->haveLiaison($etabVendeur) && $etabVendeur->haveLiaison($etabAcheteur)){
+
+        if($etabAcheteur === $etabVendeur){
+            $this->_set('interne',true);
+        }
+        elseif($etabAcheteur->haveLiaison($etabVendeur) && $etabVendeur->haveLiaison($etabAcheteur)){
             $this->_set('interne',true);
         }
         return $this;
