@@ -73,7 +73,7 @@ class factureActions extends sfActions {
 
     public function executeGeneration(sfWebRequest $request) {
         $interproFacturable = $this->getInterproFacturable($request);
-        $this->form = ($interproFacturable)? new FactureGenerationForm(['interproFacturable' => $interproFacturable]) : new FactureGenerationForm();
+        $this->form = ($interproFacturable)? new FactureGenerationForm(['interpro' => $interproFacturable]) : new FactureGenerationForm();
         $filters_parameters = array();
         if (!$request->isMethod(sfWebRequest::POST)) {
 
