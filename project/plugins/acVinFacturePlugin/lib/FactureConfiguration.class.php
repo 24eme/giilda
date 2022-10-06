@@ -104,6 +104,10 @@ class FactureConfiguration {
       return $this->configuration['pdf_nom_interpro'];
     }
 
+    public function getPdfLogoInterpro() {
+        return (isset($this->configuration['pdf_logo_interpro']))? $this->configuration['pdf_logo_interpro'] : null;
+    }
+
     public function getOrdreCheques(){
         if (!isset($this->configuration['pdf_ordre_cheque']))
           return "facture: pdf: ordre_cheque A CONFIGURER";
