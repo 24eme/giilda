@@ -212,8 +212,25 @@ class FactureConfiguration {
         return $delais;
     }
 
-    public function isMultiInterproFacturables() {
-        return isset($this->configuration['multi_interpro_facturables']) ? $this->configuration['multi_interpro_facturables'] : false;
+    public static function isMultiInterproFacturables() {
+        $conf = sfConfig::get("facture_configuration_facture", []);
+        return isset($conf["multi_interpro_facturables"])? $conf["multi_interpro_facturables"] : false;
+    }
+
+    public function getEmetteurCvo() {
+        return isset($this->configuration['emetteur_cvo']) ? $this->configuration['emetteur_cvo'] : array();
+    }
+
+    public function getEmetteurLibre() {
+        return isset($this->configuration['emetteur_libre']) ? $this->configuration['emetteur_libre'] : array();
+    }
+
+    public function getCoordonneesBancaire() {
+        return isset($this->configuration['coordonnees_bancaire']) ? $this->configuration['coordonnees_bancaire'] : array();
+    }
+
+    public function getInfosInterpro() {
+        return isset($this->configuration['infos_interpro']) ? $this->configuration['infos_interpro'] : array();
     }
 
 }
