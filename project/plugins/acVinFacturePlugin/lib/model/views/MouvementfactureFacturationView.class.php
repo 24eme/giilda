@@ -59,8 +59,8 @@ class MouvementfactureFacturationView extends acCouchdbView {
 
     protected function getRowsByIdentifiant($identifiantStart, $identifiantEnd, $paramRegion, $facturee, $facturable, $reduceLevel = false, $interpro = null) {
         $view = $this->client
-                        ->startkey(array($facturee, $facturable, $interpro, $paramRegion, $interpro, $identifiantStart))
-                        ->endkey(array($facturee, $facturable, $interpro, $paramRegion, $interpro, $identifiantEnd, array()));
+                        ->startkey(array($facturee, $facturable, $interpro, $paramRegion, $identifiantStart))
+                        ->endkey(array($facturee, $facturable, $interpro, $paramRegion, $identifiantEnd, array()));
         if(!$reduceLevel) {
             $view->reduce(false);
         } else {
