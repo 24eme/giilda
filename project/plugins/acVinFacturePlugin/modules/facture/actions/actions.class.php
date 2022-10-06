@@ -133,6 +133,9 @@ class factureActions extends sfActions {
     }
 
     public function executeEtablissement(sfWebRequest $request) {
+        if (!$this->getRoute()->getEtablissement()->getSociete()) {
+            throw new Exception('Pas de sociéte pour l\'etablissement : '.$this->getRoute()->getEtablissement()->_id);
+        }
         return $this->redirect('facture_societe', $this->getRoute()->getEtablissement()->getSociete());
     }
 
