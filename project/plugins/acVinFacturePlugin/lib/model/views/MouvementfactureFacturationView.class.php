@@ -127,7 +127,7 @@ class MouvementfactureFacturationView extends acCouchdbView {
         $end[] = [];
         $view = $this->client->startkey($start)->endkey($end);
         if ($level) {
-            $view->reduce(true)->group_level($level)
+            $view->reduce(true)->group_level($level);
         } else {
             $view->reduce(false);
         }
