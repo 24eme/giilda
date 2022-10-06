@@ -152,9 +152,10 @@ class factureActions extends sfActions {
         ini_set('memory_limit', '256M');
 
         $this->societe = $this->getRoute()->getSociete();
+        $interproFacturable = $this->getInterproFacturable($request);
         $this->values = array();
 
-        $this->form = new FactureGenerationForm();
+        $this->form = ($interproFacturable)? new FactureGenerationForm(['interpro' => $interproFacturable]) : new FactureGenerationForm();
         if (!$request->isMethod(sfWebRequest::POST)) {
 
             return sfView::SUCCESS;
