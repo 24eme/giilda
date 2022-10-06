@@ -37,18 +37,18 @@
 
 \fancyhf{}
 \def\PdfTitre{<?php echo $pdf_titre; ?>}
-\def\NomInterpro{<?php echo sfConfig::get('facture_configuration_facture', array('pdf_nom_interpro'=>''))['pdf_nom_interpro']; ?>}
-\def\InterproAdresse{ <?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['adresse']; ?>\\
-		       <?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['code_postal']." ".sfConfig::get('app_configuration_facture')['emetteur_libre']['ville']; ?> }
-\def\InterproContact{\\ <?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['telephone']; ?>
-                                                    \\ Email : <?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['email']; ?>
+\def\NomInterpro{<?php echo $factureConfiguration->getNomInterproFacture(); ?>}
+\def\InterproAdresse{ <?php echo $factureConfiguration->getEmetteurLibre()['adresse']; ?>\\
+		       <?php echo $factureConfiguration->getEmetteurLibre()['code_postal']." ".$factureConfiguration->getEmetteurLibre()['ville']; ?> }
+\def\InterproContact{\\ <?php echo $factureConfiguration->getEmetteurLibre()['telephone']; ?>
+                                                    \\ Email : <?php echo $factureConfiguration->getEmetteurLibre()['email']; ?>
 										}
-\def\InterproSIRET{<?php echo sfConfig::get('app_configuration_facture')['infos_interpro']['siret']; ?>}
-\def\InterproAPE{<?php echo sfConfig::get('app_configuration_facture')['infos_interpro']['ape']; ?>}
-\def\InterproTVAIntracomm{<?php echo sfConfig::get('app_configuration_facture')['infos_interpro']['tva_intracom']; ?>}
-\def\InterproBANQUE{<?php echo sfConfig::get('app_configuration_facture')['coordonnees_bancaire']['banque']; ?>}
-\def\InterproBIC{<?php echo sfConfig::get('app_configuration_facture')['coordonnees_bancaire']['bic']; ?>}
-\def\InterproIBAN{<?php echo sfConfig::get('app_configuration_facture')['coordonnees_bancaire']['iban']; ?>}
+\def\InterproSIRET{<?php echo $factureConfiguration->getInfosInterpro()['siret']; ?>}
+\def\InterproAPE{<?php echo $factureConfiguration->getInfosInterpro()['ape']; ?>}
+\def\InterproTVAIntracomm{<?php echo $factureConfiguration->getInfosInterpro()['tva_intracom']; ?>}
+\def\InterproBANQUE{<?php echo $factureConfiguration->getCoordonneesBancaire()['banque']; ?>}
+\def\InterproBIC{<?php echo $factureConfiguration->getCoordonneesBancaire()['bic']; ?>}
+\def\InterproIBAN{<?php echo $factureConfiguration->getCoordonneesBancaire()['iban']; ?>}
 
 \def\RessortissantNom{<?php $nom = ($ressortissant->raison_sociale == '')? $ressortissant->nom : html_entity_decode($ressortissant->raison_sociale);
                             echo display_latex_string($nom,';',40);
