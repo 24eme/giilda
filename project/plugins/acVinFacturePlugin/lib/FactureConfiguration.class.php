@@ -7,19 +7,23 @@ class FactureConfiguration {
 
     const ALL_KEY = "_ALL";
 
-    public static function getInstance() {
+    public static function getInstance($interpro = null) {
         if (is_null(self::$_instance)) {
-            self::$_instance = new FactureConfiguration();
+            self::$_instance = new FactureConfiguration($interpro);
         }
         return self::$_instance;
     }
 
-    public function __construct() {
-        if(!sfConfig::has('facture_configuration_facture')) {
+    public function __construct($interpro = null) {
+        if(!sfConfig::has("facture_configuration_facture") && !sfConfig::has("facture_configuration_facture-".strtolower($interpro))) {
 			throw new sfException("La configuration pour les factures n'a pas été défini pour cette application");
 		}
-
-        $this->configuration = sfConfig::get('facture_configuration_facture', array());
+        $this->configuration = array_merge(
+            sfConfig::get("facture_configuration_facture", array()),
+            sfConfig::get("facture_configuration_facture-".strtolower($interpro), array()),
+            sfConfig::get("app_configuration_facture", array()),
+            sfConfig::get("app_configuration_facture-".strtolower($interpro), array()),
+        );
     }
 
     public function getAll() {

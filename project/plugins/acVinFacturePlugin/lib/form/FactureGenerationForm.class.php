@@ -9,7 +9,8 @@ class FactureGenerationForm extends BaseForm {
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults['date_facturation'] = date('d/m/Y');
         $defaults['date_mouvement'] = date('d/m/Y');
-        $defaults['seuil'] = FactureConfiguration::getInstance()->getSeuilMinimum();
+        $interpro = (isset($defaults['interpro']))? $defaults['interpro'] : null;
+        $defaults['seuil'] = FactureConfiguration::getInstance($interpro)->getSeuilMinimum();
         $this->withExport = false;
         if (isset($options['export']) && $options['export']) {
 		$this->withExport = true;
@@ -48,19 +49,19 @@ class FactureGenerationForm extends BaseForm {
 
     public function getChoices() {
         $choices = array_merge(FactureClient::getInstance()->getTypeFactureMouvement());
-      if (FactureConfiguration::getInstance()->getExportSV12()) {
+      if (FactureConfiguration::getInstance($this->getDefault('interpro'))->getExportSV12()) {
         $choices = array_merge($choices, array(FactureClient::TYPE_FACTURE_MOUVEMENT_SV12 => 'Facturation SV12'));
         }
-        if (FactureConfiguration::getInstance()->getExportShell()) {
+        if (FactureConfiguration::getInstance($this->getDefault('interpro'))->getExportShell()) {
           $choices = array_merge($choices, array(self::TYPE_GENERATION_EXPORT => 'Export comptable'));
 	      }
-        if (FactureConfiguration::getInstance()->getExportRelances()) {
+        if (FactureConfiguration::getInstance($this->getDefault('interpro'))->getExportRelances()) {
           $choices = array_merge($choices, array(self::TYPE_GENERATION_RELANCES => 'Export relances'));
 	      }
         if (sfConfig::get('statistique_configuration_vracssansprix')) {
           $choices[GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX] = 'Contrats sans prix';
         }
-        if (!isset(sfConfig::get('app_configuration_facture')['emetteur_libre'])) {
+        if (!FactureConfiguration::getInstance($this->getDefault('interpro'))->getEmetteurLibre()) {
 		      unset($choices[FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS]);
 	      }
         return $choices;

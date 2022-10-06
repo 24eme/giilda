@@ -38,31 +38,31 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeEmetteur() {
-        $configs = sfConfig::get('app_configuration_facture');
+        $configs = $this->getConfiguration();
         $emetteur = new stdClass();
         $config_emetteur = null;
-        if (!$configs && !isset($configs['emetteur_libre']) && !isset($configs['emetteur_cvo'])) {
+
+        if (!$configs || (!$configs->getEmetteurLibre() && !$configs->getEmetteurCvo())) {
             throw new sfException(sprintf('Config "configuration/facture/emetteur" not found in app.yml'));
         }
         if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
-            $config_emetteur = $configs['emetteur_libre'];
+            $config_emetteur = $configs->getEmetteurLibre();
         }
 
         if(!$config_emetteur) {
-            $config_emetteur = $configs['emetteur_cvo'];
+            $config_emetteur = $configs->getEmetteurCvo();
         }
-
         unset($config_emetteur['fax']);
         $this->emetteur = $config_emetteur;
 
     }
 
     public function getCoordonneesBancaire() {
-        $configs = sfConfig::get('app_configuration_facture');
-        if (!$configs && !isset($configs['coordonnees_bancaire'])) {
+        $configs = $this->getConfiguration();
+        if (!$configs && $configs->getCoordonneesBancaire()) {
             throw new sfException(sprintf('Config "configuration/facture/coordonnees_bancaire" not found in app.yml'));
         }
-        $appCoordonneesBancaire = $configs['coordonnees_bancaire'];
+        $appCoordonneesBancaire = $configs->getCoordonneesBancaire();
 
         $coordonneesBancaires = new stdClass();
 
@@ -74,11 +74,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getInformationsInterpro() {
-        $configs = sfConfig::get('app_configuration_facture');
-        if (!$configs && !isset($configs['infos_interpro'])) {
+        $configs = $this->getConfiguration();
+        if (!$configs && $configs->getInfosInterpro()) {
             throw new sfException(sprintf('Config "configuration/facture/infos_interpro" not found in app.yml'));
         }
-        $appInfosInterpro = $configs['infos_interpro'];
+        $appInfosInterpro = $configs->getInfosInterpro();
 
         $infosInterpro = new stdClass();
 
@@ -89,19 +89,22 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $infosInterpro;
     }
 
+    public function getConfiguration() {
+        return FactureConfiguration::getInstance($this->interpro);
+    }
+
     public function storeDatesCampagne($date_facturation = null) {
-        $configs = sfConfig::get('app_configuration_facture');
         $this->date_emission = date('Y-m-d');
         $this->date_facturation = $date_facturation;
         $date_facturation_object = new DateTime($this->date_facturation);
-        $this->date_echeance = $date_facturation_object->modify(FactureConfiguration::getInstance()->getEcheance())->format('Y-m-d');
+        $this->date_echeance = $date_facturation_object->modify($this->getConfiguration()->getEcheance())->format('Y-m-d');
         if (!$this->date_facturation) {
             $this->date_facturation = date('Y-m-d');
         }
 
 	    $date_campagne = new DateTime($this->date_facturation);
 
-        if (FactureConfiguration::getInstance()->getExercice() == 'viticole') {
+        if ($this->getConfiguration()->getExercice() == 'viticole') {
 		    $date_campagne = $date_campagne->modify('+5 months');
 	    }
 
@@ -126,7 +129,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             return $this->_get('numero_piece_comptable');
         }
-        $prefix = FactureConfiguration::getInstance()->getPrefixId($this);
+        $prefix = $this->getConfiguration()->getPrefixId($this);
 
         return $prefix . preg_replace('/^\d{2}(\d{2})/', '$1', $this->campagne) . sprintf('%05d', $this->numero_archive);
     }
@@ -174,7 +177,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $nb = 0;
       foreach($this->lignes as $k => $l) {
         $nb++;
-        if(!FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+        if(!$this->getConfiguration()->isPdfLigneDetails()) {
             continue;
         }
         $nb += count($l->details);
@@ -312,7 +315,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 }
                 $codeProduit = $produit_configuration->getCodeComptable();
 
-                $detail->add(FactureConfiguration::getInstance()->getStockageCodeProduit(), $codeProduit);
+                $detail->add($this->getConfiguration()->getStockageCodeProduit(), $codeProduit);
             }
             elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
                 $detail = $ligne->getOrAdd('details')->add();
@@ -863,7 +866,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getNumberToRelance() {
-        $relances = FactureConfiguration::getInstance()->getRelances();
+        $relances = $this->getConfiguration()->getRelances();
         foreach($relances as $num => $delai) {
             if ($this->needRelance($delai, $num)) {
                 return $num;

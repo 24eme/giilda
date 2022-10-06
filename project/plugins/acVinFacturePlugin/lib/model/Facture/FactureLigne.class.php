@@ -76,7 +76,7 @@ class FactureLigne extends BaseFactureLigne {
         foreach ($this->details as $detail) {
             $detail->montant_ht = $detail->quantite * $detail->prix_unitaire;
             $detail->montant_tva = $detail->taux_tva * $detail->montant_ht;
-            if(FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+            if(FactureConfiguration::getInstance($this->getDocument()->interpro)->isPdfLigneDetails()) {
                 $detail->montant_ht = round($detail->montant_ht, 2);
                 $detail->montant_tva = round($detail->montant_tva, 2);
             }
