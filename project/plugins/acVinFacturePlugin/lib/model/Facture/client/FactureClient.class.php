@@ -118,10 +118,6 @@ class FactureClient extends acCouchdbClient {
         return MouvementfactureFacturationView::KEYS_VRAC_DEST + 1;
     }
 
-    public function getFacturationForSociete($societe, $interpro = null) {
-        return MouvementfactureFacturationView::getInstance()->getMouvementsBySocieteWithReduce($societe, 0, 1, $this->getReduceLevelForFacturation(), $interpro);
-    }
-
     public function getMouvementsForMasse($interpro, $regions) {
         if (!$regions) {
             return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1, $interpro, $this->getReduceLevelForFacturation());
@@ -238,7 +234,7 @@ class FactureClient extends acCouchdbClient {
         if (!isset($parameters['interpro'])) {
             $parameters['interpro'] = null;
         }
-        $mouvements = array($societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($societe, $parameters['interpro']));
+        $mouvements = array($societe->identifiant => MouvementfactureFacturationView::getInstance()->getMouvementsBySocieteWithReduce($societe, 0, 1, $this->getReduceLevelForFacturation(), $parameters['interpro']));
         $mouvements = FactureClient::getInstance()->filterWithParameters($mouvements, $parameters);
 
         if(!count($mouvements)) {
