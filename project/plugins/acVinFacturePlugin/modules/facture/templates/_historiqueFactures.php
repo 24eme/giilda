@@ -56,10 +56,10 @@ use_helper('Date');
                 <?php endif; ?>
                 <td class="text-right">
                     <div class="btn-group text-left">
-                        <?php if(FactureConfiguration::getInstance()->getPaiementsActif()): ?>
+                        <?php if(FactureConfiguration::getInstance()->getPaiementsActif() && $sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
                           <button type="button" class="btn btn-default btn-default-step btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span>&nbsp;<span class="caret"></span></button>
                           <ul class="dropdown-menu dropdown-menu-right">
-                              <?php if ($f->isRedressable() && $sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
+                              <?php if ($f->isRedressable()): ?>
                                 <li><a onclick="return confirm('Êtes-vous sur de vouloir annuler cette facture en créant un avoir ?');" href="<?php echo url_for("facture_defacturer", array("id" => $f->_id)) ?>"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Défacturer</a></li>
                               <?php else: ?>
                                 <li  class="disabled"><a href=""><span class="glyphicon glyphicon-repeat"></span>&nbsp;Défacturer</a></li>
