@@ -77,3 +77,9 @@ Compte:
         definition:
           fields:
             '*': { }
+      extras:
+        type: collection
+        required: false
+        definition:
+          fields:
+            '*': { }

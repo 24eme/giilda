@@ -49,6 +49,8 @@ DS:
                               stock_initial_millesime_courant: { type: float }
                               stock_declare_millesime_courant: { type: float }
                               dont_vraclibre_millesime_courant: { type: float }
+                              stock_declare_millesime_precedent: { type: float }
+                              dont_vraclibre_millesime_precedent: { type: float }
                               stock_declare_millesime_anterieur: { type: float }
                               dont_vraclibre_millesime_anterieur: { type: float }
       valide:

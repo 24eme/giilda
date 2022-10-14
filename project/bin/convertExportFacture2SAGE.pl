@@ -13,11 +13,11 @@ my @infosTva = ();
 my $max_miva = 30;
 my $max_intitule = 35;
 
-if ($ENV{EXPOR_SAGE_MAX_MIVA}) {
-    $max_miva = $ENV{EXPOR_SAGE_MAX_MIVA};
+if ($ENV{EXPORT_SAGE_MAX_MIVA}) {
+    $max_miva = $ENV{EXPORT_SAGE_MAX_MIVA};
 }
-if ($ENV{EXPOR_SAGE_MAX_INTITULE}) {
-    $max_intitule = $ENV{EXPOR_SAGE_MAX_INTITULE};
+if ($ENV{EXPORT_SAGE_MAX_INTITULE}) {
+    $max_intitule = $ENV{EXPORT_SAGE_MAX_INTITULE};
 }
 
 while(<STDIN>) {

@@ -51,7 +51,7 @@
             <a class="btn btn-default" href="<?php echo url_for('societe_creation'); ?>">Annuler</a>
         </div>
         <div class="col-xs-6  text-right">
-            <a class="btn btn-success" href="<?php echo url_for('societe_nouvelle', array('type' => $type, 'raison_sociale' => $raison_sociale)); ?>">Créer</a>
+            <a class="btn btn-success" href="<?php echo url_for('societe_nouvelle', array('type' => $type, 'raison_sociale' => $raison_sociale, 'identifiant' => $identifiant)); ?>">Créer</a>
         </div>
-    </div>   
+    </div>
 </section>

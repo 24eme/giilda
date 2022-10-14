@@ -1,0 +1,26 @@
+all:
+  configuration:
+    societe:
+      identifiant_saisi:  "CVI/CIVABA"
+      extras:
+        cvi: { nom: "cvi", auto: true }
+        civaba: { nom: "civaba", auto: true }
+        siret: { nom: "siret", auto: true }
+        no_accises: { nom: "no_accises", auto: true }
+        carte_pro: { nom: "carte_pro", auto: true }
+        code_comptable: { nom: "code_comptable", auto: true }
+        famille: { nom: "famille", auto: true }
+        activite: { nom: "activité" }
+        site_internet: { nom: "site_internet" }
+        sous_region_viticole: { nom: "sous_region_viticole" }
+        adherent_organisme: { nom: "adherent_organisme", auto: true }
+        declaration_commune: { nom: "declaration_commune", auto: true }
+        declaration_insee: { nom: "declaration_insee" }
+        societes_liees_identifiant: { nom: "societes_liees_identifiant", auto: true }
+        maison_mere_identifiant: { nom: "maison_mere_identifiant" }
+        maison_mere_raison_sociale: { nom: "maison_mere_raison_sociale" }
+        maison_mere_siret: { nom: "maison_mere_siret" }
+        date_creation: { nom: "date_creation" }
+        date_cloture: { nom: "date_cloture" }
+        db2_num_tiers: { nom: "db2_num_tiers" }
+        db2_num_stock: { nom: "db2_num_stock" }
