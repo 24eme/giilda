@@ -119,11 +119,17 @@ EOF;
 
             $ligne[self::CSV_FA_NUM_LIGNE] = "01"; // ? ou $cpt;
             $type_contrat = "";
+            $ligne[self::CSV_FA_CODE_DEST] = "Z";
+            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA";
+            $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = $this->getCodeDenomVinIGP($produit); // ASSIGNER LES CODE PRODUITS IGP
             if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC) {
                 $type_contrat = "V";
             }
             if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) {
                 $type_contrat = "M";
+                $ligne[self::CSV_FA_CODE_DEST] = "A";
+                $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "MO";
+                $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = '';
             }
             $ligne[self::CSV_FA_TYPE_CONTRAT] = $type_contrat; // V pour vrac, M pour Mout
             $ligne[self::CSV_FA_CAMPAGNE] = substr($contrat->campagne, 0, 4);
@@ -159,8 +165,6 @@ EOF;
 
             $ligne[self::CSV_FA_DELAI_PAIEMENT] = sprintf("%0.1f", $this->getDelaiPaiement($contrat));
 
-            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA";
-            $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = $this->getCodeDenomVinIGP($produit); // ASSIGNER LES CODE PRODUITS IGP
             $ligne[self::CSV_FA_PRIMEUR] = ($produit->getMention()->getKey() == "PM") ? "O" : "N";
             $ligne[self::CSV_FA_BIO] = ($contrat->isBio()) ? "O" : "N";
             $ligne[self::CSV_FA_COULEUR] = $this->getCouleurIGP($contrat, $produit);
@@ -171,7 +175,6 @@ EOF;
             $ligne[self::CSV_FA_PRIX] = sprintf("%0.2f", $contrat->prix_initial_unitaire_hl);
             $ligne[self::CSV_FA_UNITE_PRIX] = 'H';
             $ligne[self::CSV_FA_CODE_CEPAGE] = $contrat->cepage; // Aucun code produit ajourd'hui
-            $ligne[self::CSV_FA_CODE_DEST] = "Z";
             /*
               Comment connaitre?
               Z  = Consommation
