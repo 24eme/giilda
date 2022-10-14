@@ -837,4 +837,39 @@ class VracClient extends acCouchdbClient {
         return VracConfiguration::getInstance()->getRepartitionCvo();
     }
 
+    public function retrieveAllInterne($fromdate){ //$fromdate au format YYYY-MM-DD
+
+        $result = array();
+        $index = acElasticaManager::getType('VRAC');
+
+        $elasticaQueryString = new acElasticaQueryQueryString();
+        $elasticaQueryString->setQuery(sprintf("doc.interne:%s", "true"));
+        $elasticaQueryString->setDefaultOperator('AND');
+
+        $elasticaFilterBool = new Elastica_Filter_Bool();
+
+        $rangeFilter = new Elastica_Filter_Range();
+
+        $rangeFilter->addField('doc.valide.date_saisie',array('from' => $fromdate,'to' => date("Y-m-d")));
+        $elasticaFilterBool->addMust($rangeFilter);
+
+        $q = new acElasticaQuery();
+        $q->setQuery($elasticaQueryString);
+        $q->setFilter($elasticaFilterBool);
+
+        $q->setlimit(4000);
+
+        $res = $index->search($q);
+
+        foreach ($res->getResults() as $er) {
+            $r = $er->getData();
+            $c = $this->find($r['doc']['_id']);
+            if($c){  # ?
+                  $result[] = $c;
+            }
+        }
+
+        return $result;
+    }
+
 }
