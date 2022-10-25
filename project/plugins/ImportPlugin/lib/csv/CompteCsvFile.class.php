@@ -192,7 +192,7 @@ class CompteCsvFile extends CsvFile
             $csv .= $item['nom'].';';
         }
 
-        return $csv."droits;tags automatiques;tags manuels;url;id_couchdb origine\n";
+        return $csv."droits;tags automatiques;tags documents;tags manuels;url;id_couchdb origine\n";
     }
 
     public static function toCsvLigne($compte, $virtuel = false) {
@@ -247,9 +247,11 @@ class CompteCsvFile extends CsvFile
             $csv .= '"'.str_replace('SOCIETE-', '', $value).'";';
         }
 
-        $csv .= (isset($compte->droits) ? implode("|", $compte->droits) : null).';';
-        $csv .= (isset($compte->tags->automatique) ? implode("|", $compte->tags->automatique) : null).';';
-        $csv .= (isset($compte->tags->manuel) ? implode("|", $compte->tags->manuel) : null).';';
+        $csv .= '"'.(isset($compte->droits) ? implode("|", $compte->droits) : null).'";';
+        $csv .= '"'.(isset($compte->tags->automatique) ? implode("|", $compte->tags->automatique) : null).'";';
+        $csv .= '"'.(isset($compte->tags->documents) ? implode("|", $compte->tags->documents) : null).'";';
+        $csv .= '"'.(isset($compte->tags->produits) ? implode("|", $compte->tags->produits) : null).'";';
+        $csv .= '"'.(isset($compte->tags->manuel) ? implode("|", $compte->tags->manuel) : null).'";';
         $csv .= ProjectConfiguration::getAppRouting()->generate('societe_visualisation', array('identifiant' => str_replace('SOCIETE-', '', $compte->id_societe)), true).';';
         $csv .= (isset($compte->origines[0]) ? $compte->origines[0] : $compte->_id).';';
         $csv .= "\n";
