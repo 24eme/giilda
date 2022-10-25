@@ -231,7 +231,7 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.$compte->societe_informations->fax. '";';
         $csv .= '"'.$compte->societe_informations->email. '";';
         $statutCreationCompte = str_replace("{TEXT}", "", $compte->mot_de_passe);
-        if($compte-> && strpos($compte->mot_de_passe, '{TEXT}') === false) {
+        if($compte->mot_de_passe && strpos($compte->mot_de_passe, '{TEXT}') === false) {
             $statutCreationCompte = "COMPTE_CREE";
         } elseif(!$compte->mot_de_passe) {
             $statutCreationCompte = "CODE_NON_GENERE";
