@@ -360,10 +360,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $this->exist('statut') && $this->statut === EtablissementClient::STATUT_SUSPENDU;
     }
 
-    public function hasNumeroCompte() {
-        return ($this->code_comptable_client || $this->code_comptable_fournisseur);
-    }
-
     public function getSiegeAdresses() {
         $a = $this->siege->adresse;
         if ($this->siege->exist("adresse_complementaire")) {
