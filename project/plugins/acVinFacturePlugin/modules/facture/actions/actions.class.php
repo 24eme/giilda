@@ -309,12 +309,17 @@ class factureActions extends sfActions {
 
     public function executeAttente(sfWebRequest $request)
     {
+        $mvtsVersionnes = $request->getParameter('versionnes');
+
         $this->mouvements = [];
 
         $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->getInterproFacturable($request), sfConfig::get('app_facturation_region'));
 
         foreach ($mouvements_en_attente as $m) {
             if (empty($m->key[MouvementfactureFacturationView::KEYS_ETB_ID])) {
+                continue;
+            }
+            if ($mvtsVersionnes && strpos($m->id, '-R') === false && strpos($m->id, '-M') === false) {
                 continue;
             }
 
