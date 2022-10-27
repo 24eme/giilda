@@ -10,6 +10,7 @@ all:
         carte_pro: { nom: "carte_pro", auto: true }
         code_comptable: { nom: "code_comptable", auto: true }
         famille: { nom: "famille", auto: true }
+        region: { nom: "region", auto: true }
         activite: { nom: "activité" }
         site_internet: { nom: "site_internet" }
         sous_region_viticole: { nom: "sous_region_viticole" }
