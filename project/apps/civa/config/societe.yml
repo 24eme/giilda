@@ -12,6 +12,7 @@ all:
         famille: { nom: "famille", auto: true }
         region: { nom: "region", auto: true }
         activite: { nom: "activité" }
+        cooperative: { nom: "coopérative" }
         site_internet: { nom: "site_internet" }
         sous_region_viticole: { nom: "sous_region_viticole" }
         adherent_organisme: { nom: "adherent_organisme", auto: true }
