@@ -192,7 +192,7 @@ class CompteCsvFile extends CsvFile
             $csv .= $item['nom'].';';
         }
 
-        return $csv."droits;tags automatiques;tags documents;tags manuels;url;id_couchdb origine\n";
+        return $csv."droits;tags automatiques;tags documents;tags produits;tags manuels;url;id_couchdb origine\n";
     }
 
     public static function toCsvLigne($compte, $virtuel = false) {
