@@ -49,17 +49,18 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function setIdentifiant($identifiant) {
         $r = $this->_set('identifiant', $identifiant);
-
-        $this->code_comptable_client = $this->getCodeComtableClient();
-
         return $r;
     }
 
-    public function getCodeComtableClient() {
+    public function getCodeComtableClient($interpro = null) {
+        if (($interpro && !$this->exist('codes_comptables_client'))||($interpro && !$this->codes_comptables_client->exist($interpro))||($interpro && !$this->codes_comptables_client->get($interpro))) {
+            throw new Exception('Code comptable non défini pour l\'interpro '.$interpro);
+        } else {
+            return $this->codes_comptables_client->get($interpro);
+        }
         if(!$this->_get('code_comptable_client')) {
             return FactureConfiguration::getInstance()->getPrefixCodeComptable().((int)$this->identifiant)."";
         }
-
         return $this->_get('code_comptable_client');
     }
 

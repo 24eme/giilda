@@ -670,13 +670,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         $declarant = $this->declarant;
         $declarant->nom = $doc->raison_sociale;
-//$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
         $declarant->adresse = $doc->siege->adresse;
         $declarant->adresse_complementaire = $doc->siege->adresse_complementaire;
         $declarant->commune = $doc->siege->commune;
         $declarant->code_postal = $doc->siege->code_postal;
         $declarant->raison_sociale = $doc->raison_sociale;
-        $this->code_comptable_client = $doc->code_comptable_client;
+        $interpro = ($this->exist('interpro'))? $this->get('interpro') : null;
+        $this->code_comptable_client = $doc->getCodeComtableClient($interpro);
     }
 
     public function isPayee() {
