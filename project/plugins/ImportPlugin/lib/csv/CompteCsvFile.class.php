@@ -237,7 +237,7 @@ class CompteCsvFile extends CsvFile
             $statutCreationCompte = "CODE_NON_GENERE";
         }
         $csv .= '"'.$statutCreationCompte.'";';
-        $csv .= $compte->statut. ';';
+        $csv .= '"'.$compte->statut. '";';
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
             $value = null;
@@ -252,7 +252,7 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.(isset($compte->tags->documents) ? implode("|", $compte->tags->documents) : null).'";';
         $csv .= '"'.(isset($compte->tags->produits) ? implode("|", $compte->tags->produits) : null).'";';
         $csv .= '"'.(isset($compte->tags->manuel) ? implode("|", $compte->tags->manuel) : null).'";';
-        $csv .= ProjectConfiguration::getAppRouting()->generate('societe_visualisation', array('identifiant' => str_replace('SOCIETE-', '', $compte->id_societe)), true).';';
+        $csv .= '"'.ProjectConfiguration::getAppRouting()->generate('societe_visualisation', array('identifiant' => str_replace('SOCIETE-', '', $compte->id_societe)), true).'";';
         $csv .= (isset($compte->origines[0]) ? $compte->origines[0] : $compte->_id).';';
         $csv .= "\n";
 
