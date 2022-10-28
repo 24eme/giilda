@@ -104,18 +104,11 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
             }
 
             $compte = $etablissement->getContact();
-            if ($options['reinitialisation_tags_export']) {
-                $compte->tags->remove('export');
-                $this->logSection("reset tags export", $compte->identifiant);
-            }
-            if ($options['reinitialisation_tags_produit']) {
-                $compte->tags->remove('produit');
-                $this->logSection("reset tags produit", $compte->identifiant);
-            }
-            if ($options['reinitialisation_tags_domaines']) {
-                $compte->tags->remove('domaines');
-                $this->logSection("reset tags produit", $compte->identifiant);
-            }
+            $compte->tags->remove('export');
+            $compte->tags->remove('produit');
+            $compte->tags->remove('domaines');
+            $compte->tags->remove('documents');
+
             if (!count($tags)) {
                 continue;
             }
