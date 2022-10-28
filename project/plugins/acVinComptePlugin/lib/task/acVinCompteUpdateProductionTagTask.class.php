@@ -66,7 +66,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
             $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
             $tags = array('export' => array(), 'produit' => array(), 'domaines' => array(), 'documents' => array());
 
-            $mvts = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
+            $mvts = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $campagne);
             foreach ($mvts as $m) {
                 $produit_libelle = $this->getProduitLibelle($m->produit_hash);
                 if(!$produit_libelle) {
@@ -75,7 +75,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                 $tags['produit'][$produit_libelle] = 1;
                 $tags['documents']['SV12'] = 1;
             }
-            $mvts = DRMMouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
+            $mvts = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $campagne);
             foreach ($mvts as $m) {
                 $produit_libelle = $this->getProduitLibelle($m->produit_hash);
                 if(!$produit_libelle) {
