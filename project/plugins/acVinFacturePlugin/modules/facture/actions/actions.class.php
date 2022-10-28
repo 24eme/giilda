@@ -7,6 +7,7 @@ class factureActions extends sfActions {
         $this->generationForm = new FactureGenerationForm();
         $this->generations = GenerationClient::getInstance()->findHistoryWithType(array(
             GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL,
+            GenerationClient::TYPE_DOCUMENT_EXPORT_RELANCES,
             GenerationClient::TYPE_DOCUMENT_FACTURES,
             GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX
         ), 10);
@@ -312,10 +313,15 @@ class factureActions extends sfActions {
               $filters_parameters['modele'] = "DRM";
           }elseif($values['modele'] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12_NEGO){
               $filters_parameters['modele'] = "SV12NEGO";
+          }elseif($values['modele'] == FactureClient::TYPE_FACTURE_MOUVEMENT_SV12){
+              $filters_parameters['modele'] = "SV12";
           }elseif ($values['modele'] == FactureGenerationForm::TYPE_GENERATION_EXPORT) {
                 $filters_parameters['type_document'] = GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL;
                 $filters_parameters['modele'] = null;
-            }elseif ($values['modele'] == GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX) {
+            }elseif ($values['modele'] == FactureGenerationForm::TYPE_GENERATION_RELANCES) {
+                  $filters_parameters['type_document'] = GenerationClient::TYPE_DOCUMENT_EXPORT_RELANCES;
+                  $filters_parameters['modele'] = null;
+              }elseif ($values['modele'] == GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX) {
                 $filters_parameters['type_document'] = GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX;
                 $filters_parameters['modele'] = null;
             }

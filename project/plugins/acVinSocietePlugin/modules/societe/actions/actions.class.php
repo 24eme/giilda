@@ -70,7 +70,17 @@ class societeActions extends sfCredentialActions {
             if ($this->form->isValid()) {
                 $values = $this->form->getValues();
                 $rs = str_replace('.', '-dot-', $values['raison_sociale']);
-                $this->redirect('societe_creation_doublon', array('type' => $values['type'], 'raison_sociale' => $rs));
+
+                $args = [
+                    'type' => $values['type'],
+                    'raison_sociale' => $rs
+                ];
+
+                if (isset($values['identifiant'])) {
+                    $args['identifiant'] = $values['identifiant'];
+                }
+
+                $this->redirect('societe_creation_doublon', $args);
             }
         }
     }
@@ -78,17 +88,34 @@ class societeActions extends sfCredentialActions {
     public function executeCreationSocieteDoublon(sfWebRequest $request) {
         $this->raison_sociale = str_replace('-dot-', '.', $request->getParameter('raison_sociale', false));
         $this->type = $request->getParameter('type', false);
-        $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type, $this->raison_sociale);
+        $this->identifiant = $request->getParameter('identifiant', null);
+        if ($this->identifiant == SocieteRouting::CREATION_IDENTIFIANT_DEFAULT) {
+            $this->identifiant = null;
+        }
+        $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type, $this->raison_sociale, $this->identifiant);
 
         if (!count($this->societesDoublons)) {
-            $this->redirect('societe_nouvelle', array('type' => $this->type, 'raison_sociale' => $request->getParameter('raison_sociale', false)));
+            $args = [
+                'type' => $this->type,
+                'raison_sociale' => $request->getParameter('raison_sociale', false)
+            ];
+
+            if ($this->identifiant) {
+                $args['identifiant'] = $this->identifiant;
+            }
+
+            $this->redirect('societe_nouvelle', $args);
         }
     }
 
     public function executeSocieteNew(sfWebRequest $request) {
         $this->raison_sociale = str_replace('-dot-', '.', $request->getParameter('raison_sociale', false));
         $this->type = $request->getParameter('type', false);
-        $societe = SocieteClient::getInstance()->createSociete($this->raison_sociale, $this->type);
+        $this->identifiant = $request->getParameter('identifiant');
+        if ($this->identifiant == SocieteRouting::CREATION_IDENTIFIANT_DEFAULT) {
+            $this->identifiant = null;
+        }
+        $societe = SocieteClient::getInstance()->createSociete($this->raison_sociale, $this->type, $this->identifiant);
         $societe->save();
         $this->redirect('societe_modification', array('identifiant' => $societe->identifiant));
     }

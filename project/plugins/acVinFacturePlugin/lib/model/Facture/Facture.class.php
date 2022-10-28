@@ -228,7 +228,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if (($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
             foreach ($ligneByType->origines as $origine) {
                 $keyOrigin = explode(':', $origine);
-                $keyOriginWithoutModificatrice = preg_replace('/(.*)-M[0-9]+$/', '$1', $keyOrigin[0]);
+                $keyOriginWithoutModificatrice = preg_replace('/(.*)-(M|R)[0-9]+$/', '$1', $keyOrigin[0]);
                 if (!array_key_exists($keyOriginWithoutModificatrice, $keysOrigin)) {
                     $keysOrigin[$keyOriginWithoutModificatrice] = array();
                 }
@@ -304,9 +304,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 if($configuration->existProduit($ligneByType->produit_hash)){
                   $produit_configuration = $configuration->getProduit($ligneByType->produit_hash);
                 }else{
-                  $hashTransformed = preg_replace('/(.*)\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)/',"$1",$ligneByType->produit_hash);
+                  $hashTransformed = preg_replace('/(.*)\/([a-zA-Z0-9]+)\/([a-zA-Z0-9-]+)/',"$1",$ligneByType->produit_hash);
 
                   $produit_configuration = $configuration->getProduit($hashTransformed);
+                }
+
+                if(!$produit_configuration) {
+                    throw new Exception("Pas de produit trouvé ".$ligneByType->produit_hash);
                 }
                 $codeProduit = $produit_configuration->getCodeComptable();
 
@@ -693,6 +697,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return 0;
     }
 
+    public function getRestantDu() {
+
+        return round($this->total_ttc - $this->getMontantPaiement(), 2);
+    }
+
     public function getCodeComptableClient() {
         return $this->_get('code_comptable_client');
     }
@@ -848,5 +857,33 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
           }
       }
       $this->versement_sepa = $versement_sepa;
+    }
+
+    public function needRelance($delai, $relance) {
+        $relances = count($this->getOrAdd('relances'))+1;
+        return (date('Y-m-d') > date("Y-m-d", strtotime($this->date_facturation.$delai)) && $relance == $relances);
+    }
+
+    public function getNumberToRelance() {
+        $relances = FactureConfiguration::getInstance()->getRelances();
+        foreach($relances as $num => $delai) {
+            if ($this->needRelance($delai, $num)) {
+                return $num;
+            }
+        }
+        return false;
+    }
+
+    public function getDateDerniereRelance() {
+        $relances = $this->getOrAdd('relances')->toArray(true, false);
+        return (count($relances) > 0)? array_pop($relances) : null;
+    }
+
+    public function addRelance($date = null) {
+        if (!$date) {
+            $date = date('Y-m-d');
+        }
+        $relances = $this->getOrAdd('relances');
+        $relances->add(null, $date);
     }
 }

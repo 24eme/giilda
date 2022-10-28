@@ -59,23 +59,32 @@ class SocieteClient extends acCouchdbClient {
         return array_reverse(SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', $statut));
     }
 
-    public function getSocietesWithTypeAndRaisonSociale($type, $raison_sociale) {
-        return array_merge(SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_ACTIF, array($type), $raison_sociale),
-                SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_SUSPENDU, array($type), $raison_sociale));
+    public function getSocietesWithTypeAndRaisonSociale($type, $raison_sociale, $identifiant = null) {
+        $societes = SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_ACTIF, array($type), $raison_sociale);
+        if ($identifiant) {
+                $s = SocieteAllView::getInstance()->findBySociete($this->getIdentifiant($identifiant));
+                if ($s) {
+                    $societes = array_merge($societes, $s);
+                }
+        }
+        return array_merge($societes, SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_SUSPENDU, array($type), $raison_sociale));
     }
 
-    public function createSociete($raison_sociale, $type) {
+    public function createSociete($raison_sociale, $type, $identifiant = null) {
         $societe = new Societe();
         $societe->raison_sociale = $raison_sociale;
         $societe->type_societe = $type;
         $societe->interpro = 'INTERPRO-declaration';
-        $societe->identifiant = $this->getNextIdentifiantSociete();
+        if ($identifiant) {
+            $societe->identifiant = $identifiant;
+        }else{
+            $societe->identifiant = $this->getNextIdentifiantSociete();
+        }
         $societe->statut = SocieteClient::STATUT_ACTIF;
         $societe->cooperative = 0;
         $societe->setPays('FR');
         $societe->add("date_creation", date('Y-m-d'));
         $societe->constructId();
-
         return $societe;
     }
 
