@@ -82,8 +82,8 @@ class FactureEtablissementView extends acCouchdbView
                     ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, $interpro, array()))
                     ->getView($this->design, $this->view)->rows;
             $factures = array_merge($rows, acCouchdbManager::getClient()
-                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant))
-                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, array()))
+                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, $interpro))
+                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, $interpro, array()))
                     ->getView($this->design, $this->view)->rows);
 
             $facturesResult = array();
