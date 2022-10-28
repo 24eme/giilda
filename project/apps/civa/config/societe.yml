@@ -11,6 +11,7 @@ all:
         code_comptable: { nom: "code_comptable", auto: true }
         famille: { nom: "famille", auto: true }
         region: { nom: "region", auto: true }
+        acheteur_raisin: { nom: "acheteur_raisin" }
         activite: { nom: "activité" }
         cooperative: { nom: "coopérative" }
         site_internet: { nom: "site_internet" }
