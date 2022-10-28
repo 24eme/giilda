@@ -64,6 +64,15 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $this->_get('code_comptable_client');
     }
 
+    public function addCodeComptableClient($cc, $interpro = null) {
+        if (!$interpro)
+            $this->_set('code_comptable_client', $cc);
+        else {
+            $codes = $this->getOrAdd('codes_comptables_client');
+            $codes->add($interpro, $cc);
+        }
+    }
+
     public function canHaveChais() {
         return in_array($this->type_societe, SocieteClient::getSocieteTypesWithChais());
     }
