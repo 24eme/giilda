@@ -11,7 +11,7 @@ use_helper('Date');
             <th class="col-xs-1">Numéro</th>
             <th class="col-xs-3">Date de facturation</th>
             <th class="col-xs-1"></th>
-            <?php if(FactureConfiguration::getInstance()->getPaiementsActif()): ?>
+            <?php if(FactureConfiguration::getInstance($interpro)->getPaiementsActif()): ?>
               <th class="col-xs-1 text-right">Montant&nbsp;TTC</th>
               <th class="col-xs-1 text-right">Montant&nbsp;payé</th>
             <?php else: ?>
@@ -47,7 +47,7 @@ use_helper('Date');
                 <td>N°&nbsp;<?php echo $f->numero_piece_comptable ?></td>
                 <td><?php echo $date; ?></td>
                 <td><?php if($f->isRedressee()): ?><span class="label label-warning">Redressée</span><?php endif;?></td>
-                <?php if(FactureConfiguration::getInstance()->getPaiementsActif()): ?>
+                <?php if(FactureConfiguration::getInstance($interpro)->getPaiementsActif()): ?>
                   <td class="text-right"><?php echo echoFloat($f->total_ttc); ?>&nbsp;€</td>
                     <td class="text-right"><?php echo echoFloat($f->getMontantPaiement()); ?>&nbsp;€</td>
                 <?php else: ?>
@@ -56,7 +56,7 @@ use_helper('Date');
                 <?php endif; ?>
                 <td class="text-right">
                     <div class="btn-group text-left">
-                        <?php if(FactureConfiguration::getInstance()->getPaiementsActif() && $sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
+                        <?php if(FactureConfiguration::getInstance($interpro)->getPaiementsActif() && $sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
                           <button type="button" class="btn btn-default btn-default-step btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span>&nbsp;<span class="caret"></span></button>
                           <ul class="dropdown-menu dropdown-menu-right">
                               <?php if ($f->isRedressable()): ?>

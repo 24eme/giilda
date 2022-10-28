@@ -15,7 +15,7 @@ use_helper('Float');
     </div>
     <?php endif; ?>
     <div class="col-xs-12">
-        <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures)); ?>
+        <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures, 'interpro' => $interproFacturable)); ?>
         <?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
          <hr />
         <?php
