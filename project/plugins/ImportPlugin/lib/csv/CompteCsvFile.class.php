@@ -189,7 +189,7 @@ class CompteCsvFile extends CsvFile
         $csv = "identifiant;login;nom complet;type;intitule;raison_sociale;fonction;civilite;nom;prénom;adresse;adresse complémentaire;code postal;commune;pays;téléphone bureau;téléphone mobile;téléphone perso;fax;email;commentaire;société identifiant;société type;société raison sociale;société adresse;société adresse complémentaire;société code postal;société commune;société téléphone;société fax;société email;code de création;statut;";
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
-            $csv .= $item['nom'].';';
+            $csv .= $key.';';
         }
 
         return $csv."droits;tags automatiques;tags documents;tags produits;tags manuels;url;id_couchdb origine\n";
