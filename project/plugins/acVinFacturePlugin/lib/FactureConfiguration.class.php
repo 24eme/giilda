@@ -88,6 +88,11 @@ class FactureConfiguration {
         return isset($this->configuration['pdf_nom_ref_client']) ? $this->configuration['pdf_nom_ref_client'] : "";
     }
 
+    public function refClientIsCodeComptable() {
+
+        return isset($this->configuration['ref_client_is_code_comptable']) ? $this->configuration['ref_client_is_code_comptable'] : false;
+    }
+
     public function getPdfDiplayCodeComptable() {
 
         return isset($this->configuration['pdf_display_code_comptable']) ? $this->configuration['pdf_display_code_comptable'] : "";
