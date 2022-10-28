@@ -103,11 +103,11 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                 $tags['documents']['Facture'] = 1;
             }
 
-            if($etablissement->cvi && acCouchdbManager::getClient()->find('DR-'.$etablissement->cvi.'-'.date('Y'), acCouchdbJson::HYDRATE_JSON)) {
+            if($etablissement->cvi && acCouchdbManager::getClient()->find('DR-'.$etablissement->cvi.'-'.date('Y'), acCouchdbClient::HYDRATE_JSON)) {
                 $tags['documents']['DR'] = 1;
             }
 
-            if($etablissement->cvi && acCouchdbManager::getClient()->find('DR-'.$etablissement->cvi.'-'.(date('Y') - 1), acCouchdbJson::HYDRATE_JSON)) {
+            if($etablissement->cvi && acCouchdbManager::getClient()->find('DR-'.$etablissement->cvi.'-'.(date('Y') - 1), acCouchdbClient::HYDRATE_JSON)) {
                 $tags['documents']['DR'] = 1;
             }
 
