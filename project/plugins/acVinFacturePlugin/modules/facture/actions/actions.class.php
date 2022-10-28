@@ -309,9 +309,11 @@ class factureActions extends sfActions {
 
     public function executeAttente(sfWebRequest $request)
     {
-        $mvtsVersionnes = $request->getParameter('versionnes');
+        $this->mvtsVersionnes = $request->getParameter('versionnes');
+        $this->csv = $request->getParameter('csv');
 
         $this->mouvements = [];
+        $csv_file = "Id etablissement;DRM;Date mvt;Produit;Type mvt;Detail mvt;Volume;Prix\n";
 
         $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->getInterproFacturable($request), sfConfig::get('app_facturation_region'));
 
@@ -319,15 +321,31 @@ class factureActions extends sfActions {
             if (empty($m->key[MouvementfactureFacturationView::KEYS_ETB_ID])) {
                 continue;
             }
-            if ($mvtsVersionnes && strpos($m->id, '-R') === false && strpos($m->id, '-M') === false) {
+            if ($this->mvtsVersionnes && strpos($m->id, '-R') === false && strpos($m->id, '-M') === false) {
                 continue;
             }
-
-            $this->mouvements[$m->key[MouvementfactureFacturationView::KEYS_ETB_ID]][] = $m;
+            if ($this->csv) {
+                $csv_file .= $m->key[MouvementfactureFacturationView::KEYS_ETB_ID].';';
+                $csv_file .= $m->key[MouvementfactureFacturationView::KEYS_PERIODE].';';
+                $csv_file .= $m->key[MouvementfactureFacturationView::KEYS_DATE].';';
+                $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE].';';
+                $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE].';';
+                $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE].';';
+                $csv_file .= round($m->value[MouvementfactureFacturationView::VALUE_QUANTITE]*(-1),5).';';
+                $csv_file .= round($m->value[MouvementfactureFacturationView::VALUE_QUANTITE]*(-1) * $m->value[MouvementfactureFacturationView::VALUE_PRIX_UNITAIRE], 2)."\n";
+            } else {
+                $this->mouvements[$m->key[MouvementfactureFacturationView::KEYS_ETB_ID]][] = $m;
+            }
         }
 
-
         $this->withDetails = $request->getParameter('details', false);
+
+        if ($this->csv) {
+            $this->response->setContentType('text/csv');
+    	    $this->response->setHttpHeader('md5', md5($csv_file));
+    	    $this->response->setHttpHeader('Content-Disposition', "attachment; filename=mvts-attentes-facturation.csv");
+    	    return $this->renderText($csv_file);
+        }
     }
 
     private function constructFactureFiltersParameters() {
