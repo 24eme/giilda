@@ -83,7 +83,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                 }
                 $tags['produit'][$produit_libelle] = 1;
                 $tags['documents']['DRM'] = 1;
-                if ($m->detail_libelle && preg_match("/Export/", $m->type_libelle)) {
+                if ($m->detail_libelle && preg_match("/export.*_details/", $m->type_hash)) {
                     $tags['export'][$this->replaceAccents($m->detail_libelle)] = 1;
                 }
             }
