@@ -434,6 +434,7 @@ class DAEImportCsvEdi extends DAECsvEdi
         $dae->conditionnement_key = $csvRow[self::CSV_CONDITIONNEMENT_TYPE];
         $dae->contenance_key = $csvRow[self::CSV_CONDITIONNEMENT_VOLUME];
         $dae->conditionnement_libelle = $this->conditionnements[$dae->conditionnement_key];
+        $dae->contenance_libelle = '';
 
         $dae->label_key = trim($csvRow[self::CSV_PRODUIT_LABEL]);
         $dae->label_libelle = ($dae->label_key && isset($this->labels[$dae->label_key]))? $this->labels[$dae->label_key] : null;
