@@ -331,8 +331,8 @@ class factureActions extends sfActions {
                 $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE].';';
                 $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE].';';
                 $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE].';';
-                $csv_file .= round($m->value[MouvementfactureFacturationView::VALUE_QUANTITE]*(-1),5).';';
-                $csv_file .= round($m->value[MouvementfactureFacturationView::VALUE_QUANTITE]*(-1) * $m->value[MouvementfactureFacturationView::VALUE_PRIX_UNITAIRE], 2).";";
+                $csv_file .= round($m->value[MouvementfactureFacturationView::VALUE_QUANTITE],5).';';
+                $csv_file .= round($m->value[MouvementfactureFacturationView::VALUE_QUANTITE] * $m->value[MouvementfactureFacturationView::VALUE_PRIX_UNITAIRE], 2).";";
                 $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]."\n";
             } else {
                 $this->mouvements[$m->key[MouvementfactureFacturationView::KEYS_ETB_ID]][] = $m;
