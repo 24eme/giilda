@@ -313,7 +313,7 @@ class factureActions extends sfActions {
         $this->csv = $request->getParameter('csv');
 
         $this->mouvements = [];
-        $csv_file = "Id etablissement;DRM;Date mvt;Produit;Type mvt;Detail mvt;Volume;Prix\n";
+        $csv_file = "Id etablissement;DRM;Date mvt;Produit;Type mvt;Detail mvt;Volume;Prix;Id Origine\n";
 
         $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->getInterproFacturable($request), sfConfig::get('app_facturation_region'));
 
@@ -332,7 +332,8 @@ class factureActions extends sfActions {
                 $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE].';';
                 $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE].';';
                 $csv_file .= round($m->value[MouvementfactureFacturationView::VALUE_QUANTITE]*(-1),5).';';
-                $csv_file .= round($m->value[MouvementfactureFacturationView::VALUE_QUANTITE]*(-1) * $m->value[MouvementfactureFacturationView::VALUE_PRIX_UNITAIRE], 2)."\n";
+                $csv_file .= round($m->value[MouvementfactureFacturationView::VALUE_QUANTITE]*(-1) * $m->value[MouvementfactureFacturationView::VALUE_PRIX_UNITAIRE], 2).";";
+                $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]."\n";
             } else {
                 $this->mouvements[$m->key[MouvementfactureFacturationView::KEYS_ETB_ID]][] = $m;
             }
