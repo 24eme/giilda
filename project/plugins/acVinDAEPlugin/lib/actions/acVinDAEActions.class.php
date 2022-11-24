@@ -75,17 +75,17 @@ class acVinDAEActions extends sfActions
 					$resultat = move_uploaded_file($files['file']['tmp_name'], $path);
 				}
 			}
-			
+
 			if (!$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
-				return $this->fileErrorUploadEdi($path, $this->etablissement, $this->periode);
+				$this->fileErrorUploadEdi($path, $this->etablissement, $this->periode);
 			}
 		}
 	}
-	
+
 	public function fileErrorUploadEdi($file, $etablissement, $periode) {
 		return;
 	}
-	
+
 	public function executeCreationEdi(sfWebRequest $request) {
 		set_time_limit(0);
 		ini_set('memory_limit', '512M');
