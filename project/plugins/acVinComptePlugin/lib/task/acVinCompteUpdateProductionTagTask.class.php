@@ -66,7 +66,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
             $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
             $tags = array('export' => array(), 'produit' => array(), 'domaines' => array(), 'documents' => array());
 
-            $mvts = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
+            $mvts = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $campagne);
             foreach ($mvts as $m) {
                 $produit_libelle = $this->getProduitLibelle($m->produit_hash);
                 if(!$produit_libelle) {
@@ -75,7 +75,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                 $tags['produit'][$produit_libelle] = 1;
                 $tags['documents']['SV12'] = 1;
             }
-            $mvts = DRMMouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
+            $mvts = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $campagne);
             foreach ($mvts as $m) {
                 $produit_libelle = $this->getProduitLibelle($m->produit_hash);
                 if(!$produit_libelle) {
@@ -83,7 +83,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                 }
                 $tags['produit'][$produit_libelle] = 1;
                 $tags['documents']['DRM'] = 1;
-                if ($m->detail_libelle && preg_match("/Export/", $m->type_libelle)) {
+                if ($m->detail_libelle && preg_match("/export.*_details/", $m->type_hash)) {
                     $tags['export'][$this->replaceAccents($m->detail_libelle)] = 1;
                 }
             }
@@ -103,19 +103,20 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                 $tags['documents']['Facture'] = 1;
             }
 
+            if($etablissement->cvi && acCouchdbManager::getClient()->find('DR-'.$etablissement->cvi.'-'.date('Y'), acCouchdbClient::HYDRATE_JSON)) {
+                $tags['documents']['DR'] = 1;
+            }
+
+            if($etablissement->cvi && acCouchdbManager::getClient()->find('DR-'.$etablissement->cvi.'-'.(date('Y') - 1), acCouchdbClient::HYDRATE_JSON)) {
+                $tags['documents']['DR'] = 1;
+            }
+
             $compte = $etablissement->getContact();
-            if ($options['reinitialisation_tags_export']) {
-                $compte->tags->remove('export');
-                $this->logSection("reset tags export", $compte->identifiant);
-            }
-            if ($options['reinitialisation_tags_produit']) {
-                $compte->tags->remove('produit');
-                $this->logSection("reset tags produit", $compte->identifiant);
-            }
-            if ($options['reinitialisation_tags_domaines']) {
-                $compte->tags->remove('domaines');
-                $this->logSection("reset tags produit", $compte->identifiant);
-            }
+            $compte->tags->remove('export');
+            $compte->tags->remove('produit');
+            $compte->tags->remove('domaines');
+            $compte->tags->remove('documents');
+
             if (!count($tags)) {
                 continue;
             }

@@ -191,6 +191,8 @@ EOF;
               X = Imprécis
              */
 
+            ksort($ligne, SORT_NUMERIC);
+
             foreach ($ligne as $champ) {
                 echo '"' . $champ . '";';
             }
