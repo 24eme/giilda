@@ -16,7 +16,7 @@ class ExportFactureCSV_declarvin {
     }
 
     private static function printHeaderBase() {
-        echo "code journal;date;date de saisie;numero de facture;libelle;compte general;compte tiers;compte analytique;date echeance;sens;montant;piece;reference;id couchdb;type ligne;nom client;code comptable client;origine type;produit type;origine id; volume; cvo; code tva; numero de facture; hash produit";
+        echo "code journal;date;date de saisie;numero de facture;libelle;compte general;compte tiers;compte analytique;date echeance;sens;montant;piece;reference;id couchdb;type ligne;nom client;code comptable client;origine type;produit type;origine id; volume; cvo; code tva; numero de facture; id produit export";
     }
 
     public function printFacture($doc_or_id, $export_annee_comptable = false) {
@@ -48,7 +48,8 @@ class ExportFactureCSV_declarvin {
                 if ($origine_doc = DRMClient::getInstance()->find($origine_mvt)) {
                     foreach ($lignes->origine_mouvements->get($origine_mvt) as $mvt) {
                         if ($origine_doc->mouvements->exist($facture->identifiant) && $origine_doc->mouvements->get($facture->identifiant)->exist($mvt)) {
-                            $hashProduits[trim($origine_doc->mouvements->get($facture->identifiant)->get($mvt)->get('produit_libelle'))] = $origine_doc->mouvements->get($facture->identifiant)->get($mvt)->get('produit_hash');
+                            $idProduitExport = md5($origine_doc->mouvements->get($facture->identifiant)->get($mvt)->get('produit_libelle'));
+                            $hashProduits[$idProduitExport] = $idProduitExport;
                         }
                     }
                 }
@@ -57,7 +58,8 @@ class ExportFactureCSV_declarvin {
                 $code_compte = ($detail->exist('code_compte') && $detail->code_compte) ? $detail->code_compte : FactureConfiguration::getInstance()->getDefautCompte();
                 $identifiant_analytique = ($detail->exist('identifiant_analytique') && $detail->identifiant_analytique)? $detail->identifiant_analytique : $detail->identifiant_analytique;
 		        $libelle = $lignes->libelle.' - '.$detail->libelle;
-                $hash_produit = (isset($hashProduits[trim($detail->libelle)]))? $hashProduits[trim($detail->libelle)] : '';
+                $idProduitExport = md5($detail->libelle);
+                $hash_produit = (isset($hashProduits[$idProduitExport]))? $hashProduits[$idProduitExport] : '';
                 echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $libelle
                 . ';'.$code_compte.';;' . $identifiant_analytique . ';;' . $this->getSens($detail->montant_ht, "CREDIT") . ';' . $this->getMontant($detail->montant_ht, "CREDIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_LIGNE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ';' . $detail->origine_type . ';' . "PRODUIT_TYPE" . ';' . $origine_mvt . ';' . $detail->quantite . ';' . $detail->prix_unitaire
                 . ";".self::CODE_TVA.";".$facture->numero_piece_comptable.";".$hash_produit;
