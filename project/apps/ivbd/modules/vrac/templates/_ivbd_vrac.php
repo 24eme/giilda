@@ -230,9 +230,7 @@ Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} \\
 \hspace*{0.45cm}
 \colorbox{gray!30}{
 \begin{minipage}{0.92\textwidth}
-\tiny{Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours calendaires après chacune des dates de retiraison prévues.\\
-Dans tous les autres cas, les délais de paiement sont ceux prévus à l'article L 443-1 du Code de Commerce.\\
-\underline{Des sanctions financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 \texteuro ) en cas de non respect de ces dispositions.}
+\colorbox{lightgray}{Il est rappelé que les délais de paiement du présent contrat sont ceux prévus par la loi.}
 \end{minipage}
 }
 }
@@ -281,7 +279,7 @@ Les parties ne sauraient être tenues responsables de l'inexécution de leurs ob
 \hspace*{0.5cm}
 conformément aux dispositions de l'article 1218 du code civil.\\
 \hspace*{0.5cm}
-L'inexécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.
+L'exécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.
   ~ \\
 %PARTIE 8%
 \circled{8}~~\textbf{Réserve de propriété :}\\
