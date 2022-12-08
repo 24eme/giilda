@@ -242,9 +242,7 @@ En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initia
 \circled{8}~~\textbf{Prix et conditions de paiement:}
 Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / T ( Moyen de paiement : \textbf{\CONTRATMOYENPAIEMENT} , Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} ) \\
 \hspace*{0.5cm}
-\tiny{Rappel : Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours calendaires après chacune des dates de retiraison prévues. Dans tous les autres cas, les délais de paiement sont ceux prévus\\
-\hspace*{0.5cm}
-à l'article L 443-1 du Code de Commerce. \undeline{Des sanctions financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 euros ) en cas de non respect de ces dispositions.}\\
+\colorbox{lightgray}{Il est rappelé que les délais de paiement du présent contrat sont ceux prévus par la loi.}\\
 \hspace*{0.5cm}
 \normalsize
 Quelles que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard 60 jours calendaires après la date\\
@@ -284,7 +282,7 @@ Les parties ne sauraient être tenues responsables de l’inexécution de leurs 
 \hspace*{0.5cm}
 conformément aux dispositions de l’article 1218 du code civil.\\
 \hspace*{0.5cm}
-L’inexécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.
+L’exécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.
 ~ \\
 %PARTIE 10%
 \circled{10}~~\textbf{Réserve de propriété :}\\
