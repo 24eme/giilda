@@ -189,10 +189,10 @@ class CompteCsvFile extends CsvFile
         $csv = "identifiant;login;nom complet;type;intitule;raison_sociale;fonction;civilite;nom;prénom;adresse;adresse complémentaire;code postal;commune;pays;téléphone bureau;téléphone mobile;téléphone perso;fax;email;commentaire;société identifiant;société type;société raison sociale;société adresse;société adresse complémentaire;société code postal;société commune;société téléphone;société fax;société email;code de création;statut;";
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
-            $csv .= $item['nom'].';';
+            $csv .= $key.';';
         }
 
-        return $csv."droits;tags automatiques;tags manuels;url;id_couchdb origine\n";
+        return $csv."droits;tags automatiques;tags documents;tags produits;tags manuels;url;id_couchdb origine\n";
     }
 
     public static function toCsvLigne($compte, $virtuel = false) {
@@ -233,11 +233,11 @@ class CompteCsvFile extends CsvFile
         $statutCreationCompte = str_replace("{TEXT}", "", $compte->mot_de_passe);
         if($compte->mot_de_passe && strpos($compte->mot_de_passe, '{TEXT}') === false) {
             $statutCreationCompte = "COMPTE_CREE";
-        } else {
+        } elseif(!$compte->mot_de_passe) {
             $statutCreationCompte = "CODE_NON_GENERE";
         }
         $csv .= '"'.$statutCreationCompte.'";';
-        $csv .= $compte->statut. ';';
+        $csv .= '"'.$compte->statut. '";';
 
         foreach(SocieteConfiguration::getInstance()->getExtras() as $key => $item) {
             $value = null;
@@ -247,10 +247,12 @@ class CompteCsvFile extends CsvFile
             $csv .= '"'.str_replace('SOCIETE-', '', $value).'";';
         }
 
-        $csv .= (isset($compte->droits) ? implode("|", $compte->droits) : null).';';
-        $csv .= (isset($compte->tags->automatique) ? implode("|", $compte->tags->automatique) : null).';';
-        $csv .= (isset($compte->tags->manuel) ? implode("|", $compte->tags->manuel) : null).';';
-        $csv .= ProjectConfiguration::getAppRouting()->generate('societe_visualisation', array('identifiant' => str_replace('SOCIETE-', '', $compte->id_societe)), true).';';
+        $csv .= '"'.(isset($compte->droits) ? implode("|", $compte->droits) : null).'";';
+        $csv .= '"'.(isset($compte->tags->automatique) ? implode("|", $compte->tags->automatique) : null).'";';
+        $csv .= '"'.(isset($compte->tags->documents) ? implode("|", $compte->tags->documents) : null).'";';
+        $csv .= '"'.(isset($compte->tags->produits) ? implode("|", $compte->tags->produits) : null).'";';
+        $csv .= '"'.(isset($compte->tags->manuel) ? implode("|", $compte->tags->manuel) : null).'";';
+        $csv .= '"'.ProjectConfiguration::getAppRouting()->generate('societe_visualisation', array('identifiant' => str_replace('SOCIETE-', '', $compte->id_societe)), true).'";';
         $csv .= (isset($compte->origines[0]) ? $compte->origines[0] : $compte->_id).';';
         $csv .= "\n";
 
