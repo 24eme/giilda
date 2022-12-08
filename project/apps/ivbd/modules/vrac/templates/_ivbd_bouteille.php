@@ -245,9 +245,7 @@ Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / T ( Moyen de paiement 
 \colorbox{lightgray}{Il est rappelé que les délais de paiement du présent contrat sont ceux prévus par la loi.}\\
 \hspace*{0.5cm}
 \normalsize
-Quelles que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard 60 jours calendaires après la date\\
-\hspace*{0.5cm}
-de retiraison prévue au présent contrat. Le courtage de \textbf{\CONTRATPOURCENTAGECOURTAGE}\% est à la charge de \textbf{\CONTRATREPARTITION}.\\
+Le courtage de \textbf{\CONTRATPOURCENTAGECOURTAGE}\% est à la charge de \textbf{\CONTRATREPARTITION}.\\
 \hspace*{0.5cm}
 La cotisation interprofessionnelle est pour moitié à la charge de l'acheteur et pour moitié à la charge du vendeur, au taux en vigueur au moment de son\\
 \hspace*{0.5cm}
