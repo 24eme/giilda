@@ -88,7 +88,7 @@ class societeActions extends sfCredentialActions {
     public function executeCreationSocieteDoublon(sfWebRequest $request) {
         $this->raison_sociale = str_replace('-dot-', '.', $request->getParameter('raison_sociale', false));
         $this->type = $request->getParameter('type', false);
-        $this->identifiant = $request->getParameter('identifiant', null);
+        $this->identifiant = $request->getParameter('identifiant', 0);
         if ($this->identifiant == SocieteRouting::CREATION_IDENTIFIANT_DEFAULT) {
             $this->identifiant = null;
         }
@@ -111,7 +111,7 @@ class societeActions extends sfCredentialActions {
     public function executeSocieteNew(sfWebRequest $request) {
         $this->raison_sociale = str_replace('-dot-', '.', $request->getParameter('raison_sociale', false));
         $this->type = $request->getParameter('type', false);
-        $this->identifiant = $request->getParameter('identifiant');
+        $this->identifiant = $request->getParameter('identifiant', 0);
         if ($this->identifiant == SocieteRouting::CREATION_IDENTIFIANT_DEFAULT) {
             $this->identifiant = null;
         }
