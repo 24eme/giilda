@@ -21,3 +21,4 @@ do
     php symfony drm:edi-import $DRMEXTERNEIMPORTDIR/$file $PERIODE $IDENTIFIANT $SYMFONYTASKOPTIONS --trace | grep -v 'DEBUG:';
 done
 rm /tmp/import_drm_externe.$$.file
+touch $DRMEXTERNEIMPORTDIR/last_update
