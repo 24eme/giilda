@@ -34,6 +34,7 @@ EOF;
 
     protected function execute($arguments = array(), $options = array())
     {
+        echo "DEBUG: Import de ".$arguments['file']."\n";
         // initialize the database connection
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
@@ -56,7 +57,7 @@ EOF;
         $identifiant = $etablissement->identifiant;
 
         if(DRMClient::getInstance()->find('DRM-'.$identifiant.'-'.$arguments['periode'], acCouchdbClient::HYDRATE_JSON)) {
-            echo "Existe : ".'DRM-'.$identifiant.'-'.$arguments['periode']."\n";
+            echo "DEBUG: Existe : ".'DRM-'.$identifiant.'-'.$arguments['periode']."\n";
             return;
         }
 
