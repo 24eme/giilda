@@ -198,9 +198,13 @@ class compte_teledeclarantActions extends sfActions {
     }
 
     private function checkApiAccess(sfWebRequest $request) {
-        $secret = sfConfig::get('app_viticonnect_secret');;
+        $secret = sfConfig::get('app_viticonnect_secret');
         $login = $request->getParameter('login');
         $epoch = $request->getParameter('epoch');
+        if(empty($secret)) {
+            http_response_code(403);
+            die('Forbidden');
+        }
         if(abs(time() - $epoch) > 30) {
             http_response_code(403);
             die('Forbidden');
