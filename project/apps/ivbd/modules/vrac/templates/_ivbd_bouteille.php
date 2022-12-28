@@ -100,7 +100,6 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATMOYENPAIEMENT{<?php echo (array_key_exists($vrac->moyen_paiement, $moyensDePaiements))? $moyensDePaiements[$vrac->moyen_paiement] : ''; ?>}
 \def\CONTRATDELAIPAIEMENT{<?php echo (array_key_exists($vrac->delai_paiement, $delaisDePaiements))? $delaisDePaiements[$vrac->delai_paiement] : '' ?>}
 
-\def\CONTRATPOURCENTAGECOURTAGE{<?php echo $vrac->courtage_taux ?>}
 \def\CONTRATREPARTITION{<?php echo (array_key_exists($vrac->courtage_repartition, $contratRepartitions))? str_replace('%', '\%', $contratRepartitions[$vrac->courtage_repartition]) : '' ?>}
 
 \def\DATELIMITERETIRAISON{<?php echo date("d/m/Y", strtotime($vrac->date_limite_retiraison)); ?>}
@@ -245,10 +244,10 @@ Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / T ( Moyen de paiement 
 \colorbox{lightgray}{Il est rappelé que les délais de paiement du présent contrat sont ceux prévus par la loi.}\\
 \hspace*{0.5cm}
 \normalsize
-Quelles que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard 60 jours calendaires après la date\\
+<?php if($vrac->courtage_taux): ?>
+Le courtage de \textbf{<?php echo $vrac->courtage_taux ?>} \% est à la charge de \textbf{\CONTRATREPARTITION}.\\
 \hspace*{0.5cm}
-de retiraison prévue au présent contrat. Le courtage de \textbf{\CONTRATPOURCENTAGECOURTAGE}\% est à la charge de \textbf{\CONTRATREPARTITION}.\\
-\hspace*{0.5cm}
+<?php endif; ?>
 La cotisation interprofessionnelle est pour moitié à la charge de l'acheteur et pour moitié à la charge du vendeur, au taux en vigueur au moment de son\\
 \hspace*{0.5cm}
 exigibilité. Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?>~La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>avec TVA $\square$ ~~ hors TVA \squareChecked<?php else : ?>avec TVA \squareChecked ~~ hors TVA $\square$<?php endif; ?> \tiny{(dans ce cas, attestation d'achat en franchise à fournir)}
