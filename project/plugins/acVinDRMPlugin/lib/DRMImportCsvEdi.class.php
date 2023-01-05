@@ -844,7 +844,7 @@ private function importMouvementsFromCSV($just_check = false) {
         if ($type_key == 'contrat' && !preg_match('/AOC/', $certif)) {
             $disabled = true;
         }
-        if ((strpos($certif, 'AUTRE') === 0 || strpos($genre, 'VCI') === 0) && strpos($certif, 'AUTRESVINS') === false && !preg_match("#/(TRANQ|EFF|MOU)/#", $drmDetails->getHash()) && $codeDouane != "BOISSONS_FERMENTEES_AUTRES" && !in_array($type_key, array('distillationusageindustriel', 'destructionperte', 'manquant', 'vracsanscontratsuspendu', 'lies', 'usageindustriel', 'rebeches', 'consommationfamilialedegustation', 'autre', 'repli', 'exoversutilisateurauto', 'exoversutilisateurauto'))) {
+        if ((strpos($certif, 'AUTRE') === 0 || strpos($genre, 'VCI') === 0) && strpos($certif, 'AUTRESVINS') === false && !preg_match("#/(TRANQ|EFF|MOU)/#", $drmDetails->getHash()) && $codeDouane != "BOISSONS_FERMENTEES_AUTRES" && !in_array($type_key, array('distillationusageindustriel', 'destructionperte', 'manquant', 'vracsanscontratsuspendu', 'lies', 'usageindustriel', 'rebeches', 'consommationfamilialedegustation', 'autre', 'repli', 'exoversutilisateurauto', 'exoversutilisateurauto', 'vci'))) {
             $disabled = true;
         }
         if ($certif == 'AUTRE' && !preg_match("#/(TRANQ|EFF|MOU)/#", $drmDetails->getHash()) && in_array($type_key, array('ventefrancecrd', 'exporttaxe'))) {

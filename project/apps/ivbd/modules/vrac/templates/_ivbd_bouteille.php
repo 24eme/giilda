@@ -100,7 +100,6 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATMOYENPAIEMENT{<?php echo (array_key_exists($vrac->moyen_paiement, $moyensDePaiements))? $moyensDePaiements[$vrac->moyen_paiement] : ''; ?>}
 \def\CONTRATDELAIPAIEMENT{<?php echo (array_key_exists($vrac->delai_paiement, $delaisDePaiements))? $delaisDePaiements[$vrac->delai_paiement] : '' ?>}
 
-\def\CONTRATPOURCENTAGECOURTAGE{<?php echo $vrac->courtage_taux ?>}
 \def\CONTRATREPARTITION{<?php echo (array_key_exists($vrac->courtage_repartition, $contratRepartitions))? str_replace('%', '\%', $contratRepartitions[$vrac->courtage_repartition]) : '' ?>}
 
 \def\DATELIMITERETIRAISON{<?php echo date("d/m/Y", strtotime($vrac->date_limite_retiraison)); ?>}
@@ -242,15 +241,13 @@ En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initia
 \circled{8}~~\textbf{Prix et conditions de paiement:}
 Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / T ( Moyen de paiement : \textbf{\CONTRATMOYENPAIEMENT} , Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} ) \\
 \hspace*{0.5cm}
-\tiny{Rappel : Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours calendaires après chacune des dates de retiraison prévues. Dans tous les autres cas, les délais de paiement sont ceux prévus\\
-\hspace*{0.5cm}
-à l'article L 443-1 du Code de Commerce. \undeline{Des sanctions financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 euros ) en cas de non respect de ces dispositions.}\\
+\colorbox{lightgray}{Il est rappelé que les délais de paiement du présent contrat sont ceux prévus par la loi.}\\
 \hspace*{0.5cm}
 \normalsize
-Quelles que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard 60 jours calendaires après la date\\
+<?php if($vrac->courtage_taux): ?>
+Le courtage de \textbf{<?php echo $vrac->courtage_taux ?>} \% est à la charge de \textbf{\CONTRATREPARTITION}.\\
 \hspace*{0.5cm}
-de retiraison prévue au présent contrat. Le courtage de \textbf{\CONTRATPOURCENTAGECOURTAGE}\% est à la charge de \textbf{\CONTRATREPARTITION}.\\
-\hspace*{0.5cm}
+<?php endif; ?>
 La cotisation interprofessionnelle est pour moitié à la charge de l'acheteur et pour moitié à la charge du vendeur, au taux en vigueur au moment de son\\
 \hspace*{0.5cm}
 exigibilité. Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?>~La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>avec TVA $\square$ ~~ hors TVA \squareChecked<?php else : ?>avec TVA \squareChecked ~~ hors TVA $\square$<?php endif; ?> \tiny{(dans ce cas, attestation d'achat en franchise à fournir)}
@@ -284,7 +281,7 @@ Les parties ne sauraient être tenues responsables de l’inexécution de leurs 
 \hspace*{0.5cm}
 conformément aux dispositions de l’article 1218 du code civil.\\
 \hspace*{0.5cm}
-L’inexécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.
+L’exécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.
 ~ \\
 %PARTIE 10%
 \circled{10}~~\textbf{Réserve de propriété :}\\

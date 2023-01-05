@@ -88,15 +88,16 @@ class societeActions extends sfCredentialActions {
     public function executeCreationSocieteDoublon(sfWebRequest $request) {
         $this->raison_sociale = str_replace('-dot-', '.', $request->getParameter('raison_sociale', false));
         $this->type = $request->getParameter('type', false);
-        $this->identifiant = $request->getParameter('identifiant', null);
+        $this->identifiant = $request->getParameter('identifiant', SocieteRouting::CREATION_IDENTIFIANT_DEFAULT);
         if ($this->identifiant == SocieteRouting::CREATION_IDENTIFIANT_DEFAULT) {
-            $this->identifiant = null;
+            $this->identifiant = 0;
         }
         $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type, $this->raison_sociale, $this->identifiant);
 
         if (!count($this->societesDoublons)) {
             $args = [
                 'type' => $this->type,
+                'identifiant' => SocieteRouting::CREATION_IDENTIFIANT_DEFAULT,
                 'raison_sociale' => $request->getParameter('raison_sociale', false)
             ];
 
@@ -111,7 +112,7 @@ class societeActions extends sfCredentialActions {
     public function executeSocieteNew(sfWebRequest $request) {
         $this->raison_sociale = str_replace('-dot-', '.', $request->getParameter('raison_sociale', false));
         $this->type = $request->getParameter('type', false);
-        $this->identifiant = $request->getParameter('identifiant');
+        $this->identifiant = $request->getParameter('identifiant', SocieteRouting::CREATION_IDENTIFIANT_DEFAULT);
         if ($this->identifiant == SocieteRouting::CREATION_IDENTIFIANT_DEFAULT) {
             $this->identifiant = null;
         }
