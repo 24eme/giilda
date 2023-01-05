@@ -134,7 +134,7 @@ class MouvementfactureFacturationView extends acCouchdbView {
                                 ->getView($this->design, $this->view)->rows));
     }
 
-    protected function buildMouvements($rows) {
+    public function buildMouvements($rows) {
         $mouvements = array();
         $i = 0;
         foreach ($rows as $row) {
