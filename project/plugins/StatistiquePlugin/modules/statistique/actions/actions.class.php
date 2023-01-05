@@ -1,6 +1,8 @@
 
 <?php
 
+sfContext::getInstance()->getConfiguration()->loadHelpers("Statistique");
+
 /**
  * statistique actions.
  *
@@ -10,7 +12,7 @@
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
 class statistiqueActions extends sfActions {
-
+	
 
 	public function executeIndex(sfWebRequest $request) {
 
@@ -285,7 +287,7 @@ class statistiqueActions extends sfActions {
          */
 
         $csv_file = '';
-        $csv_file .= "#Periode;Date saisie;Declarant id;Declarant nom;Total debut mois;Total entrees;Total recolte;Total sorties;Total facturable;Total;";
+        $csv_file .= "#Periode;Date saisie;Declarant id;Declarant nom;Total debut mois;Total entrees;Total recolte;Total sorties;Total facturable;Total fin;Total statut;";
         $csv_file .= "\n";
         foreach ($hits as $hit):
 	        $item = $hit->getData();
@@ -308,6 +310,8 @@ class statistiqueActions extends sfActions {
 	        $csv_file .= $item['doc']['declaration']['total_facturable'];
 	        $csv_file .= ";";
 	        $csv_file .= $item['doc']['declaration']['total'];
+	        $csv_file .= ";";
+			$csv_file .= getTransmissionStatut($item['doc']);
 	        $csv_file .= ";";
 	        $csv_file .= "\n";
         endforeach;
@@ -433,5 +437,9 @@ class statistiqueActions extends sfActions {
     	$this->response->setHttpHeader('Last-Modified', date('r', strtotime($date)));
     	return $this->renderText(utf8_decode($csv_file));
     }
+
+	public function test() {
+		return 'Coucou';
+	}
 
 }
