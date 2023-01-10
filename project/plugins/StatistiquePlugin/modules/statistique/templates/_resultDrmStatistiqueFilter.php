@@ -1,4 +1,5 @@
 <?php use_helper('Date'); ?>
+<?php use_helper('Statistique'); ?>
 <table class="table table-striped">
 	<thead>
 		<tr>
@@ -35,16 +36,7 @@
 			<td class="text-right"><?php echo number_format($item['doc']['declaration']['total_facturable'], 2, ',', ' ') ?></td>
 			<td class="text-right"><?php echo number_format($item['doc']['declaration']['total'], 2, ',', ' ') ?></td>
       <td class="text-right">
-        <?php if (isset($item['doc']['transmission_douane']) && $item['doc']['transmission_douane']['coherente'] === true):
-                echo 'Douane OK';
-              elseif (isset($item['doc']['transmission_douane']) && $item['doc']['transmission_douane']['success'] === true):
-                echo 'Transmise';
-              elseif (isset($item['doc']['valide']) && $item['doc']['valide']['date_signee']):
-                echo ($item['doc']['teledeclare']) ? 'Télédéclarée' : 'Importée';
-              else:
-                echo 'En attente';
-              endif;
-        ?>
+        <?php echo getTransmissionStatut($item['doc']); ?>
       </td>
 		</tr>
 	<?php endforeach; ?>
