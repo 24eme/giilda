@@ -19,6 +19,7 @@ class FactureEtablissementView extends acCouchdbView
     const VERSEMENT_TYPE_FACTURE = "FACTURE";
     const VERSEMENT_TYPE_PAIEMENT = "PAIEMENT";
     const VERSEMENT_TYPE_SEPA = "SEPA";
+    const VERSEMENT_TYPE_PAYE = "PAYE";
 
     public static function getInstance() {
 
@@ -56,6 +57,14 @@ class FactureEtablissementView extends acCouchdbView
                 ->startkey(array(self::VERSEMENT_TYPE_SEPA, 0))
                 ->endkey(array(self::VERSEMENT_TYPE_SEPA, 0, array()))
                 ->getView($this->design, $this->view)->rows;
+    }
+
+    public function getFactureNonPaye() {
+
+       return acCouchdbManager::getClient()
+                    ->startkey(array(self::VERSEMENT_TYPE_PAYE, 0))
+                    ->endkey(array(self::VERSEMENT_TYPE_PAYE, 0, array()))
+                    ->getView($this->design, $this->view)->rows;
     }
 
     public function getAllSocietesForCompta() {

@@ -1,0 +1,38 @@
+all:
+  configuration:
+    facture:
+      pdf_ordre_cheque: 'InterVins sud-est'
+      pdf_nom_interpro: 'InterVins sud-est'
+      reglement: '\textbf{Règlement à reception } \\\\ « Conformément aux articles 441-6 c. com.et D.441-5 c. com., tout retard de paiement entraine de plein droit, outre les pénalités de retard, une obligation pour le débiteur de payer une indemnité forfaitaire de 40 € pour frais de recouvrement. » \\\\ Les informations recueillies sont nécessaires pour le fonctionnement de l’interprofession. Elles font l’objet d’un traitement informatique et sont destinées aux services économique et comptable d’InterVins sud-est. En application des articles 39 et suivants de la loi du 6 janvier 1978, vous bénéficiez d’un droit de rectification aux informations qui vous concernent. Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adressez au siège social d’InterVins sud-est. \\\\ Nous vous remercions de vous acquitter de cette cotisation, par virement en précisant le numéro de la facture ou par chèque bancaire ou postal, en joignant obligatoirement le talon ci-dessous.\\\\'
+      reglement_avoir: '\textbf{ } \\\\ Les informations recueillies sont nécessaires pour le fonctionnement de l’interprofession. Elles font l’objet d’un traitement informatique et sont destinées aux services économique et comptable d’InterVins sud-est. En application des articles 39 et suivants de la loi du 6 janvier 1978, vous bénéficiez d’un droit de rectification aux informations qui vous concernent. Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adressez au siège social d’InterVins sud-est.\\\\ &nbsp; \\\\ &nbsp; \\\\ &nbsp; \\\\'
+      paiements_actif: true
+      prefix_sage: "VEN"
+      prefix_sage_divers: null
+      tva_compte: "44571500"
+      defaut_compte: "70800000"
+      general_compte: "4110000"
+      banque_compte: "51211000"
+      type_cvo:
+        identifiant_prefix: ""
+      type_libre:
+        identifiant_prefix: ""
+      idcontrat: "ARCHIVE"
+      stockage_code_produit: "code_compte"
+      prefix_code_comptable: ""
+      pdf_produit: false
+      pdf_nom_ref_client: "N° INTERPRO"
+      pdf_nom_taux: "Taux"
+      pdf_display_code_comptable: true
+      echeance: "+30 days"
+      sans_categories: false
+      exercice: "comptable"
+      taux_tva:
+          19700101: 19.6
+          20140101: 20.0
+      export_shell: "%sf_root_dir%/bin/exportSage.sh"
+      export_relances: true
+      teledeclaration: false
+      seuil_minimum: 100
+      code_journal: 'BQ1'
+      delai_relance1: '+45 days'
+      delai_relance2: '+65 days'

@@ -13,7 +13,6 @@ class DRMEtablissementChoiceForm extends EtablissementChoiceForm {
 
     public function configure() {
         parent::configure();
-        $this->configureFamilles(DRMConfiguration::getInstance()->getFamilles());
         if ($this->autofocus) {
             $this->configureAutfocus();
         }

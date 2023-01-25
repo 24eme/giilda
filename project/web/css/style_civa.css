@@ -115,6 +115,11 @@ a.admin { color: #ff0000; }
 	color: #cccc;
 }
 
+#nav #onglets_majeurs li {
+	padding-left: 9px !important;
+	padding-right: 9px !important;
+}
+
 #nav {
     background: #f1f1f1;
     padding-top: 15px;

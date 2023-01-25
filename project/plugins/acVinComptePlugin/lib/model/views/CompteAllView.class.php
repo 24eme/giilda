@@ -95,8 +95,11 @@ class CompteAllView extends acCouchdbView {
                         ->endkey(array($interpro,$statut, array()))
                         ->getView($this->design, $this->view)->rows;
     }
-    
-    
+
+    public function findAllVIEW() {
+        return $this->client->getView($this->design, $this->view)->rows;
+    }
+
     public static function makeLibelle($datas) {
         $libelle = '';
         if (isset($datas[self::KEY_NOM_A_AFFICHER]) && $nom = $datas[self::KEY_NOM_A_AFFICHER]) {

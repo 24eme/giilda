@@ -79,23 +79,19 @@ class CompteLdap extends acVinLdap
         }
 
         if ($compte->commune) {
-            $info['l']                = $compte->commune;
+            $info['l']                = trim($compte->commune);
         }
 
         if ($compte->code_postal) {
-            $info['postalCode']       = $compte->code_postal;
+            $info['postalCode']       = trim($compte->code_postal);
         }
 
         if ($compte->telephone_bureau) {
-            $info['telephoneNumber']  = $compte->telephone_bureau;
-        }
-
-        if ($compte->fax) {
-            $info['facsimileTelephoneNumber'] = $compte->fax;
+            $info['telephoneNumber']  = trim(str_replace("_", "", $compte->telephone_bureau));
         }
 
         if ($compte->telephone_mobile) {
-            $info['mobile']           = $compte->telephone_mobile;
+            $info['mobile']           = trim(str_replace("_", "", $compte->telephone_mobile));
         }
 
         if ($compte->exist('mot_de_passe')) {

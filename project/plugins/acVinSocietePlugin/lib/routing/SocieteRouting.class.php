@@ -2,6 +2,8 @@
 
 class SocieteRouting {
 
+    const CREATION_IDENTIFIANT_DEFAULT = 'default';
+
     /**
      * Listens to the routing.load_configuration event.
      *
@@ -37,11 +39,15 @@ class SocieteRouting {
             'action' => 'creationSociete')));
 
 
-        $r->prependRoute('societe_creation_doublon', new sfRoute('/societe-creation-doublon/:type/:raison_sociale', array('module' => 'societe',
-            'action' => 'creationSocieteDoublon')));
+        $r->prependRoute('societe_creation_doublon',
+            new sfRoute('/societe-creation-doublon/:type/:identifiant', array(
+                'module' => 'societe', 'action' => 'creationSocieteDoublon', 'identifiant' => self::CREATION_IDENTIFIANT_DEFAULT
+            ))
+        );
 
-        $r->prependRoute('societe_nouvelle', new sfRoute('/societe-nouvelle/:type/:raison_sociale', array('module' => 'societe',
-            'action' => 'societeNew')));
+        $r->prependRoute('societe_nouvelle', new sfRoute('/societe-nouvelle/:type/:identifiant', array(
+            'module' => 'societe', 'action' => 'societeNew', 'identifiant' => self::CREATION_IDENTIFIANT_DEFAULT
+        )));
 
 
         $r->prependRoute('societe_modification', new SocieteRoute('/societe/:identifiant/modification', array('module' => 'societe',

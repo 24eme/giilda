@@ -10,6 +10,15 @@ my $totalHt = 0;
 my $totalTva = 0;
 my @infosHt = ();
 my @infosTva = ();
+my $max_miva = 30;
+my $max_intitule = 35;
+
+if ($ENV{EXPORT_SAGE_MAX_MIVA}) {
+    $max_miva = $ENV{EXPORT_SAGE_MAX_MIVA};
+}
+if ($ENV{EXPORT_SAGE_MAX_INTITULE}) {
+    $max_intitule = $ENV{EXPORT_SAGE_MAX_INTITULE};
+}
 
 while(<STDIN>) {
 	chomp;
@@ -45,8 +54,10 @@ while(<STDIN>) {
 	    print "\n";
 	    print "1\n";
 	    print "date;" if ($verbose);
+        $date_echeance =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	    print $date_echeance."\n";
 	    print "date saisie;" if ($verbose);
+        $date =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	    print $date."\n";
 	    print "code client;" if ($verbose);
 	    print $code_client."\n";
@@ -180,7 +191,7 @@ sub printSageEntryFunction {
     print "numero compte tiers contre partie;" if ($verbose);
     print "\n";
     print "intitule;" if ($verbose);
-    print encode_utf8(substr(decode_utf8($field[4]), 0, 120))."\n";
+    print encode_utf8(substr(decode_utf8($field[4]), 0, $max_intitule))."\n";
     print "numero reglement;" if ($verbose);
 	print $field[24]."\n";
     print "date echeance;" if ($verbose);
@@ -264,6 +275,6 @@ sub printSageEntryFunction {
 		print "empty;" if ($verbose);
 	    print "\n";
 		print "tiers;" if ($verbose);
-		print encode_utf8(substr(decode_utf8($field[15]), 0, 60))."\n";
+		print encode_utf8(substr(decode_utf8($field[15]), 0, $max_miva))."\n";
 	}
 }
