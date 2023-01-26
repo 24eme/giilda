@@ -2,6 +2,7 @@ all:
   configuration:
     drm:
       desactive_reserve_interpro: true
+      reserve_interpro_message: "Le 3 octobre 2020, l'assemblée générale d'IVBD a voté la mise en place d'une réserve interprofessionnelle activée pour les rendements au-delà de 23&nbsp;hl/ha. Le tableau suivant récapitule le volume de votre réserve :"
       familles: ["PRODUCTEUR", "PRODUCTEUR_VINIFICATEUR"]
       details:
         export_detail:

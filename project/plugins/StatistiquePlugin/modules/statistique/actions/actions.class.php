@@ -437,9 +437,4 @@ class statistiqueActions extends sfActions {
     	$this->response->setHttpHeader('Last-Modified', date('r', strtotime($date)));
     	return $this->renderText(utf8_decode($csv_file));
     }
-
-	public function test() {
-		return 'Coucou';
-	}
-
 }
