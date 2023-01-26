@@ -24,7 +24,7 @@ all:
       texte_mail_pas_transmission_douane: "Le lien entre le Portail du CIVA et Prodouane n'est actuellement pas activé. Merci de prendre rapidement contact avec le CIVA afin de transmettre votre DRM vers CIEL."
       matiere_premiere: false
       crds_genre: ['TRANQ', 'MOUSSEUX']
-      reserve_interpro_message: "Conformément aux dispositions de l’accord interprofessionnel 2022-2025 des vins d’Alsace, une réserve interprofessionnelle sur le Pinot Gris. Le tableau suivant récapitule le volume de votre réserve :"
+      reserve_interpro_message: "Conformément aux dispositions de l’accord interprofessionnel 2022-2025 des vins d’Alsace, une réserve interprofessionnelle sur le Pinot Gris a été mise en place. Le tableau suivant récapitule le volume de votre réserve :"
       edi_default_produit_hash:
         'TRANQ':  '/declaration/certifications/AUTRE/genres/TRANQ/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT'
         'MOU':    '/declaration/certifications/AUTRE/genres/EFF/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT'
