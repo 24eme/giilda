@@ -5,7 +5,7 @@ if (count($produits) && DRMConfiguration::getInstance()->hasActiveReserveInterpr
     <div class="row">
         <div class="col-xs-12">
             <h3>Réserve interprofessionnelle</small></h3>
-            <p>Le 3 octobre 2020, l'assemblée générale d'IVBD a voté la mise en place d'une réserve interprofessionnelle activée pour les rendements au-delà de 23&nbsp;hl/ha. Le tableau suivant récapitule le volume de votre réserve :
+            <p><?php echo DRMConfiguration::getInstance()->getRerserveInteproMessage(); ?></p>
             <div class="col-xs-8" style="padding-left: 0px;">
              <table class="table table-bordered table-striped table-condensed">
                 <thead>
