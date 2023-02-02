@@ -7,6 +7,7 @@
 class Societe extends BaseSociete implements InterfaceCompteGenerique, InterfaceMandatSepaPartie {
 
     private $comptes = null;
+    const REFERENCE_INTERPROS_METAS = "&interpros_metas";
 
     public function constructId() {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);
@@ -53,23 +54,18 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     }
 
     public function getCodeComtableClient($interpro = null) {
-        if (($interpro && !$this->exist('codes_comptables_client'))||($interpro && !$this->codes_comptables_client->exist($interpro))||($interpro && !$this->codes_comptables_client->get($interpro))) {
-            return null;
-        } else {
-            return $this->codes_comptables_client->get($interpro);
+        $cc = ($interpro)? $this->getDataFromInterproMetas($interpro, 'code_comptable_client') : $this->_get('code_comptable_client');
+        if(!$cc) {
+            return FactureConfiguration::getInstance($interpro)->getPrefixCodeComptable().((int)$this->identifiant)."";
         }
-        if(!$this->_get('code_comptable_client')) {
-            return FactureConfiguration::getInstance()->getPrefixCodeComptable().((int)$this->identifiant)."";
-        }
-        return $this->_get('code_comptable_client');
+        return $cc;
     }
 
     public function addCodeComptableClient($cc, $interpro = null) {
         if (!$interpro)
             $this->_set('code_comptable_client', $cc);
         else {
-            $codes = $this->getOrAdd('codes_comptables_client');
-            $codes->add($interpro, $cc);
+            $this->setMetasForInterpro($interpro, ['code_comptable_client' => $cc]);
         }
     }
 
@@ -424,7 +420,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         if ($this->isSynchroAutoActive() && !$compteMaster) {
             $compteMaster = $this->createCompteSociete();
         }
-
+        $this->checkInterprosMetas();
         parent::save();
 
         SocieteClient::getInstance()->setSingleton($this);
@@ -647,5 +643,34 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
       return $mandat->is_actif;
     }
     // fin
+
+    public function checkInterprosMetas() {
+        if (!$this->exist('interpros_metas')) return;
+        if (!count($this->interpros_metas)) return;
+        foreach($this->interpros_metas as $interpro => $datas) {
+            foreach($datas as $k => $v) {
+                if ($this->exist($k) && $this->get($k) != self::REFERENCE_INTERPROS_METAS) {
+                    $this->interpros_metas->getOrAdd('DEFAUT')->add($k, $this->get($k));
+                    $this->set($k, self::REFERENCE_INTERPROS_METAS);
+                }
+            }
+        }
+    }
+
+    public function getMetasForInterpro($interpro) {
+        return $this->getOrAdd('interpros_metas')->getOrAdd($interpro);
+    }
+
+    public function setMetasForInterpro($interpro, array $datas) {
+        $metas = $this->getMetasForInterpro($interpro);
+        foreach($datas as $k => $v) {
+            $metas->add($k, $v);
+        }
+    }
+
+    public function getDataFromInterproMetas($interpro, $meta) {
+        $metas = $this->getMetasForInterpro($interpro);
+        return ($metas->exist($meta))? $metas->get($meta) : null;
+    }
 
 }
