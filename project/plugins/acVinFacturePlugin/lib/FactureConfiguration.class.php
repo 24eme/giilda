@@ -15,8 +15,11 @@ class FactureConfiguration {
     }
 
     public function __construct($interpro = null) {
-        if(!sfConfig::has("facture_configuration_facture") && !sfConfig::has("facture_configuration_facture-".strtolower($interpro))) {
+        if(!sfConfig::has("facture_configuration_facture")) {
 			throw new sfException("La configuration pour les factures n'a pas été défini pour cette application");
+		}
+        if ($interpro && !sfConfig::has("facture_configuration_facture-".strtolower($interpro))) {
+			throw new sfException("La configuration pour les factures n'a pas été défini pour l'interpro $interpro");
 		}
         $this->configuration = array_merge(
             sfConfig::get("facture_configuration_facture", array()),
