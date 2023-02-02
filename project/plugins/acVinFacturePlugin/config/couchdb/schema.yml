@@ -23,7 +23,7 @@ Facture:
       avoir: {required: false}
       taux_tva: {required: false}
       region: {}
-      interpro: {}
+      interpro: {required: false}
       versement_comptable: {type: integer}
       versement_comptable_paiement: {type: integer}
       versement_sepa: {type: integer}
@@ -195,7 +195,7 @@ MouvementsFacture:
                         facture: { type: integer }
                         facturable: { type: integer }
                         region : { }
-                        interpro : { }
+                        interpro : { required: false }
                         date : { }
                         vrac_numero : { } #Utilisé pour l'ordre
 
