@@ -97,7 +97,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->date_emission = date('Y-m-d');
         $this->date_facturation = $date_facturation;
         $date_facturation_object = new DateTime($this->date_facturation);
-        $this->date_echeance = $date_facturation_object->modify($this->getConfiguration()->getEcheance())->format('Y-m-d');
+        $day = ($this->getConfiguration()->getEcheanceFinDeMois())? 't' : 'd';
+        $this->date_echeance = $date_facturation_object->modify($this->getConfiguration()->getEcheance())->format('Y-m-'.$day);
         if (!$this->date_facturation) {
             $this->date_facturation = date('Y-m-d');
         }
