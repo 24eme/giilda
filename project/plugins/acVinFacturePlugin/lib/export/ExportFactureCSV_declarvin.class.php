@@ -16,7 +16,7 @@ class ExportFactureCSV_declarvin {
     }
 
     private static function printHeaderBase() {
-        echo "code journal;date;date de saisie;numero de facture;libelle;compte general;compte tiers;compte analytique;date echeance;sens;montant;piece;reference;id couchdb;type ligne;nom client;code comptable client;origine type;produit type;origine id; volume; cvo; code tva; numero de facture; id produit export";
+        echo "code journal;date;date de saisie;numero de facture;libelle;compte general;compte tiers;compte analytique;date echeance;sens;montant;piece;reference;id couchdb;type ligne;nom client;code comptable client;origine type;produit type;origine id; volume; cvo; code tva; numero de facture; id produit export;id societe";
     }
 
     public function printFacture($doc_or_id, $export_annee_comptable = false) {
@@ -50,7 +50,7 @@ class ExportFactureCSV_declarvin {
                 $idProduitExport = md5($detail->libelle);
                 echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $libelle
                 . ';'.$code_compte.';;' . $identifiant_analytique . ';;' . $this->getSens($detail->montant_ht, "CREDIT") . ';' . $this->getMontant($detail->montant_ht, "CREDIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_LIGNE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ';' . $detail->origine_type . ';' . "PRODUIT_TYPE" . ';' . $origine_mvt . ';' . $detail->quantite . ';' . $detail->prix_unitaire
-                . ";".self::CODE_TVA.";".$facture->numero_piece_comptable.";".$idProduitExport;
+                . ";".self::CODE_TVA.";".$facture->numero_piece_comptable.";".$idProduitExport.";".$facture->identifiant;
 
                 echo "\n";
             }
