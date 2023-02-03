@@ -8,7 +8,7 @@
     <li class="active">En attente</li>
 </ol>
 
-<h2>Mouvements de facturation en attente</h2>
+<h2>Mouvements de facturation en attente<?php if($mvtsVersionnes): ?> issus de rectificatives<?php endif; ?></h2>
 <h4 class="page-header"><?php echo count($mouvements) ?> opérateurs avec des mouvements en attente</h4>
 
 <a href="<?php echo url_for('facture_en_attente', array('csv' => 1, 'versionnes' => $mvtsVersionnes)) ?>" class="btn pull-right btn-warning btn-xs"><span class="glyphicon glyphicon-download-alt"> CSV</span></a>
