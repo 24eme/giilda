@@ -68,7 +68,7 @@ class FactureClient extends acCouchdbClient {
     public function createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication = null, $interpro = null) {
         $facture = new Facture();
         if ($interpro) {
-            $facture->interpro = $interpro;
+            $facture->add('interpro', $interpro);
         }
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);

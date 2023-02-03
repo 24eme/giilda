@@ -7,7 +7,8 @@
 class FactureMouvement extends BaseFactureMouvement {
 
     public function updateIdentifiantAnalytique($identifiant_analytique) {
-        $comptabiliteDoc = ComptabiliteClient::getInstance()->findCompta($this->interpro);
+        $interpro = ($this->exist('interpro'))? $this->get('interpro') : null;
+        $comptabiliteDoc = ComptabiliteClient::getInstance()->findCompta($interpro);
         $node_analytique = null;
         $identifiant_analytique_Keys = explode('_',$identifiant_analytique);
         foreach ($comptabiliteDoc->get('identifiants_analytiques') as $analytiquesCompta) {

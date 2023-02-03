@@ -73,10 +73,11 @@ class FactureLigne extends BaseFactureLigne {
     public function updateTotaux() {
         $this->montant_ht = 0;
         $this->montant_tva = 0;
+        $interpro = ($this->getDocument()->exist('interpro'))? $this->getDocument()->interpro : null;
         foreach ($this->details as $detail) {
             $detail->montant_ht = $detail->quantite * $detail->prix_unitaire;
             $detail->montant_tva = $detail->taux_tva * $detail->montant_ht;
-            if(FactureConfiguration::getInstance($this->getDocument()->interpro)->isPdfLigneDetails()) {
+            if(FactureConfiguration::getInstance($interpro)->isPdfLigneDetails()) {
                 $detail->montant_ht = round($detail->montant_ht, 2);
                 $detail->montant_tva = round($detail->montant_tva, 2);
             }

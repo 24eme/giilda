@@ -20,7 +20,7 @@ class MouvementsFacture extends BaseMouvementsFacture {
         $mvts = [];
         foreach ($this->mouvements as $etbKey => $mvtsEtb) {
             foreach ($mvtsEtb as $mvtKey => $mvt) {
-                if($interpro && $mvt->interpro != $interpro) continue;
+                if($interpro && $mvt->getOrAdd('interpro') != $interpro) continue;
                 if (!isset($mvts[$etbKey])) {
                     $mvts[$etbKey] = [];
                 }
@@ -126,7 +126,7 @@ class MouvementsFacture extends BaseMouvementsFacture {
         $interpros = [];
         foreach ($this->mouvements as $etbKey => $mvtsEtb) {
             foreach ($mvtsEtb as $mvtKey => $mvt) {
-                if ($mvt->interpro && !in_array($mvt->interpro, $interpros)) {
+                if ($mvt->getOrAdd('interpro') && !in_array($mvt->interpro, $interpros)) {
                     $interpros[] = $mvt->interpro;
                 }
             }

@@ -90,7 +90,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getConfiguration() {
-        return FactureConfiguration::getInstance($this->interpro);
+        $interpro = ($this->exist('interpro'))? $this->interpro : null;
+        return FactureConfiguration::getInstance($interpro);
     }
 
     public function storeDatesCampagne($date_facturation = null) {
@@ -225,7 +226,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function storeLigneFromMouvements($ligneByType, $famille, $modele) {
 
         $etablissements = $this->getEtablissements();
-        $comptabilite = ComptabiliteClient::getInstance()->findCompta($this->interpro);
+        $interpro = ($this->exist('interpro'))? $this->get('interpro') : null;
+        $comptabilite = ComptabiliteClient::getInstance()->findCompta($interpro);
         $keysOrigin = array();
         if (($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
             foreach ($ligneByType->origines as $origine) {

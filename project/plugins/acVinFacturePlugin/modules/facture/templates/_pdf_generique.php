@@ -2,7 +2,8 @@
 use_helper('Float');
 use_helper('Display');
 
-$factureConfiguration = FactureConfiguration::getInstance($facture->interpro);
+$interpro = ($facture->exist('interpro'))? $facture->interpro : null;
+$factureConfiguration = FactureConfiguration::getInstance($interpro);
 $prix_u_libelle = $factureConfiguration->getNomTaux();
 $titre_type_facture = "Cotisation interprofessionnelle";
 $qt_libelle = "Volume \\tiny{en hl}";
