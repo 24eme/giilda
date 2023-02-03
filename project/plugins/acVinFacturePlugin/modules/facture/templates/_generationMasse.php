@@ -37,7 +37,7 @@
         <?php if (isset($generationForm["interpro"])): ?>
         <div class="form-group <?php if ($generationForm["interpro"]->hasError()): ?>has-error<?php endif; ?>">
             <?php echo $generationForm["interpro"]->renderError(); ?>
-            <?php echo $generationForm["interpro"]->renderLabel("Région facturée", array("class" => "col-xs-4 control-label")); ?>
+            <?php echo $generationForm["interpro"]->renderLabel("Interpro facturée", array("class" => "col-xs-4 control-label")); ?>
             <div class="col-xs-4">
                 <?php echo $generationForm["interpro"]->render(array("class" => "form-control", "readonly" => "readonly")); ?>
             </div>

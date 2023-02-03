@@ -41,7 +41,7 @@ class FactureGenerationForm extends BaseForm {
         if ($this->getDefault('interpro')) {
             $this->setWidget('interpro', new bsWidgetFormInput());
             $this->setValidator('interpro', new sfValidatorString());
-            $this->widgetSchema->setLabel('interpro', "Région facturée :");
+            $this->widgetSchema->setLabel('interpro', "Interpro facturée :");
         }
 
         $this->widgetSchema->setNameFormat('facture_generation[%s]');
