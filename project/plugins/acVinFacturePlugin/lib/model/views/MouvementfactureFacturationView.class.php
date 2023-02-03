@@ -152,7 +152,7 @@ class MouvementfactureFacturationView extends acCouchdbView {
                 ));
     }
 
-    protected function buildMouvements($rows) {
+    public function buildMouvements($rows) {
         $mouvements = array();
         $i = 0;
         foreach ($rows as $row) {

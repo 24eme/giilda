@@ -23,12 +23,7 @@ cat $TMP/factures.txt >> $TMP/$VINSIEXPORT
 echo "#FIN" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 
 echo -n > $TMP/factures.sage
-if [[ $FLGFACT ]]
-then
-    echo  "$FLGFACT" | sed 's/$/\r/' >> $TMP/factures.sage
-else
-    echo  "#FLG 001" | sed 's/$/\r/' >> $TMP/factures.sage
-fi
+echo "#FLG 000" | sed 's/$/\r/' >> $TMP/factures.sage
 echo "#VER 18" | sed 's/$/\r/' >> $TMP/factures.sage
 echo "#DEV EUR" | sed 's/$/\r/' >> $TMP/factures.sage
 cat $TMP/factures.txt >> $TMP/factures.sage
@@ -36,12 +31,7 @@ echo "#FIN" | sed 's/$/\r/' >> $TMP/factures.sage
 
 
 echo -n > $TMP/societes.sage
-if [[  $FLGSOC ]]
-then
-    echo  "$FLGSOC" | sed 's/$/\r/' >> $TMP/societes.sage
-else
-    echo  "#FLG 001" | sed 's/$/\r/' >> $TMP/societes.sage
-fi
+echo  "#FLG 000" | sed 's/$/\r/' >> $TMP/societes.sage
 echo "#VER 14" | sed 's/$/\r/' >> $TMP/societes.sage
 echo "#DEV EUR" | sed 's/$/\r/' >> $TMP/societes.sage
 cat $TMP/societes.txt >> $TMP/societes.sage

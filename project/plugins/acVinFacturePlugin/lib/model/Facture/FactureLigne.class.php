@@ -163,4 +163,12 @@ class FactureLigne extends BaseFactureLigne {
         return trim(preg_replace("/.*(\(.*\)).*/", '\1', $this->libelle));
     }
 
+    public function getTabOrigineMouvements() {
+        $result = [];
+        foreach ($this->origine_mouvements as $idDoc => $mouvsKeys) {
+            $result = array_merge($result, $mouvsKeys->toArray(true,false));
+        }
+        return array_unique($result);
+    }
+
 }
