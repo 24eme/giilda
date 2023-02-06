@@ -649,7 +649,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         if (!count($this->interpros_metas)) return;
         foreach($this->interpros_metas as $interpro => $datas) {
             foreach($datas as $k => $v) {
-                if ($this->exist($k) && $this->get($k) != self::REFERENCE_INTERPROS_METAS) {
+                if ($this->exist($k) && $this->get($k) && $this->get($k) != self::REFERENCE_INTERPROS_METAS) {
                     $this->interpros_metas->getOrAdd('DEFAUT')->add($k, $this->get($k));
                     $this->set($k, self::REFERENCE_INTERPROS_METAS);
                 }
