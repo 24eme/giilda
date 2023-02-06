@@ -26,11 +26,11 @@ class ExportFactureCSV_declarvin {
         } else {
             $facture = FactureClient::getInstance()->find($doc_or_id);
         }
-        $prefix_sage = FactureConfiguration::getInstance()->getPrefixSage();
-        $compte_general = FactureConfiguration::getInstance()->getGeneralCompte();
+        $prefix_sage = FactureConfiguration::getInstance($facture->getOrAdd('interpro'))->getPrefixSage();
+        $compte_general = FactureConfiguration::getInstance($facture->getOrAdd('interpro'))->getGeneralCompte();
 
-        if(FactureConfiguration::getInstance()->getPrefixSageDivers() && $facture->isFactureDivers()) {
-            $prefix_sage = FactureConfiguration::getInstance()->getPrefixSageDivers();
+        if(FactureConfiguration::getInstance($facture->getOrAdd('interpro'))->getPrefixSageDivers() && $facture->isFactureDivers()) {
+            $prefix_sage = FactureConfiguration::getInstance($facture->getOrAdd('interpro'))->getPrefixSageDivers();
         }
 
         if (!$facture) {
@@ -44,7 +44,7 @@ class ExportFactureCSV_declarvin {
                 $origine_mvt = $keyDoc;
             }
             foreach ($lignes->details as $detail) {
-                $code_compte = ($detail->exist('code_compte') && $detail->code_compte) ? $detail->code_compte : FactureConfiguration::getInstance()->getDefautCompte();
+                $code_compte = ($detail->exist('code_compte') && $detail->code_compte) ? $detail->code_compte : FactureConfiguration::getInstance($facture->getOrAdd('interpro'))->getDefautCompte();
                 $identifiant_analytique = ($detail->exist('identifiant_analytique') && $detail->identifiant_analytique)? $detail->identifiant_analytique : $detail->identifiant_analytique;
 		        $libelle = $lignes->libelle.' - '.$detail->libelle;
                 $idProduitExport = md5($detail->libelle);
@@ -78,7 +78,7 @@ class ExportFactureCSV_declarvin {
 
     protected function getSageCompteGeneral($facture) {
         if ($facture->getTauxTva() == 20.0) {
-            return FactureConfiguration::getInstance()->getTVACompte();
+            return FactureConfiguration::getInstance($facture->getOrAdd('interpro'))->getTVACompte();
         }
 
         return "44570000";
