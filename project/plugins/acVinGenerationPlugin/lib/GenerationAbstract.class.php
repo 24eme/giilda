@@ -12,9 +12,14 @@ abstract class GenerationAbstract implements InterfaceGeneration
     }
 
     protected function publishFile($originpdf, $filename, $extension = '.pdf') {
-        $publishname = "/generation/$filename".$extension;
+        $arguments = $this->generation->arguments->toArray();
+        $interpro = null;
+        if (isset($arguments['interpro'])) {
+            $interpro = $arguments['interpro'];
+        }
+        $publishname = ($interpro && file_exists("web/generation/$interpro"))? "/generation/$interpro/$filename".$extension : "/generation/$filename".$extension;
         $publishrealdirname =  "web".$publishname;
-        if (!file_exists($originpdf)) 
+        if (!file_exists($originpdf))
             throw new sfException("Origin $originpdf doesn't exist");
         if (!rename($originpdf, $publishrealdirname))
             throw new sfException("cannot write $publishrealdirname [rename($originpdf, $publishrealdirname)]");
