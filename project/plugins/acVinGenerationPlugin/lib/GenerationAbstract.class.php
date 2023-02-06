@@ -12,11 +12,7 @@ abstract class GenerationAbstract implements InterfaceGeneration
     }
 
     protected function publishFile($originpdf, $filename, $extension = '.pdf') {
-        $arguments = $this->generation->arguments->toArray();
-        $interpro = null;
-        if (isset($arguments['interpro'])) {
-            $interpro = $arguments['interpro'];
-        }
+        $interpro = $this->getArgInterpro();
         $publishname = ($interpro && file_exists("web/generation/$interpro"))? "/generation/$interpro/$filename".$extension : "/generation/$filename".$extension;
         $publishrealdirname =  "web".$publishname;
         if (!file_exists($originpdf))
@@ -29,5 +25,14 @@ abstract class GenerationAbstract implements InterfaceGeneration
     public static function isRegenerable() {
 
         return false;
+    }
+
+    public function getArgInterpro() {
+        $arguments = $this->generation->arguments->toArray();
+        $interpro = null;
+        if (isset($arguments['interpro'])) {
+            $interpro = $arguments['interpro'];
+        }
+        return $interpro;
     }
 }
