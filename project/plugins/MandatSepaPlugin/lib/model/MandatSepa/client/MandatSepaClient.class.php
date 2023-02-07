@@ -1,6 +1,8 @@
 <?php
 class MandatSepaClient extends acCouchdbClient {
 
+    public $interpro;
+
   const TYPE_MODEL = "MandatSepa";
   const TYPE_COUCHDB = "MANDATSEPA";
 
@@ -16,8 +18,10 @@ class MandatSepaClient extends acCouchdbClient {
       self::FREQUENCE_PRELEVEMENT_PONCTUEL => "Ponctuel"
   );
 
-  public static function getInstance() {
-      return acCouchdbManager::getClient("MandatSepa");
+  public static function getInstance($interpro = null) {
+      $obj = acCouchdbManager::getClient("MandatSepa");
+      $obj->interpro = $interpro;
+      return $obj;
   }
 
   public static function getFrequencePrelevementLibelle($fp) {
@@ -49,11 +53,11 @@ class MandatSepaClient extends acCouchdbClient {
   }
 
   public function createDoc($debiteur, $creancier = null, $date = null, $frequence = null) {
-      $mandatSepaConf = MandatSepaConfiguration::getInstance();
+      $mandatSepaConf = MandatSepaConfiguration::getInstance($this->interpro);
       $mandatSepa = new MandatSepa();
       $mandatSepa->setDebiteur($debiteur);
       if (!$creancier) {
-        $creancier = MandatSepaConfiguration::getInstance();
+        $creancier = MandatSepaConfiguration::getInstance($this->interpro);
       }
       $mandatSepa->setCreancier($creancier);
       if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date)) {
