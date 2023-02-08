@@ -21,7 +21,7 @@ class DRMDetailSortiesForm  extends acCouchdbObjectForm {
                 $disabled = true;
             }
 
-            if (strpos($genre, 'VCI') === 0 && $key === 'changementdenomination') {
+            if (strpos($genre, 'VCI') === 0 && in_array($key, array('changementdenomination', 'verslies'))) {
                 $disabled = false;
             }
 
