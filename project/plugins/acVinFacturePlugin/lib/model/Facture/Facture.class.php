@@ -582,7 +582,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $paiement->montant =  $this->total_ttc;
       $paiement->type_reglement = FactureClient::FACTURE_PAIEMENT_PRELEVEMENT_AUTO;
       $paiement->add('execute',false);
-      $delai = MandatSepaConfiguration::getInstance()->getDelaiEcheancePrelevement();
+      $interpro = ($this->exist('interpro'))? $this->get('interpro') : null;
+      $delai = MandatSepaConfiguration::getInstance($interpro)->getDelaiEcheancePrelevement();
       $paiement->date = date('Y-m-d',strtotime($this->date_facturation.$delai));
       $this->add('versement_sepa', 0);
     }
