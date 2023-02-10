@@ -5,6 +5,7 @@ Facture:
       _id: {}
       _rev: {}
       type: {}
+      type_archive: { required:false }
       identifiant: {}
       code_comptable_client: {}
       numero_facture: {}
