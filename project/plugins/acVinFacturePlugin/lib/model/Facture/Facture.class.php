@@ -37,13 +37,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $this->_get('campagne');
     }
 
-    public function getTypeArchive() {
-        if ($this->exist('type_archive')) {
-            return $this->_get('type_archive');
-        }
-        return $this->type;
-    }
-
     public function storeEmetteur() {
         $configs = $this->getConfiguration();
         $emetteur = new stdClass();
