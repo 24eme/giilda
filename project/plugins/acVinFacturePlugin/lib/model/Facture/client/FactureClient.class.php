@@ -343,7 +343,6 @@ class FactureClient extends acCouchdbClient {
         $avoir->storeDatesCampagne(date('Y-m-d'));
         $avoir->numero_archive = null;
         $avoir->numero_piece_comptable_origine = $avoir->numero_piece_comptable;
-
         $avoir->numero_piece_comptable = null;
         $avoir->versement_comptable = 0;
         $avoir->add('taux_tva', round($f->getTauxTva(), 2));
