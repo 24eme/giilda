@@ -21,12 +21,17 @@ class FactureConfiguration {
         if ($interpro && !sfConfig::has("facture_configuration_facture-".strtolower($interpro))) {
 			throw new sfException("La configuration pour les factures n'a pas été défini pour l'interpro $interpro");
 		}
-        $this->configuration = array_merge(
-            sfConfig::get("facture_configuration_facture", array()),
-            sfConfig::get("facture_configuration_facture-".strtolower($interpro), array()),
-            sfConfig::get("app_configuration_facture", array()),
-            sfConfig::get("app_configuration_facture-".strtolower($interpro), array()),
-        );
+        if ($interpro) {
+            $this->configuration = array_merge(
+                sfConfig::get("facture_configuration_facture-".strtolower($interpro), array()),
+                sfConfig::get("app_configuration_facture-".strtolower($interpro), array()),
+            );
+        } else {
+            $this->configuration = array_merge(
+                sfConfig::get("facture_configuration_facture", array()),
+                sfConfig::get("app_configuration_facture", array()),
+            );
+        }
     }
 
     public function getAll() {
