@@ -685,6 +685,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $declarant->raison_sociale = $doc->raison_sociale;
         $interpro = ($this->exist('interpro'))? $this->get('interpro') : null;
         $this->code_comptable_client = $doc->getCodeComtableClient($interpro);
+        if ($this->code_comptable_client && $this->getConfiguration()->refClientIsCodeComptable()) {
+            $this->numero_adherent = $this->code_comptable_client;
+        }
     }
 
     public function isPayee() {

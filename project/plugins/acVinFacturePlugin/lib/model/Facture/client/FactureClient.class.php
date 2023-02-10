@@ -254,10 +254,6 @@ class FactureClient extends acCouchdbClient {
                                             $parameters['message_communication'],
                                             $parameters['interpro']);
 
-        if (($cc = $societe->getCodeComtableClient($parameters['interpro'])) && FactureConfiguration::getInstance($parameters['interpro'])->refClientIsCodeComptable()) {
-            $facture->numero_adherent = $cc;
-        }
-
         return $facture;
     }
 
