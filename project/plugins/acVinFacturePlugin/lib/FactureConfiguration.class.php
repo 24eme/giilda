@@ -4,6 +4,7 @@ class FactureConfiguration {
 
     private static $_instance = null;
     protected $configuration;
+    public $interpro;
 
     const ALL_KEY = "_ALL";
 
@@ -11,10 +12,15 @@ class FactureConfiguration {
         if (is_null(self::$_instance)) {
             self::$_instance = new FactureConfiguration($interpro);
         }
+        $instance = self::$_instance;
+        if ($interpro && $instance->interpro != $interpro) {
+            self::$_instance = new FactureConfiguration($interpro);
+        }
         return self::$_instance;
     }
 
     public function __construct($interpro = null) {
+        $this->interpro = $interpro;
         if(!sfConfig::has("facture_configuration_facture")) {
 			throw new sfException("La configuration pour les factures n'a pas été défini pour cette application");
 		}
