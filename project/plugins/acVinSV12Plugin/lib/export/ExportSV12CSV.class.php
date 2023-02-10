@@ -42,7 +42,7 @@ class ExportSV12CSV {
     public function exportSV12() {
         $csv = '';
         foreach ($this->sv12->contrats as $contrat) {
-          $csv .= str_replace('-', '', $this->sv12->campagne).";";
+          $csv .= $this->sv12->campagne.";";
           $csv .= $this->sv12->identifiant.";";
           $csv .= $this->sv12->declarant->raison_sociale.";";
           $csv .= $this->sv12->declarant->cvi.";";
