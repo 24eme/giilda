@@ -3,15 +3,21 @@ class MandatSepaConfiguration implements InterfaceMandatSepaPartie {
 
   protected static $_instance;
   protected $configuration;
+  public $interpro;
 
 
   public static function getInstance($interpro = null) {
       if ( ! isset(self::$_instance)) {
           self::$_instance = new self($interpro);
       }
+      $instance = self::$_instance;
+      if ($interpro && $instance->interpro != $interpro) {
+          self::$_instance = new self($interpro);
+      }
       return self::$_instance;
   }
   public function __construct($interpro = null) {
+      $this->interpro = $interpro;
       if(!sfConfig::has('mandatsepa_configuration')) {
           throw new sfException("La configuration pour les mandats SEPA n'a pas été définie pour cette application");
 	  }
