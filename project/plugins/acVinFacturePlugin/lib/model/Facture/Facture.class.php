@@ -671,6 +671,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->updateVersementComptablePaiement();
 
         $this->archivage_document->preSave();
+        if ($this->exist('interpro') && $this->interpro && !$this->exist('type_archive')) {
+            $this->add('type_archive', $this->type.'_'.$this->interpro);
+        }
         $this->numero_piece_comptable = $this->getNumeroPieceComptable();
     }
 
