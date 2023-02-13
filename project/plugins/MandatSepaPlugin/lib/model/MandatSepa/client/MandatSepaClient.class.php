@@ -37,7 +37,7 @@ class MandatSepaClient extends acCouchdbClient {
       return $doc;
   }
 
-  public function findLastBySociete($id_or_object) {
+  public function findLastBySociete($id_or_object, $interpro = null) {
     if (is_object($id_or_object)) {
       $id_or_object = $id_or_object->getIdentifiant();
     }
@@ -49,7 +49,17 @@ class MandatSepaClient extends acCouchdbClient {
     if (!$nbIds) {
       return null;
     }
-    return $this->find($ids[$nbIds-1]);
+    if ($interpro) {
+        for ($i=($nbIds-1); $i>=0; $i--) {
+            $object = $this->find($ids[$i]);
+            if ($object->getOrAdd('interpro') == $interpro) {
+                return $object;
+            }
+        }
+        return null;
+    } else {
+        return $this->find($ids[$nbIds-1]);
+    }
   }
 
   public function createDoc($debiteur, $creancier = null, $date = null, $frequence = null) {
