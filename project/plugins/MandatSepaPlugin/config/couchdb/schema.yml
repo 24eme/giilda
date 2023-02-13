@@ -12,6 +12,7 @@ MandatSepa:
       is_telecharge: { }
       is_signe: { }
       is_actif: { }
+      interpro: {required: false}
       creancier:
         type: collection
         class: MandatSepaPartie
