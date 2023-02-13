@@ -12,6 +12,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     protected $etablissements = array();
 
     const MESSAGE_DEFAULT = "";
+    const ARRONDI_QUANTITE = 2;
 
     public function __construct() {
         parent::__construct();
@@ -333,6 +334,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $detail->add('code_compte',$identifiants_compte_analytique[0]);
                 $detail->taux_tva = $comptabilite->getTauxTva($ligneByType->produit_hash);
             }
+            $detail->quantite = round($detail->quantite, self::ARRONDI_QUANTITE);
         }
     }
 
