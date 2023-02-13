@@ -650,7 +650,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($this->isNew() && $this->statut != FactureClient::STATUT_REDRESSEE) {
             $this->facturerMouvements();
             $this->storeOrigines();
-            if($this->getSociete()->hasMandatSepaActif()) {
+            if($this->getSociete()->hasMandatSepaActif($this->getOrAdd('interpro'))) {
                 $this->addPrelevementAutomatique();
             }
         }

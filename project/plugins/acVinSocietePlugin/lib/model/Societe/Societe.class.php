@@ -627,16 +627,16 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
       return $this->siege->commune;
     }
 
-    public function getMandatSepa() {
-        return MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant());
+    public function getMandatSepa($interpro = null) {
+        return MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant(), $interpro);
     }
 
-    public function hasMandatSepa() {
-      return ($this->getMandatSepa() != null);
+    public function hasMandatSepa($interpro = null) {
+      return ($this->getMandatSepa($interpro) != null);
     }
 
-    public function hasMandatSepaActif() {
-      $mandat = $this->getMandatSepa();
+    public function hasMandatSepaActif($interpro = null) {
+      $mandat = $this->getMandatSepa($interpro);
       if (!$mandat) {
           return false;
       }
