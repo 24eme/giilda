@@ -91,8 +91,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getConfiguration() {
-        $interpro = ($this->exist('interpro'))? $this->interpro : null;
-        return FactureConfiguration::getInstance($interpro);
+        return FactureConfiguration::getInstance($this->getOrAdd('interpro'));
     }
 
     public function storeDatesCampagne($date_facturation = null) {
@@ -227,8 +226,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function storeLigneFromMouvements($ligneByType, $famille, $modele) {
 
         $etablissements = $this->getEtablissements();
-        $interpro = ($this->exist('interpro'))? $this->get('interpro') : null;
-        $comptabilite = ComptabiliteClient::getInstance()->findCompta($interpro);
+        $comptabilite = ComptabiliteClient::getInstance()->findCompta($this->getOrAdd('interpro'));
         $keysOrigin = array();
         if (($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
             foreach ($ligneByType->origines as $origine) {
@@ -591,8 +589,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $paiement->montant =  $this->total_ttc;
       $paiement->type_reglement = FactureClient::FACTURE_PAIEMENT_PRELEVEMENT_AUTO;
       $paiement->add('execute',false);
-      $interpro = ($this->exist('interpro'))? $this->get('interpro') : null;
-      $delai = MandatSepaConfiguration::getInstance($interpro)->getDelaiEcheancePrelevement();
+      $delai = MandatSepaConfiguration::getInstance($this->getOrAdd('interpro'))->getDelaiEcheancePrelevement();
       $paiement->date = date('Y-m-d',strtotime($this->date_facturation.$delai));
       $this->add('versement_sepa', 0);
     }
@@ -672,7 +669,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         $this->updateVersementComptablePaiement();
 
-        if ($this->exist('interpro') && $this->interpro && !$this->exist('type_archive')) {
+        if ($this->getOrAdd('interpro') && !$this->exist('type_archive')) {
             $this->add('type_archive', $this->type.'_'.$this->interpro);
         }
 
@@ -692,8 +689,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $declarant->commune = $doc->siege->commune;
         $declarant->code_postal = $doc->siege->code_postal;
         $declarant->raison_sociale = $doc->raison_sociale;
-        $interpro = ($this->exist('interpro'))? $this->get('interpro') : null;
-        $this->code_comptable_client = $doc->getCodeComtableClient($interpro);
+        $this->code_comptable_client = $doc->getCodeComtableClient($this->getOrAdd('interpro'));
         if ($this->code_comptable_client && $this->getConfiguration()->refClientIsCodeComptable()) {
             $this->numero_adherent = $this->code_comptable_client;
         }
