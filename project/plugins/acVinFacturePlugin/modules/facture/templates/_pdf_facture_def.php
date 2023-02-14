@@ -8,7 +8,7 @@ $infosInterpro = $facture->getInformationsInterpro();
 \def\InterproAdresse{<?php echo $facture->emetteur->adresse; ?> \\
 		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?>}
 \def\InterproContact{\\<?php echo $facture->emetteur->telephone;?>
-                                             <?php if($facture->emetteur->exist('email')): ?>
+                                             <?php if($facture->emetteur->exist('email') && $facture->emetteur->email): ?>
                                                     \\ Email : <?php echo $facture->emetteur->email; ?>
                                               <?php endif;?>}
 

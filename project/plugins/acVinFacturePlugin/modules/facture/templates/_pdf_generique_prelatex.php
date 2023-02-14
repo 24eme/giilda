@@ -40,8 +40,8 @@
 \def\NomInterpro{<?php echo $factureConfiguration->getNomInterproFacture(); ?>}
 \def\InterproAdresse{ <?php echo $factureConfiguration->getEmetteurLibre()['adresse']; ?>\\
 		       <?php echo $factureConfiguration->getEmetteurLibre()['code_postal']." ".$factureConfiguration->getEmetteurLibre()['ville']; ?> }
-\def\InterproContact{\\ <?php echo $factureConfiguration->getEmetteurLibre()['telephone']; ?>
-                                                    \\ Email : <?php echo $factureConfiguration->getEmetteurLibre()['email']; ?>
+\def\InterproContact{\\ <?php echo $factureConfiguration->getEmetteurLibre()['telephone']; ?>\\
+                            <?php if($factureConfiguration->getEmetteurLibre()['email']): ?>Email : <?php echo $factureConfiguration->getEmetteurLibre()['email']; ?><?php endif; ?>
 										}
 \def\InterproSIRET{<?php echo $factureConfiguration->getInfosInterpro()['siret']; ?>}
 \def\InterproAPE{<?php echo $factureConfiguration->getInfosInterpro()['ape']; ?>}
