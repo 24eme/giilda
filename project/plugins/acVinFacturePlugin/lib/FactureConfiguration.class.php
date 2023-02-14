@@ -251,4 +251,8 @@ class FactureConfiguration {
         return isset($this->configuration['infos_interpro']) ? $this->configuration['infos_interpro'] : array();
     }
 
+    public function getGlobaliseCalculTaxe() {
+  		return isset($this->configuration['globalise_calcul_taxe']) ? $this->configuration['globalise_calcul_taxe'] : false;
+  	}
+
 }
