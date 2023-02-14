@@ -79,14 +79,25 @@ class FactureEtablissementView extends acCouchdbView
     }
 
     public function findBySociete($societe, $interpro = null) {
-            $rows = acCouchdbManager::getClient()
-                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, $interpro))
-                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, $interpro, array()))
-                    ->getView($this->design, $this->view)->rows;
-            $factures = array_merge($rows, acCouchdbManager::getClient()
-                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, $interpro))
-                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, $interpro, array()))
-                    ->getView($this->design, $this->view)->rows);
+            if ($interpro) {
+                $rows = acCouchdbManager::getClient()
+                        ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, $interpro))
+                        ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, $interpro, array()))
+                        ->getView($this->design, $this->view)->rows;
+                $factures = array_merge($rows, acCouchdbManager::getClient()
+                        ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, $interpro))
+                        ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, $interpro, array()))
+                        ->getView($this->design, $this->view)->rows);
+            } else {
+                $rows = acCouchdbManager::getClient()
+                        ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant))
+                        ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, array()))
+                        ->getView($this->design, $this->view)->rows;
+                $factures = array_merge($rows, acCouchdbManager::getClient()
+                        ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant))
+                        ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, array()))
+                        ->getView($this->design, $this->view)->rows);
+            }
 
             $facturesResult = array();
             foreach ($factures as $facture) {
