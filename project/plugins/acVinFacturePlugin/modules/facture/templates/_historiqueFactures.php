@@ -76,10 +76,10 @@ use_helper('Date');
                           <?php endif; ?>
                         <?php endif; ?>
                     <a href="<?php echo url_for("facture_pdf", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-file"></span>&nbsp;Visualiser</a>
-                    </div>
                     <?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
-                    &nbsp;&nbsp;<span style="opacity: 0.8;" data-toggle="tooltip" title="La facture a été téléchargée par l'opérateur" class="glyphicon glyphicon-eye-open <?php if(!$f->isTelechargee()): ?>invisible<?php endif; ?>"></span>
+                    &nbsp;&nbsp;<span style="opacity: 0.8; top: -9px; left: 3px;" data-toggle="tooltip" title="La facture a été téléchargée par l'opérateur" class="glyphicon glyphicon-eye-open <?php if(!$f->isTelechargee()): ?>invisible<?php endif; ?>"></span>
                     <?php endif; ?>
+                    </div>
                 </td>
             </tr>
         <?php endforeach; ?>
