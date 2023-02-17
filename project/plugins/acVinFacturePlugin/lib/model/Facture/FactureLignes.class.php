@@ -39,4 +39,12 @@ class FactureLignes extends BaseFactureLignes {
         }
     }
 
+    public function getMontantTva() {
+        $montant = 0;
+        foreach ($this as $ligne) {
+            $montant += $ligne->montant_tva;
+        }
+        return round($montant, 2);
+    }
+
 }
