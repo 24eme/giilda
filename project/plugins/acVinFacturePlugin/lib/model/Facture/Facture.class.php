@@ -569,18 +569,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function updateTotalTaxe() {
-        $this->total_taxe = 0;
-        if ($this->getConfiguration()->getGlobaliseCalculTaxe()) {
-            $comptabilite = ComptabiliteClient::getInstance()->findCompta($this->getOrAdd('interpro'));
-            $this->add('taux_tva', $comptabilite->getTauxTva());
-            $this->total_taxe = round($this->total_ht * $this->taux_tva, 2);
-
-        } else {
-            foreach ($this->lignes as $ligne) {
-                $this->total_taxe += $ligne->montant_tva;
-            }
-            $this->total_taxe = round($this->total_taxe, 2);
-        }
+        $this->total_taxe = $this->getMontantTva();
     }
 
     public function getMontantTva() {
