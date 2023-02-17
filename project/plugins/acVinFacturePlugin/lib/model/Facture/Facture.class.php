@@ -583,6 +583,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
     }
 
+    public function getMontantTva() {
+        if (!$this->exist('total_taxe_is_globalise')||!$this->total_taxe_is_globalise) {
+            return $this->lignes->getMontantTva();
+        }
+        $montantsByTva = $this->lignes->getMontantsHTByTva();
+        if (count($montantsByTva) > 1) {
+            throw new Exception('Plusieurs taux de TVA ont été identifiés pour la facture '.$this->_id);
+        }
+        $montant = 0;
+        foreach ($montantsByTva as $tauxTva => $quantite) {
+            $montant += $quantite * $tauxTva;
+        }
+        return round($montant, 2);
+    }
+
     public function addPrelevementAutomatique()
     {
       $paiement = $this->add('paiements')->add();
