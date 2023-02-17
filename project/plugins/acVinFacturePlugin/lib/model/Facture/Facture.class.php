@@ -659,6 +659,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             if($this->getSociete()->hasMandatSepaActif($this->getOrAdd('interpro'))) {
                 $this->addPrelevementAutomatique();
             }
+            if ($this->getConfiguration()->getGlobaliseCalculTaxe()) {
+                $this->add('total_taxe_is_globalise', true);
+            }
         }
 
         if (!$this->versement_comptable) {
