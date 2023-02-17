@@ -656,6 +656,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return null;
     }
 
+    public function checkModeCalculTotalTaxe() {
+        if ($this->getConfiguration()->getGlobaliseCalculTaxe()) {
+            $this->add('total_taxe_is_globalise', true);
+        }
+    }
+
     protected function preSave() {
         if ($this->isNew() && $this->statut != FactureClient::STATUT_REDRESSEE) {
             $this->facturerMouvements();
