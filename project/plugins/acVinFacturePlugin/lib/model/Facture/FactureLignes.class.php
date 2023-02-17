@@ -47,4 +47,12 @@ class FactureLignes extends BaseFactureLignes {
         return round($montant, 2);
     }
 
+    public function getMontantsHTByTva() {
+        $montantsByTva = [];
+        foreach($this as $ligne) {
+            $montantsByTva = array_merge_recursive($montantsByTva, $ligne->getMontantsHTByTva());
+        }
+        return array_map(function($val) { return (is_array($val))? round(array_sum($val), 2) : $val; }, $montantsByTva);
+    }
+
 }
