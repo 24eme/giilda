@@ -7,7 +7,6 @@ use_helper('Date');
 \def\TVA{20}
 \def\FactureNum{<?php echo $infos->id_relance; ?>}
 \def\FactureDate{<?php echo format_date($infos->date_relance,'dd/MM/yyyy'); ?>}
-\def\NomRefClient{<?php echo $infos->identifiant; ?>}
 \def\FactureRefClient{<?php echo $infos->identifiant; ?>}
 \def\FactureRefCodeComptableClient{<?php echo $infos->code_comptable; ?>}
 \newcommand{\CutlnPapillon}{

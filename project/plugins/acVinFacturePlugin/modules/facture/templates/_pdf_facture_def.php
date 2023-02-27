@@ -16,8 +16,7 @@ $infosInterpro = $facture->getInformationsInterpro();
 \def\TVA{19.60}
 \def\FactureNum{<?php echo $facture->numero_piece_comptable; ?>}
 \def\FactureDate{<?php echo format_date($facture->date_facturation,'dd/MM/yyyy'); ?>}
-\def\NomRefClient{<?php echo $facture->numero_adherent; ?>}
-\def\FactureRefClient{<?php echo $facture->numero_adherent; ?>}
+\def\FactureRefClient{<?php echo $facture->numero_adherent; ?><?php if($factureConfiguration->getPdfDiplayCodeComptable()): ?> / <?php echo $facture->code_comptable_client ?><?php endif ?>}
 \def\FactureRefCodeComptableClient{<?php echo ($factureConfiguration->getPdfDiplayCodeComptable())? $facture->code_comptable_client : $facture->numero_adherent; ?>}
 \newcommand{\CutlnPapillon}{
   	\multicolumn{2}{|c|}{ ~~~~~~~~~~~~~~~~~~~~~~~ } &
