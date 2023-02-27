@@ -63,7 +63,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
         $campagnes = [ConfigurationClient::getInstance()->getCampagneVinicole()->getPrevious($campagne), $campagne];
 
 
-        $this->logSection("campagne use", $campagne);
+        $this->logSection("campagnes use", implode(', ', $campagnes));
 
         foreach (EtablissementAllView::getInstance()->findByInterproStatutAndFamilleVIEW('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, null) as $e) {
             $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
