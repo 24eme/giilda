@@ -70,6 +70,7 @@ class FactureClient extends acCouchdbClient {
         if ($interpro) {
             $facture->add('interpro', $interpro);
         }
+        $facture->checkModeCalculTotalTaxe();
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);
         $facture->storeDeclarant($societe);

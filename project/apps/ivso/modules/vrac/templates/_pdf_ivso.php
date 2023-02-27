@@ -112,7 +112,7 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATPRODUITCEPAGE{<?php echo $vrac->cepage_libelle ?>}
 \def\CONTRATPRODUITMILLESIME{<?php echo $vrac->millesime ?>}
 \def\CONTRATPRODUITDEGRE{<?php echo ($vrac->degre)? $vrac->degre.'°' : ''; ?>}
-\def\CONTRATPRODUITLOT{<?php echo ($vrac->lot)? $vrac->lot : ''; ?>}
+\def\CONTRATPRODUITLOT{<?php echo ($vrac->lot)? str_replace('%', '\%', $vrac->lot) : ''; ?>}
 \def\CONTRATPRODUITQUANTITE{<?php echo ($vrac->jus_quantite)? $vrac->jus_quantite : $vrac->raisin_quantite ?>}
 \def\CONTRATPRIXUNITAIRE{<?php echo $vrac->prix_initial_unitaire ?>}
 \def\CONTRATTYPEEXPLICATIONPRIX{Le prix payé est exprimé en euros par hectolitre}

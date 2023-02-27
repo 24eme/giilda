@@ -22,7 +22,8 @@ Facture:
       numero_archive: {  }
       statut: {}
       avoir: {required: false}
-      taux_tva: {required: false}
+      taux_tva: {required: false} #deprecated
+      total_taxe_is_globalise: {required: false}
       region: {}
       interpro: {required: false}
       versement_comptable: {type: integer}

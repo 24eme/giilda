@@ -172,4 +172,15 @@ class FactureLigne extends BaseFactureLigne {
         return array_unique($result);
     }
 
+    public function getMontantsHTByTva() {
+        $montantsByTva = [];
+        foreach ($this->details as $detail) {
+            if (!isset($montantsByTva["$detail->taux_tva"])) {
+                $montantsByTva["$detail->taux_tva"] = 0;
+            }
+            $montantsByTva["$detail->taux_tva"] += $detail->montant_ht;
+        }
+        return array_map(function($val) { return round($val, 2); }, $montantsByTva);
+    }
+
 }

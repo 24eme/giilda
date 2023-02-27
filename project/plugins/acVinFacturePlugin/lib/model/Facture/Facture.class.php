@@ -569,18 +569,22 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function updateTotalTaxe() {
-        $this->total_taxe = 0;
-        if ($this->getConfiguration()->getGlobaliseCalculTaxe()) {
-            $comptabilite = ComptabiliteClient::getInstance()->findCompta($this->getOrAdd('interpro'));
-            $this->add('taux_tva', $comptabilite->getTauxTva());
-            $this->total_taxe = round($this->total_ht * $this->taux_tva, 2);
+        $this->total_taxe = $this->getMontantTva();
+    }
 
-        } else {
-            foreach ($this->lignes as $ligne) {
-                $this->total_taxe += $ligne->montant_tva;
-            }
-            $this->total_taxe = round($this->total_taxe, 2);
+    public function getMontantTva() {
+        if (!$this->exist('total_taxe_is_globalise')||!$this->total_taxe_is_globalise) {
+            return $this->lignes->getMontantTva();
         }
+        $montantsByTva = $this->lignes->getMontantsHTByTva();
+        if (count($montantsByTva) > 1) {
+            throw new Exception('Plusieurs taux de TVA ont été identifiés pour la facture '.$this->_id);
+        }
+        $montant = 0;
+        foreach ($montantsByTva as $tauxTva => $quantite) {
+            $montant += $quantite * $tauxTva;
+        }
+        return round($montant, 2);
     }
 
     public function addPrelevementAutomatique()
@@ -650,6 +654,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
 
         return null;
+    }
+
+    public function checkModeCalculTotalTaxe() {
+        if ($this->getConfiguration()->getGlobaliseCalculTaxe()) {
+            $this->add('total_taxe_is_globalise', true);
+        }
     }
 
     protected function preSave() {
