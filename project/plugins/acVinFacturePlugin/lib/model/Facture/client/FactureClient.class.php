@@ -232,7 +232,12 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function createAndSaveFacturesBySociete($societe, $parameters) {
-        $mouvements = array($societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($societe));
+        $mouvements = array($societe->identifiant => MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($societe));
+        foreach($mouvements as $mouvements_societe) {
+            foreach ($mouvements_societe as $mvt) {
+                $mvt->origines = array($mvt->origines);
+            }
+        }
         $mouvements = FactureClient::getInstance()->filterWithParameters($mouvements, $parameters);
 
         if(!count($mouvements)) {
