@@ -40,9 +40,9 @@ class ExportFacturePaiementsCSV {
     public function exportFacturePaiements($date_max = null, $set_verse = false) {
 
         $societe = $this->facture->getSociete();
-        $code_journal = FactureConfiguration::getInstance()->getCodeJournal();
-        $general_compte = FactureConfiguration::getInstance()->getGeneralCompte();
-        $banque_compte = FactureConfiguration::getInstance()->getBanqueCompte();
+        $code_journal = FactureConfiguration::getInstance($this->facture->getOrAdd('interpro'))->getCodeJournal();
+        $general_compte = FactureConfiguration::getInstance($this->facture->getOrAdd('interpro'))->getGeneralCompte();
+        $banque_compte = FactureConfiguration::getInstance($this->facture->getOrAdd('interpro'))->getBanqueCompte();
 
         $date_facturation = DateTime::createFromFormat("Y-m-d",$this->facture->date_facturation)->format("d/m/Y");
         $facture = $this->facture;

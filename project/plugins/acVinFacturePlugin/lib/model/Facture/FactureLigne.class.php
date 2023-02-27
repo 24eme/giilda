@@ -73,10 +73,11 @@ class FactureLigne extends BaseFactureLigne {
     public function updateTotaux() {
         $this->montant_ht = 0;
         $this->montant_tva = 0;
+        $interpro = ($this->getDocument()->exist('interpro'))? $this->getDocument()->interpro : null;
         foreach ($this->details as $detail) {
             $detail->montant_ht = $detail->quantite * $detail->prix_unitaire;
             $detail->montant_tva = $detail->taux_tva * $detail->montant_ht;
-            if(FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+            if(FactureConfiguration::getInstance($interpro)->isPdfLigneDetails()) {
                 $detail->montant_ht = round($detail->montant_ht, 2);
                 $detail->montant_tva = round($detail->montant_tva, 2);
             }
@@ -161,6 +162,25 @@ class FactureLigne extends BaseFactureLigne {
             return null;
         }
         return trim(preg_replace("/.*(\(.*\)).*/", '\1', $this->libelle));
+    }
+
+    public function getTabOrigineMouvements() {
+        $result = [];
+        foreach ($this->origine_mouvements as $idDoc => $mouvsKeys) {
+            $result = array_merge($result, $mouvsKeys->toArray(true,false));
+        }
+        return array_unique($result);
+    }
+
+    public function getMontantsHTByTva() {
+        $montantsByTva = [];
+        foreach ($this->details as $detail) {
+            if (!isset($montantsByTva["$detail->taux_tva"])) {
+                $montantsByTva["$detail->taux_tva"] = 0;
+            }
+            $montantsByTva["$detail->taux_tva"] += $detail->montant_ht;
+        }
+        return array_map(function($val) { return round($val, 2); }, $montantsByTva);
     }
 
 }

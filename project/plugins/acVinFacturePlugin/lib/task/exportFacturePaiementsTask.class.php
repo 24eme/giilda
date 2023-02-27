@@ -11,6 +11,7 @@ class exportFacturePaiementsTask extends sfBaseTask
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
             new sfCommandOption('factureid', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export a specific Facture', ''),
             new sfCommandOption('entete', null, sfCommandOption::PARAMETER_REQUIRED, "Ligne d'entête", true),
+            new sfCommandOption('interpro', null, sfCommandOption::PARAMETER_OPTIONAL, 'Interpro'),
         ));
 
         $this->namespace        = 'export';
@@ -43,6 +44,9 @@ EOF;
             if (!$facture) {
                 return;
             }
+            if ($options["interpro"] && $facture->getOrAdd('interpro') != $options["interpro"]) {
+                return;
+            }
             $export = new ExportFacturePaiementsCSV($facture, false, false);
             echo $export->exportFacturePaiements();
             return ;
@@ -52,6 +56,9 @@ EOF;
           $facture = FactureClient::getInstance()->find($vfacture->id);
           if(!$facture) {
               throw new sfException(sprintf("Document %s introuvable", $vfacture->id));
+          }
+          if ($options["interpro"] && $facture->getOrAdd('interpro') != $options["interpro"]) {
+              continue;
           }
           $export = new ExportFacturePaiementsCSV($facture, false, true);
           echo $export->exportFacturePaiements();

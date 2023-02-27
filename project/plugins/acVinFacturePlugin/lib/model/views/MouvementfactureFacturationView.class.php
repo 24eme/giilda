@@ -4,18 +4,19 @@ class MouvementfactureFacturationView extends acCouchdbView {
 
     const KEYS_FACTURE = 0;
     const KEYS_FACTURABLE = 1;
-    const KEYS_REGION = 2;
-    const KEYS_ETB_ID = 3;
-    const KEYS_ORIGIN = 4;
-    const KEYS_MATIERE = 5;
-    const KEYS_PRODUIT_ID = 6;
-    const KEYS_PERIODE = 7;
-    const KEYS_DATE = 8;
-    const KEYS_CONTRAT_ID = 9;
-    const KEYS_VRAC_DEST = 10;
-    const KEYS_MVT_TYPE = 11;
-    const KEYS_DETAIL_ID = 12;
-    const KEYS_TYPE_DRM = 13;
+    const KEYS_INTERPRO = 2;
+    const KEYS_REGION = 3;
+    const KEYS_ETB_ID = 4;
+    const KEYS_ORIGIN = 5;
+    const KEYS_MATIERE = 6;
+    const KEYS_PRODUIT_ID = 7;
+    const KEYS_PERIODE = 8;
+    const KEYS_DATE = 9;
+    const KEYS_CONTRAT_ID = 10;
+    const KEYS_VRAC_DEST = 11;
+    const KEYS_MVT_TYPE = 12;
+    const KEYS_DETAIL_ID = 13;
+    const KEYS_TYPE_DRM = 14;
     const VALUE_PRODUIT_LIBELLE = 0;
     const VALUE_TYPE_LIBELLE = 1;
     const VALUE_QUANTITE = 2;
@@ -30,14 +31,14 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return acCouchdbManager::getView('mouvementfacture', 'facturation');
     }
 
-    protected function getRowsBySociete($societe, $facturee, $facturable, $reduceLevel = false) {
+    protected function getRowsBySociete($societe, $facturee, $facturable, $reduceLevel = false, $interpro = null) {
         try {
             $paramRegion = ($societe->type_societe != SocieteClient::TYPE_OPERATEUR) ? SocieteClient::TYPE_AUTRE : $societe->getRegionViticole();
         } catch (Exception $e) {
             $paramRegion = array();
         }
 
-        $rows = $this->getRowsByIdentifiant(EtablissementClient::getInstance()->getFirstIdentifiant($societe->identifiant), EtablissementClient::getInstance()->getLastIdentifiant($societe->identifiant), $paramRegion, $facturee, $facturable, $reduceLevel);
+        $rows = $this->getRowsByIdentifiant(EtablissementClient::getInstance()->getFirstIdentifiant($societe->identifiant), EtablissementClient::getInstance()->getLastIdentifiant($societe->identifiant), $paramRegion, $facturee, $facturable, $reduceLevel, $interpro);
 
         $identifiantsSupplementaire = array();
         foreach($societe->etablissements as $id => $infos) {
@@ -50,17 +51,16 @@ class MouvementfactureFacturationView extends acCouchdbView {
             $identifiantsSupplementaire[str_replace("ETABLISSEMENT-", "", $id)] = str_replace("ETABLISSEMENT-", "", $id);
         }
         foreach($identifiantsSupplementaire as $identifiant) {
-            $rows = array_merge($rows, $this->getRowsByIdentifiant($identifiant, $identifiant, $paramRegion, $facturee, $facturable, $reduceLevel));
+            $rows = array_merge($rows, $this->getRowsByIdentifiant($identifiant, $identifiant, $paramRegion, $facturee, $facturable, $reduceLevel, $interpro));
         }
 
         return $rows;
     }
 
-    protected function getRowsByIdentifiant($identifiantStart, $identifiantEnd, $paramRegion, $facturee, $facturable, $reduceLevel = false) {
+    protected function getRowsByIdentifiant($identifiantStart, $identifiantEnd, $paramRegion, $facturee, $facturable, $reduceLevel = false, $interpro = null) {
         $view = $this->client
-                        ->startkey(array($facturee, $facturable, $paramRegion, $identifiantStart))
-                        ->endkey(array($facturee, $facturable, $paramRegion, $identifiantEnd, array()));
-
+                        ->startkey(array($facturee, $facturable, $interpro, $paramRegion, $identifiantStart))
+                        ->endkey(array($facturee, $facturable, $interpro, $paramRegion, $identifiantEnd, array()));
         if(!$reduceLevel) {
             $view->reduce(false);
         } else {
@@ -70,19 +70,19 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return $view->getView($this->design, $this->view)->rows;
     }
 
-    protected function getMouvementsBySociete($societe, $facturee, $facturable) {
+    protected function getMouvementsBySociete($societe, $facturee, $facturable, $interpro = null) {
 
-        return $this->getRowsBySociete($societe, $facturee, $facturable);
+        return $this->getRowsBySociete($societe, $facturee, $facturable, false, $interpro);
     }
 
-    public function getMouvementsBySocieteWithReduce($societe, $facturee, $facturable, $level) {
+    public function getMouvementsBySocieteWithReduce($societe, $facturee, $facturable, $level, $interpro = null) {
 
         if($societe == SocieteClient::TYPE_OPERATEUR) {
             // On s'assure qu'il y a une region viticole pour les opérateurs car cette méthode renvoi une Exception si ce n'est pas le cas
             $societe->getRegionViticole();
         }
 
-        return $this->buildMouvements($this->consolidationMouvements($this->getRowsBySociete($societe, $facturee, $facturable, $level)));
+        return $this->buildMouvements($this->consolidationMouvements($this->getRowsBySociete($societe, $facturee, $facturable, $level, $interpro)));
     }
 
     protected function consolidationMouvements($rows) {
@@ -103,9 +103,9 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return $rows;
     }
 
-    public function getMouvementsNonFacturesBySociete($societe) {
+    public function getMouvementsNonFacturesBySociete($societe, $interpro = null) {
 
-        return $this->buildMouvements($this->getMouvementsBySociete($societe, 0, 1));
+        return $this->buildMouvements($this->getMouvementsBySociete($societe, 0, 1, $interpro));
     }
 
     public function getMouvementsAll($facturee) {
@@ -117,21 +117,39 @@ class MouvementfactureFacturationView extends acCouchdbView {
                                 ->getView($this->design, $this->view)->rows);
     }
 
-    public function getMouvements($facturee, $facturable, $level) {
-
-        return $this->buildMouvements($this->consolidationMouvements($this->client
-                                ->startkey(array($facturee, $facturable))
-                                ->endkey(array($facturee, $facturable, array()))
-                                ->reduce(true)->group_level($level)
-                                ->getView($this->design, $this->view)->rows));
+    private function queryMouvements($facturee, $facturable, $interpro = null, $region = null, $level = null) {
+        $start = [$facturee,$facturable, $interpro];
+        $end = [$facturee,$facturable, $interpro];
+        if ($region) {
+            $start[] = $region;
+            $end[] = $region;
+        }
+        $end[] = [];
+        $view = $this->client->startkey($start)->endkey($end);
+        if ($level) {
+            $view->reduce(true)->group_level($level);
+        } else {
+            $view->reduce(false);
+        }
+        return $view->getView($this->design, $this->view)->rows;
     }
 
-    public function getMouvementsFacturablesByRegions($facturee, $facturable, $region, $level) {
-        return $this->buildMouvements($this->consolidationMouvements($this->client
-                                ->startkey(array($facturee, $facturable, $region))
-                                ->endkey(array($facturee, $facturable, $region, array()))
-                                ->reduce(true)->group_level($level)
-                                ->getView($this->design, $this->view)->rows));
+    public function getMouvementsEnAttente($interpro = null, $region = null) {
+        return $this->queryMouvements(0, 1, $interpro, $region);
+    }
+
+    public function getMouvements($facturee, $facturable, $interpro, $level) {
+        return $this->buildMouvements(
+                    $this->consolidationMouvements(
+                        $this->queryMouvements($facturee, $facturable, $interpro, null, $level)
+                ));
+    }
+
+    public function getMouvementsFacturablesByRegions($facturee, $facturable, $interpro, $region, $level) {
+        return $this->buildMouvements(
+                    $this->consolidationMouvements(
+                        $this->queryMouvements($facturee, $facturable, $interpro, $region, $level)
+                ));
     }
 
     public function buildMouvements($rows) {
@@ -167,6 +185,7 @@ class MouvementfactureFacturationView extends acCouchdbView {
         $mouvement->origines = $row->value[self::VALUE_ID_ORIGINE];
         $mouvement->facturable = $row->key[self::KEYS_FACTURABLE];
         $mouvement->region = $row->key[self::KEYS_REGION];
+        $mouvement->interpro = $row->key[self::KEYS_INTERPRO];
         if ($mouvement->origine == "MouvementsFacture") {
             $mouvement->nom_facture = $mouvement->matiere;
         }
