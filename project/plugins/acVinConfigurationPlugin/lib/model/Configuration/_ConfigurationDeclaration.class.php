@@ -118,7 +118,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             array(self::ATTRIBUTE_CVO_ACTIF),
             array(self::ATTRIBUTE_CVO_ACTIF, self::ATTRIBUTE_DOUANE_ACTIF)
         );
+
+        $now = new DateTimeImmutable();
         foreach ($datesDroits as $dateDroit => $null) {
+            if (DateTimeImmutable::createFromFormat("Y-m-d", $dateDroit) < $now->modify('-2 years')) {
+                continue;
+            }
             foreach ($attributesCombinaison as $attributes) {
                 $this->getProduits($dateDroit, $interpro, null, $attributes);
             }
