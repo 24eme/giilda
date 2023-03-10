@@ -40,6 +40,7 @@ EOF;
       // Organise par relance et etablissement
       $relances = array();
       $infos = array();
+      $interpro = array();
       foreach (file($arguments['relancesCsv']) as $ligne) {
           $datas = explode(';', $ligne);
           if (strpos($datas[17], 'FACTURE-') === false) continue;
@@ -52,10 +53,15 @@ EOF;
               $infos[$index] = $this->getSocieteInfosObject($datas);
           }
           $relances[$index][] = $datas;
+          if (isset($datas[18])) {
+              $interpro[$datas[18]] = $datas[18];
+          }
       }
+      if (count($interpro) > 1) throw new Exception('Les relances facture doivent être mono interpro');
+      $interpro = (!$interpro)? null : trim(array_key_first($interpro));
       $hasPdf = false;
       foreach($relances as $key => $items) {
-      	$pdf = new FactureRelanceLatex($infos[$key], $items, str_replace('.pdf', "_$key", $options['filename']));
+      	$pdf = new FactureRelanceLatex($infos[$key], $items, str_replace('.pdf', "_$key", $options['filename']), $interpro);
       	$path = $pdf->generatePDF();
         $destdir = $options['directory'].'/'.$pdf->getPublicFileName();
         copy($path, $destdir) or die("pb rename $path $destdir");

@@ -3,8 +3,8 @@ use_helper('Float');
 use_helper('Display');
 use_helper('Date');
 
-include_partial('facture/pdf_generique_prelatex', array('pdf_titre' => 'Relance', 'ressortissant' => $infos));
-include_partial('facture/pdf_relances_generique_entete', array('infos' => $infos));
+include_partial('facture/pdf_generique_prelatex', array('pdf_titre' => 'Relance', 'ressortissant' => $infos, 'factureConfiguration' => $factureConfiguration));
+include_partial('facture/pdf_relances_generique_entete', array('infos' => $infos, 'factureConfiguration' => $factureConfiguration));
 if ($infos->nb_relance > 1) {
   include_partial('facture/pdf_relances_pretexte_r2', array('date' => $infos->date_derniere_relance));
 } else {

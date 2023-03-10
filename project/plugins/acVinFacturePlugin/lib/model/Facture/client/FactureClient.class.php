@@ -235,7 +235,12 @@ class FactureClient extends acCouchdbClient {
         if (!isset($parameters['interpro'])) {
             $parameters['interpro'] = null;
         }
-        $mouvements = array($societe->identifiant => MouvementfactureFacturationView::getInstance()->getMouvementsBySocieteWithReduce($societe, 0, 1, $this->getReduceLevelForFacturation(), $parameters['interpro']));
+        $mouvements = array($societe->identifiant => MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($societe, $parameters['interpro']));
+        foreach($mouvements as $mouvements_societe) {
+            foreach ($mouvements_societe as $mvt) {
+                $mvt->origines = array($mvt->origines);
+            }
+        }
         $mouvements = FactureClient::getInstance()->filterWithParameters($mouvements, $parameters);
 
         if(!count($mouvements)) {
