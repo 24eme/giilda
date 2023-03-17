@@ -63,6 +63,12 @@ SV12:
                   volume_prop: { type : float }
                   volume: { type : float }
                   cvo: { type: float }
+                  labels:
+                    required: false
+                    type: array_collection
+                    definition:
+                      fields:
+                        '*': {  }
       mouvements:
         type: collection
         definition:
