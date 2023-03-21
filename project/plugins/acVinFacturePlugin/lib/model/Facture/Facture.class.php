@@ -12,6 +12,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     protected $etablissements = array();
 
     const MESSAGE_DEFAULT = "";
+    const ARRONDI_QUANTITE = 2;
 
     public function __construct() {
         parent::__construct();
@@ -38,31 +39,31 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeEmetteur() {
-        $configs = sfConfig::get('app_configuration_facture');
+        $configs = $this->getConfiguration();
         $emetteur = new stdClass();
         $config_emetteur = null;
-        if (!$configs && !isset($configs['emetteur_libre']) && !isset($configs['emetteur_cvo'])) {
+
+        if (!$configs || (!$configs->getEmetteurLibre() && !$configs->getEmetteurCvo())) {
             throw new sfException(sprintf('Config "configuration/facture/emetteur" not found in app.yml'));
         }
         if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
-            $config_emetteur = $configs['emetteur_libre'];
+            $config_emetteur = $configs->getEmetteurLibre();
         }
 
         if(!$config_emetteur) {
-            $config_emetteur = $configs['emetteur_cvo'];
+            $config_emetteur = $configs->getEmetteurCvo();
         }
-
         unset($config_emetteur['fax']);
         $this->emetteur = $config_emetteur;
 
     }
 
     public function getCoordonneesBancaire() {
-        $configs = sfConfig::get('app_configuration_facture');
-        if (!$configs && !isset($configs['coordonnees_bancaire'])) {
+        $configs = $this->getConfiguration();
+        if (!$configs && $configs->getCoordonneesBancaire()) {
             throw new sfException(sprintf('Config "configuration/facture/coordonnees_bancaire" not found in app.yml'));
         }
-        $appCoordonneesBancaire = $configs['coordonnees_bancaire'];
+        $appCoordonneesBancaire = $configs->getCoordonneesBancaire();
 
         $coordonneesBancaires = new stdClass();
 
@@ -74,11 +75,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getInformationsInterpro() {
-        $configs = sfConfig::get('app_configuration_facture');
-        if (!$configs && !isset($configs['infos_interpro'])) {
+        $configs = $this->getConfiguration();
+        if (!$configs && $configs->getInfosInterpro()) {
             throw new sfException(sprintf('Config "configuration/facture/infos_interpro" not found in app.yml'));
         }
-        $appInfosInterpro = $configs['infos_interpro'];
+        $appInfosInterpro = $configs->getInfosInterpro();
 
         $infosInterpro = new stdClass();
 
@@ -89,19 +90,23 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $infosInterpro;
     }
 
+    public function getConfiguration() {
+        return FactureConfiguration::getInstance($this->getOrAdd('interpro'));
+    }
+
     public function storeDatesCampagne($date_facturation = null) {
-        $configs = sfConfig::get('app_configuration_facture');
         $this->date_emission = date('Y-m-d');
         $this->date_facturation = $date_facturation;
         $date_facturation_object = new DateTime($this->date_facturation);
-        $this->date_echeance = $date_facturation_object->modify(FactureConfiguration::getInstance()->getEcheance())->format('Y-m-d');
+        $day = ($this->getConfiguration()->getEcheanceFinDeMois())? 't' : 'd';
+        $this->date_echeance = $date_facturation_object->modify($this->getConfiguration()->getEcheance())->format('Y-m-'.$day);
         if (!$this->date_facturation) {
             $this->date_facturation = date('Y-m-d');
         }
 
 	    $date_campagne = new DateTime($this->date_facturation);
 
-        if (FactureConfiguration::getInstance()->getExercice() == 'viticole') {
+        if ($this->getConfiguration()->getExercice() == 'viticole') {
 		    $date_campagne = $date_campagne->modify('+5 months');
 	    }
 
@@ -111,8 +116,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function constructIds($doc) {
         if (!$doc)
             throw new sfException('Pas de document attribué');
-
-        $this->region = $doc->getRegionViticole();
         $this->identifiant = $doc->identifiant;
         $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($this->identifiant, date('Ymd'));
         $this->_id = FactureClient::getInstance()->getId($this->identifiant, $this->numero_facture);
@@ -128,7 +131,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             return $this->_get('numero_piece_comptable');
         }
-        $prefix = FactureConfiguration::getInstance()->getPrefixId($this);
+        $prefix = $this->getConfiguration()->getPrefixId($this);
 
         return $prefix . preg_replace('/^\d{2}(\d{2})/', '$1', $this->campagne) . sprintf('%05d', $this->numero_archive);
     }
@@ -176,7 +179,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $nb = 0;
       foreach($this->lignes as $k => $l) {
         $nb++;
-        if(!FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+        if(!$this->getConfiguration()->isPdfLigneDetails()) {
             continue;
         }
         $nb += count($l->details);
@@ -223,7 +226,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function storeLigneFromMouvements($ligneByType, $famille, $modele) {
 
         $etablissements = $this->getEtablissements();
-        $comptabilite = ComptabiliteClient::getInstance()->findCompta();
+        $comptabilite = ComptabiliteClient::getInstance()->findCompta($this->getOrAdd('interpro'));
         $keysOrigin = array();
         if (($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
             foreach ($ligneByType->origines as $origine) {
@@ -314,7 +317,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 }
                 $codeProduit = $produit_configuration->getCodeComptable();
 
-                $detail->add(FactureConfiguration::getInstance()->getStockageCodeProduit(), $codeProduit);
+                $detail->add($this->getConfiguration()->getStockageCodeProduit(), $codeProduit);
             }
             elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
                 $detail = $ligne->getOrAdd('details')->add();
@@ -329,6 +332,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $detail->add('code_compte',$identifiants_compte_analytique[0]);
                 $detail->taux_tva = $comptabilite->getTauxTva($ligneByType->produit_hash);
             }
+            $detail->quantite = round($detail->quantite, self::ARRONDI_QUANTITE);
         }
     }
 
@@ -565,11 +569,22 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function updateTotalTaxe() {
-        $this->total_taxe = 0;
-        foreach ($this->lignes as $ligne) {
-            $this->total_taxe += $ligne->montant_tva;
+        $this->total_taxe = $this->getMontantTva();
+    }
+
+    public function getMontantTva() {
+        if (!$this->exist('total_taxe_is_globalise')||!$this->total_taxe_is_globalise) {
+            return $this->lignes->getMontantTva();
         }
-        $this->total_taxe = round($this->total_taxe, 2);
+        $montantsByTva = $this->lignes->getMontantsHTByTva();
+        if (count($montantsByTva) > 1) {
+            throw new Exception('Plusieurs taux de TVA ont été identifiés pour la facture '.$this->_id);
+        }
+        $montant = 0;
+        foreach ($montantsByTva as $tauxTva => $quantite) {
+            $montant += $quantite * $tauxTva;
+        }
+        return round($montant, 2);
     }
 
     public function addPrelevementAutomatique()
@@ -578,7 +593,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $paiement->montant =  $this->total_ttc;
       $paiement->type_reglement = FactureClient::FACTURE_PAIEMENT_PRELEVEMENT_AUTO;
       $paiement->add('execute',false);
-      $delai = MandatSepaConfiguration::getInstance()->getDelaiEcheancePrelevement();
+      $delai = MandatSepaConfiguration::getInstance($this->getOrAdd('interpro'))->getDelaiEcheancePrelevement();
       $paiement->date = date('Y-m-d',strtotime($this->date_facturation.$delai));
       $this->add('versement_sepa', 0);
     }
@@ -641,11 +656,17 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return null;
     }
 
+    public function checkModeCalculTotalTaxe() {
+        if ($this->getConfiguration()->getGlobaliseCalculTaxe()) {
+            $this->add('total_taxe_is_globalise', true);
+        }
+    }
+
     protected function preSave() {
         if ($this->isNew() && $this->statut != FactureClient::STATUT_REDRESSEE) {
             $this->facturerMouvements();
             $this->storeOrigines();
-            if($this->getSociete()->hasMandatSepaActif()) {
+            if($this->getSociete()->hasMandatSepaActif($this->getOrAdd('interpro'))) {
                 $this->addPrelevementAutomatique();
             }
         }
@@ -658,24 +679,30 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         $this->updateVersementComptablePaiement();
 
+        if ($this->getOrAdd('interpro') && !$this->exist('type_archive')) {
+            $this->add('type_archive', $this->type.'_'.$this->interpro);
+        }
+
         $this->archivage_document->preSave();
         $this->numero_piece_comptable = $this->getNumeroPieceComptable();
     }
 
     public function storeDeclarant($doc) {
-        $this->numero_adherent = $doc->identifiant;
+        $this->numero_adherent = $doc->getIdentifiantByInterpro($this->getOrAdd('interpro'));
         if($doc->exist('num_interne') && $doc->num_interne) {
             $this->numero_adherent = $doc->num_interne;
         }
         $declarant = $this->declarant;
         $declarant->nom = $doc->raison_sociale;
-//$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
         $declarant->adresse = $doc->siege->adresse;
         $declarant->adresse_complementaire = $doc->siege->adresse_complementaire;
         $declarant->commune = $doc->siege->commune;
         $declarant->code_postal = $doc->siege->code_postal;
         $declarant->raison_sociale = $doc->raison_sociale;
-        $this->code_comptable_client = $doc->code_comptable_client;
+        $this->code_comptable_client = $doc->getCodeComtableClient($this->getOrAdd('interpro'));
+        if ($this->code_comptable_client && $this->getConfiguration()->refClientIsCodeComptable()) {
+            $this->numero_adherent = $this->code_comptable_client;
+        }
     }
 
     public function isPayee() {
@@ -865,7 +892,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getNumberToRelance() {
-        $relances = FactureConfiguration::getInstance()->getRelances();
+        $relances = $this->getConfiguration()->getRelances();
         foreach($relances as $num => $delai) {
             if ($this->needRelance($delai, $num)) {
                 return $num;

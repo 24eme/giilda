@@ -7,7 +7,6 @@ use_helper('Date');
 \def\TVA{20}
 \def\FactureNum{<?php echo $infos->id_relance; ?>}
 \def\FactureDate{<?php echo format_date($infos->date_relance,'dd/MM/yyyy'); ?>}
-\def\NomRefClient{<?php echo $infos->identifiant; ?>}
 \def\FactureRefClient{<?php echo $infos->identifiant; ?>}
 \def\FactureRefCodeComptableClient{<?php echo $infos->code_comptable; ?>}
 \newcommand{\CutlnPapillon}{
@@ -21,18 +20,19 @@ use_helper('Date');
 \\
 }
 
-\lhead{\includegraphics[scale=0.7]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_". sfConfig::get('sf_app').".png"; ?>}}
-\rhead{
- \textbf{\NomInterpro} \\
- \InterproAdresse \\
- \begin{small} \textbf{\begin{footnotesize}\InterproContact\end{footnotesize}}\\ \end{small}
- \begin{tiny}
-         RIB~:~\InterproBANQUE~(BIC:~\InterproBIC~IBAN:~\InterproIBAN)
- \end{tiny} \\
- \begin{tiny}
-         SIRET~\InterproSIRET ~-~\InterproAPE ~- TVA~Intracommunutaire~\InterproTVAIntracomm
-\end{tiny}
- }
+ \lhead{
+  \textbf{\NomInterpro} \\
+  \InterproAdresse \\
+  \begin{small} \textbf{\begin{footnotesize}\InterproContact\end{footnotesize}}\\ \end{small}
+  \begin{tiny}
+          RIB~:~\InterproBANQUE~(BIC:~\InterproBIC~IBAN:~\InterproIBAN)
+  \end{tiny} \\
+  \begin{tiny}
+          SIRET~\InterproSIRET ~-~\InterproAPE ~- TVA~Intracommunutaire~\InterproTVAIntracomm
+ \end{tiny}
+  }
+ \rhead{\includegraphics[scale=0.7]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_". sfConfig::get('sf_app').".png"; ?>}}
+
 \begin{document}
 \noindent{
 \begin{minipage}[t]{0.5\textwidth}

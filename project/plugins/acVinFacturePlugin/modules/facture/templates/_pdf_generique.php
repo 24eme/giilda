@@ -2,7 +2,9 @@
 use_helper('Float');
 use_helper('Display');
 
-$prix_u_libelle = FactureConfiguration::getInstance()->getNomTaux();
+$interpro = ($facture->exist('interpro'))? $facture->interpro : null;
+$factureConfiguration = FactureConfiguration::getInstance($interpro);
+$prix_u_libelle = $factureConfiguration->getNomTaux();
 $titre_type_facture = "Cotisation interprofessionnelle";
 $qt_libelle = "Volume \\tiny{en hl}";
 if($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)){
@@ -11,9 +13,9 @@ if($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)){
     $titre_type_facture = "";
 }
 $avoir = ($facture->total_ht <= 0);
-include_partial('facture/pdf_generique_prelatex', array('pdf_titre' => $titre_type_facture, 'ressortissant' => $facture->declarant));
-include_partial('facture/pdf_facture_def', array('facture' => $facture));
-include_partial('facture/pdf_generique_entete', array('facture' => $facture, 'avoir' => $avoir));
+include_partial('facture/pdf_generique_prelatex', array('pdf_titre' => $titre_type_facture, 'ressortissant' => $facture->declarant, 'factureConfiguration' => $factureConfiguration));
+include_partial('facture/pdf_facture_def', array('facture' => $facture, 'factureConfiguration' => $factureConfiguration));
+include_partial('facture/pdf_generique_entete', array('facture' => $facture, 'avoir' => $avoir, 'factureConfiguration' => $factureConfiguration));
 ?>
 \centering
 \fontsize{8}{10}\selectfont
@@ -37,7 +39,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
   $line_nb++;
 ?>
     \small{\textbf{<?php echo escape_string_for_latex($typeLignes->getLibellePrincipal()); ?>}<?php if($typeLignes->getLibelleSecondaire()): ?> <?php echo escape_string_for_latex($typeLignes->getLibelleSecondaire()); ?><?php endif; ?>} &
-    <?php if(!FactureConfiguration::getInstance()->isPdfLigneDetails()): ?>
+    <?php if(!$factureConfiguration->isPdfLigneDetails()): ?>
     \multicolumn{1}{r|}{\small{<?php echoArialFloat($typeLignes->getQuantite()); ?>}} &
     \multicolumn{1}{r|}{\small{<?php echoArialFloat($typeLignes->getPrixUnitaire()); ?>}} &
     \multicolumn{1}{r}{\small{<?php echoArialFloat($typeLignes->montant_ht); ?>}}
@@ -50,9 +52,9 @@ foreach ($facture->lignes as $type => $typeLignes) {
     <?php
     $nb_pages = 0;
     foreach ($typeLignes->details as $prodHash => $produit) {
-        if(FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+        if($factureConfiguration->isPdfLigneDetails()) {
             $line_nb++;
-            include_partial('facture/pdf_generique_tableRow', array('produit' => $produit->getRawValue(), 'facture' => $facture));
+            include_partial('facture/pdf_generique_tableRow', array('produit' => $produit->getRawValue(), 'facture' => $facture, 'factureConfiguration' => $factureConfiguration));
         }
         //cas d'un besoin de changement de page
         if ($line_nb >= $lines_per_page) {
@@ -105,8 +107,8 @@ for($i=0; $i<$nb_blank;$i++):
     \node[draw=gray, inner sep=-2pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};
 \end{tikzpicture}
 <?php
-include_partial('facture/pdf_generique_reglement', array('facture' => $facture));
+include_partial('facture/pdf_generique_reglement', array('facture' => $facture, 'factureConfiguration' => $factureConfiguration));
 if ($nb_echeances && !$avoir)
-    include_partial('facture/pdf_generique_echeances', array('facture' => $facture));
+    include_partial('facture/pdf_generique_echeances', array('facture' => $facture, 'factureConfiguration' => $factureConfiguration));
 ?>
 \end{document}

@@ -38,8 +38,12 @@ class FactureRouting {
             'action' => 'defacturer'), array('sf_method' => array('get', 'post')), array('model' => 'Facture',
             'type' => 'object')
         ));
+
         $r->prependRoute('facture', new sfRoute('/facture', array('module' => 'facture',
             'action' => 'index')));
+
+        $r->prependRoute('facture_en_attente', new sfRoute('/facture/attente', array('module' => 'facture',
+            'action' => 'attente')));
 
         $r->prependRoute('facture_generation', new sfRoute('/facture/generation', array('module' => 'facture',
             'action' => 'generation')));

@@ -97,7 +97,7 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATACHETEURADRESSE{<?php echo $vrac->acheteur->adresse ?>}
 \def\CONTRATACHETEURCOMMUNE{<?php echo $vrac->acheteur->code_postal.' '.$vrac->acheteur->commune ?>}
 
-\def\CONTRATCOURTIERNOM{<?php echo $mandataire_raison_sociale ?><?php if ($vrac->isMandataireResponsable())): ?> (responsable)<?php endif; ?>}
+\def\CONTRATCOURTIERNOM{<?php echo $mandataire_raison_sociale ?><?php if ($vrac->isMandataireResponsable()): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{, n° carte professionnelle:~<?php echo $vrac->mandataire->carte_pro ?>}
 
 \def\CONTRATTYPE{Moûts}

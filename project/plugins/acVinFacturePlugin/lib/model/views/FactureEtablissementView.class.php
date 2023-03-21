@@ -2,9 +2,11 @@
 
 class FactureEtablissementView extends acCouchdbView
 {
-    const KEYS_CLIENT_ID = 2;
+
     const KEYS_VERSEMENT_COMPTABLE = 1;
-    const KEYS_FACTURE_ID = 3;
+    const KEYS_CLIENT_ID = 2;
+    const KEYS_INTERPRO = 3;
+    const KEYS_FACTURE_ID = 4;
 
     const VALUE_DATE_FACTURATION = 0;
     const VALUE_ORIGINES = 1;
@@ -76,15 +78,26 @@ class FactureEtablissementView extends acCouchdbView
         return $societes;
     }
 
-    public function findBySociete($societe) {
-            $rows = acCouchdbManager::getClient()
-                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant))
-                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, array()))
-                    ->getView($this->design, $this->view)->rows;
-            $factures = array_merge($rows, acCouchdbManager::getClient()
-                    ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant))
-                    ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, array()))
-                    ->getView($this->design, $this->view)->rows);
+    public function findBySociete($societe, $interpro = null) {
+            if ($interpro) {
+                $rows = acCouchdbManager::getClient()
+                        ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, $interpro))
+                        ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, $interpro, array()))
+                        ->getView($this->design, $this->view)->rows;
+                $factures = array_merge($rows, acCouchdbManager::getClient()
+                        ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, $interpro))
+                        ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, $interpro, array()))
+                        ->getView($this->design, $this->view)->rows);
+            } else {
+                $rows = acCouchdbManager::getClient()
+                        ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant))
+                        ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 0, $societe->identifiant, array()))
+                        ->getView($this->design, $this->view)->rows;
+                $factures = array_merge($rows, acCouchdbManager::getClient()
+                        ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant))
+                        ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, array()))
+                        ->getView($this->design, $this->view)->rows);
+            }
 
             $facturesResult = array();
             foreach ($factures as $facture) {
@@ -95,10 +108,10 @@ class FactureEtablissementView extends acCouchdbView
 
     }
 
-    public function getYearFaturesBySociete($societe) {
+    public function getYearFaturesBySociete($societe, $interpro = null) {
         $factures = acCouchdbManager::getClient()
-                ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, 'FACTURE-'.$societe->identifiant.'-'.(date('Y') - 1).date('md').'00'))
-                ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, 'FACTURE-'.$societe->identifiant.'-ZZZZZZZZZZ'))
+                ->startkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, $interpro, 'FACTURE-'.$societe->identifiant.'-'.(date('Y') - 1).date('md').'00'))
+                ->endkey(array(self::VERSEMENT_TYPE_FACTURE, 1, $societe->identifiant, $interpro, 'FACTURE-'.$societe->identifiant.'-ZZZZZZZZZZ'))
                 ->getView($this->design, $this->view)->rows;
 
         $facturesResult = array();

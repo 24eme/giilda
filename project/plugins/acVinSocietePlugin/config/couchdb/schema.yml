@@ -11,12 +11,16 @@ Societe:
       raison_sociale_abregee: { searchable: true }
       statut: { }
       code_comptable_client: { }
-      codes_comptables_client:
+      interpros_metas:
         required: false
         type: collection
         definition:
           fields:
-            '*': { }
+            '*':
+              type: collection
+              definition:
+                fields:
+                  '*': { }
       code_comptable_fournisseur: { }
       num_interne: { required: false }
       teledeclaration_email: { required: false }

@@ -7,6 +7,7 @@
 class Societe extends BaseSociete implements InterfaceCompteGenerique, InterfaceMandatSepaPartie {
 
     private $comptes = null;
+    const REFERENCE_INTERPROS_METAS = "&interpros_metas";
 
     public function constructId() {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);
@@ -49,18 +50,23 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function setIdentifiant($identifiant) {
         $r = $this->_set('identifiant', $identifiant);
-
-        $this->code_comptable_client = $this->getCodeComtableClient();
-
         return $r;
     }
 
-    public function getCodeComtableClient() {
-        if(!$this->_get('code_comptable_client')) {
-            return FactureConfiguration::getInstance()->getPrefixCodeComptable().((int)$this->identifiant)."";
+    public function getCodeComtableClient($interpro = null) {
+        $cc = ($interpro)? $this->getDataFromInterproMetas($interpro, 'code_comptable_client') : $this->_get('code_comptable_client');
+        if(!$cc) {
+            return FactureConfiguration::getInstance($interpro)->getPrefixCodeComptable().((int)$this->identifiant)."";
         }
+        return $cc;
+    }
 
-        return $this->_get('code_comptable_client');
+    public function addCodeComptableClient($cc, $interpro = null) {
+        if (!$interpro)
+            $this->_set('code_comptable_client', $cc);
+        else {
+            $this->setMetasForInterpro($interpro, ['code_comptable_client' => $cc]);
+        }
     }
 
     public function canHaveChais() {
@@ -359,10 +365,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $this->exist('statut') && $this->statut === EtablissementClient::STATUT_SUSPENDU;
     }
 
-    public function hasNumeroCompte() {
-        return ($this->code_comptable_client || $this->code_comptable_fournisseur);
-    }
-
     public function getSiegeAdresses() {
         $a = $this->siege->adresse;
         if ($this->siege->exist("adresse_complementaire")) {
@@ -418,7 +420,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         if ($this->isSynchroAutoActive() && !$compteMaster) {
             $compteMaster = $this->createCompteSociete();
         }
-
+        $this->checkInterprosMetas();
         parent::save();
 
         SocieteClient::getInstance()->setSingleton($this);
@@ -625,21 +627,60 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
       return $this->siege->commune;
     }
 
-    public function getMandatSepa() {
-        return MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant());
+    public function getMandatSepa($interpro = null) {
+        return MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant(), $interpro);
     }
 
-    public function hasMandatSepa() {
-      return ($this->getMandatSepa() != null);
+    public function hasMandatSepa($interpro = null) {
+      return ($this->getMandatSepa($interpro) != null);
     }
 
-    public function hasMandatSepaActif() {
-      $mandat = $this->getMandatSepa();
+    public function hasMandatSepaActif($interpro = null) {
+      $mandat = $this->getMandatSepa($interpro);
       if (!$mandat) {
           return false;
       }
       return $mandat->is_actif;
     }
     // fin
+
+    public function checkInterprosMetas() {
+        if (!$this->exist('interpros_metas')) return;
+        if (!count($this->interpros_metas)) return;
+        foreach($this->interpros_metas as $interpro => $datas) {
+            foreach($datas as $k => $v) {
+                if ($this->exist($k) && $this->get($k) && $this->get($k) != self::REFERENCE_INTERPROS_METAS) {
+                    $this->interpros_metas->getOrAdd('DEFAUT')->add($k, $this->get($k));
+                    $this->set($k, self::REFERENCE_INTERPROS_METAS);
+                }
+            }
+        }
+    }
+
+    public function getMetasForInterpro($interpro) {
+        return $this->getOrAdd('interpros_metas')->getOrAdd($interpro);
+    }
+
+    public function setMetasForInterpro($interpro, array $datas) {
+        $metas = $this->getMetasForInterpro($interpro);
+        foreach($datas as $k => $v) {
+            $metas->add($k, $v);
+        }
+    }
+
+    public function getDataFromInterproMetas($interpro, $meta) {
+        $metas = $this->getMetasForInterpro($interpro);
+        return ($metas->exist($meta))? $metas->get($meta) : null;
+    }
+
+    public function getIdentifiantByInterpro($interpro = null) {
+        if (!$interpro) return $this->identifiant;
+        if (count($this->etablissements) != 1)  return $this->identifiant;
+        $etablissement = $this->getEtablissementPrincipal();
+        if (method_exists($etablissement, 'getIdentifiantByInterpro')) {
+            return $etablissement->getIdentifiantByInterpro($interpro);
+        }
+        return $this->identifiant;
+    }
 
 }

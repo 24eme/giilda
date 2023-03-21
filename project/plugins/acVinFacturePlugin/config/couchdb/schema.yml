@@ -5,6 +5,7 @@ Facture:
       _id: {}
       _rev: {}
       type: {}
+      type_archive: { required:false }
       identifiant: {}
       code_comptable_client: {}
       numero_facture: {}
@@ -21,8 +22,10 @@ Facture:
       numero_archive: {  }
       statut: {}
       avoir: {required: false}
-      taux_tva: {required: false}
+      taux_tva: {required: false} #deprecated
+      total_taxe_is_globalise: {required: false}
       region: {}
+      interpro: {required: false}
       versement_comptable: {type: integer}
       versement_comptable_paiement: {type: integer}
       versement_sepa: {type: integer}
@@ -194,6 +197,7 @@ MouvementsFacture:
                         facture: { type: integer }
                         facturable: { type: integer }
                         region : { }
+                        interpro : { required: false }
                         date : { }
                         vrac_numero : { } #Utilisé pour l'ordre
 

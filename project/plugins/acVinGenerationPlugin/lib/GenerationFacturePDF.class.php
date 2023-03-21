@@ -19,16 +19,23 @@ class GenerationFacturePDF extends GenerationPDF {
 
     public function preGeneratePDF() {
         parent::preGeneratePDF();
+        $arguments = $this->generation->arguments->toArray();
 
         $regions = null;
+        $interpro = null;
         if(sfConfig::get('app_facturation_region')) {
             $regions[] = sfConfig::get('app_facturation_region');
         }
+        if (isset($arguments['region'])) {
+            $regions = [$arguments['region']];
+        }
+        if (isset($arguments['interpro'])) {
+            $interpro = $arguments['interpro'];
+        }
 
-        $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse($regions);
+        $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse($interpro, $regions);
 
         $mouvementsBySoc = FactureClient::getInstance()->getMouvementsNonFacturesBySoc($allMouvementsByRegion);
-        $arguments = $this->generation->arguments->toArray();
         if (!isset($arguments['modele']) || !$arguments['modele']) {
             throw new sfException("Le modele n'existe pas dans les arguments de la génération");
         }
@@ -48,7 +55,7 @@ class GenerationFacturePDF extends GenerationPDF {
               }
               $modele = FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12;
           }
-          $facture = FactureClient::getInstance()->createDocFromMouvements($mouvementsSoc, $societe, $modele, $arguments['date_facturation'], $message_communication);
+          $facture = FactureClient::getInstance()->createDocFromMouvements($mouvementsSoc, $societe, $modele, $arguments['date_facturation'], $message_communication, $interpro);
           $facture->save();
           $this->generation->somme += $facture->total_ht;
           $this->generation->documents->add($cpt, $facture->_id);
