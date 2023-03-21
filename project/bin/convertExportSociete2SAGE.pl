@@ -3,6 +3,9 @@
 use Encode;
 $verbose = shift;
 
+print "#FLG 000\n";
+print "#VER 9\n";
+
 while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
