@@ -37,7 +37,7 @@ class ExportFactureRelanceCSV {
         $idRelance = date('Ymd').$this->facture->code_comptable_client;
         $numberRelance = $this->facture->getNumberToRelance();
 
-        $csv .= date('Y-m-d').";".$idRelance.";".$numberRelance.";".$this->facture->identifiant.";".$societe->raison_sociale.";".$this->protectString($societe->siege->adresse).";".$this->protectString($societe->siege->adresse_complementaire).";".$this->protectString($societe->siege->commune).";".$societe->siege->code_postal.";".$societe->siret.";".$this->facture->numero_adherent.";".$this->facture->code_comptable_client.";".$this->facture->numero_facture.";".$this->facture->date_facturation.";".$this->facture->total_ttc.";".$this->facture->getRestantDu().";".$this->facture->getDateDerniereRelance().";".$this->facture->_id.";".$this->facture->getOrAdd('interpro')."\n";
+        $csv .= date('Y-m-d').";".$idRelance.";".$numberRelance.";".$this->facture->identifiant.";".$societe->raison_sociale.";".$this->protectString($societe->siege->adresse).";".$this->protectString($societe->siege->adresse_complementaire).";".$this->protectString($societe->siege->commune).";".$societe->siege->code_postal.";".$societe->siret.";".$this->facture->numero_adherent.";".$this->facture->code_comptable_client.";".$this->facture->numero_piece_comptable.";".$this->facture->date_facturation.";".$this->facture->total_ttc.";".$this->facture->getRestantDu().";".$this->facture->getDateDerniereRelance().";".$this->facture->_id.";".$this->facture->getOrAdd('interpro')."\n";
 
         return $csv;
     }
