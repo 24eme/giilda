@@ -1,4 +1,7 @@
 <?php use_helper('Display'); ?>
+<?php if(!isset($factureConfiguration)): ?>
+<?php $factureConfiguration = FactureConfiguration::getInstance(); ?>
+<?php endif; ?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
 \usepackage[english]{babel}
