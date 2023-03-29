@@ -26,6 +26,10 @@ class FactureLigne extends BaseFactureLigne {
     }
 
     public function getQuantite() {
+        if (FactureConfiguration::getInstance()->isPdfLigneDetails() === false && $this->exist('quantite')) {
+            return $this->quantite;
+        }
+
         $quantite = 0;
         foreach ($this->details as $detail) {
             $quantite += $detail->quantite;

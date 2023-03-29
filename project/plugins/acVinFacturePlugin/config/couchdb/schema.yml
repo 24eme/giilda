@@ -78,6 +78,7 @@ Facture:
                 fields:
                   libelle: {  }
                   produit_identifiant_analytique: {required: false  }
+                  quantite: {type: float, required: false}
                   montant_tva: {type: float}
                   montant_ht: {type: float}
                   origine_mouvements:
