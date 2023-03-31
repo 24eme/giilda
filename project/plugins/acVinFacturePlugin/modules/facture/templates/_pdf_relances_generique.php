@@ -27,11 +27,11 @@ if ($infos->nb_relance > 1) {
   			\hline
                       ~ & ~ & ~ & ~ &\\
 
-<?php $papillon = new stdClass(); $papillon->montant_ttc = 0; foreach ($factures as $facture): $papillon->montant_ttc += $facture[15]; ?>
+<?php $papillon = new stdClass(); $papillon->montant_ttc = 0; foreach ($factures as $facture): $papillon->montant_ttc += str_replace(',', '.', $facture[15])*1; ?>
     \multicolumn{1}{c|}{<?php echo $facture[12] ?>} &
     \multicolumn{1}{c|}{<?php echo format_date($facture[13],'dd/MM/yyyy'); ?>} &
-    \multicolumn{1}{r|}{<?php echoArialFloat($facture[14]) ?>} &
-    \multicolumn{1}{r}{<?php echoArialFloat($facture[15]) ?>}
+    \multicolumn{1}{r|}{<?php echoArialFloat(str_replace(',', '.', $facture[14])*1) ?>} &
+    \multicolumn{1}{r}{<?php echoArialFloat(str_replace(',', '.', $facture[15])*1) ?>}
     \\
 <?php endforeach; ?>
     \end{tabular}

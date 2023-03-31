@@ -701,7 +701,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeDeclarant($doc) {
-        $this->numero_adherent = $doc->identifiant;
+        $this->numero_adherent = $doc->getIdentifiantByInterpro($this->getOrAdd('interpro'));
         if($doc->exist('num_interne') && $doc->num_interne) {
             $this->numero_adherent = $doc->num_interne;
         }
