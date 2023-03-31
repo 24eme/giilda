@@ -27,7 +27,7 @@ class FactureLigne extends BaseFactureLigne {
 
     public function getQuantite() {
         if (FactureConfiguration::getInstance()->isPdfLigneDetails() === false && $this->exist('quantite')) {
-            return $this->quantite;
+            return $this->_get('quantite');
         }
 
         $quantite = 0;
@@ -92,6 +92,11 @@ class FactureLigne extends BaseFactureLigne {
 
         $this->montant_ht = round($this->montant_ht, 2);
         $this->montant_tva = round($this->montant_tva, 2);
+
+        if($this->exist('quantite')) {
+
+            $this->quantite = round($this->quantite, Facture::ARRONDI_QUANTITE);
+        }
     }
 
     /* public function getProduitIdentifiantAnalytique() {
