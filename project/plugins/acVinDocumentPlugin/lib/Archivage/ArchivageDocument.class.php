@@ -40,7 +40,7 @@ class ArchivageDocument implements iLock
     }
 
     public function getType() {
-    	if(method_exists($this->document, 'getTypeArchive')) {
+    	if(method_exists($this->document, 'getTypeArchive') || $this->document->exist('type_archive')) {
 
             return $this->document->getTypeArchive();
         }

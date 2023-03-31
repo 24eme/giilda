@@ -418,35 +418,3 @@ function xmlGetProduitsDetails($drm, $bool, $suspendu_acquitte) {
 	}
 	return $produits;
 }
-
-function getCielProduits() {
-    $e = $this->getEtablissementObject();
-    if ($e->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR || $e->sous_famille == EtablissementFamilles::SOUS_FAMILLE_VINIFICATEUR) {
-        return $this->getDetails();
-    } else {
-        $drm = new DRM();
-        $drm->periode = $this->periode;
-        foreach ($this->getDetails() as $detail) {
-            $produit = $drm->addProduit($detail->getCorrespondanceNegoce());
-
-            $produit->total_debut_mois += $detail->total_debut_mois;
-            $produit->acq_total_debut_mois += $detail->acq_total_debut_mois;
-            if ($detail->observations) {
-                $produit->observations = ($produit->observations)? $produit->observations.' - '.$detail->observations : $detail->observations;
-            }
-            foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $item) {
-                foreach ($detail->{$item} as $mv => $val) {
-                    if ($produit->{$item}->{$mv} instanceof DRMESDetails) {
-                        continue;
-                    }
-                    $produit->{$item}->{$mv} += $detail->{$item}->{$mv};
-                }
-            }
-        }
-        $drm->update();
-        foreach ($drm->getDetails() as $detail) {
-            $detail->libelle = $detail->getCertification()->getKey().' '.$detail->libelle;
-        }
-        return $drm->getDetails();
-    }
-}

@@ -65,8 +65,12 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-' . $idClient . '-' . $date . '00')->endkey('FACTURE-' . $idClient . '-' . $date . '99')->execute($hydrate);
     }
 
-    public function createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication) {
+    public function createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication = null, $interpro = null) {
         $facture = new Facture();
+        if ($interpro) {
+            $facture->add('interpro', $interpro);
+        }
+        $facture->checkModeCalculTotalTaxe();
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);
         $facture->storeDeclarant($societe);
@@ -115,17 +119,13 @@ class FactureClient extends acCouchdbClient {
         return MouvementfactureFacturationView::KEYS_VRAC_DEST + 1;
     }
 
-    public function getFacturationForSociete($societe) {
-        return MouvementfactureFacturationView::getInstance()->getMouvementsBySocieteWithReduce($societe, 0, 1, $this->getReduceLevelForFacturation());
-    }
-
-    public function getMouvementsForMasse($regions) {
+    public function getMouvementsForMasse($interpro, $regions) {
         if (!$regions) {
-            return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1, $this->getReduceLevelForFacturation());
+            return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1, $interpro, $this->getReduceLevelForFacturation());
         }
         $mouvementsByRegions = array();
         foreach ($regions as $region) {
-            $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1, $region, $this->getReduceLevelForFacturation()), $mouvementsByRegions);
+            $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1, $interpro, $region, $this->getReduceLevelForFacturation()), $mouvementsByRegions);
         }
 
         ksort($mouvementsByRegions);
@@ -232,7 +232,10 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function createAndSaveFacturesBySociete($societe, $parameters) {
-        $mouvements = array($societe->identifiant => MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($societe));
+        if (!isset($parameters['interpro'])) {
+            $parameters['interpro'] = null;
+        }
+        $mouvements = array($societe->identifiant => MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($societe, $parameters['interpro']));
         foreach($mouvements as $mouvements_societe) {
             foreach ($mouvements_societe as $mvt) {
                 $mvt->origines = array($mvt->origines);
@@ -250,12 +253,12 @@ class FactureClient extends acCouchdbClient {
         if(!$mouvements || !count($mouvements)) {
             return null;
         }
-
         $facture = $this->createDocFromMouvements($mouvements,
                                             $societe,
                                             $parameters['modele'],
                                             $parameters['date_facturation'],
-                                            $parameters['message_communication']);
+                                            $parameters['message_communication'],
+                                            $parameters['interpro']);
 
         return $facture;
     }

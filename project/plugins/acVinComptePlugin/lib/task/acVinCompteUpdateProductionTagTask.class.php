@@ -60,31 +60,36 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
             $campagne = $options['campagne'];
         }
 
-        $this->logSection("campagne use", $campagne);
+        $campagnes = [ConfigurationClient::getInstance()->getCampagneVinicole()->getPrevious($campagne), $campagne];
+
+
+        $this->logSection("campagnes use", implode(', ', $campagnes));
 
         foreach (EtablissementAllView::getInstance()->findByInterproStatutAndFamilleVIEW('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, null) as $e) {
             $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
             $tags = array('export' => array(), 'produit' => array(), 'domaines' => array(), 'documents' => array());
 
-            $mvts = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $campagne);
-            foreach ($mvts as $m) {
-                $produit_libelle = $this->getProduitLibelle($m->produit_hash);
-                if(!$produit_libelle) {
-                    continue;
+            foreach($campagnes as $c) {
+                $mvts = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $c);
+                foreach ($mvts as $m) {
+                    $produit_libelle = $this->getProduitLibelle($m->produit_hash);
+                    if(!$produit_libelle) {
+                        continue;
+                    }
+                    $tags['produit'][$produit_libelle] = 1;
+                    $tags['documents']['SV12'] = 1;
                 }
-                $tags['produit'][$produit_libelle] = 1;
-                $tags['documents']['SV12'] = 1;
-            }
-            $mvts = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $campagne);
-            foreach ($mvts as $m) {
-                $produit_libelle = $this->getProduitLibelle($m->produit_hash);
-                if(!$produit_libelle) {
-                    continue;
-                }
-                $tags['produit'][$produit_libelle] = 1;
-                $tags['documents']['DRM'] = 1;
-                if ($m->detail_libelle && preg_match("/export.*_details/", $m->type_hash)) {
-                    $tags['export'][$this->replaceAccents($m->detail_libelle)] = 1;
+                $mvts = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $c);
+                foreach ($mvts as $m) {
+                    $produit_libelle = $this->getProduitLibelle($m->produit_hash);
+                    if(!$produit_libelle) {
+                        continue;
+                    }
+                    $tags['produit'][$produit_libelle] = 1;
+                    $tags['documents']['DRM'] = 1;
+                    if ($m->detail_libelle && preg_match("/export.*_details/", $m->type_hash)) {
+                        $tags['export'][$this->replaceAccents($m->detail_libelle)] = 1;
+                    }
                 }
             }
 

@@ -17,7 +17,8 @@ class FactureLatex extends GenericLatex {
   function __construct(Facture $f, $config = null) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
     $this->facture = $f;
-    $this->conf = FactureConfiguration::getInstance();
+    $interpro = ($this->facture->exist('interpro'))? $this->facture->interpro : null;
+    $this->conf = FactureConfiguration::getInstance($interpro);
   }
 
   public function getNbLignesEcheancesPapillon() {

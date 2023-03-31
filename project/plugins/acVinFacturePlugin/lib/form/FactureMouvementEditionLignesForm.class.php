@@ -14,11 +14,15 @@
 class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
 
     protected $interpro_id;
+    protected $interproFacturable;
     protected $virgin_object = null;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         if(isset($options['interpro_id'])) {
             $this->interpro_id = $options['interpro_id'];
+        }
+        if(isset($options['interproFacturable'])) {
+            $this->interproFacturable = $options['interproFacturable'];
         }
         parent::__construct($object, $options, $CSRFSecret);
     }
@@ -27,7 +31,8 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
         $this->virgin_object = $this->getObject()->mouvements->add('nouveau')->add('nouveau');
         $mvts = $this->getObject()->getSortedMvts();
         foreach ($mvts as $identifiant => $mvt) {
-          $this->embedForm($identifiant, new FactureMouvementEtablissementEditionLigneForm($mvt, array('interpro_id' => $this->interpro_id)));
+          if ($mvt->getKey() != 'nouveau' && $this->interproFacturable && $mvt->interpro != $this->interproFacturable) continue;
+          $this->embedForm($identifiant, new FactureMouvementEtablissementEditionLigneForm($mvt, array('interpro_id' => $this->interpro_id, 'interproFacturable' => $this->interproFacturable)));
         }
         $this->validatorSchema->setOption('allow_extra_fields', true);
         $this->widgetSchema->setNameFormat('[%s]');

@@ -36,7 +36,7 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
     }
 
     public function getIdentifiantsAnalytiques() {
-        return  ComptabiliteClient::getInstance()->findCompta()->getAllIdentifiantsAnalytiquesArrayForCompta();
+        return  ComptabiliteClient::getInstance()->findCompta($this->interpro_id)->getAllIdentifiantsAnalytiquesArrayForCompta();
     }
 
     public function doUpdateObject($values) {

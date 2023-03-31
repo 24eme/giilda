@@ -195,7 +195,7 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function getTauxCvo() {
-        if (is_null($this->cvo)) {
+        if (is_null($this->cvo) && $this->getDroitCVO()) {
             $this->cvo = $this->getDroitCVO()->taux*1.0;
         }
 

@@ -8,11 +8,15 @@
 class FactureMouvementsEditionForm extends acCouchdbObjectForm {
 
     protected $interpro_id;
+    protected $interproFacturable;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->interpro_id = "INTERPRO-declaration";
         if(isset($options['interpro_id'])) {
             $this->interpro_id = $options['interpro_id'];
+        }
+        if(isset($options['interproFacturable'])) {
+            $this->interproFacturable = $options['interproFacturable'];
         }
         parent::__construct($object, $options, $CSRFSecret);
     }
@@ -22,7 +26,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         $this->setValidator("libelle", new sfValidatorString(array("required" => true)));
         $this->widgetSchema->setLabel('libelle', 'Libellé opération');
 
-        $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject(), array('interpro_id' => $this->interpro_id)));
+        $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject(), array('interpro_id' => $this->interpro_id, 'interproFacturable' => $this->interproFacturable)));
 
         $this->widgetSchema->setNameFormat('facture_mouvements_edition[%s]');
     }
@@ -58,6 +62,9 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
           $inserted_keys[$societeMvtKey.'_'.$k] = 1;
 
           $mvt->identifiant = $societeMvtKey;
+          if ($this->interproFacturable) {
+              $mvt->add('interpro', $this->interproFacturable);
+          }
           $mvt->updateIdentifiantAnalytique($mouvement['identifiant_analytique']);
           $mvt->libelle = $mouvement['libelle'];
           $mvt->quantite = floatval($mouvement['quantite']);
@@ -72,6 +79,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
           if ($societe) {
             $mvt->region = ($societe->getRegionViticole(false))? $societe->getRegionViticole() : $societe->type_societe;
           }
+
           $mvt->date = $this->getObject()->date;
           $mvt->vrac_numero = $ordre;
           $ordre++;

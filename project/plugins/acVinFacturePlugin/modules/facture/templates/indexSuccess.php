@@ -13,14 +13,14 @@
 <div class="row">
     <div class="col-xs-12">
         <h2>Génération des factures</h3>
-        <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
+        <?php include_partial('historiqueGeneration', array('generations' => $generations, 'interproFacturable' => $interproFacturable)); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="col-xs-12">
-        <h3>Générer toutes les factures</h3>
-        <?php include_component('facture','generationMasse'); ?>
+        <h3>Générer toutes les factures <small>(<a href="<?php echo url_for('facture_en_attente'); ?>">mvts en attentes</a> | <a href="<?php echo url_for('facture_en_attente'); ?>?versionnes=1">mvts modifiés</a>)</small></h3>
+        <?php include_partial('generationMasse', ['generationForm' => $generationForm, 'massive' => true]); ?>
     </div>
 </div>
 

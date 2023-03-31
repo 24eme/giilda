@@ -38,7 +38,8 @@ class GenerationExportShell extends GenerationAbstract
     }
 
     public function getShellScript() {
-        return FactureConfiguration::getInstance()->getExportShell();
+        $interpro = $this->getArgInterpro();
+        return FactureConfiguration::getInstance($interpro)->getExportShell();
     }
 
 }

@@ -12,6 +12,7 @@ class exportFactureTask extends sfBaseTask
             new sfCommandOption('horstaxe', null, sfCommandOption::PARAMETER_REQUIRED, 'Facturation HT (par defaut False)', false),
             new sfCommandOption('factureid', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export a specific Facture', ''),
             new sfCommandOption('entete', null, sfCommandOption::PARAMETER_REQUIRED, "Ligne d'entête", true),
+            new sfCommandOption('interpro', null, sfCommandOption::PARAMETER_OPTIONAL, 'Interpro'),
             // add your own options here
         ));
 
@@ -42,11 +43,17 @@ EOF;
             if (!$facture) {
                 return;
             }
+            if ($options["interpro"] && $facture->getOrAdd('interpro') != $options["interpro"]) {
+                return;
+            }
 		    $export->printFacture($options['factureid']);
 
             return ;
 	    }
         foreach(FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta() as $vfacture) {
+            if ($options["interpro"] && $vfacture->key[FactureEtablissementView::KEYS_INTERPRO] != $options["interpro"]) {
+                continue;
+            }
     	     $export->printFacture($vfacture->id);
         }
     }

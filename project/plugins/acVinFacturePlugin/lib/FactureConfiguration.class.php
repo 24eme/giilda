@@ -4,22 +4,35 @@ class FactureConfiguration {
 
     private static $_instance = null;
     protected $configuration;
+    public $interpro;
 
     const ALL_KEY = "_ALL";
 
-    public static function getInstance() {
+    public static function getInstance($interpro = null) {
         if (is_null(self::$_instance)) {
-            self::$_instance = new FactureConfiguration();
+            self::$_instance = new FactureConfiguration($interpro);
+        }
+        $instance = self::$_instance;
+        if ($interpro && $instance->interpro != $interpro) {
+            self::$_instance = new FactureConfiguration($interpro);
         }
         return self::$_instance;
     }
 
-    public function __construct() {
-        if(!sfConfig::has('facture_configuration_facture')) {
+    public function __construct($interpro = null) {
+        $this->interpro = $interpro;
+        if(!sfConfig::has("facture_configuration_facture")) {
 			throw new sfException("La configuration pour les factures n'a pas été défini pour cette application");
 		}
-
-        $this->configuration = sfConfig::get('facture_configuration_facture', array());
+        if ($interpro && !sfConfig::has("facture_configuration_facture-".strtolower($interpro))) {
+			throw new sfException("La configuration pour les factures n'a pas été défini pour l'interpro $interpro");
+		}
+        $this->configuration = array_merge(
+            sfConfig::get("facture_configuration_facture", array()),
+            sfConfig::get("facture_configuration_facture-".strtolower($interpro), array()),
+            sfConfig::get("app_configuration_facture", array()),
+            sfConfig::get("app_configuration_facture-".strtolower($interpro), array())
+        );
     }
 
     public function getAll() {
@@ -84,6 +97,11 @@ class FactureConfiguration {
         return isset($this->configuration['pdf_nom_ref_client']) ? $this->configuration['pdf_nom_ref_client'] : "";
     }
 
+    public function refClientIsCodeComptable() {
+
+        return isset($this->configuration['ref_client_is_code_comptable']) ? $this->configuration['ref_client_is_code_comptable'] : false;
+    }
+
     public function getPdfDiplayCodeComptable() {
 
         return isset($this->configuration['pdf_display_code_comptable']) ? $this->configuration['pdf_display_code_comptable'] : "";
@@ -98,6 +116,10 @@ class FactureConfiguration {
       if (!isset($this->configuration['pdf_nom_interpro']))
         return "facture: pdf: nom_interpro A CONFIGURER";
       return $this->configuration['pdf_nom_interpro'];
+    }
+
+    public function getPdfLogoInterpro() {
+        return (isset($this->configuration['pdf_logo_interpro']))? $this->configuration['pdf_logo_interpro'] : null;
     }
 
     public function getOrdreCheques(){
@@ -203,5 +225,34 @@ class FactureConfiguration {
         }
         return $delais;
     }
+
+    public static function isMultiInterproFacturables() {
+        $conf = sfConfig::get("facture_configuration_facture", []);
+        return isset($conf["multi_interpro_facturables"])? $conf["multi_interpro_facturables"] : false;
+    }
+
+    public function getEcheanceFinDeMois() {
+  		return isset($this->configuration['echeance_fin_de_mois']) ? $this->configuration['echeance_fin_de_mois'] : false;
+  	}
+
+    public function getEmetteurCvo() {
+        return isset($this->configuration['emetteur_cvo']) ? $this->configuration['emetteur_cvo'] : array();
+    }
+
+    public function getEmetteurLibre() {
+        return isset($this->configuration['emetteur_libre']) ? $this->configuration['emetteur_libre'] : array();
+    }
+
+    public function getCoordonneesBancaire() {
+        return isset($this->configuration['coordonnees_bancaire']) ? $this->configuration['coordonnees_bancaire'] : array();
+    }
+
+    public function getInfosInterpro() {
+        return isset($this->configuration['infos_interpro']) ? $this->configuration['infos_interpro'] : array();
+    }
+
+    public function getGlobaliseCalculTaxe() {
+  		return isset($this->configuration['globalise_calcul_taxe']) ? $this->configuration['globalise_calcul_taxe'] : false;
+  	}
 
 }
