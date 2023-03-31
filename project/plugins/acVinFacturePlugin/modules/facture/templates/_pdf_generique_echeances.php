@@ -1,7 +1,7 @@
 <?php
 use_helper('Float');
 use_helper('Date');
-$chequesOrdre = FactureConfiguration::getInstance()->getOrdreCheques();
+$chequesOrdre = $factureConfiguration->getOrdreCheques();
 $echeances = $facture->getEcheancesPapillon();
 ?>
 \begin{center}

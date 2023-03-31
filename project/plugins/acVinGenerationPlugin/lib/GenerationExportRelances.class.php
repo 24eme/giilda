@@ -8,7 +8,8 @@ class GenerationExportRelances extends GenerationExportShell
     }
 
     public function getShellScript() {
-        return FactureConfiguration::getInstance()->getExportRelances();
+        $interpro = $this->getArgInterpro();
+        return FactureConfiguration::getInstance($interpro)->getExportRelances();
     }
 
 }

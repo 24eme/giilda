@@ -198,9 +198,13 @@ class compte_teledeclarantActions extends sfActions {
     }
 
     private function checkApiAccess(sfWebRequest $request) {
-        $secret = sfConfig::get('app_viticonnect_secret');;
+        $secret = sfConfig::get('app_viticonnect_secret');
         $login = $request->getParameter('login');
         $epoch = $request->getParameter('epoch');
+        if(empty($secret)) {
+            http_response_code(403);
+            die('Forbidden');
+        }
         if(abs(time() - $epoch) > 30) {
             http_response_code(403);
             die('Forbidden');
@@ -230,6 +234,19 @@ class compte_teledeclarantActions extends sfActions {
             $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
             $this->entities['accises'][] = str_replace(' ', '', $e->etablissement->no_accises);
             $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
+            if($request->getParameter('extra')) {
+                $this->entities['numero_interne'][] = str_replace(' ', '', $e->etablissement->getNumInterne());
+                $this->entities['code_comptable_client'][] = str_replace(' ', '', $compte->getSociete()->getCodeComptableClient());
+                $this->entities['adresse'][] = htmlspecialchars($e->etablissement->getAdresse(), ENT_XML1, 'UTF-8');
+                $this->entities['adresse_complementaire'][] = htmlspecialchars($e->etablissement->getAdresseComplementaire(), ENT_XML1, 'UTF-8');
+                $this->entities['code_postal'][] = $e->etablissement->getCodePostal();
+                $this->entities['commmune'][] = htmlspecialchars($e->etablissement->getCommune(), ENT_XML1, 'UTF-8');
+                $this->entities['famille'][] = $e->etablissement->getFamille();
+                $this->entities['email'][] = $e->etablissement->getEmailTeledeclaration();
+                $this->entities['telephone_bureau'][] = str_replace(' ', '', $e->etablissement->getTelephoneBureau());
+                $this->entities['telephone_mobile'][] = str_replace(' ', '', $e->etablissement->getTelephoneMobile());
+                $this->entities['telephone_perso'][] = str_replace(' ', '', $e->etablissement->getTelephonePerso());
+            }
             $this->entities_number++;
         }
         $this->setLayout(false);

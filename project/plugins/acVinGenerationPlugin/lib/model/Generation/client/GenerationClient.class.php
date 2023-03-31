@@ -12,8 +12,9 @@ class GenerationClient extends acCouchdbClient {
     const TYPE_DOCUMENT_FACTURES_MAILS = 'FACTUREMAIL';
     const TYPE_DOCUMENT_FACTURES_PAPIER = 'FACTUREPAPIER';
     const HISTORY_KEYS_TYPE_DOCUMENT = 0;
-    const HISTORY_KEYS_TYPE_DATE_EMISSION = 1;
-    const HISTORY_KEYS_DOCUMENT_ID = 2;
+    const HISTORY_KEYS_INTERPRO = 1;
+    const HISTORY_KEYS_TYPE_DATE_EMISSION = 2;
+    const HISTORY_KEYS_DOCUMENT_ID = 3;
 
     const HISTORY_VALUES_NBDOC = 0;
     const HISTORY_VALUES_DOCUMENTS = 1;
@@ -34,7 +35,7 @@ class GenerationClient extends acCouchdbClient {
     }
 
 
-    public function findHistoryWithType($types, $limit = 100) {
+    public function findHistoryWithType($types, $limit = 100, $interpro = null) {
         if(!is_array($types)) {
             $types = array($types);
         }
@@ -43,8 +44,8 @@ class GenerationClient extends acCouchdbClient {
 
         foreach($types as $type) {
             $rows = array_merge($rows, acCouchdbManager::getClient()
-                        ->startkey(array($type, array()))
-                        ->endkey(array($type))
+                        ->startkey(array($type, $interpro, array()))
+                        ->endkey(array($type, $interpro))
                         ->descending(true)
                         ->limit($limit)
                         ->getView("generation", "history")
