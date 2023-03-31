@@ -274,8 +274,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $ligne->add("produit_identifiant_analytique", $ligneByType->produit_hash);
             }
 
-            if (FactureConfiguration::getInstance()->isPdfLigneDetails() === false) {
-                $ligne->quantite = 0;
+            if (FactureConfiguration::getInstance()->isPdfLigneDetails() === false && !$ligne->exist('quantite')) {
+                $ligne->add('quantite', 0);
             }
 
             if (($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
