@@ -274,6 +274,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $ligne->add("produit_identifiant_analytique", $ligneByType->produit_hash);
             }
 
+            if (FactureConfiguration::getInstance()->isPdfLigneDetails() === false && !$ligne->exist('quantite')) {
+                $ligne->add('quantite', 0);
+            }
+
             if (($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
                 $produit_libelle = $ligneByType->produit_libelle;
                 $detail = null;
@@ -299,6 +303,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     }
                     $detail->quantite += $ligneByType->quantite;
                 }
+
+                if (FactureConfiguration::getInstance()->isPdfLigneDetails() === false) {
+                    $ligne->quantite += $detail->quantite;
+                }
+
                 $configuration = ConfigurationClient::getConfiguration($ligneByType->date);
                 if (!$configuration) {
                     $configuration = ConfigurationClient::getCurrent();
@@ -331,6 +340,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $detail->add('identifiant_analytique',$identifiants_compte_analytique[1]);
                 $detail->add('code_compte',$identifiants_compte_analytique[0]);
                 $detail->taux_tva = $comptabilite->getTauxTva($ligneByType->produit_hash);
+
+                if (FactureConfiguration::getInstance()->isPdfLigneDetails() === false) {
+                    $ligne->quantite += $detail->quantite;
+                }
             }
             $detail->quantite = round($detail->quantite, self::ARRONDI_QUANTITE);
         }

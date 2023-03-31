@@ -817,6 +817,8 @@ class DRMClient extends acCouchdbClient {
             			$recapCvos["TOTAL"]->totalVolumeReintegration += $mouvement->volume;
             	    }
             	}
+
+                $recapCvos['TOTAL']->totalVolumeDroitsCvo = round($recapCvos['TOTAL']->totalVolumeDroitsCvo, Facture::ARRONDI_QUANTITE);
             }
         } else {
             foreach ($mouvements as $mouvement) {
@@ -846,6 +848,10 @@ class DRMClient extends acCouchdbClient {
                     $recapCvos[$version]->totalVolumeReintegration += $mouvement->volume;
                     $recapCvos["TOTAL"]->totalVolumeReintegration += $mouvement->volume;
                 }
+            }
+
+            foreach ($recapCvos as &$recap) {
+                $recap->totalVolumeDroitsCvo = round($recap->totalVolumeDroitsCvo, Facture::ARRONDI_QUANTITE);
             }
         }
 
