@@ -701,6 +701,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeDeclarant($doc) {
+        if ($doc->siege->code_postal === null || $doc->siege->commune === null) {
+            throw new sfException('Le déclarant doit avoir une adresse dans sa Société');
+        }
+
         $this->numero_adherent = $doc->getIdentifiantByInterpro($this->getOrAdd('interpro'));
         if($doc->exist('num_interne') && $doc->num_interne) {
             $this->numero_adherent = $doc->num_interne;
