@@ -3,8 +3,14 @@ use_helper("DRMXml");
 ?>
 
     <?php include_partial('drm/header', array('drm' => $drm)); ?>
-    <h2>Visualisation de l'XML <?php if($retour) : ?>reçu Douane <?php else: ?>transmis <?php endif; ?><a class="btn_majeur" href="<?php if($retour) : echo url_for('drm_retour', $drm); else: echo url_for('drm_xml', $drm); endif; ?>"><small>(fichier XML brut)</small></a>
-        <a class="pull-right btn btn-sm btn-default" href="<?php echo url_for('drm_xml_table', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), 'retour' => intval(!$retour))); ?>"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;<?php if(!$retour) : ?> XML reçu Douane <?php else: ?> XML transmis <?php endif; ?></a>
+
+    <ul class="nav nav-tabs nav-justified">
+        <li class="<?php if(!$retour) : ?>active<?php endif; ?>"><a href="<?php echo url_for('drm_xml_table', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), 'retour' => 0)); ?>">XML transmis</a></li>
+        <li class="<?php if($retour) : ?>active<?php endif; ?>"><a href="<?php echo url_for('drm_xml_table', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), 'retour' => 1)); ?>" >XML reçu Douane</a></li>
+    </ul>
+
+    <h2>Visualisation de l'XML <?php if($retour) : ?>reçu Douane <?php else: ?>transmis <?php endif; ?>
+        <a class="btn btn-link" href="<?php if($retour) : echo url_for('drm_retour', $drm); else: echo url_for('drm_xml', $drm); endif; ?>">Voir le fichier brut</a>
     </h2>
 
     <?php if(!count($xml_table)): ?>
