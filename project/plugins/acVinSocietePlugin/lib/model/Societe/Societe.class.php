@@ -683,4 +683,20 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $this->identifiant;
     }
 
+    public function getMetasForFacturation($typeFacturation) {
+        return $this->getOrAdd('facturation_metas')->getOrAdd($typeFacturation);
+    }
+
+    public function setMetasForFacturation($typeFacturation, array $datas) {
+        $metas = $this->getMetasForFacturation($typeFacturation);
+        foreach($datas as $k => $v) {
+            $metas->add($k, $v);
+        }
+    }
+
+    public function getDataFromFacturationMetas($typeFacturation, $meta) {
+        $metas = $this->getMetasForFacturation($typeFacturation);
+        return ($metas->exist($meta))? $metas->get($meta) : null;
+    }
+
 }
