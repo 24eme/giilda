@@ -8,6 +8,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     private $comptes = null;
     const REFERENCE_INTERPROS_METAS = "&interpros_metas";
+    const FACTURATION_NB_PAIEMENTS_NODE = 'nb_paiements';
 
     public function constructId() {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);

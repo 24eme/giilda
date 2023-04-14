@@ -931,4 +931,20 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $relances = $this->getOrAdd('relances');
         $relances->add(null, $date);
     }
+
+    protected function generateEcheances($nbPaiement) {
+        if ($this->echeances->toArray()) throw new Exception('Il existe des échéances pour la facture '.$this->_id);
+        $montantEcheance = round($this->total_ttc/$nbPaiement,2);
+        $reliquat = round($this->total_ttc - ($nbPaiement*$montantEcheance), 2);
+        for($i=0; $i<$nbPaiement; $i++) {
+            $echeance = new stdClass();
+            $echeance->echeance_code = $i;
+            $echeance->montant_ttc = $montantEcheance;
+            if ($i+1 == $nbPaiement) {
+                $echeance->montant_ttc += $reliquat;
+            }
+            $echeance->echeance_date = date('Y-m-t', strtotime($this->date_facturation.' +'.(($i+1)*30).' days'));
+            $this->echeances->add(null, $echeance);
+        }
+    }
 }
