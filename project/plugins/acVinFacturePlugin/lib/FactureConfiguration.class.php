@@ -31,7 +31,7 @@ class FactureConfiguration {
             sfConfig::get("facture_configuration_facture", array()),
             sfConfig::get("facture_configuration_facture-".strtolower($interpro), array()),
             sfConfig::get("app_configuration_facture", array()),
-            sfConfig::get("app_configuration_facture-".strtolower($interpro), array()),
+            sfConfig::get("app_configuration_facture-".strtolower($interpro), array())
         );
     }
 
