@@ -295,7 +295,7 @@ function xmlProduitsToTable($flatXml,$reg){
 
 			if(!array_key_exists($inaoKey,$produits)){
 				$produits[$inaoKey] = array();
-				$produits[$inaoKey]["produit"] = $flatXml[$radix."libelle-personnalise"]." (".$inaoCode.")";
+				$produits[$inaoKey]["produit"] = str_replace(" ", "&nbsp;", $flatXml[$radix."libelle-personnalise"])." (".$inaoCode.")";
 			}
 			if(!preg_match("/libelle-personnalise/",$key) && !preg_match("/code-inao/",$key)){
 				$produits[$inaoKey][str_ireplace($radix,"",$key)] = $value;
