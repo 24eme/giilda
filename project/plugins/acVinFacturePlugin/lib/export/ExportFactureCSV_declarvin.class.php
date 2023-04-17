@@ -66,7 +66,7 @@ class ExportFactureCSV_declarvin {
             $i = 0;
             foreach ($facture->echeances as $e) {
                 $i++;
-                echo $prefix_sage.';' . $e->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');'.$compte_general.';' . $facture->code_comptable_client . ';;' . $e->echeance_date . ';' . $this->getSens($e->montant_ttc, "DEBIT") . ';' . $this->getMontant($e->montant_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;".self::CODE_TVA.";".$facture->numero_piece_comptable.";;;".$reglement;
+                echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - Echeance ' . $i . '/' . $nbecheance . ' - '.$facture->declarant->nom.';'.$compte_general.';' . $facture->code_comptable_client . ';;' . $e->echeance_date . ';' . $this->getSens($e->montant_ttc, "DEBIT") . ';' . $this->getMontant($e->montant_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ";;;;;;".self::CODE_TVA.";".$facture->numero_piece_comptable.";;;".$reglement;
 
                 echo "\n";
             }
