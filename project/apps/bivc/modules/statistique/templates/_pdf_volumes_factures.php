@@ -6,7 +6,6 @@ $maxTableRowsPerPage = 30;
 $nbPage = 0;
 $options = $options->getRawValue();
 $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset($options['periode'][1]))? $options['periode'] : null;
-$categories = (isset($options['categories']))? $options['categories'] : array();
 ?>
 \documentclass[a4paper, landscape, 10pt]{article}
 \usepackage[utf8]{inputenc}
@@ -34,7 +33,7 @@ $categories = (isset($options['categories']))? $options['categories'] : array();
 \fancyfoot[L]{<?php echo strftime("%e %B %Y", time()) ?>}
 \fancyhead[L]{\includegraphics[scale=0.3]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_bivc.png}}
 \fancypagestyle{fstyle_0}{
-\fancyhead[C]{Volumes facturés}
+\fancyhead[C]{Volumes facturés<?php if ($periode): ?>\\Période du \textbf{<?php echo $periode[0] ?>} au \textbf{<?php echo $periode[1] ?>}<?php endif; ?>}
 }
 
 \begin{document}
@@ -44,8 +43,8 @@ $categories = (isset($options['categories']))? $options['categories'] : array();
 \begin{table}[ht!]
 \begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
 \hline
-\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{CVO} & \multicolumn{1}{c |}{Total} \tabularnewline \hline
-<?php 
+\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{CVO} & \multicolumn{1}{c |}{Volume} \tabularnewline \hline
+<?php
 	$i = ($compare)? 2 : 1;
 	foreach ($items as $item):
 		$item = sfOutputEscaper::unescape($item);
@@ -66,7 +65,7 @@ $categories = (isset($options['categories']))? $options['categories'] : array();
 \begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
 <?php if ($newSection): ?>
 \hline
-\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{CVO} & \multicolumn{1}{c |}{Total} \tabularnewline \hline
+\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{CVO} & \multicolumn{1}{c |}{Volume} \tabularnewline \hline
 <?php endif; ?>
 <?php $i=0; else: $i++;endif; ?>
 <?php echo implode(' & ', $values); ?> \tabularnewline \hline
