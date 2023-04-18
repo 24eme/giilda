@@ -45,7 +45,7 @@ class FactureConfiguration {
 
             return $this->configuration['type_libre']['identifiant_prefix'];
         }
-        if ($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
+        if ($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)||$facture->hasArgument(FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
 
             return $this->configuration['type_cvo']['identifiant_prefix'];
         }
