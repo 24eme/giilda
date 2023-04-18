@@ -12,11 +12,11 @@ foreach ($result['agg_page']['buckets'] as $appellation) {
 		$cvo = $appellation_cvo['key'];
 		$volume = $appellation_cvo['total']['value'];
 		$total = $cvo * $volume;
-		$csv .= $appellationLibelle.';'.$cvo. ';'.$volume .';'. $total ."\n";
+		$csv .= $appellationLibelle.';'.sprintf('%.02f', $cvo). ';'.sprintf('%.04f', $volume) .';'. sprintf('%.04f', $total) ."\n";
 		$total_cvo += $cvo;
 		$total_total += $total;
 	}
 }
-$csv .= "TOTAL;" . $total_cvo . ';' . $result['produit_total']['value'] . ';' . $total_total;
+$csv .= "TOTAL;" . sprintf('%.02f', $total_cvo) . ';' . sprintf('%.04f', $result['produit_total']['value']) . ';' . sprintf('%.04f', $total_total);
 
 echo $csv;
