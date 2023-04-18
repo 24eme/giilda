@@ -26,7 +26,7 @@ class MandatSepaConfiguration implements InterfaceMandatSepaPartie {
       }
       $this->configuration = array_merge(
           sfConfig::get("mandatsepa_configuration", array()),
-          sfConfig::get("mandatsepa_configuration-".strtolower($interpro), array()),
+          sfConfig::get("mandatsepa_configuration-".strtolower($interpro), array())
       );
 
       $this->organisme = (class_exists('Organisme'))? Organisme::getInstance() : null;
