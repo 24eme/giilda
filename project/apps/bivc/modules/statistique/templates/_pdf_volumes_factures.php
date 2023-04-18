@@ -41,17 +41,14 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \pagestyle{fstyle_0}
 
 \begin{table}[ht!]
-\begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
+\begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
 \hline
-\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{CVO} & \multicolumn{1}{c |}{Volume} \tabularnewline \hline
+\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{CVO} & \multicolumn{1}{c |}{Volume} & \multicolumn{1}{c |}{Total} \tabularnewline \hline
 <?php
 	$i = ($compare)? 2 : 1;
 	foreach ($items as $item):
 		$item = sfOutputEscaper::unescape($item);
 		$values = explode(';', $item);
-		if (!$values[0] && (!isset($values[1]) || !$values[1])) {
-			continue;
-		}
 ?>
 <?php 
 	if ($i == $maxTableRowsPerPage): 
@@ -62,12 +59,16 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \clearpage
 \pagestyle{fstyle_0}
 \begin{table}[ht!]
-\begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
+\begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
 <?php if ($newSection): ?>
 \hline
-\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{CVO} & \multicolumn{1}{c |}{Volume} \tabularnewline \hline
+\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{CVO} & \multicolumn{1}{c |}{Volume} & \multicolumn{1}{c |}{Total} \tabularnewline \hline
 <?php endif; ?>
 <?php $i=0; else: $i++;endif; ?>
+<?php if ($values[0] == 'TOTAL'): ?>
+\hline
+\rowcolor{gray!40}
+<?php endif; ?>
 <?php echo implode(' & ', $values); ?> \tabularnewline \hline
 <?php  endforeach;?>
 \end{tabularx}
