@@ -163,9 +163,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return ($this->statut != FactureClient::STATUT_REDRESSEE && $this->statut != FactureClient::STATUT_NONREDRESSABLE);
     }
 
-    public function getEcheancesArray() {
+    public function getEcheancesArray($reverse = false) {
         $e = $this->_get('echeances')->toArray();
         usort($e, 'Facture::triEcheanceDate');
+        if ($reverse) $e = array_reverse($e);
         return $e;
     }
 
@@ -682,6 +683,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             if($this->getSociete()->hasMandatSepaActif($this->getOrAdd('interpro'))) {
                 $this->addPrelevementAutomatique();
             }
+            foreach ($this->arguments as $argument) {
+                if ($nbPaiement = $this->getSociete()->getDataFromFacturationMetas($argument, Societe::FACTURATION_NB_PAIEMENTS_NODE)) {
+                    $this->generateEcheances($nbPaiement);
+                }
+            }
         }
 
         if (!$this->versement_comptable) {
@@ -929,5 +935,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         $relances = $this->getOrAdd('relances');
         $relances->add(null, $date);
+    }
+
+    protected function generateEcheances($nbPaiement) {
+        if ($this->echeances->toArray()) throw new Exception('Il existe des échéances pour la facture '.$this->_id);
+        $montantEcheance = round($this->total_ttc/$nbPaiement,2);
+        $reliquat = round($this->total_ttc - ($nbPaiement*$montantEcheance), 2);
+        for($i=0; $i<$nbPaiement; $i++) {
+            $echeance = new stdClass();
+            $echeance->echeance_code = $i;
+            $echeance->montant_ttc = $montantEcheance;
+            if ($i+1 == $nbPaiement) {
+                $echeance->montant_ttc += $reliquat;
+            }
+            $echeance->echeance_date = date('Y-m-t', strtotime($this->date_facturation.' +'.(($i+1)*30).' days'));
+            $this->echeances->add(null, $echeance);
+        }
     }
 }
