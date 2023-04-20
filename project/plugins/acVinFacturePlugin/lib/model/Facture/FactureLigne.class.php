@@ -90,13 +90,14 @@ class FactureLigne extends BaseFactureLigne {
             $this->montant_tva += $detail->montant_tva;
         }
 
+        if($this->exist('quantite')) {
+            $this->quantite = round($this->quantite, Facture::ARRONDI_QUANTITE);
+            $this->montant_ht = round($this->quantite * $this->getPrixUnitaire(), 2);
+            $this->montant_tva = round($this->montant_ht * $this->getTauxTva(), 2);
+        }
+
         $this->montant_ht = round($this->montant_ht, 2);
         $this->montant_tva = round($this->montant_tva, 2);
-
-        if($this->exist('quantite')) {
-
-            $this->quantite = round($this->quantite, Facture::ARRONDI_QUANTITE);
-        }
     }
 
     /* public function getProduitIdentifiantAnalytique() {
