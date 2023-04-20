@@ -85,7 +85,7 @@ class ExportFactureCSV_civa {
 
         $annee = null;
         foreach($libelles as $periode => $libelle) {
-            $libelles[$periode] = substr(0, 3, explode(" ", $periode)[0]);
+            $libelles[$periode] = substr(explode(" ", $periode)[0], 0, 3);
             if($annee != explode(" ", $periode)[1]) {
                 $libelles[$periode] .= ' '.explode(" ", $periode)[1];
             }
