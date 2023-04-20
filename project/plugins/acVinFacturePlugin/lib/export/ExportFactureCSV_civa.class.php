@@ -47,7 +47,7 @@ class ExportFactureCSV_civa {
                 $origine_mvt = $keyDoc;
             }
             $periode = strtoupper(str_replace('-', ' ', KeyInflector::slugify(format_date(substr((explode('-', $t))[2],0,4).'-'.substr((explode('-', $t))[2],-2).'-01', 'MMM yy', 'fr_FR'))));
-            $libelle = 'FACTURATION '.$periode;
+            $libelle = 'FACTURATION '.substr(explode(" ", $periode)[0], 0, 3).' '.explode(" ", $periode)[1];
             $libelles[$periode] = $periode;
             if (!isset($aggregateLines[$origine_mvt])) {
                 $aggregateLines[$origine_mvt] = array(
@@ -84,12 +84,17 @@ class ExportFactureCSV_civa {
         }
 
         $annee = null;
+        $previousPeriode = null;
         foreach($libelles as $periode => $libelle) {
             $libelles[$periode] = substr(explode(" ", $periode)[0], 0, 3);
-            if($annee != explode(" ", $periode)[1]) {
-                $libelles[$periode] .= ' '.explode(" ", $periode)[1];
+            if(!is_null($annee) && $annee != explode(" ", $periode)[1] && $previousPeriode) {
+                $libelles[$previousPeriode] .= ' '.explode(" ", $periode)[1];
             }
             $annee = explode(" ", $periode)[1];
+            $previousPeriode = $periode;
+        }
+        if($previousPeriode) {
+            $libelles[$previousPeriode] .= ' '.$annee;
         }
         foreach($aggregateLines as $aggregateLine) {
             echo implode(';', $aggregateLine).";\n";
