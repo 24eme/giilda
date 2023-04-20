@@ -82,6 +82,15 @@ class ExportFactureCSV_civa {
                 $aggregateLines[$origine_mvt][20] += $lignes->quantite;
             }
         }
+
+        $annee = null;
+        foreach($libelles as $periode => $libelle) {
+            $libelles[$periode] = substr(0, 3, explode(" ", $periode)[0]);
+            if($annee != explode(" ", $periode)[1]) {
+                $libelles[$periode] .= ' '.explode(" ", $periode)[1];
+            }
+            $annee = explode(" ", $periode)[1];
+        }
         foreach($aggregateLines as $aggregateLine) {
             echo implode(';', $aggregateLine).";\n";
         }
