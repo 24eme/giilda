@@ -3,6 +3,9 @@ import sys, os, pandas as pd
 from sqlalchemy import create_engine
 engine = create_engine('sqlite:///'+sys.argv[1], echo=False, encoding='iso-8859-1')
 
+if len(sys.argv) > 1:
+    os.chdir(sys.argv[2])
+
 if os.path.exists("export_bi_contrats.csv") and os.path.getsize("export_bi_contrats.csv"):
   try:
     sys.stderr.write("export_bi_contrats.csv\n")
