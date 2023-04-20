@@ -58,7 +58,7 @@ curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/societe/_view/export | s
 
 
 php symfony export:facture $SYMFONYTASKOPTIONS --factureid=FACTURE-XXXXX-YYYY > $TMP/export_bi_factures.csv
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/facture/_view/etablissement?reduce=false | awk -F '"' '{print $4}' | while read facture ; do
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/facture/_view/etablissement?reduce=false | awk -F '"' '{print $4}' | sort | uniq | while read facture ; do
 	php symfony export:facture $SYMFONYTASKOPTIONS --factureid="$facture" --entete=0 >> $TMP/export_bi_factures.csv
 done
 
