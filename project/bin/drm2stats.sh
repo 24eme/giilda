@@ -30,6 +30,9 @@ join -a 1 -j 1 -t ';' $DRM_STAT_DEST_STATS"/.raw_entrees.csv" $DRM_STAT_DEST_STA
 join -a 1 -j 1 -t ';' $DRM_STAT_DEST_STATS"/.raw_sorties.csv" $DRM_STAT_DEST_STATS"/.raw_tav.csv" | awk -F ';' 'BEGIN{OFS=";" ;} {$5 = $5 * -1; $18 = "-"; sub(/,/, ".", $12); print $0}' | sed 's/£/;/g' >> $DRM_STAT_DEST_STATS"/.raw_mouvements.csv"
 cat $DRM_STAT_DEST_STATS"/.raw_mouvements.csv" | sort >> $DRM_STAT_DEST_STATS"/external_drm_mouvements.csv"
 
+sed -i 's/;;-;;;;;-/;;-/' $DRM_STAT_DEST_STATS"/external_drm_stock.csv"
+sed -i 's/;;-;;;;;-/;;-/' $DRM_STAT_DEST_STATS"/external_drm_mouvements.csv"
+
 recode UTF8..ISO88591 $DRM_STAT_DEST_STATS"/external_drm_stock.csv"
 recode UTF8..ISO88591 $DRM_STAT_DEST_STATS"/external_drm_mouvements.csv"
 
