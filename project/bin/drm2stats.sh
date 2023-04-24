@@ -37,5 +37,6 @@ recode UTF8..ISO88591 $DRM_STAT_DEST_STATS"/external_drm_stock.csv"
 recode UTF8..ISO88591 $DRM_STAT_DEST_STATS"/external_drm_mouvements.csv"
 
 if test -e "$DRM_STATS_SQLITE" ; then
-    python3 bin/csv2sql.py $DRM_STATS_SQLITE $DRM_STAT_DEST_STATS
+    python3 bin/csv2sql.py $DRM_STATS_SQLITE".tmp" $DRM_STAT_DEST_STATS
+    mv $DRM_STATS_SQLITE".tmp" $DRM_STATS_SQLITE
 fi
