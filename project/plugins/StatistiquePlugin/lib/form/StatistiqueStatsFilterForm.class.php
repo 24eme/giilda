@@ -288,11 +288,6 @@ class StatistiqueStatsFilterForm extends BaseForm
 				$nbFilters++;
 			}
 
-        if(in_array($statName,array('volumes_factures'))){
-            $filters[] = array("bool" => array('should' => array('term' => array("doc.mouvements.facture"=> "1"))));
-            $nbFilters++;
-        }
-
         if (isset($this->config['statistiques'][$statName]['query_filters'])) {
             foreach($this->config['statistiques'][$statName]['query_filters'] as $queryFilterType => $queryFilter) {
                 $filters[] = [$queryFilterType => $queryFilter];
