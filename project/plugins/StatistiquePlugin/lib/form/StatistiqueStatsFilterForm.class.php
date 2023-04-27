@@ -293,6 +293,13 @@ class StatistiqueStatsFilterForm extends BaseForm
             $nbFilters++;
         }
 
+        if (isset($this->config['statistiques'][$statName]['query_filters'])) {
+            foreach($this->config['statistiques'][$statName]['query_filters'] as $queryFilterType => $queryFilter) {
+                $filters[] = [$queryFilterType => $queryFilter];
+                $nbFilters++;
+            }
+        }
+
         return ($nbFilters > 0)? ($nbFilters > 1)? array('filtered' => array('filter' => array('and' => $filters))) : array('filtered' => array('filter' => current($filters))) : null;
     }
 
