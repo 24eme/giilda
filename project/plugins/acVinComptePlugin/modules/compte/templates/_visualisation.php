@@ -75,7 +75,7 @@
             </div>
         </div>
     <?php endif; ?>
-    <?php if (count($compte->droits)): ?>
+    <?php if ($compte->exist('droits') && count($compte->droits)): ?>
         <div class="list-group-item list-group-item-xs">
             <div class="row">
                 <div class="col-xs-12">
