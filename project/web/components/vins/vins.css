@@ -51,3 +51,8 @@
 .icon-mouts:before { content: "\f104"; }
 .icon-raisins:before { content: "\f105"; }
 .icon-vrac:before { content: "\f106"; }
+
+
+.societe .compte {
+    min-height: 350px;
+}

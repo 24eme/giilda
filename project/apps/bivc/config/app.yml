@@ -240,6 +240,45 @@ all:
                             export_sum: "export>agg_column"
                             negoce_sum: "negoce>agg_column"
                           script: "france_sum + export_sum + negoce_sum"
+        volumes_factures:
+          libelle: "Volumes facturés"
+          index: "DRMMVT"
+          hashkeysize: 2
+          query_filters:
+            bool:
+              should:
+                term:
+                  'doc.mouvements.facture': 1
+          aggregation:
+            filter:
+              bool:
+                should:
+                  term:
+                    doc.mouvements.facturable: 1
+            aggs:
+              produit_total:
+                sum_bucket:
+                  buckets_path: "agg_page>total"
+              agg_page:
+              agg_page:
+                terms:
+                  size: 0,
+                  field: 'doc.mouvements.produit_libelle'
+                aggs:
+                  total:
+                    sum_bucket:
+                      buckets_path: "agg_line>total"
+                  agg_line:
+                    terms:
+                      field: 'doc.mouvements.cvo'
+                      order:
+                        _term: 'asc'
+                    aggs:
+                      total:
+                        sum:
+                          field: 'doc.mouvements.volume'
+                          script: '_value * -1'
+
         sorties_appellation:
           libelle: "Sorties de l'appellation"
           index: "DRMMVT"
