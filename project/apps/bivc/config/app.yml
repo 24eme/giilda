@@ -245,9 +245,10 @@ all:
           index: "DRMMVT"
           hashkeysize: 2
           query_filters:
-            range:
-              'doc.mouvements.cvo':
-                gt: 0
+            bool:
+              should:
+                term:
+                  'doc.mouvements.facture': 1
           aggregation:
             filter:
               bool:
