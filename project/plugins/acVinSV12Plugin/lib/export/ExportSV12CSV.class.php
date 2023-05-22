@@ -67,4 +67,15 @@ class ExportSV12CSV {
         return str_replace('DEFAUT', '', $definitions[3].';'.$definitions[5].';'.$definitions[7].';'.$definitions[9].';'.$definitions[11].';'.$definitions[13].';'.$definitions[15]);
     }
 
+    public function getInterproFromMvts($hash) {
+        foreach ($this->sv12->mouvements as $identifiant => $mouvements) {
+            foreach ($mouvements as $mouvement) {
+                if ($mouvement->produit_hash == $hash) {
+                    return $mouvement->getOrAdd('interpro');
+                }
+            }
+        }
+        return null;
+    }
+
 }
