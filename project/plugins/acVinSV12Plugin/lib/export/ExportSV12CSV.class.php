@@ -39,9 +39,10 @@ class ExportSV12CSV {
     }
 
 
-    public function exportSV12() {
+    public function exportSV12($interpro = null) {
         $csv = '';
         foreach ($this->sv12->contrats as $contrat) {
+          if ($interpro && $interpro != $this->getInterproFromMvts($contrat->produit_hash)) continue;
           $csv .= $this->sv12->campagne.";";
           $csv .= $this->sv12->identifiant.";";
           $csv .= $this->sv12->declarant->raison_sociale.";";
