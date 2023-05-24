@@ -88,7 +88,10 @@ class statistiqueActions extends sfActions {
 		$elasticaQuery = new acElasticaQuery();
 		$elasticaQuery->setSize(0);
 		$elasticaQuery->setParams($params);
-	  //print_r(json_encode($elasticaQuery->toArray())); exit;
+        if (isset($_GET['debug'])) {
+            header("content-type: text/json\n");
+            echo(json_encode($elasticaQuery->toArray())); exit;
+        }
 		return $index->search($elasticaQuery)->getFacets();
 	}
 

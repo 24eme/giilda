@@ -39,9 +39,10 @@ class ExportSV12CSV {
     }
 
 
-    public function exportSV12() {
+    public function exportSV12($interpro = null) {
         $csv = '';
         foreach ($this->sv12->contrats as $contrat) {
+          if ($interpro && $interpro != $this->getInterproFromMvts($contrat->produit_hash)) continue;
           $csv .= $this->sv12->campagne.";";
           $csv .= $this->sv12->identifiant.";";
           $csv .= $this->sv12->declarant->raison_sociale.";";
@@ -64,6 +65,17 @@ class ExportSV12CSV {
             throw new sfException("Hash ($hash) non valide");
         }
         return str_replace('DEFAUT', '', $definitions[3].';'.$definitions[5].';'.$definitions[7].';'.$definitions[9].';'.$definitions[11].';'.$definitions[13].';'.$definitions[15]);
+    }
+
+    public function getInterproFromMvts($hash) {
+        foreach ($this->sv12->mouvements as $identifiant => $mouvements) {
+            foreach ($mouvements as $mouvement) {
+                if ($mouvement->produit_hash == $hash) {
+                    return $mouvement->getOrAdd('interpro');
+                }
+            }
+        }
+        return null;
     }
 
 }

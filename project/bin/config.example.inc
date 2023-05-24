@@ -48,3 +48,7 @@ EMAILS_RETOURXML=""
 URLDRMINTERNE=http://urlinterpro/drm/
 
 mkdir -p $TMP > /dev/null
+
+DRM_STAT_SOURCE_DIR="web/export_drm/"
+DRM_STAT_DEST_STATS="data/external/"
+mkdir -p $DRM_STAT_DEST_STATS

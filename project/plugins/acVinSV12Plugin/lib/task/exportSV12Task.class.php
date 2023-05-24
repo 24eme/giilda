@@ -11,6 +11,7 @@ class exportSV12Task extends sfBaseTask
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
             new sfCommandOption('sv12id', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export a specific SV12', ''),
             new sfCommandOption('entete', null, sfCommandOption::PARAMETER_REQUIRED, "Ligne d'entête", true),
+            new sfCommandOption('interpro', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export a specific interpro', ''),
         ));
 
         $this->namespace        = 'export';
@@ -44,7 +45,7 @@ EOF;
                 return;
             }
             $export = new ExportSV12CSV($sv12, false);
-            echo $export->exportSV12();
+            echo $export->exportSV12($options['interpro']);
             return ;
 	    }
         $all_sv12 = SV12AllView::getInstance()->findAll();
@@ -54,7 +55,7 @@ EOF;
               throw new sfException(sprintf("Document %s introuvable", $sv12->id));
           }
           $export = new ExportSV12CSV($sv12, false);
-          echo $export->exportSV12();
+          echo $export->exportSV12($options['interpro']);
         }
     }
 }

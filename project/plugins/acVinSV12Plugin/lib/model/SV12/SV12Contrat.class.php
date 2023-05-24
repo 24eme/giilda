@@ -106,6 +106,10 @@ class SV12Contrat extends BaseSV12Contrat {
 
         $mouvement = DRMMouvement::freeInstance($this->getDocument());
         $mouvement->produit_hash = $this->produit_hash;
+        $mouvement->produit_libelle = trim($this->produit_libelle);
+        if ($this->getProduitObject()->getDocument()->exist('interpro')) {
+            $mouvement->add('interpro', $this->getProduitObject()->getDocument()->interpro);
+        }
         $mouvement->facture = 0;
         $mouvement->version = $this->getDocument()->version;
         $mouvement->date_version = ($this->getDocument()->valide->date_saisie) ? ($this->getDocument()->valide->date_saisie) : date('Y-m-d');
