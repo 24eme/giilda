@@ -130,6 +130,9 @@ EOF;
                 $ligne[self::CSV_FA_CODE_DEST] = "A";
                 $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "MO";
                 $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = '';
+                if (!$contrat->degre) {
+                    $contrat->degre = 12;
+                }
             }
             $ligne[self::CSV_FA_TYPE_CONTRAT] = $type_contrat; // V pour vrac, M pour Mout
             $ligne[self::CSV_FA_CAMPAGNE] = substr($contrat->campagne, 0, 4);
