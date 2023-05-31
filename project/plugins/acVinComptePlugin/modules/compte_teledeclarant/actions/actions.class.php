@@ -230,7 +230,7 @@ class compte_teledeclarantActions extends sfActions {
         $this->entities_number = 0;
         $entities = array();
         foreach($compte->getSociete()->getEtablissementsObj() as $e) {
-            $k = $e->etablissement->cvi.$compte->getSociete()->siret.$e->etablissement->no_accises;
+            $k = $e->etablissement->cvi.$e->etablissement->no_accises;
             if ($k) {
                 $entities[$k] = $e;
             }
