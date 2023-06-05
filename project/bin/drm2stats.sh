@@ -33,6 +33,15 @@ cat $DRM_STAT_DEST_STATS"/.raw_mouvements.csv" | sort >> $DRM_STAT_DEST_STATS"/e
 sed -i 's/;;-;;;;;-/;;-/' $DRM_STAT_DEST_STATS"/external_drm_stock.csv"
 sed -i 's/;;-;;;;;-/;;-/' $DRM_STAT_DEST_STATS"/external_drm_mouvements.csv"
 
+#if test "$WITH_HLAP" ; then
+head -n 1 $DRM_STAT_DEST_STATS"/external_drm_mouvements.csv" | sed 's/fin 2/volume en hlap/' > $DRM_STAT_DEST_STATS"/external_drm_mouvements_hlap.csv"
+tail -n +2 $DRM_STAT_DEST_STATS"/external_drm_mouvements.csv" | awk -F ';' 'BEGIN{OFS=";" ;} { $31 = "";  if ($29) $31 = $29 * $18 / 100 ; if ( $14 ~ /Mati[èe]res premi/ ) { $31 = $18 ; $18 = ""; } print $0}' >> $DRM_STAT_DEST_STATS"/external_drm_mouvements_hlap.csv"
+head -n 1 $DRM_STAT_DEST_STATS"/external_drm_stock.csv" | sed 's/fin 2/volume en hlap/' > $DRM_STAT_DEST_STATS"/external_drm_stock_hlap.csv"
+tail -n +2 $DRM_STAT_DEST_STATS"/external_drm_stock.csv" | awk -F ';' 'BEGIN{OFS=";" ;} { $31 = ""; if ($29) $31 = $29 * $18 / 100 ; if ( $14 ~ /Mati[èe]res premi/ ) { $31 = $18 ; $18 = ""; } print $0}' >> $DRM_STAT_DEST_STATS"/external_drm_stock_hlap.csv"
+mv $DRM_STAT_DEST_STATS"/external_drm_mouvements_hlap.csv" $DRM_STAT_DEST_STATS"/external_drm_mouvements.csv"
+mv $DRM_STAT_DEST_STATS"/external_drm_stock_hlap.csv" $DRM_STAT_DEST_STATS"/external_drm_stock.csv"
+#fi
+
 recode UTF8..ISO88591 $DRM_STAT_DEST_STATS"/external_drm_stock.csv"
 recode UTF8..ISO88591 $DRM_STAT_DEST_STATS"/external_drm_mouvements.csv"
 
