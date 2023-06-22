@@ -109,6 +109,16 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
 
     }
 
+    public function getProduitLibelleWithLabel($produit_libelle, $labels) {
+      $labelsLibelles = $this->getLabels();
+      if (isset($labelsLibelles['conv'])) {
+          unset($labelsLibelles['conv']);
+      }
+      $libelles = [];
+      foreach($labels as $label) {
+          if (isset($labelsLibelles[$label])) $libelles[] = $labelsLibelles[$label];
+      }
+      return trim(trim($produit_libelle).' '.implode(', ', $libelles));
     }
 
     public function getConfig()
