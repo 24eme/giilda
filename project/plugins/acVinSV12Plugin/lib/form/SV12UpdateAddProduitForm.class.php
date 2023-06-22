@@ -73,6 +73,7 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
 
     public function addProduit()
     {
+        $label = (isset($this->values['label']) && $this->values['label'])? $this->values['label'] : null;
       if (!$this->isValid()) {
 	       throw $this->getErrorSchema();
       }
@@ -80,16 +81,34 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
       $typeKey = ($this->_raisinetmout)? $this->values['raisinetmout'] : SV12Client::SV12_TYPEKEY_VENDANGE ;
 
       if (!isset($this->values['withviti']) || !$this->values['withviti']) {
-	         $sv12Contrat = $this->_sv12->contrats->add(SV12Client::SV12_KEY_SANSVITI.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']));
+             $key = SV12Client::SV12_KEY_SANSVITI.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']);
+             if ($label && $label != ['conv']) {
+                $key .=  '-'.implode('_', $label);
+             }
+	         $sv12Contrat = $this->_sv12->contrats->add($key);
              $sv12Contrat->updateNoContrat($this->getConfig()->getConfigurationProduit($this->values['hashref']), array('contrat_type' => $typeKey, 'volume' => $this->values['volume']));
+             if ($label) {
+                 $sv12Contrat->produit_libelle = $this->getProduitLibelleWithLabel($sv12Contrat->produit_libelle, $label);
+                 $sv12Contrat->add('labels', $label);
+             }
 	         return $sv12Contrat;
       }
 
       $etablissement = EtablissementClient::getInstance()->find($this->values['identifiant']);
-      $sv12Contrat = $this->_sv12->contrats->add(SV12Client::SV12_KEY_SANSCONTRAT.'-'.$etablissement->identifiant.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']));
+      $key = SV12Client::SV12_KEY_SANSCONTRAT.'-'.$etablissement->identifiant.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']);
+      if ($label && $label != ['conv']) {
+         $key .=  '-'.implode('_', $label);
+      }
+      $sv12Contrat = $this->_sv12->contrats->add($key);
 
       echo "update no contrat avec viti\n";
       $sv12Contrat->updateNoContrat($this->getConfig()->getConfigurationProduit($this->values['hashref']), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $typeKey,'volume' => $this->values['volume']));
+      if ($label) {
+          $sv12Contrat->produit_libelle = $this->getProduitLibelleWithLabel($sv12Contrat->produit_libelle, $label);
+          $sv12Contrat->add('labels', $label);
+      }
+
+    }
 
     }
 
