@@ -101,7 +101,6 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
       }
       $sv12Contrat = $this->_sv12->contrats->add($key);
 
-      echo "update no contrat avec viti\n";
       $sv12Contrat->updateNoContrat($this->getConfig()->getConfigurationProduit($this->values['hashref']), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $typeKey,'volume' => $this->values['volume']));
       if ($label) {
           $sv12Contrat->produit_libelle = $this->getProduitLibelleWithLabel($sv12Contrat->produit_libelle, $label);
