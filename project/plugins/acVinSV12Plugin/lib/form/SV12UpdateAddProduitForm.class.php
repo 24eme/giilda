@@ -42,6 +42,12 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
 			$this->setValidator('withviti', new sfValidatorChoice(array('required' => false, 'choices' => array('withviti'))));
       $this->setValidator('volume', new sfValidatorNumber(array('required' => false, 'min' => 0)));
 
+      if ($labels = $this->getLabels()) {
+          $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $labels, 'expanded' => true, 'multiple' => true), array("class" => "")));
+          $this->widgetSchema->setLabel('label', 'Label&nbsp;: ');
+          $this->setValidator('label', new sfValidatorChoice(array('required' => true, 'multiple' => true,  'choices' => array_keys($labels)),array('required' => "Aucun label n'a été saisi !")));
+      }
+
       $this->validatorSchema->setPostValidator(new SV12AddProduitValidator());
       $this->widgetSchema->setNameFormat('sv12_add_produit[%s]');
     }

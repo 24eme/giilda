@@ -13,6 +13,15 @@
                 <?php echo $form['hashref']->render(array("autofocus" => "autofocus")); ?>
             </div>
         </div>
+        <?php if (isset($form['label'])): ?>
+        <div class="form-group">
+            <?php echo $form['label']->renderLabel(null, array("class" => "col-sm-2 control-label")); ?>
+            <div class="col-sm-6">
+                <?php echo $form['label']->renderError(); ?>
+                <?php echo $form['label']->render(); ?>
+            </div>
+        </div>
+        <?php endif; ?>
             <div class="form-group">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-10">
