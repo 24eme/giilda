@@ -67,6 +67,10 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
         return $this->_config->formatProduitsSV12($date);
     }
 
+    public function getLabels() {
+        return (method_exists($this->_config, 'getVracLabels'))? $this->_config->getVracLabels() : null;
+    }
+
     public function addProduit()
     {
       if (!$this->isValid()) {
