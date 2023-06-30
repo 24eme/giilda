@@ -309,14 +309,14 @@ class factureActions extends sfActions {
 
     public function executeAttente(sfWebRequest $request)
     {
+        $interpro = $this->getInterproFacturable($request);
         $this->mvtsVersionnes = $request->getParameter('versionnes');
         $this->csv = $request->getParameter('csv');
 
         $this->mouvements = [];
         $csv_file = "Id etablissement;DRM;Date mvt;Produit;Type mvt;Detail mvt;Volume;Prix;Id Origine\n";
 
-        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->getInterproFacturable($request), sfConfig::get('app_facturation_region'));
-
+        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($interpro, sfConfig::get('app_facturation_region'));
         foreach ($mouvements_en_attente as $m) {
             if (empty($m->key[MouvementfactureFacturationView::KEYS_ETB_ID])) {
                 continue;
