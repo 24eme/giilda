@@ -9,6 +9,22 @@
 </ol>
 
 <h2>Mouvements de facturation en attente<?php if($mvtsVersionnes): ?> issus de rectificatives<?php endif; ?></h2>
+
+<form action="<?php echo url_for('facture_en_attente') ?>" method="get">
+    <input type="hidden" name="versionnes" value="<?php echo $mvtsVersionnes ?>" />
+    <input type="hidden" name="details" value="<?php echo $withDetails ?>" />
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="only_mvts_next_facturation" value="1"<?php if($onlyMvtsNextFacturation): ?> checked<?php endif; ?> onchange="this.form.submit()" /> Mvts au dessus du seuil
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="only_versionnes_factures" value="1"<?php if($onlyVersionnesFactures): ?> checked<?php endif; ?> onchange="this.form.submit()" /> Mvts facturés et rectifés
+        </label>
+    </div>
+</form>
+
 <h4 class="page-header"><?php echo count($mouvements) ?> opérateurs avec des mouvements en attente</h4>
 
 <a href="<?php echo url_for('facture_en_attente', array('csv' => 1, 'versionnes' => $mvtsVersionnes)) ?>" class="btn pull-right btn-warning btn-xs"><span class="glyphicon glyphicon-download-alt"> CSV</span></a>
