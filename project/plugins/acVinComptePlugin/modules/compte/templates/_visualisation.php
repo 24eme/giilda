@@ -1,4 +1,4 @@
-<div class="list-group" id="<?php echo $compte->_id; ?>">
+<div class="list-group compte" id="<?php echo $compte->_id; ?>">
     <div class="list-group-item<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
         <div class="row">
             <div class="col-xs-10">
@@ -71,6 +71,18 @@
                 <div class="col-xs-12">
                     <span class=text-muted">Login de télédeclaration : <?php echo $compte->getLogin() ?></span><br />
                     <span class=text-muted">Code de création : Compte déjà créé</span>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php if ($compte->exist('droits') && count($compte->droits)): ?>
+        <div class="list-group-item list-group-item-xs">
+            <div class="row">
+                <div class="col-xs-12">
+                    <span class=text-muted">Droits :</span>
+                    <?php foreach($compte->droits as $d): ?>
+                      <label class="label label-default"><?php echo $d; ?></label>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

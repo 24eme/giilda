@@ -54,7 +54,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $r;
     }
 
-    public function getCodeComtableClient($interpro = null) {
+    public function getCodeComptableClient($interpro = null) {
         $cc = ($interpro)? $this->getDataFromInterproMetas($interpro, 'code_comptable_client') : $this->_get('code_comptable_client');
         if(!$cc) {
             return FactureConfiguration::getInstance($interpro)->getPrefixCodeComptable().((int)$this->identifiant)."";
@@ -530,7 +530,17 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function getSocietesLieesIds() {
         if(!$this->exist('societes_liees')) {
-
+            if ($compte = $this->getMasterCompte()) {
+                if ($compte->exist('tiers') && method_exists($compte, 'getTiersCollection')) {
+                    $societesLiees = [];
+                    foreach($compte->getTiersCollection() as $tiers) {
+                        if ($tiers->exist('societe') && $tiers->_get('societe')) {
+                            $societesLiees[] = $tiers->_get('societe');
+                        }
+                    }
+                    return $societesLiees;
+                }
+            }
             return array($this->_id);
         }
 

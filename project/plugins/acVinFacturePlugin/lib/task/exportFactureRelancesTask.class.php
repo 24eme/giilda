@@ -59,7 +59,7 @@ EOF;
               continue;
           }
           if ($options["interpro"] && $facture->getOrAdd('interpro') != $options["interpro"]) {
-              return;
+              continue;
           }
           $export = new ExportFactureRelanceCSV($facture, false);
           echo $export->export();

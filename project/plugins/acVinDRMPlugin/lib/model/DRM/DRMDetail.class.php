@@ -459,11 +459,11 @@ class DRMDetail extends BaseDRMDetail {
                 $volumeTotal = $volume;
                 for($i=1; $i <= $nbDivision; $i++) {
                     $mouvementPart = $this->createMouvement(clone $mouvement, $hash . '/' . $key, $volumePart, $date->format('Y-m-d'));
-                    $mouvementPart->categorie .= '_divise';
-                    $date->modify("last day of next month");
                     if (!$mouvementPart) {
                         continue;
                     }
+                    $mouvementPart->categorie .= '_divise';
+                    $date->modify("last day of next month");
                     $volumeTotal = $volumeTotal - $volumePart;
                     if($i == $nbDivision && $volumeTotal) {
                         $mouvementPart->volume += $volumeTotal;

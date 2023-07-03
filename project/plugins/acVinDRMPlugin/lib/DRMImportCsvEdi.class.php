@@ -364,6 +364,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               continue;
           }
 
+          if (!isset(DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))])) {
+              $this->csvDoc->addErreur($this->DRMTypeNotFoundError($num_ligne, $datas));
+              continue;
+          }
+
           /// CREATION DU DETAILS
           $produit =  $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire, $tav);
 
