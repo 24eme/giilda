@@ -309,17 +309,29 @@ class factureActions extends sfActions {
 
     public function executeAttente(sfWebRequest $request)
     {
+        $interpro = $this->getInterproFacturable($request);
         $this->mvtsVersionnes = $request->getParameter('versionnes');
+        $this->onlyMvtsNextFacturation = $request->getParameter('only_mvts_next_facturation');
+        $this->onlyVersionnesFactures = $request->getParameter('only_versionnes_factures');
+
         $this->csv = $request->getParameter('csv');
 
         $this->mouvements = [];
         $csv_file = "Id etablissement;DRM;Date mvt;Produit;Type mvt;Detail mvt;Volume;Prix;Id Origine\n";
 
-        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->getInterproFacturable($request), sfConfig::get('app_facturation_region'));
-
+        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($interpro, sfConfig::get('app_facturation_region'));
+        $montant_ht_total_en_attente = [];
+        $docs_originaux_with_mvts_en_attente = [];
         foreach ($mouvements_en_attente as $m) {
             if (empty($m->key[MouvementfactureFacturationView::KEYS_ETB_ID])) {
                 continue;
+            }
+            if (!isset($montant_ht_total_en_attente[$m->key[MouvementfactureFacturationView::KEYS_ETB_ID]])) {
+                $montant_ht_total_en_attente[$m->key[MouvementfactureFacturationView::KEYS_ETB_ID]] = 0;
+            }
+            $montant_ht_total_en_attente[$m->key[MouvementfactureFacturationView::KEYS_ETB_ID]] += round($m->value[MouvementfactureFacturationView::VALUE_QUANTITE] * $m->value[MouvementfactureFacturationView::VALUE_PRIX_UNITAIRE], 2);
+            if (strpos($m->id, '-R') === false && strpos($m->id, '-M') === false) {
+                $docs_originaux_with_mvts_en_attente[$m->id] = 1;
             }
             if ($this->mvtsVersionnes && strpos($m->id, '-R') === false && strpos($m->id, '-M') === false) {
                 continue;
@@ -336,6 +348,31 @@ class factureActions extends sfActions {
                 $csv_file .= $m->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]."\n";
             } else {
                 $this->mouvements[$m->key[MouvementfactureFacturationView::KEYS_ETB_ID]][] = $m;
+            }
+        }
+        if ($this->onlyMvtsNextFacturation) {
+            foreach($montant_ht_total_en_attente as $etabId => $montantHtTotal) {
+                if (round($montantHtTotal*1.2, 2) < round(FactureConfiguration::getInstance($interpro)->getSeuilMinimum(),2)) {
+                    unset($this->mouvements[$etabId]);
+                }
+            }
+        }
+
+        if ($this->onlyVersionnesFactures) {
+            foreach($this->mouvements as $k => $mvts) {
+                foreach($mvts as $sk => $mvt) {
+                    $id = $mvt->id;
+                    if (strpos($mvt->id, '-R') !== false)
+                        $id = substr($mvt->id, 0, strpos($mvt->id, '-R'));
+                    if (strpos($mvt->id, '-M') !== false)
+                        $id = substr($mvt->id, 0, strpos($mvt->id, '-M'));
+                    if (isset($docs_originaux_with_mvts_en_attente[$id])) {
+                        unset($this->mouvements[$k][$sk]);
+                    }
+                }
+                if (!count($this->mouvements[$k])) {
+                    unset($this->mouvements[$k]);
+                }
             }
         }
 
