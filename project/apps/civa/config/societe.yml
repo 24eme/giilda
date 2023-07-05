@@ -2,6 +2,18 @@ all:
   configuration:
     societe:
       identifiant_saisi:  "CVI/CIVABA"
+      droits:
+        teledeclaration: "Télédéclaration",
+        teledeclaration_dr: "DR",
+        teledeclaration_dr_acheteur: "DR Acheteur",
+        teledeclaration_gamma: "Gamma",
+        teledeclaration_vrac: "Signature contrats",
+        teledeclaration_vrac_creation: "Création contrats",
+        teledeclaration_ds_propriete: "DS Propriété",
+        teledeclaration_ds_negoce: "DS Négoce",
+        teledeclaration_ds_decembre: "DS Décembre",
+        teledeclaration_drm: "DRM",
+        teledeclaration_douane: "Transmission Ciel",
       extras:
         cvi: { nom: "cvi", auto: true }
         civaba: { nom: "civaba", auto: true }
