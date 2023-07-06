@@ -15,23 +15,23 @@ all:
         teledeclaration_drm: "DRM",
         teledeclaration_douane: "Transmission Ciel",
       extras:
-        cvi: { nom: "cvi", auto: true }
-        civaba: { nom: "civaba", auto: true }
-        siret: { nom: "siret", auto: true }
-        no_accises: { nom: "no_accises", auto: true }
-        carte_pro: { nom: "carte_pro", auto: true }
-        code_comptable: { nom: "code_comptable", auto: true }
-        famille: { nom: "famille", auto: true }
-        region: { nom: "region", auto: true }
-        acheteur_raisin: { nom: "acheteur_raisin" }
+        cvi: { nom: "cvi", auto: 'etablissement->cvi' }
+        civaba: { nom: "civaba", auto: 'etablissement->num_interne' }
+        siret: { nom: "siret", auto: 'societe->siret|etablissement->siret' }
+        no_accises: { nom: "no_accises", auto: 'etablissement->no_accises' }
+        carte_pro: { nom: "carte_pro", auto: 'etablissement->carte_pro' }
+        code_comptable: { nom: "code_comptable", auto: 'societe->code_comptable_client' }
+        famille: { nom: "famille", auto: 'etablissement->famille' }
+        region: { nom: "region", auto: 'societe->getRegionViticole()|etablissement->region' }
+        acheteur_raisin: { nom: "acheteur_raisin", auto: 'etablissement->acheteur_raisin'  }
         activite: { nom: "activité" }
         cooperative: { nom: "coopérative" }
         site_internet: { nom: "site_internet" }
         sous_region_viticole: { nom: "sous_region_viticole" }
-        adherent_organisme: { nom: "adherent_organisme", auto: true }
-        declaration_commune: { nom: "declaration_commune", auto: true }
-        declaration_insee: { nom: "declaration_insee" }
-        societes_liees_identifiant: { nom: "societes_liees_identifiant", auto: true }
+        adherent_organisme: { nom: "adherent_organisme" }
+        declaration_commune: { nom: "declaration_commune", auto: 'etablissement->declaration_commune' }
+        declaration_insee: { nom: "declaration_insee", auto: 'etablissement->declaration_insee' }
+        societes_liees_identifiant: { nom: "societes_liees_identifiant", auto: 'societe->getSocietesLieesIds()' }
         maison_mere_identifiant: { nom: "maison_mere_identifiant" }
         maison_mere_raison_sociale: { nom: "maison_mere_raison_sociale" }
         maison_mere_siret: { nom: "maison_mere_siret" }
