@@ -228,7 +228,14 @@ class compte_teledeclarantActions extends sfActions {
 
         $this->entities = array('raison_sociale' => [], 'cvi' => [], 'siret' => [], 'ppm' => [], 'accise' => [], 'tva' => []);
         $this->entities_number = 0;
+        $entities = array();
         foreach($compte->getSociete()->getEtablissementsObj() as $e) {
+            $k = $e->etablissement->cvi.$e->etablissement->no_accises;
+            if ($k) {
+                $entities[$k] = $e;
+            }
+        }
+        foreach($entities as $k => $e) {
             $this->entities['raison_sociale'][] = htmlspecialchars($e->etablissement->raison_sociale, ENT_XML1, 'UTF-8');
             $this->entities['cvi'][] = str_replace(' ', '', $e->etablissement->cvi);
             $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);

@@ -722,7 +722,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $declarant->commune = $doc->siege->commune;
         $declarant->code_postal = $doc->siege->code_postal;
         $declarant->raison_sociale = $doc->raison_sociale;
-        $this->code_comptable_client = $doc->getCodeComtableClient($this->getOrAdd('interpro'));
+        $this->code_comptable_client = $doc->getCodeComptableClient($this->getOrAdd('interpro'));
         if ($this->code_comptable_client && $this->getConfiguration()->refClientIsCodeComptable()) {
             $this->numero_adherent = $this->code_comptable_client;
         }
