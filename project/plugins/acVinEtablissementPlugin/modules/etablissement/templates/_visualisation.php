@@ -83,7 +83,7 @@
       </div>
     <?php endif; ?>
 
-    <?php if($etablissement->exist('mois_stock_debut')): ?>
+    <?php if($etablissement->exist('mois_stock_debut') && !is_null($etablissement->mois_stock_debut)): ?>
       <div class="list-group-item text-center">
         <div class="row">
           <div class="col-xs-12  text-left">

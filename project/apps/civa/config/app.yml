@@ -15,4 +15,4 @@ all:
       "/declaration/certifications/VINSSIG/genres/EFF":
         cep: "/declaration/certifications/VINSSIG/genres/EFF/appellations/CEP/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT"
         sanscep: "/declaration/certifications/VINSSIG/genres/EFF/appellations/SANSCEP/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT"
-  compte_synchro: false
+  compte_synchro: true
