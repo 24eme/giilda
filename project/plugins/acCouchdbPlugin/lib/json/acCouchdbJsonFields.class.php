@@ -376,7 +376,7 @@ abstract class acCouchdbJsonFields {
     protected function definitionValidation() {
         foreach ($this->_fields as $key => $field) {
             if (!$this->getDefinition()->get($key)->isValid($field)) {
-                throw new acCouchdbException(sprintf("Value not valid : %s required %s (%s)", gettype($field), $this->getDefinition()->get($key)->getType(), $this->getHash() . "/" . $key));
+		    throw new acCouchdbException(sprintf("Value \"%s\" not valid : %s required %s (%s)", $field, gettype($field), $this->getDefinition()->get($key)->getType(), $this->getHash() . "/" . $key));
             }
             if ($this->getDefinition()->get($key)->isCollection()) {
                 $field->definitionValidation();

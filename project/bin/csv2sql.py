@@ -3,7 +3,7 @@ import sys, os, pandas as pd
 from sqlalchemy import create_engine
 engine = create_engine('sqlite:///'+sys.argv[1], echo=False, encoding='iso-8859-1')
 
-if len(sys.argv) > 1:
+if len(sys.argv) > 2:
     os.chdir(sys.argv[2])
 
 if os.path.exists("export_bi_contrats.csv") and os.path.getsize("export_bi_contrats.csv"):
@@ -66,10 +66,18 @@ if os.path.exists("export_bi_drm_stock.csv") and os.path.getsize("export_bi_drm_
     except Exception as e:
         sys.stderr.write("ERROR: unable to read export_bi_drm_stock.csv:\n\t"+str(e)+"\n")
 
-if os.path.exists("external_drm.csv") and os.path.getsize("external_drm.csv"):
+if os.path.exists("external_drm_stock.csv") and os.path.getsize("external_drm_stock.csv"):
     try:
-        sys.stderr.write("external_drm.csv\n")
-        csv = pd.read_csv("external_drm.csv", encoding='iso-8859-1', delimiter=";", index_col=False, dtype={'numero du contrat': 'str'})
-        csv.to_sql('DRM externe', con=engine, if_exists='replace')
+        sys.stderr.write("external_drm_stock.csv\n")
+        csv = pd.read_csv("external_drm_stock.csv", encoding='iso-8859-1', delimiter=";", index_col=False)
+        csv.to_sql('Stock DRM externes', con=engine, if_exists='replace')
     except Exception as e:
-        sys.stderr.write("ERROR: unable to read export_bi_drm_stock.csv:\n\t"+str(e)+"\n")
+        sys.stderr.write("ERROR: unable to read external_drm_stock.csv:\n\t"+str(e)+"\n")
+
+if os.path.exists("external_drm_mouvements.csv") and os.path.getsize("external_drm_mouvements.csv"):
+    try:
+        sys.stderr.write("external_drm_mouvements.csv\n")
+        csv = pd.read_csv("external_drm_mouvements.csv", encoding='iso-8859-1', delimiter=";", index_col=False, dtype={'numero du contrat': 'str'})
+        csv.to_sql('Mouvement DRM externes', con=engine, if_exists='replace')
+    except Exception as e:
+        sys.stderr.write("ERROR: unable to read external_drm_mouvements.csv:\n\t"+str(e)+"\n")

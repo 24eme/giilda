@@ -40,4 +40,24 @@ class SocieteConfiguration {
         return isset($this->configuration['elastic_disabled']) && ($this->configuration['elastic_disabled']);
     }
 
+    public function getDroits() {
+        if(!isset($this->configuration['droits'])) {
+
+            return array();
+        }
+
+        return $this->configuration['droits'];
+    }
+
+    public function getDroitLibelle($droit) {
+        $droits = $this->getDroits();
+
+        if(isset($droits[$droit])) {
+
+            return $droits[$droit];
+        }
+
+        return $droit;
+    }
+
 }
