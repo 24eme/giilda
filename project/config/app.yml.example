@@ -40,8 +40,6 @@ all:
     documents:
      "Notice d'aide 1": "https://url_de_la_notice_d_aide_1.pdf"
      "Notice d'aide 2": "https://url_de_la_notice_d_aide_2.pdf"
-  pdf:
-    reader_link: "https://pdfreaders.org/pdfreaders.fr.html"
   configuration:
     facture:
       emetteur_cvo:
