@@ -12,6 +12,8 @@
 <h1><?php echo str_replace('%millesime%', (explode('-', $date)[0]-1), DSConfiguration::getInstance()->getTitle()) ?></h1>
 
 <div class="col-xs-12">
+
+    <?php if (!DSConfiguration::getInstance()->hideHistorique()): ?>
     <div class="row" style="margin:0;">
       <h4>
           <form class="form-inline pull-right" method="get">
@@ -26,6 +28,7 @@
           </form>
         </h4>
     </div>
+    <?php endif; ?>
 
     <p>&nbsp;</p>
 
