@@ -263,4 +263,8 @@ class FactureConfiguration {
   		return isset($this->configuration['email_interpro_teledeclaration']) ? $this->configuration['email_interpro_teledeclaration'] : '';
   	}
 
+    public function getFacturationMetasActif() {
+  		return isset($this->configuration['facturation_metas_actif']) ? $this->configuration['facturation_metas_actif'] : false;
+  	}
+
 }
