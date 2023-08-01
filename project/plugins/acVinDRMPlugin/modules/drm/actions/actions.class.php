@@ -35,11 +35,13 @@ class drmActions extends drmGeneriqueActions {
       $from = $res_by_page * ($this->page_num  - 1);
       $this->drm_controles = [];
       $this->nb_results = 0;
-      if(!acElasticaManager::getIndex()->exists()){
-        return;
+
+      try {
+          $index = acElasticaManager::getType('DRM');
+      } catch(Exception $e) {
+          return;
       }
 
-      $index = acElasticaManager::getType('DRM');
       $query = new acElasticaQuery();
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setQuery("_exists_:doc.controles");
