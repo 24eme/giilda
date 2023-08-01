@@ -683,9 +683,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             if($this->getSociete()->hasMandatSepaActif($this->getOrAdd('interpro'))) {
                 $this->addPrelevementAutomatique();
             }
-            foreach ($this->arguments as $argument) {
-                if ($nbPaiement = $this->getSociete()->getDataFromFacturationMetas($argument, Societe::FACTURATION_NB_PAIEMENTS_NODE)) {
-                    $this->generateEcheances($nbPaiement);
+            if ($this->getConfiguration()->getFacturationMetasActif()) {
+                foreach ($this->arguments as $argument) {
+                    if ($nbPaiement = $this->getSociete()->getDataFromFacturationMetas($argument, Societe::FACTURATION_NB_PAIEMENTS_NODE)) {
+                        $this->generateEcheances($nbPaiement);
+                    }
                 }
             }
         }
