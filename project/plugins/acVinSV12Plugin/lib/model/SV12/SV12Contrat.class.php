@@ -212,8 +212,7 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function getProduitObject() {
-
-        return ConfigurationClient::getCurrent()->getConfigurationProduit($this->produit_hash);
+        return ConfigurationClient::getConfiguration($this->getDocument()->getDate())->getConfigurationProduit($this->produit_hash);
     }
 
     public function getContratTypeLibelle() {
