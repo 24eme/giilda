@@ -43,4 +43,8 @@ class DSConfiguration {
         return $this->configuration['product_detail_interpro'];
     }
 
+    public function hideHistorique() {
+        return $this->configuration['hide_historique'];
+    }
+
 }
