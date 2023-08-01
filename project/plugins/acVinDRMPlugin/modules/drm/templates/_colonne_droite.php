@@ -21,7 +21,7 @@ if ($isTeledeclarationMode):
 
                 <?php if ($sf_user->isUsurpationCompte()): ?>
                     <div class="ligne_btn txt_centre">
-                      
+
                     </div>
                 <?php endif; ?>
             </div>
@@ -93,9 +93,6 @@ if (isset($drm)) {
             <a href="#" id="liens_notices" class="lien_telechargement">Télécharger la notice</a>
             <br/>
             <br/>
-            <p class="lien_lecteur_pdf">
-                Ce document est au format PDF. Pour la visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
-            </p>
 
             <h3>Contact hotline</h3>
             <p><?php echo $contact->telephone; ?></p>
