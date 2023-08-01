@@ -14,6 +14,13 @@ all:
         teledeclaration_ds_decembre: "DS Décembre",
         teledeclaration_drm: "DRM",
         teledeclaration_douane: "Transmission Ciel",
+        extranet_admin: "Extranet Admin"
+        extranet_editeur: "Extranet Éditeur"
+        extranet_salarie: "Extranet Salarié"
+        extranet_conseil_direction: "Extranet Conseil de direction"
+        extranet_technique: "Extranet Technique"
+        extranet_organisation: "Extranet Organisation"
+        extranet_partenaire: "Extranet Partenaire"
       extras:
         cvi: { nom: "cvi", auto: 'etablissement->cvi' }
         civaba: { nom: "civaba", auto: 'etablissement->num_interne' }
