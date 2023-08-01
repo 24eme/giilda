@@ -148,7 +148,7 @@
             change = true;
           });
         });
-        $(".navbar-nav a").click(function(e) {
+        $(".navbar-nav a:not(.external)").click(function(e) {
           e.preventDefault();
           if (change) {
             if(confirm("Attention! Vous êtes sur le point de quitter une page en cours d'édition.\nCela entrainera la perte des données saisies.\nPour les conserver, cliquez sur annuler et utiliser les boutons d'étapes en bas de page.")){

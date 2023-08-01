@@ -6,3 +6,4 @@ all:
       date_stock_declaration: "2022-07-31"
       product_hash_regex_filter: ""
       product_detail_interpro: ""
+      hide_historique: false
