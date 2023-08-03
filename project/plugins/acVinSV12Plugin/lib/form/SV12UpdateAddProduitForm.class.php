@@ -123,6 +123,6 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
 
     public function getConfig()
     {
-        return ConfigurationClient::getCurrent();
+        return ConfigurationClient::getConfiguration($this->_sv12->getDate());
     }
 }
