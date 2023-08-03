@@ -253,6 +253,7 @@ class compte_teledeclarantActions extends sfActions {
                 $this->entities['telephone_bureau'][] = str_replace(' ', '', $e->etablissement->getTelephoneBureau());
                 $this->entities['telephone_mobile'][] = str_replace(' ', '', $e->etablissement->getTelephoneMobile());
                 $this->entities['telephone_perso'][] = str_replace(' ', '', $e->etablissement->getTelephonePerso());
+                $this->entities['droits'][] = implode("|", ($compte->exist('droits')) ? $compte->getDroits()->toArray() : []);
             }
             $this->entities_number++;
         }

@@ -10,6 +10,7 @@ class defactureFactureTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
       new sfCommandOption('factureid', null, sfCommandOption::PARAMETER_REQUIRED, 'Facture id'),
+      new sfCommandOption('noavoir', null, sfCommandOption::PARAMETER_REQUIRED, 'Ne doit pas générer d\'avoir', false),
       // add your own options here
     ));
 
@@ -36,6 +37,10 @@ EOF;
 
     $facture = FactureClient::getInstance()->find($options['factureid']);
     $avoir = FactureClient::getInstance()->defactureCreateAvoirAndSaveThem($facture);
+    if ($options['noavoir']) {
+        $avoir->delete();
+        return;
+    }
     if($avoir){
         echo $avoir->_id."\n";
     }else{
