@@ -63,16 +63,20 @@ EOF;
         }
         $drm->clearMouvements();
         $drm->region = $drm->getEtablissement()->region;
-        $isTeleclare = $drm->isTeledeclare();
-
-        foreach ($drm->getProduits() as $hash => $produit){
-            foreach ($produit->getProduitsDetails($isTeleclare) as $detail){
-                $detail->storeDroits();
+        $isTeleclare = false;
+        if (method_exists($drm, 'isTeleclare')) {
+            $isTeleclare = $drm->isTeledeclare();
+        }
+        if (method_exists($drm, 'getProduits')) {
+            foreach ($drm->getProduits() as $hash => $produit){
+                foreach ($produit->getProduitsDetails($isTeleclare) as $detail){
+                    $detail->storeDroits();
+                }
             }
         }
 
         $drm->generateMouvements();
-        if ($drm->teledeclare) {
+        if ($isTeleclare && $drm->teledeclare) {
             $drm->generateDroitsDouanes();
         }
         $drm->save();
