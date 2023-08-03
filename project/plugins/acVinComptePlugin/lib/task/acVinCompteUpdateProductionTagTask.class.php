@@ -1,28 +1,5 @@
 <?php
 
-/* This file is part of the acVinComptePlugin package.
- * Copyright (c) 2011 Actualys
- * Authors :
- * Tangui Morlier <tangui@tangui.eu.org>
- * Charlotte De Vichet <c.devichet@gmail.com>
- * Vincent Laurent <vince.laurent@gmail.com>
- * Jean-Baptiste Le Metayer <lemetayer.jb@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-/**
- * acVinComptePlugin task.
- *
- * @package    acVinComptePlugin
- * @subpackage lib
- * @author     Tangui Morlier <tangui@tangui.eu.org>
- * @author     Charlotte De Vichet <c.devichet@gmail.com>
- * @author     Vincent Laurent <vince.laurent@gmail.com>
- * @author     Jean-Baptiste Le Metayer <lemetayer.jb@gmail.com>
- * @version    0.1
- */
 class acVinCompteUpdateProductionTagTask extends sfBaseTask {
 
     protected $debug = false;
@@ -115,6 +92,12 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                     $tags['documents']['SV11 '.$periode] = 1;
                 }
                 if($identifiant && acCouchdbManager::getClient()->find('SV12-'.$identifiant.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
+                    $tags['documents']['SV12 '.$periode] = 1;
+                }
+                if($cvi && acCouchdbManager::getClient()->find('SV11-'.$cvi.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
+                    $tags['documents']['SV11 '.$periode] = 1;
+                }
+                if($cvi && acCouchdbManager::getClient()->find('SV12-'.$cvi.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
                     $tags['documents']['SV12 '.$periode] = 1;
                 }
                 if($identifiant && isset($ds[$identifiant])) {
