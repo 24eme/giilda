@@ -261,6 +261,13 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             CompteGenerique::pullContact($this, $societe->getMasterCompte());
         }
 
+        if ($this->exist('droits')) {
+            foreach ($this->droits as $droit) {
+                $this->addTag('droits', $droit);
+                $this->addTag('droits', preg_replace('/:.*/', '', $droit));
+            }
+        }
+
         parent::save();
 
         if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $new) {
