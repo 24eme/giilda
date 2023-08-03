@@ -3,17 +3,24 @@ all:
     societe:
       identifiant_saisi:  "CVI/CIVABA"
       droits:
-        teledeclaration: "Télédéclaration",
-        teledeclaration_dr: "DR",
-        teledeclaration_dr_acheteur: "DR Acheteur",
-        teledeclaration_gamma: "Gamma",
-        teledeclaration_vrac: "Signature contrats",
-        teledeclaration_vrac_creation: "Création contrats",
-        teledeclaration_ds_propriete: "DS Propriété",
-        teledeclaration_ds_negoce: "DS Négoce",
-        teledeclaration_ds_decembre: "DS Décembre",
-        teledeclaration_drm: "DRM",
-        teledeclaration_douane: "Transmission Ciel",
+        teledeclaration: "Télédéclaration"
+        teledeclaration_dr: "DR"
+        teledeclaration_dr_acheteur: "DR Acheteur"
+        teledeclaration_gamma: "Gamma"
+        teledeclaration_vrac: "Signature contrats"
+        teledeclaration_vrac_creation: "Création contrats"
+        teledeclaration_ds_propriete: "DS Propriété"
+        teledeclaration_ds_negoce: "DS Négoce"
+        teledeclaration_ds_decembre: "DS Décembre"
+        teledeclaration_drm: "DRM"
+        teledeclaration_douane: "Transmission Ciel"
+        extranet_admin: "Extranet Admin"
+        extranet_editeur: "Extranet Éditeur"
+        extranet_salarie: "Extranet Salarié"
+        extranet_conseil_direction: "Extranet Conseil de direction"
+        extranet_technique: "Extranet Technique"
+        extranet_organisation: "Extranet Organisation"
+        extranet_partenaire: "Extranet Partenaire"
       extras:
         cvi: { nom: "cvi", auto: 'etablissement->cvi' }
         civaba: { nom: "civaba", auto: 'etablissement->num_interne' }
