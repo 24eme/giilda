@@ -58,11 +58,19 @@ class ArchivageAllView extends acCouchdbView
         return $rows[0]->id;
     }
 
+    public function getByTypeAndCampagne($type, $campagne) {
+
+            return $this->client
+                        ->startkey(array($type, $campagne))
+                        ->reduce(false)
+                        ->endkey(array($type, $campagne, []))->getView($this->design, $this->view)->rows;
+    }
+
     protected function getViewByTypeAndCampagne($type, $campagne, $fourchette_basse = 0, $fourchette_haute = 99999, $format) {
 
             return $this->client
                         ->startkey(array($type, $campagne, sprintf($format, $fourchette_basse)))
                         ->endkey(array($type, $campagne, sprintf($format, $fourchette_haute), array()));
     }
-    
-}  
+
+}
