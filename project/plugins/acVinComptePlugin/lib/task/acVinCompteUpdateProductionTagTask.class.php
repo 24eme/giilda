@@ -85,8 +85,11 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                         $tags['export'][$this->replaceAccents($m->detail_libelle)] = 1;
                     }
                 }
-                if($cvi && acCouchdbManager::getClient()->find('DR-'.$cvi.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
+                if($cvi && $dr = acCouchdbManager::getClient()->find('DR-'.$cvi.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
                     $tags['documents']['DR '.$periode] = 1;
+                    if(isset($dr->famille_calculee)) {
+                        $tags['documents']['DR '.$dr->famille_calculee] = 1;
+                    }
                 }
                 if($identifiant && acCouchdbManager::getClient()->find('SV11-'.$identifiant.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
                     $tags['documents']['SV11 '.$periode] = 1;
