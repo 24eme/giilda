@@ -158,6 +158,7 @@ Facture:
                   commentaire: { }
                   execute: {required: false}
                   versement_comptable: { }
+      type_facture: {}
 
 MouvementsFacture:
   definition:
