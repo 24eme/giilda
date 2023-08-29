@@ -42,6 +42,12 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
 			$this->setValidator('withviti', new sfValidatorChoice(array('required' => false, 'choices' => array('withviti'))));
       $this->setValidator('volume', new sfValidatorNumber(array('required' => false, 'min' => 0)));
 
+      if ($labels = $this->getLabels()) {
+          $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $labels, 'expanded' => true, 'multiple' => true), array("class" => "")));
+          $this->widgetSchema->setLabel('label', 'Label&nbsp;: ');
+          $this->setValidator('label', new sfValidatorChoice(array('required' => true, 'multiple' => true,  'choices' => array_keys($labels)),array('required' => "Aucun label n'a été saisi !")));
+      }
+
       $this->validatorSchema->setPostValidator(new SV12AddProduitValidator());
       $this->widgetSchema->setNameFormat('sv12_add_produit[%s]');
     }
@@ -61,8 +67,13 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
         return $this->_config->formatProduitsSV12($date);
     }
 
+    public function getLabels() {
+        return (method_exists($this->_config, 'getVracLabels'))? $this->_config->getVracLabels() : null;
+    }
+
     public function addProduit()
     {
+        $label = (isset($this->values['label']) && $this->values['label'])? $this->values['label'] : null;
       if (!$this->isValid()) {
 	       throw $this->getErrorSchema();
       }
@@ -70,21 +81,48 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
       $typeKey = ($this->_raisinetmout)? $this->values['raisinetmout'] : SV12Client::SV12_TYPEKEY_VENDANGE ;
 
       if (!isset($this->values['withviti']) || !$this->values['withviti']) {
-	         $sv12Contrat = $this->_sv12->contrats->add(SV12Client::SV12_KEY_SANSVITI.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']));
+             $key = SV12Client::SV12_KEY_SANSVITI.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']);
+             if ($label && $label != ['conv']) {
+                $key .=  '-'.implode('_', $label);
+             }
+	         $sv12Contrat = $this->_sv12->contrats->add($key);
              $sv12Contrat->updateNoContrat($this->getConfig()->getConfigurationProduit($this->values['hashref']), array('contrat_type' => $typeKey, 'volume' => $this->values['volume']));
+             if ($label) {
+                 $sv12Contrat->produit_libelle = $this->getProduitLibelleWithLabel($sv12Contrat->produit_libelle, $label);
+                 $sv12Contrat->add('labels', $label);
+             }
 	         return $sv12Contrat;
       }
 
       $etablissement = EtablissementClient::getInstance()->find($this->values['identifiant']);
-      $sv12Contrat = $this->_sv12->contrats->add(SV12Client::SV12_KEY_SANSCONTRAT.'-'.$etablissement->identifiant.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']));
+      $key = SV12Client::SV12_KEY_SANSCONTRAT.'-'.$etablissement->identifiant.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']);
+      if ($label && $label != ['conv']) {
+         $key .=  '-'.implode('_', $label);
+      }
+      $sv12Contrat = $this->_sv12->contrats->add($key);
 
-      echo "update no contrat avec viti\n";
       $sv12Contrat->updateNoContrat($this->getConfig()->getConfigurationProduit($this->values['hashref']), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $typeKey,'volume' => $this->values['volume']));
+      if ($label) {
+          $sv12Contrat->produit_libelle = $this->getProduitLibelleWithLabel($sv12Contrat->produit_libelle, $label);
+          $sv12Contrat->add('labels', $label);
+      }
 
+    }
+
+    public function getProduitLibelleWithLabel($produit_libelle, $labels) {
+      $labelsLibelles = $this->getLabels();
+      if (isset($labelsLibelles['conv'])) {
+          unset($labelsLibelles['conv']);
+      }
+      $libelles = [];
+      foreach($labels as $label) {
+          if (isset($labelsLibelles[$label])) $libelles[] = $labelsLibelles[$label];
+      }
+      return trim(trim($produit_libelle).' '.implode(', ', $libelles));
     }
 
     public function getConfig()
     {
-        return ConfigurationClient::getCurrent();
+        return ConfigurationClient::getConfiguration($this->_sv12->getDate());
     }
 }

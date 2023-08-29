@@ -219,7 +219,7 @@ class compteActions extends sfCredentialActions {
         $q = $this->initSearch($request);
         $q->setLimit($res_by_page);
         $q->setFrom($from);
-        $facets = array('manuel' => 'doc.tags.manuel', 'export' => 'doc.tags.export', 'produit' => 'doc.tags.produit', 'automatique' => 'doc.tags.automatique', 'documents' => 'doc.tags.documents');
+        $facets = array('manuel' => 'doc.tags.manuel', 'export' => 'doc.tags.export', 'produit' => 'doc.tags.produit', 'automatique' => 'doc.tags.automatique', 'documents' => 'doc.tags.documents', 'droits' => 'doc.tags.droits');
         foreach($facets as $nom => $f) {
             $elasticaFacet 	= new acElasticaFacetTerms($nom);
             $elasticaFacet->setField($f);

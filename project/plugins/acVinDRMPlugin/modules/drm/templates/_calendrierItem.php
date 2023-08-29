@@ -20,7 +20,7 @@
                     <?php if ($lien) : ?>
                     <a <?php if(preg_match("/^#/", $lien)): ?>data-toggle="modal"<?php endif; ?>
                         href="<?php echo $lien ?>"
-                        class="btn <?php echo getClassButtonEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb); ?> btn-block <?php echo (!$multiEtablissement && $lastDrmToCompleteAndToStart->getRawValue()->periode == $periode)? ' to_autofocus ' : ''; ?>
+                        class="btn <?php echo getClassButtonEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb); ?> btn-block <?php echo (!$multiEtablissement && $lastDrmToCompleteAndToStart && $lastDrmToCompleteAndToStart->getRawValue()->periode == $periode)? ' to_autofocus ' : ''; ?>
                         "
                     >
                         <?php echo getEtatDRMLibelleCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb, false); ?>

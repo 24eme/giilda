@@ -10,19 +10,28 @@ class GenerationFactureMail extends GenerationAbstract {
             return;
         }
 
-        $interpro = sfConfig::get('app_teledeclaration_interpro');
+        $interproNom = $facture->getConfiguration()->getNomInterproTeledeclaration();
+        $interproEmail = $facture->getConfiguration()->getEmailInterproTeledeclaration();
+        if (!$interproNom) {
+            $interproNom = sfConfig::get('app_teledeclaration_interpro');
+        }
+        if (!$interproEmail) {
+            $interproEmail = sfConfig::get('app_mail_from_email');
+        }
 
         $message = Swift_Message::newInstance()
-         ->setFrom(sfConfig::get('app_mail_from_email'))
+         ->setFrom($interproEmail)
          ->setTo($facture->getSociete()->getEmailCompta())
-         ->setSubject("Facture n°".$facture->getNumeroInterpro()." - ".$interpro)
+         ->setSubject("Facture n°".$facture->getNumeroInterpro()." - ".$interproNom)
          ->setBody("Bonjour,
 
-Une nouvelle facture du ".$interpro." est disponible, vous pouvez la télécharger directement en cliquant sur le lien : ".ProjectConfiguration::getAppRouting()->generate('facture_pdf_auth', array('id' => $facture->_id, 'auth' => FactureClient::generateAuthKey($id)), true)."
+Une nouvelle facture émise par ".$interproNom." est disponible.
+
+Vous pouvez la télécharger directement en cliquant sur le lien : ".ProjectConfiguration::getAppRouting()->generate('facture_pdf_auth', array('id' => $facture->_id, 'auth' => FactureClient::generateAuthKey($id)), true)."
 
 Bien cordialement,
 
-Le ".$interpro);
+".$interproNom);
 
         return $message;
     }

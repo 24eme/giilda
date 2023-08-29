@@ -255,4 +255,16 @@ class FactureConfiguration {
   		return isset($this->configuration['globalise_calcul_taxe']) ? $this->configuration['globalise_calcul_taxe'] : false;
   	}
 
+    public function getNomInterproTeledeclaration() {
+  		return isset($this->configuration['nom_interpro_teledeclaration']) ? $this->configuration['nom_interpro_teledeclaration'] : '';
+  	}
+
+    public function getEmailInterproTeledeclaration() {
+  		return isset($this->configuration['email_interpro_teledeclaration']) ? $this->configuration['email_interpro_teledeclaration'] : '';
+  	}
+
+    public function getFacturationMetasActif() {
+  		return isset($this->configuration['facturation_metas_actif']) ? $this->configuration['facturation_metas_actif'] : false;
+  	}
+
 }
