@@ -330,7 +330,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
     public function getEtablissementOrigine() {
         foreach ($this->origines as $origine) {
-            if (preg_match('/^ETABLISSEMENT[-]{1}[0-9]*$/', $origine)) {
+            if (preg_match('/^ETABLISSEMENT/', $origine)) {
                 return $origine;
             }
         }
