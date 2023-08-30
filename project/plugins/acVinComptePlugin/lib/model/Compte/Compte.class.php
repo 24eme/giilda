@@ -168,6 +168,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
         if (!$this->isEtablissementContact() && !$this->isSocieteContact()) {
             $this->addTag('automatique', 'Interlocuteur');
+            if($this->fonction) {
+                $this->addTag('automatique', $this->fonction);
+            }
         }
 
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
