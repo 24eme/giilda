@@ -65,7 +65,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             $this->nom_a_afficher = trim(sprintf('%s', $this->nom));
             return;
         }
-        $this->nom_a_afficher = trim(sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom));
+        $this->nom_a_afficher = trim(preg_replace('/[ ]+/', ' ', sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom)));
     }
 
     public static function transformTag($tag) {
