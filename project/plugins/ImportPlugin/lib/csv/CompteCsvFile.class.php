@@ -203,8 +203,8 @@ class CompteCsvFile extends CsvFile
         $csv .= '"'.$compte->identifiant. '";';
         $csv .= '"'.str_replace('"', '', $compte->nom_a_afficher). '";';
         $csv .= '"'.CompteClient::getInstance()->createTypeFromOrigines($compte->origines).($virtuel ? '_VIRTUEL' : null).'";';
-        $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->getIntitule() : null). '";';
-        $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? str_replace('"', '', $compte->nom) : null). '";';
+        $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? CompteGenerique::extractIntitule($compte->nom)[0] : null). '";';
+        $csv .= '"'.($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? str_replace('"', '', CompteGenerique::extractIntitule($compte->nom)[1]) : null). '";';
         $csv .= '"'.$compte->fonction. '";';
         $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? $compte->civilite : null). '";';
         $csv .= '"'.($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR ? str_replace('"', '', $compte->nom) : null). '";';
