@@ -101,23 +101,17 @@ class CompteClient extends acCouchdbClient {
         return $compte;
     }
 
-    public function findOrCreateCompteFromEtablissement($e) {
-        $compte = $this->find($e->getNumCompteEtablissement());
-
-        if (!$compte) {
-            $compte = $this->createCompteFromEtablissement($e);
-        }
-
-        return $compte;
-    }
-
     public function createCompteFromSociete($societe) {
         $compte = new Compte();
         $compte->id_societe = $societe->_id;
         if(!$societe->isNew()) {
             $societe->pushContactAndAdresseTo($compte);
         }
-        $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
+        if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
+        } else {
+            $compte->identifiant = $societe->identifiant;
+        }
         $compte->constructId();
         $compte->interpro = 'INTERPRO-declaration';
         $compte->setStatut(CompteClient::STATUT_ACTIF);

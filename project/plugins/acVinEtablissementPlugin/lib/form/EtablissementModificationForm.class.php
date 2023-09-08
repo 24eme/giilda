@@ -63,6 +63,23 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
 
+        if($this->getObject()->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $this->getWidget('adresse')->setAttribute('readonly', 'readonly');
+            $this->getWidget('adresse_complementaire')->setAttribute('readonly', 'readonly');
+            $this->getWidget('code_postal')->setAttribute('readonly', 'readonly');
+            $this->getWidget('insee')->setAttribute('readonly', 'readonly');
+            $this->getWidget('commune')->setAttribute('readonly', 'readonly');
+            $this->getWidget('pays')->setAttribute('readonly', 'readonly');
+            $this->getWidget('droits')->setAttribute('readonly', 'readonly');
+            $this->getWidget('email')->setAttribute('readonly', 'readonly');
+            $this->getWidget('teledeclaration_email')->setAttribute('readonly', 'readonly');
+            $this->getWidget('telephone_perso')->setAttribute('readonly', 'readonly');
+            $this->getWidget('telephone_bureau')->setAttribute('readonly', 'readonly');
+            $this->getWidget('telephone_mobile')->setAttribute('readonly', 'readonly');
+            $this->getWidget('fax')->setAttribute('readonly', 'readonly');
+            $this->getWidget('site_internet')->setAttribute('readonly', 'readonly');
+        }
+
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');
     }
 

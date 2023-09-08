@@ -47,7 +47,7 @@ EOF;
         return;
     }
 
-    foreach ($societe->getContactsObj() as $compte) {
+    foreach ($societe->getAllCompteObj() as $compte) {
         $compte->statut = CompteClient::STATUT_SUPPRIME;
         $compte->save();
         echo "SUCCESS statut compte supprimé ".$compte->_id."\n";
