@@ -1,3 +1,4 @@
 all:
   configuration:
     societe:
+      identifiant_compte_incremental: true
