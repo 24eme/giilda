@@ -128,6 +128,20 @@ class CompteClient extends acCouchdbClient {
         return $compte;
     }
 
+    public function createCompteForEtablissementFromSociete($etablissement,$import = false) {
+        $compte = new Compte();
+        $compte->id_societe = $etablissement->getSociete()->_id;
+        if(!$etablissement->isNew()) {
+            $etablissement->pushContactAndAdresseTo($compte);
+        }
+        $compte->identifiant = $etablissement->identifiant;
+        $compte->constructId();
+        $compte->interpro = 'INTERPRO-declaration';
+        $compte->setStatut(CompteClient::STATUT_ACTIF);
+
+        return $compte;
+    }
+
     /**
      *
      * @param string $login
