@@ -67,7 +67,7 @@ class ConfigurationCepage extends BaseConfigurationCepage {
             return false;
         }
 
-        return preg_match('/(RHUM_|ALCOOL_|SPIRITUEUX_|AUTRES_ALCOOLS|PREMIX)/', $code_douane);
+        return preg_match('/(RHUM_|ALCOOL_|SPIRITUEUX_|AUTRES_ALCOOLS|PREMIX|BIERE)/', $code_douane);
     }
 
     public static function isCodeDouanePI($code_douane) {
