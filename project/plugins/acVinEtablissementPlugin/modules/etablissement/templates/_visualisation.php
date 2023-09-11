@@ -120,6 +120,9 @@
             <?php if ($etablissement->cvi): ?>
                 <li>CVI : <?php echo $etablissement->cvi; ?></li>
             <?php endif; ?>
+            <?php if ($etablissement->num_interne): ?>
+                <li>N° interne : <?php echo $etablissement->num_interne; ?></li>
+            <?php endif; ?>
             <?php if ($etablissement->no_accises): ?>
                 <li>Numéro d'accise : <?php echo $etablissement->no_accises; ?></li>
             <?php endif; ?>
