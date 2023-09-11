@@ -7,6 +7,7 @@ class CompteClient extends acCouchdbClient {
     const TYPE_COMPTE_INTERLOCUTEUR = "INTERLOCUTEUR";
     const STATUT_ACTIF = "ACTIF";
     const STATUT_SUSPENDU = "SUSPENDU";
+    const STATUT_SUPPRIME = "SUPPRIME";
 
     const STATUT_TELEDECLARANT_NOUVEAU = "NOUVEAU";
     const STATUT_TELEDECLARANT_INSCRIT = "INSCRIT";
@@ -100,23 +101,17 @@ class CompteClient extends acCouchdbClient {
         return $compte;
     }
 
-    public function findOrCreateCompteFromEtablissement($e) {
-        $compte = $this->find($e->getNumCompteEtablissement());
-
-        if (!$compte) {
-            $compte = $this->createCompteFromEtablissement($e);
-        }
-
-        return $compte;
-    }
-
     public function createCompteFromSociete($societe) {
         $compte = new Compte();
         $compte->id_societe = $societe->_id;
         if(!$societe->isNew()) {
             $societe->pushContactAndAdresseTo($compte);
         }
-        $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
+        if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
+        } else {
+            $compte->identifiant = $societe->identifiant;
+        }
         $compte->constructId();
         $compte->interpro = 'INTERPRO-declaration';
         $compte->setStatut(CompteClient::STATUT_ACTIF);
@@ -129,6 +124,20 @@ class CompteClient extends acCouchdbClient {
         $compte->statut = $etablissement->statut;
         $compte->addOrigine($etablissement->_id);
         $etablissement->pushContactAndAdresseTo($compte);
+
+        return $compte;
+    }
+
+    public function createCompteForEtablissementFromSociete($etablissement,$import = false) {
+        $compte = new Compte();
+        $compte->id_societe = $etablissement->getSociete()->_id;
+        if(!$etablissement->isNew()) {
+            $etablissement->pushContactAndAdresseTo($compte);
+        }
+        $compte->identifiant = $etablissement->identifiant;
+        $compte->constructId();
+        $compte->interpro = 'INTERPRO-declaration';
+        $compte->setStatut(CompteClient::STATUT_ACTIF);
 
         return $compte;
     }

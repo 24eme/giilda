@@ -17,21 +17,21 @@ class InterlocuteurForm extends CompteGeneriqueForm {
     private $societeCompte;
     private $isEtablissement = false;
 
-    
+
     public function __construct(Compte $compte, $options = array(), $CSRFSecret = null) {
         $this->compte = $compte;
         $this->societeCompte = $this->compte->getSociete()->getMasterCompte();
         $this->isEtablissement = array_key_exists('etablissement',$options) && $options['etablissement'];
-               
+
         parent::__construct($compte, $options, $CSRFSecret);
         if ($this->compte->isSocieteContact() && !$this->isEtablissement) {
             $this->defaults['pays'] = 'FR';
-        }        
+        }
     }
 
     public function configure() {
         parent::configure();
-        $this->setWidget('civilite', new bsWidgetFormChoice(array('choices' => CompteGeneriqueForm::getCiviliteList())));
+        $this->setWidget('civilite', new bsWidgetFormChoice(array('choices' => array_merge(["" => ""], CompteGeneriqueForm::getCiviliteList()))));
         $this->setWidget('nom', new bsWidgetFormInput());
         $this->setWidget('prenom', new bsWidgetFormInput());
         $this->setWidget('fonction', new bsWidgetFormInput());
