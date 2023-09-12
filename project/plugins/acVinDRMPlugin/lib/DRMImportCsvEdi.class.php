@@ -408,7 +408,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
 
         if($this->drm->isMoisOuvert()) {
-          return;
+            if ($this->drmPrecedente) {
+                if ($produitsReserve = $this->drmPrecedente->getProduitsReserveInterpro()) {
+                    foreach ($produitsReserve as $produitReserve) {
+                        if ($this->drm->exist($produitReserve->getHash())) {
+                            $produitAddReserve = $this->drm->get($produitReserve->getHash());
+                            $produitAddReserve->add('reserve_interpro', $produitReserve->getRerserveIntepro());
+                        }
+                    }
+                }
+            }
+            return;
         }
       //on prépare les vérifications
       $check = array();
