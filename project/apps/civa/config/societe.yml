@@ -2,6 +2,7 @@ all:
   configuration:
     societe:
       identifiant_saisi:  "CVI/CIVABA"
+      identifiant_compte_incremental: false
       droits:
         teledeclaration: "Télédéclaration"
         teledeclaration_dr: "DR"
