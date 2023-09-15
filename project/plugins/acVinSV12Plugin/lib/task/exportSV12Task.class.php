@@ -12,6 +12,7 @@ class exportSV12Task extends sfBaseTask
             new sfCommandOption('sv12id', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export a specific SV12', ''),
             new sfCommandOption('entete', null, sfCommandOption::PARAMETER_REQUIRED, "Ligne d'entête", true),
             new sfCommandOption('interpro', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export a specific interpro', ''),
+            new sfCommandOption('onlylastversion', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export the last version of SV12 (if version)', ''),
         ));
 
         $this->namespace        = 'export';
@@ -36,10 +37,14 @@ EOF;
 
         }
         $app = $options['application'];
+        $onlylastversion = $options['onlylastversion'];
         if($options["entete"]) {
             echo ExportSV12CSV::getHeaderCsv();
         }
         if ($options['sv12id']) {
+            if ($onlylastversion && !$this->isLastVersion($options['sv12id'])) {
+                return;
+            }
             $sv12 = SV12Client::getInstance()->find($options['sv12id']);
             if (!$sv12) {
                 return;
@@ -50,6 +55,9 @@ EOF;
 	    }
         $all_sv12 = SV12AllView::getInstance()->findAll();
         foreach($all_sv12 as $sv12) {
+          if ($onlylastversion && !$this->isLastVersion($sv12->id)) {
+              return;
+          }
           $sv12 = SV12Client::getInstance()->find($sv12->id);
           if(!$sv12) {
               throw new sfException(sprintf("Document %s introuvable", $sv12->id));
