@@ -66,4 +66,17 @@ EOF;
           echo $export->exportSV12($options['interpro']);
         }
     }
+
+    private function isLastVersion($id) {
+        if (in_array(substr($id, -3, 1), ['M', 'R'])) {
+            $identifiant = substr($id, 5, -14);
+            $campagne = substr($id, -13, -4);
+        } else {
+            $identifiant = substr($id, 5, -10);
+            $campagne = substr($id, -9);
+        }
+        $master = SV12AllView::getInstance()->getMasterByEtablissementAndPeriode($identifiant, $campagne);
+        if (!$master) return true;
+        return ($id == $master->_id);
+    }
 }
