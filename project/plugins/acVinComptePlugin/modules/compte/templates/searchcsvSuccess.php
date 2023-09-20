@@ -31,7 +31,7 @@ foreach ($results as $res) {
   $csv .= '"'.$societe_informations['telephone']. '";';
   $csv .= '"'.$societe_informations['fax']. '";';
   $csv .= '"'.$societe_informations['email']. '";';
-  $csv .= '"'.(preg_match("/\{TEXT\}/", $data['doc']['mot_de_passe'])) ? str_replace("{TEXT}", "", $data['doc']['mot_de_passe']) : null . '"';
+  $csv .= '"'.(preg_match("/\{TEXT\}/", $data['doc']['mot_de_passe']) ? str_replace("{TEXT}", "", $data['doc']['mot_de_passe']) : null) . '"';
   $csv .= "\n";
 }
 echo utf8_decode($csv);
