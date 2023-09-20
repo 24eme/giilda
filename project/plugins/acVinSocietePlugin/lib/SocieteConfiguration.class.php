@@ -60,4 +60,9 @@ class SocieteConfiguration {
         return $droit;
     }
 
+    public function isIdentifantCompteIncremental() {
+
+        return isset($this->configuration['identifiant_compte_incremental']) && ($this->configuration['identifiant_compte_incremental']);
+    }
+
 }

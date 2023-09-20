@@ -27,13 +27,13 @@ fi
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation | grep -iE "$PRODUIT" | cut -d "," -f 1 | cut -d "-" -f 2 | sort | uniq > $OPERATEURSFILE
 
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_changes?since=$NUMEROSEQUENCE > $CHANGESFILE
-LASTNUMEROSEQUENCE=$(grep "last_seq" $CHANGESFILE | cut -d ":" -f 2 | sed 's/}//')
+LASTNUMEROSEQUENCE=$(grep "last_seq" $CHANGESFILE | awk -F '"' '{print $4}')
 
 echo -n > $LISTDRMFILE
 cat $CHANGESFILE | grep "\"DRM-" | grep -v "deleted" | cut -d "," -f 2 | sed 's/"id":"//' | sed 's/"//' | while read id
 do
     if test $(grep $(echo -n $id | cut -d "-" -f 2) $OPERATEURSFILE | wc -l | sed -r 's/^0$//'); then
-	curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$id | jq -c '[._id,.teledeclare,.valide.date_signee,.declarant.no_accises]' | sed 's/\[//' | sed 's/\]//' | sed 's/"//g' | sed 's/null//' >> $LISTDRMFILE
+	curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$id | grep -v 'famille":"NEGOCIANT_PUR' | jq -c '[._id,.teledeclare,.valide.date_signee,.declarant.no_accises]' | sed 's/\[//' | sed 's/\]//' | sed 's/"//g' | sed 's/null//' >> $LISTDRMFILE
     fi
 done
 

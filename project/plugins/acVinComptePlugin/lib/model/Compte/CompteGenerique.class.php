@@ -147,7 +147,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public static function extractIntitule($raisonSociale) {
-        $intitules = "SA VINS|EARL|EI|ETS|EURL|GAEC|GFA|HOIRIE|IND|M|MM|Mme|MME|MR|MADAME|MONSIEUR|SA|SARL|SAS|SASU|SC|SCA|SCE|SCEA|SCEV|SCI|SCV|SFF|SICA|SNC|SPH|STE|STEF|S\.A\.S\.|DOMAINE|S\.A\.|DOM\.|SASL DOMAINE";
+        $intitules = "SA VINS|EARL|EI|ETS|EURL|GAEC|GFA|HOIRIE|IND|M|MM|Mme|MME|MR|MADAME|MONSIEUR|SA|SARL|SAS|SASU|SC|SCA|SCE|SCEA|SCEV|SCI|SCV|SFF|SICA|SNC|SPH|STE|STEF|S\.A\.S\.|DOMAINE|S\.A\.|DOM\.|SASL DOMAINE|VEUVE|SUCCESSION|SDF|HERITIERS|G\.F\.A\.|E\.I\.|S\.D\.F\.|S\.C\.A\.";
         $intitulesExclude = "DOMAINE D";
         $intitule = null;
 
@@ -165,7 +165,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function getIntitule() {
-        $extract = $this->extractIntitule($this->raison_sociale);
+        $extract = $this->extractIntitule($this->nom);
 
         return $extract[0];
     }
