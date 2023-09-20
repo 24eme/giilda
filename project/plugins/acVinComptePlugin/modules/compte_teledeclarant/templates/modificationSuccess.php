@@ -58,7 +58,6 @@ if($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
                 </div>
                 <div class="col-xs-12">&nbsp;<br/><br/></div>
                 <div class="col-xs-12">
-                      <a href="<?php echo url_for('common_homepage'); ?>" class=" btn btn-default " alt="Retour" style="cursor: pointer;">Retour</a>
                       <a href="#" class=" btn btn-warning modifier" style="cursor: pointer; float: right;">Modifier les informations</a>
                 </div>
             </div>
