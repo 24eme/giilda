@@ -123,7 +123,7 @@ class compte_teledeclarantActions extends sfActions {
                 $this->form->save();
 
                 $this->getUser()->setFlash('maj', 'Vos identifiants ont bien été mis à jour.');
-                $this->redirect('compte_teledeclarant_modification');
+                $this->redirect('compte_teledeclarant_modification_id', ['identifiant' => $this->compte->identifiant]);
             }
         }
     }
