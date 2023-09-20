@@ -41,6 +41,7 @@ class acVinCompteRouting {
         $r->prependRoute('compte_teledeclarant_code_creation', new sfRoute('/teledeclarant/code_creation', array('module' => 'compte_teledeclarant', 'action' => 'first')));
         $r->prependRoute('compte_teledeclarant_cgu', new sfRoute('/teledeclarant/cgu', array('module' => 'compte_teledeclarant', 'action' => 'cgu')));
         $r->prependRoute('compte_teledeclarant_creation', new sfRoute('/teledeclarant/creation', array('module' => 'compte_teledeclarant', 'action' => 'creation')));
+        $r->prependRoute('compte_teledeclarant_modification_id', new sfRoute('/teledeclarant/mon_compte/:identifiant', array('module' => 'compte_teledeclarant', 'action' => 'modification')));
         $r->prependRoute('compte_teledeclarant_modification', new sfRoute('/teledeclarant/mon_compte', array('module' => 'compte_teledeclarant', 'action' => 'modification')));
         $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie_login', new sfRoute('/mot_de_passe_oublie/login/:login/:mdp', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublieLogin')));
         $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie', new sfRoute('/mot_de_passe_oublie', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublie')));
