@@ -16,12 +16,19 @@ if($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
     <div class="col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-    <h4 class="titre_principal">Mon compte</h4>
+    <h4 class="titre_principal">Mon compte <span style="opacity: 0.5;" class="text-muted pull-right"><?php echo $compte->nom_a_afficher ?></span></h4>
   </div>
    <div class="panel-body">
-    <div class="col-xs-12 well">Pour changer des informations supplémentaire, veuillez passer par votre interprofession.</div>
-    <br/>
+     <?php if($compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU): ?>
+       <div class="alert alert-warning">Ce compte n'a pas encore été créé par le télédéclarant : <a href="<?php echo url_for('societe_visualisation', $compte->getSociete()) ?>">Voir la société</a></div>
+     <?php elseif($compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_OUBLIE): ?>
+       <div class="alert alert-info">Ce compte en est cours de mot de passe oublié : <a href="<?php echo url_for('societe_visualisation', $compte->getSociete()) ?>">Voir la société</a></div>
+     <?php elseif($compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_INACTIF): ?>
+       <div class="alert alert-danger">Ce compte est suspendu : <a href="<?php echo url_for('societe_visualisation', $compte->getSociete()) ?>">Voir la société</a></div>
+     <?php endif; ?>
 
+    <?php if(isset($form)): ?>
+    <div class="col-xs-12 well">Pour changer des informations supplémentaire, veuillez passer par votre interprofession.</div>
         <div id="modification_compte" class="col-xs-12">
             <div class="presentation row" <?php if ($form->hasErrors()) echo ' style="display:none;"'; ?> >
               <div class="col-xs-12">
@@ -104,7 +111,7 @@ if($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
 
 
         </div>
-
+    <?php endif; ?>
 </div>
 </div>
 </div>

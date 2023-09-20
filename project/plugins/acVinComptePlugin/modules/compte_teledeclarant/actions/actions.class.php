@@ -115,6 +115,11 @@ class compte_teledeclarantActions extends sfActions {
             throw new sfError403Exception();
         }
 
+        if($this->compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU) {
+
+            return sfView::SUCCESS;
+        }
+
         $this->form = new CompteTeledeclarantForm($this->compte);
 
         if ($request->isMethod(sfWebRequest::POST)) {

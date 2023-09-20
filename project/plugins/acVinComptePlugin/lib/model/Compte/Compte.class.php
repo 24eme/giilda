@@ -357,6 +357,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getStatutTeledeclarant() {
+        if($this->getStatut() == CompteClient::STATUT_SUSPENDU) {
+            return CompteClient::STATUT_TELEDECLARANT_INACTIF;
+        }
+
         if (preg_match("{TEXT}", $this->mot_de_passe)) {
 
             return CompteClient::STATUT_TELEDECLARANT_NOUVEAU;
