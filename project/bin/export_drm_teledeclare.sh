@@ -27,7 +27,7 @@ fi
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation | grep -iE "$PRODUIT" | cut -d "," -f 1 | cut -d "-" -f 2 | sort | uniq > $OPERATEURSFILE
 
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_changes?since=$NUMEROSEQUENCE > $CHANGESFILE
-LASTNUMEROSEQUENCE=$(grep "last_seq" $CHANGESFILE | cut -d ":" -f 2 | sed 's/}//')
+LASTNUMEROSEQUENCE=$(grep "last_seq" $CHANGESFILE | awk -F '"' '{print $4}')
 
 echo -n > $LISTDRMFILE
 cat $CHANGESFILE | grep "\"DRM-" | grep -v "deleted" | cut -d "," -f 2 | sed 's/"id":"//' | sed 's/"//' | while read id
