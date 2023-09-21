@@ -11,13 +11,8 @@ use_helper('Date');
             <th class="col-xs-1">Numéro</th>
             <th class="col-xs-3">Date de facturation</th>
             <th class="col-xs-1"></th>
-            <?php if(FactureConfiguration::getInstance($interpro)->getPaiementsActif()): ?>
-              <th class="col-xs-1 text-right">Montant&nbsp;TTC</th>
-              <th class="col-xs-1 text-right">Montant&nbsp;payé</th>
-            <?php else: ?>
-              <th class="col-xs-1 text-right">Montant&nbsp;HT</th>
-              <th class="col-xs-1 text-right">Montant&nbsp;TTC</th>
-            <?php endif; ?>
+            <th class="col-xs-1 text-right">Montant&nbsp;TTC</th>
+            <th class="col-xs-1 text-right">Montant&nbsp;payé</th>
             <th class="col-xs-3"></th>
         </tr>
     </thead>
@@ -35,12 +30,11 @@ use_helper('Date');
                 <td>N°&nbsp;<?php echo $f->numero_piece_comptable ?></td>
                 <td><?php echo $date; ?></td>
                 <td><?php if($f->isRedressee()): ?><span class="label label-warning">Redressée</span><?php endif;?></td>
-                <?php if(FactureConfiguration::getInstance($interpro)->getPaiementsActif()): ?>
-                  <td class="text-right"><?php echo echoFloat($f->total_ttc); ?>&nbsp;€</td>
+                <td class="text-right"><?php echo echoFloat($f->total_ttc); ?>&nbsp;€</td>
+                <?php if(FactureConfiguration::getInstance($facture->key[FactureSocieteView::KEYS_INTERPRO])->getPaiementsActif()): ?>
                     <td class="text-right"><?php echo echoFloat($f->getMontantPaiement()); ?>&nbsp;€</td>
                 <?php else: ?>
-                  <td class="text-right"><?php echo echoFloat($f->total_ht); ?>&nbsp;€</td>
-                  <td class="text-right"><?php echo echoFloat($f->total_ttc); ?>&nbsp;€</td>
+                  <td class="text-right"><i class="text-muted">indispo.</i></td>
                 <?php endif; ?>
                 <td class="text-right">
                     <div class="btn-group text-left">
