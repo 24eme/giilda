@@ -74,14 +74,14 @@ class CompteClient extends acCouchdbClient {
 
     public function createTypeFromOrigines($origines) {
         foreach ($origines as $o) {
-            if (preg_match('/SOCIETE/', $o)) {
-                return self::TYPE_COMPTE_SOCIETE;
+            if (preg_match('/ETABLISSEMENT/', $o)) {
+                return self::TYPE_COMPTE_ETABLISSEMENT;
             }
         }
 
         foreach ($origines as $o) {
-            if (preg_match('/ETABLISSEMENT/', $o)) {
-                return self::TYPE_COMPTE_ETABLISSEMENT;
+            if (preg_match('/SOCIETE/', $o)) {
+                return self::TYPE_COMPTE_SOCIETE;
             }
         }
 

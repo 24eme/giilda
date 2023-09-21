@@ -94,18 +94,19 @@ class societeActions extends sfCredentialActions {
         }
         $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type, $this->raison_sociale, $this->identifiant);
 
+        $this->args = [
+            'type' => $this->type,
+            'identifiant' => SocieteRouting::CREATION_IDENTIFIANT_DEFAULT,
+            'raison_sociale' => $request->getParameter('raison_sociale', false)
+        ];
+
+        if ($this->identifiant) {
+            $this->args['identifiant'] = $this->identifiant;
+        }
+
         if (!count($this->societesDoublons)) {
-            $args = [
-                'type' => $this->type,
-                'identifiant' => SocieteRouting::CREATION_IDENTIFIANT_DEFAULT,
-                'raison_sociale' => $request->getParameter('raison_sociale', false)
-            ];
 
-            if ($this->identifiant) {
-                $args['identifiant'] = $this->identifiant;
-            }
-
-            $this->redirect('societe_nouvelle', $args);
+            return $this->redirect('societe_nouvelle', $this->args);
         }
     }
 
