@@ -167,7 +167,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     public function getIntitule() {
         $nom = $this->raison_sociale;
 
-        if($this->exist($this->nom)) {
+        if($this->exist('nom')) {
             $nom = $this->nom;
         }
 
