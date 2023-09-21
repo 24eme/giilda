@@ -51,7 +51,7 @@
             <a class="btn btn-default" href="<?php echo url_for('societe_creation'); ?>">Annuler</a>
         </div>
         <div class="col-xs-6  text-right">
-            <a class="btn btn-success" href="<?php echo url_for('societe_nouvelle', array('type' => $type, 'raison_sociale' => $raison_sociale, 'identifiant' => SocieteRouting::CREATION_IDENTIFIANT_DEFAULT)); ?>">Créer</a>
+            <a class="btn btn-success" href="<?php echo url_for('societe_nouvelle', $args->getRawValue()); ?>">Créer</a>
         </div>
     </div>
 </section>
