@@ -472,11 +472,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
         if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $ret = $this->pushAdresseTo($compteOrEtablissement);
-            $needSave = $needSave || $ret;
-        }
-        if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $ret = $this->pushContactTo($compteOrEtablissement);
-            $needSave = $needSave || $ret;
+            $needSave = true;
         }
         if ($needSave) {
             $compteOrEtablissement->save();
