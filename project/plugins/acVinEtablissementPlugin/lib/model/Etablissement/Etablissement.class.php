@@ -205,15 +205,19 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
     }
 
+    public function isSynchroAutoActive() {
+        return sfConfig::get('app_compte_synchro', true);
+    }
+
     public function save() {
         $societe = $this->getSociete();
         $this->add('date_modification', date('Y-m-d'));
 
         if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
-            if(!$this->getCompte()){
+            if($this->isSynchroAutoActive() && !$this->getCompte()){
                 $this->setCompte($this->getSociete()->getMasterCompte()->_id);
             }
-    		if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
+    		if($this->isSynchroAutoActive() && (!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete())){
     		    if ($this->isSameCompteThanSociete()) {
     		        $compte = $societe->createCompteFromEtablissement($this);
     		        $compte->addOrigine($this->_id);
@@ -227,7 +231,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     		    $compte->nom = $this->nom;
 
     		    $this->compte = $compte->_id;
-    		} else if(!$this->isSameCompteThanSociete()){
+    		} else if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()){
     		    $compteEtablissement = $this->getMasterCompte();
     		    $compteSociete = $this->getSociete()->getMasterCompte();
 
@@ -273,18 +277,19 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         $this->getMasterCompte()->setStatut($this->getStatut());
 
+        if ($this->isSynchroAutoActive()) {
+            if($needSocieteSave) {
+                $societe->save();
+            }
 
-        if($needSocieteSave) {
-            $societe->save();
+            if($needSocieteSave && $this->isSameCompteThanSociete()) {
+
+                $this->save();
+                return;
+            }
+
+            $compte->save();
         }
-
-        if($needSocieteSave && $this->isSameCompteThanSociete()) {
-
-            $this->save();
-            return;
-        }
-
-        $compte->save();
     }
 
     public function delete() {
