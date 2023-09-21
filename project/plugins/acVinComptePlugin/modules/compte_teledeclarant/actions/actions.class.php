@@ -99,7 +99,26 @@ class compte_teledeclarantActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeModification(sfWebRequest $request) {
-        $this->compte = $this->getUser()->getCompte();
+        if($request->getParameter('identifiant')) {
+            $this->compte = CompteClient::getInstance()->find("COMPTE-".$request->getParameter('identifiant'));
+        } else {
+            $this->compte = $this->getUser()->getCompte();
+        }
+
+        if(!$this->compte) {
+
+            throw new sfError404Exception("Compte ".$request->getParameter('identifiant')." not found");
+        }
+
+        if(!$this->getUser()->hasCredential(AppUser::CREDENTIAL_ADMIN) && $this->compte->getSociete()->_id != $this->getUser()->getCompte()->getSociete()->_id) {
+
+            throw new sfError403Exception();
+        }
+
+        if($this->compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU) {
+
+            return sfView::SUCCESS;
+        }
 
         $this->form = new CompteTeledeclarantForm($this->compte);
 
@@ -109,7 +128,7 @@ class compte_teledeclarantActions extends sfActions {
                 $this->form->save();
 
                 $this->getUser()->setFlash('maj', 'Vos identifiants ont bien été mis à jour.');
-                $this->redirect('compte_teledeclarant_modification');
+                $this->redirect('compte_teledeclarant_modification_id', ['identifiant' => $this->compte->identifiant]);
             }
         }
     }
