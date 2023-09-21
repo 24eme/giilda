@@ -12,7 +12,9 @@ use_helper('Date');
             <th class="col-xs-3">Date de facturation</th>
             <th class="col-xs-1"></th>
             <th class="col-xs-1 text-right">Montant&nbsp;TTC</th>
+            <?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
             <th class="col-xs-1 text-right">Montant&nbsp;payé</th>
+            <?php endif; ?>
             <th class="col-xs-3"></th>
         </tr>
     </thead>
@@ -31,10 +33,12 @@ use_helper('Date');
                 <td><?php echo $date; ?></td>
                 <td><?php if($f->isRedressee()): ?><span class="label label-warning">Redressée</span><?php endif;?></td>
                 <td class="text-right"><?php echo echoFloat($f->total_ttc); ?>&nbsp;€</td>
-                <?php if(FactureConfiguration::getInstance($facture->key[FactureSocieteView::KEYS_INTERPRO])->getPaiementsActif()): ?>
+                <?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
+                  <?php if(FactureConfiguration::getInstance($facture->key[FactureSocieteView::KEYS_INTERPRO])->getPaiementsActif()): ?>
                     <td class="text-right"><?php echo echoFloat($f->getMontantPaiement()); ?>&nbsp;€</td>
-                <?php else: ?>
-                  <td class="text-right"><i class="text-muted">indispo.</i></td>
+                  <?php else: ?>
+                    <td class="text-right"></td>
+                  <?php endif; ?>
                 <?php endif; ?>
                 <td class="text-right">
                     <div class="btn-group text-left">
