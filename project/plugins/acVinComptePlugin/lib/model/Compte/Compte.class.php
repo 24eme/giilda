@@ -65,7 +65,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             $this->nom_a_afficher = trim(sprintf('%s', $this->nom));
             return;
         }
-        $this->nom_a_afficher = trim(sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom));
+        $this->nom_a_afficher = trim(preg_replace('/[ ]+/', ' ', sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom)));
     }
 
     public static function transformTag($tag) {
@@ -168,6 +168,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
         if (!$this->isEtablissementContact() && !$this->isSocieteContact()) {
             $this->addTag('automatique', 'Interlocuteur');
+            if($this->fonction) {
+                $this->addTag('automatique', $this->fonction);
+            }
         }
 
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
@@ -327,7 +330,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
     public function getEtablissementOrigine() {
         foreach ($this->origines as $origine) {
-            if (preg_match('/^ETABLISSEMENT[-]{1}[0-9]*$/', $origine)) {
+            if (preg_match('/^ETABLISSEMENT/', $origine)) {
                 return $origine;
             }
         }
@@ -354,6 +357,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getStatutTeledeclarant() {
+        if($this->getStatut() == CompteClient::STATUT_SUSPENDU) {
+            return CompteClient::STATUT_TELEDECLARANT_INACTIF;
+        }
+
         if (preg_match("{TEXT}", $this->mot_de_passe)) {
 
             return CompteClient::STATUT_TELEDECLARANT_NOUVEAU;

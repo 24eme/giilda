@@ -164,13 +164,13 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $etbObj->etablissement;
     }
 
-    public function getContactsObj() {
+    public function getAllCompteObj() {
         if (!$this->comptes || !count($this->comptes)) {
             foreach ($this->contacts as $id => $obj) {
-                if (!$id) continue;
-                $compte = CompteClient::getInstance()->find($id);
-                if ($compte) {
-                    $this->addToComptes($compte);
+                if (!strlen($id)) continue;
+                $compteToAdd = CompteClient::getInstance()->find($id);
+                if($compteToAdd){
+                    $this->addToComptes($compteToAdd);
                 }
             }
         }
@@ -201,7 +201,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         $this->comptes[$compte->_id] = $compte;
     }
     private function removeFromComptes($compte) {
-        $this->getContactsObj();
+        $this->getAllCompteObj();
         unset($this->comptes[$compte->_id]);
     }
 
@@ -210,15 +210,26 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         foreach ($this->getEtablissementsObj() as $id => $obj) {
             $contacts[$id] = EtablissementClient::getInstance()->find($id);
         }
-        foreach ($this->getContactsObj() as $id => $obj) {
+        foreach ($this->getAllCompteObj() as $id => $obj) {
             $contacts[$id] = $obj;
         }
 
         return $contacts;
     }
 
+    public function getComptesInterlocuteurs() {
+        $Interlocuteurs = array();
+        foreach ($this->getAllCompteObj() as $id => $compte) {
+          if($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+              continue;
+          }
+          $Interlocuteurs[$id] = $compte;
+        }
+        return $Interlocuteurs;
+    }
+
     public function getCompte($id) {
-        $this->getContactsObj();
+        $this->getAllCompteObj();
         if (!isset($this->comptes[$id]) || !$this->comptes[$id]) {
             throw new sfException($this->_id." :  pas de compte ".$id);
         }
@@ -407,7 +418,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     }
 
     public function isSynchroAutoActive() {
-
         return sfConfig::get('app_compte_synchro', true);
     }
 
@@ -426,7 +436,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
         SocieteClient::getInstance()->setSingleton($this);
 
-        if($this->isSynchroAutoActive()) {
+        if ($this->isSynchroAutoActive()) {
             $compteMasterOrigin = clone $compteMaster;
             $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
 
@@ -434,7 +444,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
                 $this->pushToCompteOrEtablissementAndSave($compteMaster, EtablissementClient::getInstance()->find($id), $compteMasterOrigin);
             }
 
-            foreach ($this->getContactsObj() as $id => $compte) {
+            foreach ($this->getComptesInterlocuteurs() as $id => $compte) {
                 $this->pushToCompteOrEtablissementAndSave($compteMaster, $compte, $compteMasterOrigin);
             }
         }
@@ -462,11 +472,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
         if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $ret = $this->pushAdresseTo($compteOrEtablissement);
-            $needSave = $needSave || $ret;
-        }
-        if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $ret = $this->pushContactTo($compteOrEtablissement);
-            $needSave = $needSave || $ret;
+            $needSave = true;
         }
         if ($needSave) {
             $compteOrEtablissement->save();
@@ -578,7 +585,11 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
             throw new sfException("La société doit être créée avant de créer l'établissement");
         }
         $etablissement->setSociete($societeSingleton);
-        $etablissement->identifiant = EtablissementClient::getInstance()->getNextIdentifiantForSociete($societeSingleton);
+        if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $etablissement->identifiant = EtablissementClient::getInstance()->getNextIdentifiantForSociete($societeSingleton);
+        } else {
+            $etablissement->identifiant = $societeSingleton->identifiant;
+        }
         if ($famille) {
             $etablissement->famille = $famille;
         }
@@ -591,6 +602,15 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         $compte = CompteClient::getInstance()->createCompteFromEtablissement($etablissement);
         $this->addCompte($compte);
         return $compte;
+    }
+
+    public function findOrCreateCompteFromEtablissement($etablissement) {
+      $compte = CompteClient::getInstance()->findByIdentifiant($etablissement->identifiant);
+      if(!$compte){
+        $compte = CompteClient::getInstance()->createCompteForEtablissementFromSociete($etablissement);
+        $this->addCompte($compte);
+      }
+      return $compte;
     }
 
     public function switchStatusAndSave() {

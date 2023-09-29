@@ -33,6 +33,11 @@
             <div class="col-xs-8"><?php echo $etablissementForm['cvi']->render(); ?></div>
         </div>
     <?php endif; ?>
+    <div class="form-group<?php if($etablissementForm['num_interne']->hasError()): ?> has-error<?php endif; ?>">
+        <?php echo $etablissementForm['num_interne']->renderError(); ?>
+        <?php echo $etablissementForm['num_interne']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8"><?php echo $etablissementForm['num_interne']->render(); ?></div>
+    </div>
      <?php if ($etablissement->isCourtier()): ?>
     <div class="form-group<?php if($etablissementForm['carte_pro']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $etablissementForm['carte_pro']->renderError(); ?>

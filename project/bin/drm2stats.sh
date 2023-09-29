@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd $(dirname $0)/..
+
 . bin/config.inc
 
 if ! test -e "$DRM_STAT_SOURCE_DIR" ; then

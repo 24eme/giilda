@@ -130,16 +130,18 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
         <div class="panel-body">
         <?php foreach(SocieteConfiguration::getInstance()->getExtras() as $k => $e): ?>
               <?php if (!isset($e['auto']) || !$e['auto']): ?>
-              <div class="form-group">
-                  <?php echo $compteForm['extra_'.$k]->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
-                  <div class="col-xs-8"><?php echo $compteForm['extra_'.$k]->render(); ?></div>
-                  <?php echo $compteForm['extra_'.$k]->renderError(); ?>
-              </div>
+                <?php if(isset($compteForm['extra_'.$k])): ?>
+                  <div class="form-group">
+                      <?php echo $compteForm['extra_'.$k]->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
+                      <div class="col-xs-8"><?php echo $compteForm['extra_'.$k]->render(); ?></div>
+                      <?php echo $compteForm['extra_'.$k]->renderError(); ?>
+                  </div>
+                <?php endif; ?>
               <?php else: $compte = $compteForm->getObject()->getMasterCompte();
-                  if ($compte->exist('extras') && $compte->get('extras')->exist($k)): ?>
+                  if ($compteForm->getObject()->exist('extras') && $compteForm->getObject()->get('extras')->exist($k)): ?>
               <div class="form-group">
                   <label class="col-xs-4 control-label"><?php echo $e['nom']; ?></label>
-                  <div class="col-xs-8"><?php echo $compte->get('extras')->get($k); ?></div>
+                  <div class="col-xs-8"><?php echo $compteForm->getObject()->get('extras')->get($k); ?></div>
               </div>
               <?php endif; endif; ?>
         <?php endforeach; ?>
