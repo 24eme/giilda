@@ -277,12 +277,18 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         $this->getMasterCompte()->setStatut($this->getStatut());
 
-        if($this->isSynchroAutoActive() && $needSocieteSave) {
-            $societe->save();
-        }
-
         if ($this->isSynchroAutoActive()) {
-	        $compte->save();
+            if($needSocieteSave) {
+                $societe->save();
+            }
+
+            if($needSocieteSave && $this->isSameCompteThanSociete()) {
+
+                $this->save();
+                return;
+            }
+
+            $compte->save();
         }
     }
 
