@@ -24,7 +24,7 @@ class ExportSV12CSV {
     }
 
     public static function getHeaderCsv() {
-        return "Campagne;Identifiant;Raison Sociale;CVI;Code Postal;Commune;Certification;Genre;Appellation;Mention;Lieu;Couleur;Cepage;Libelle Produit;Volume;SV12 doc ID;Labels\n";
+        return "Campagne;Identifiant;Raison Sociale;CVI;Code Postal;Commune;Certification;Genre;Appellation;Mention;Lieu;Couleur;Cepage;Libelle Produit;Volume;ID Vendeur;Vendeur;SV12 doc ID;Labels\n";
     }
 
     public function export() {
@@ -52,6 +52,8 @@ class ExportSV12CSV {
           $csv .= $this->getProduitDefinition($contrat->produit_hash).";";
           $csv .= (strpos($contrat->produit_libelle, ' ') !== false)? trim(substr($contrat->produit_libelle, strpos($contrat->produit_libelle, ' '))).";" : trim($contrat->produit_libelle).";";
           $csv .= $contrat->volume.';';
+          $csv .= $contrat->vendeur_identifiant.';';
+          $csv .= $contrat->vendeur_nom.';';
           $csv .= $this->sv12->_id.';';
           $csv .= ($contrat->exist('labels'))? implode('|', $contrat->labels->toArray(true,false)) : null;
           $csv .= "\n";
