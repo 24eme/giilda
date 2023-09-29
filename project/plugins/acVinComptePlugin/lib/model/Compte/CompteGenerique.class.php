@@ -165,7 +165,13 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function getIntitule() {
-        $extract = $this->extractIntitule($this->nom);
+        $nom = $this->raison_sociale;
+
+        if($this->exist('nom')) {
+            $nom = $this->nom;
+        }
+
+        $extract = $this->extractIntitule($nom);
 
         return $extract[0];
     }

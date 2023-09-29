@@ -115,6 +115,11 @@ class compte_teledeclarantActions extends sfActions {
             throw new sfError403Exception();
         }
 
+        if($this->compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU) {
+
+            return sfView::SUCCESS;
+        }
+
         $this->form = new CompteTeledeclarantForm($this->compte);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -123,7 +128,7 @@ class compte_teledeclarantActions extends sfActions {
                 $this->form->save();
 
                 $this->getUser()->setFlash('maj', 'Vos identifiants ont bien été mis à jour.');
-                $this->redirect('compte_teledeclarant_modification');
+                $this->redirect('compte_teledeclarant_modification_id', ['identifiant' => $this->compte->identifiant]);
             }
         }
     }
