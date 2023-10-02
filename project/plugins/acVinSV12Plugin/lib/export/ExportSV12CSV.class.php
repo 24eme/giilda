@@ -51,7 +51,7 @@ class ExportSV12CSV {
           $csv .= $this->sv12->declarant->commune.";";
           $csv .= $this->getProduitDefinition($contrat->produit_hash).";";
           $csv .= (strpos($contrat->produit_libelle, ' ') !== false)? trim(substr($contrat->produit_libelle, strpos($contrat->produit_libelle, ' '))).";" : trim($contrat->produit_libelle).";";
-          $csv .= str_replace('.', ',', $contrat->volume).';';
+          $csv .= $contrat->volume.';';
           $csv .= $contrat->vendeur_identifiant.';';
           $csv .= $contrat->vendeur_nom.';';
           $csv .= $this->sv12->_id.';';
