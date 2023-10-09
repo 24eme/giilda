@@ -142,7 +142,9 @@
   <a href="<?php echo url_for('societe_creation', array()); ?>" class="btn btn-default btn-block"><span class="glyphicon glyphicon-plus"></span> Créer une société</a>
   <a class="btn btn-default btn-block" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'], 'contacts_all' => ($contacts_all)? 1 : 0)); ?>"<?php if($nb_results > 50000): ?> disabled="disabled"<?php endif;?>> <span class="glyphicon glyphicon-export"></span> Exporter en CSV</a>
     	<a class="btn btn-default btn-default-step btn-block" href="<?php echo url_for("compte_recherche_avancee") ?>"><span class="glyphicon glyphicon-zoom-in"></span>&nbsp;&nbsp;Recherche avancée</a>
+      <?php if (SocieteConfiguration::getInstance()->hasGroupes()): ?>
       <a class="btn btn-default btn-block" href="<?php echo url_for('compte_groupes') ?>" > <span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Gérer les groupes</a>
+      <?php endif; ?>
       <p style="margin-top: 10px;"><strong><?php echo $nb_results; ?></strong> résultat(s) trouvé(s)</p>
 
 	<div style="margin-top: 15px;">

@@ -4,3 +4,4 @@ all:
       disable_save: false
       droits: []
       visualisation_teledeclaration: false
+      enable_groupes: false
