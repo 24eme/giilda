@@ -237,7 +237,6 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     		    $this->compte = $compteSociete->_id;
     		    $this->getSociete()->removeContact($compteEtablissement->_id);
-    		    $compteEtablissement = $this->compte;
     		}
 	    } else {
             $compte = $societe->findOrCreateCompteFromEtablissement($this);
@@ -288,7 +287,9 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
                 return;
             }
 
-            $compte->save();
+            if(isset($compte)) {
+                $compte->save();
+            }
         }
     }
 

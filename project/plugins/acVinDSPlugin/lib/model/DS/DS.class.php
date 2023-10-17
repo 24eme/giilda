@@ -95,20 +95,12 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 			return DSClient::getDocumentRepriseProduits($this->identifiant, $this->date_stock);
 	}
 
-    public function save()
-    {
-        $master = $this->getSuivante();
-
-        $this->referente = ($master && $master->_id === $this->_id) ? 1 : 0;
-
-        parent::save();
-    }
-
 	public function devalidate()
 	{
 		$this->valide->date_saisie = null;
 		$this->valide->date_signee = null;
 		$this->valide->identifiant = null;
+        $this->updateReferente();
 	}
 
 	public function validate()
@@ -116,7 +108,39 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 		$this->valide->date_saisie = date('Y-m-d');
 		$this->valide->date_signee = $this->valide->date_saisie;
 		$this->valide->identifiant = $this->identifiant;
+        $this->updateReferente();
 	}
+
+    public function updateReferente()
+    {
+        $this->referente = ($this->isValidee())? 1 : 0;
+
+        $master = $this->getSuivante();
+        $mother = $this->getMother();
+
+        if ($master && $master->_id === $this->_id) {
+            $master = null;
+        }
+
+        if ($mother && $mother->_id === $mother->_id) {
+            $mother = null;
+        }
+
+        if ($master && $master->isValidee()) {
+            $this->referente = 0;
+        }
+
+    	if ($mother) {
+            if ($this->referente) {
+    		    $mother->referente = 0;
+            } elseif ($master && $master->isValidee()) {
+                $mother->referente = 0;
+            } else {
+                $mother->referente = 1;
+            }
+    		$mother->save();
+    	}
+    }
 
 	public function isValidee()
 	{

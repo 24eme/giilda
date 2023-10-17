@@ -42,7 +42,7 @@ class ExportSV12CSV {
     public function exportSV12($interpro = null) {
         $csv = '';
         foreach ($this->sv12->contrats as $contrat) {
-          if ($interpro && $interpro != $this->getInterproFromMvts($contrat->produit_hash)) continue;
+          if ($interpro && $interpro != $contrat->getProduitObject()->getDocument()->interpro) continue;
           $csv .= $this->sv12->campagne.";";
           $csv .= $this->sv12->identifiant.";";
           $csv .= $this->sv12->declarant->raison_sociale.";";
@@ -51,7 +51,7 @@ class ExportSV12CSV {
           $csv .= $this->sv12->declarant->commune.";";
           $csv .= $this->getProduitDefinition($contrat->produit_hash).";";
           $csv .= (strpos($contrat->produit_libelle, ' ') !== false)? trim(substr($contrat->produit_libelle, strpos($contrat->produit_libelle, ' '))).";" : trim($contrat->produit_libelle).";";
-          $csv .= str_replace('.', ',', $contrat->volume).';';
+          $csv .= $contrat->volume.';';
           $csv .= $contrat->vendeur_identifiant.';';
           $csv .= $contrat->vendeur_nom.';';
           $csv .= $this->sv12->_id.';';
@@ -67,17 +67,6 @@ class ExportSV12CSV {
             throw new sfException("Hash ($hash) non valide");
         }
         return str_replace('DEFAUT', '', $definitions[3].';'.$definitions[5].';'.$definitions[7].';'.$definitions[9].';'.$definitions[11].';'.$definitions[13].';'.$definitions[15]);
-    }
-
-    public function getInterproFromMvts($hash) {
-        foreach ($this->sv12->mouvements as $identifiant => $mouvements) {
-            foreach ($mouvements as $mouvement) {
-                if ($mouvement->produit_hash == $hash) {
-                    return $mouvement->getOrAdd('interpro');
-                }
-            }
-        }
-        return null;
     }
 
 }
