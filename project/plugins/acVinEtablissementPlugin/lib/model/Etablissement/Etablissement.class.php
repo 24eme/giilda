@@ -284,13 +284,12 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             if($needSocieteSave && $this->isSameCompteThanSociete()) {
 
                 $this->save();
-                return;
-            }
-
-            if(isset($compte)) {
-                $compte->save();
             }
         }
+
+        if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()) {
+    		$compte->save();
+	    }
     }
 
     public function delete() {
