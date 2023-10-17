@@ -231,6 +231,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     		    $compte->nom = $this->nom;
 
     		    $this->compte = $compte->_id;
+                $needSocieteSave = true;
     		} else if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()){
     		    $compteEtablissement = $this->getMasterCompte();
     		    $compteSociete = $this->getSociete()->getMasterCompte();
