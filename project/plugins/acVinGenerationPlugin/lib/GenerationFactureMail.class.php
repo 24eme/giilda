@@ -2,6 +2,10 @@
 
 class GenerationFactureMail extends GenerationAbstract {
 
+    public function getEmailBody() {
+        return sfContext::getInstance()->getController()->getAction('facture', 'main')->getPartial('facture/email');
+    }
+
     public function generateMailForADocumentId($id) {
         $facture = FactureClient::getInstance()->find($id);
 
