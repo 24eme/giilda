@@ -213,6 +213,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         $societe = $this->getSociete();
         $this->add('date_modification', date('Y-m-d'));
 
+        $needSocieteSave = false;
         if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
             if($this->isSynchroAutoActive() && !$this->getCompte()){
                 $this->setCompte($this->getSociete()->getMasterCompte()->_id);
@@ -221,6 +222,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     		    if ($this->isSameCompteThanSociete()) {
     		        $compte = $societe->createCompteFromEtablissement($this);
     		        $compte->addOrigine($this->_id);
+                    $needSocieteSave = true;
     		    } else {
     		        $compte = $this->getMasterCompte();
     		    }
@@ -236,8 +238,8 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     		    $compteSociete = $this->getSociete()->getMasterCompte();
 
     		    $this->compte = $compteSociete->_id;
-    		    $this->getSociete()->removeContact($compteEtablissement->_id);
-    		    $compteEtablissement = $this->compte;
+    		    $societe->removeContact($compteEtablissement->_id);
+                $needSocieteSave = true;
     		}
 	    } else {
             $compte = $societe->findOrCreateCompteFromEtablissement($this);
@@ -267,7 +269,6 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $societe->addEtablissement($this);
         }
 
-        $needSocieteSave = false;
         if($this->isNew()) {
           $needSocieteSave = true;
           $societe->addEtablissement($this);
@@ -285,11 +286,12 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             if($needSocieteSave && $this->isSameCompteThanSociete()) {
 
                 $this->save();
-                return;
             }
-
-            $compte->save();
         }
+
+        if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()) {
+    		$compte->save();
+	    }
     }
 
     public function delete() {

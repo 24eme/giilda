@@ -432,4 +432,8 @@ class factureActions extends sfActions {
         return $filters_parameters;
     }
 
+    public function executeMain()
+    {
+    }
+
 }
