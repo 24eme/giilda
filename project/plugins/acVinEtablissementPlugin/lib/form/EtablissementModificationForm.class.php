@@ -22,7 +22,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
     public function configure() {
         parent::configure();
 
-        $this->setWidget('famille', new bsWidgetFormChoice(array('choices' => $this->getFamilles())));
+        $this->setWidget('famille', new bsWidgetFormChoice(array('choices' => array_merge(["" => ""], $this->getFamilles())));
         $this->setWidget('nom', new bsWidgetFormInput());
         $this->setWidget('region', new bsWidgetFormChoice(array('choices' => self::getRegions())));
         $this->setWidget('nature_inao', new bsWidgetFormChoice(array('choices' => self::getNaturesInao())));
