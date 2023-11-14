@@ -6,7 +6,7 @@ all:
         export_detail:
           required: ["identifiant"]
       export_pays_debut: { "FR": "France" }
-      export_pays_fin: { "AUTRE": "Autres pays"}
+      export_pays_fin: { "CW": "Curaçao", "QR": "Avitaillement Intracom", "AUTRE": "Autres pays"}
       reprise_donnees_url: true
       sans_contrat_option: true
       delai_ouverture_teledeclaration: "-6 month"

@@ -12,6 +12,7 @@ class SocieteClient extends acCouchdbClient {
     const STATUT_ACTIF = 'ACTIF';
     const STATUT_SUSPENDU = 'SUSPENDU';
     const STATUT_EN_CREATION = 'EN_CREATION';
+    const STATUT_SUPPRIME = "SUPPRIME";
     const NUMEROCOMPTE_TYPE_CLIENT = 'CLIENT';
     const NUMEROCOMPTE_TYPE_FOURNISSEUR = 'FOURNISSEUR';
     const FOURNISSEUR_TYPE_MDV = "MDV";

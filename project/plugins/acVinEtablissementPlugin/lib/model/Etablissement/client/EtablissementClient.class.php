@@ -17,6 +17,7 @@ class EtablissementClient extends acCouchdbClient {
     const TYPE_LIAISON_CONTRAT_INTERNE = 'CONTRAT_INTERNE';
     const STATUT_ACTIF = 'ACTIF'; #'actif';
     const STATUT_SUSPENDU = 'SUSPENDU'; #'suspendu';
+    const STATUT_SUPPRIME = "SUPPRIME";
     const OUI = 'OUI';
     const NON = 'NON';
     const RELANCE_DS_OUI = self::OUI;

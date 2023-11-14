@@ -38,6 +38,25 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $this->_get('campagne');
     }
 
+    public function getTypeFactureCalcule() {
+        if ($this->isFactureDRM()){
+            return 'DRM';
+        } elseif($this->isFactureSV12()){
+            return ($this->getSociete()->getNegociant())? 'SV12 Interne' : 'SV12';
+        } elseif($this->isFactureDivers()){
+            return 'Libre';
+        } else {
+            return null;
+        }
+    }
+
+    public function getTypeFacture() {
+        if (!$this->_get('type_facture')) {
+            $this->_set('type_facture', $this->getTypeFactureCalcule());
+        }
+        return $this->_get('type_facture');
+    }
+
     public function storeEmetteur() {
         $configs = $this->getConfiguration();
         $emetteur = new stdClass();

@@ -2,6 +2,10 @@
 
 class GenerationFactureMail extends GenerationAbstract {
 
+    public function getEmailBody($facture) {
+        return sfContext::getInstance()->getController()->getAction('facture', 'main')->getPartial('facture/email', ['facture' => $facture]);
+    }
+
     public function generateMailForADocumentId($id) {
         $facture = FactureClient::getInstance()->find($id);
 
@@ -23,15 +27,7 @@ class GenerationFactureMail extends GenerationAbstract {
          ->setFrom($interproEmail)
          ->setTo($facture->getSociete()->getEmailCompta())
          ->setSubject("Facture n°".$facture->getNumeroInterpro()." - ".$interproNom)
-         ->setBody("Bonjour,
-
-Une nouvelle facture émise par ".$interproNom." est disponible.
-
-Vous pouvez la télécharger directement en cliquant sur le lien : ".ProjectConfiguration::getAppRouting()->generate('facture_pdf_auth', array('id' => $facture->_id, 'auth' => FactureClient::generateAuthKey($id)), true)."
-
-Bien cordialement,
-
-".$interproNom);
+         ->setBody($this->getEmailBody($facture));
 
         return $message;
     }
