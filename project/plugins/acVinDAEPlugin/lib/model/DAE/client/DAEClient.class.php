@@ -96,4 +96,10 @@ class DAEClient extends acCouchdbClient {
     	krsort($periodes);
     	return $periodes;
     }
+
+	public function findAll($hydrate = acCouchdbClient::HYDRATE_JSON) {
+		$numeric = $this->startkey(sprintf("DAE-%s", "0"))->endkey(sprintf("DAE-%s", "9"))->execute($hydrate)->getDatas();
+		$alpha = $this->startkey(sprintf("DAE-%s", "A"))->endkey(sprintf("DAE-%s", "Z"))->execute($hydrate)->getDatas();
+		return array_merge($numeric, $alpha);
+	}
 }
