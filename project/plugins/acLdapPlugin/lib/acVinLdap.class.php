@@ -124,6 +124,11 @@ abstract class acVinLdap
      */
     protected function add($identifiant, $attributes)
     {
+        if(sfConfig::get('app_instance') == 'preprod') {
+
+            return false;
+        }
+
         if($this->connection) {
             if (! @ldap_add($this->connection,
                              sprintf($this->base_identifiant, $identifiant),
@@ -146,6 +151,11 @@ abstract class acVinLdap
      */
     protected function update($identifiant, $attributes)
     {
+        if(sfConfig::get('app_instance') == 'preprod') {
+
+            return false;
+        }
+
         if($this->connection) {
             if (! @ldap_modify($this->connection,
                                sprintf($this->base_identifiant, $identifiant),
@@ -166,6 +176,11 @@ abstract class acVinLdap
      */
     public function delete($identifiant)
     {
+        if(sfConfig::get('app_instance') == 'preprod') {
+
+            return false;
+        }
+
         if($this->connection && $this->exist($identifiant)) {
             return ldap_delete($this->connection, sprintf($this->base_identifiant, $identifiant));
         } else {

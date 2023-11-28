@@ -28,8 +28,7 @@ class ValidatorCompteLoginFirst extends sfValidatorBase
 
     public function configure($options = array(), $messages = array()) 
     {
-        $this->setMessage('invalid', 'Login ou code de création invalide.');
-        $this->addMessage('invalid_status', 'Votre compte a déja été créé.');
+        $this->setMessage('invalid', 'Login interprofessionnel ou code de création invalide.<br/><br/>Vérifiez que :<ul><li>vous chercher à créer un <strong>compte interprofessionnel</strong> (et non un compte ODG/syndical)</li><li>l\'identifiant interprofessionnel est bien exactement le même que celui fourni (notamment contenant autant de 0)</li><li>le code de création correspond à ce que votre interprofession vous a fourni</li></ul><br/><br/>N\'hésitez pas à contacter votre interprofession si après ces vérifications le problème persiste.');
     }
 
     protected function doClean($values) 
@@ -45,7 +44,7 @@ class ValidatorCompteLoginFirst extends sfValidatorBase
         }
                 
         if ($compte->getStatutTeledeclarant() != CompteClient::STATUT_TELEDECLARANT_NOUVEAU){
-            throw new sfValidatorErrorSchema($this, array($this->getOption('mdp') => new sfValidatorError($this, 'invalid_status')));
+            throw new sfValidatorErrorSchema($this, array($this->getOption('mdp') => new sfValidatorError($this, 'invalid')));
         }
         
         if ($compte->mot_de_passe != '{TEXT}' . $values['mdp']) {
