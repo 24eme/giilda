@@ -8,7 +8,7 @@
         <h2 class="titre_principal">Premiere connexion</h2>
 </div>
 <div class="panel-body">
-        <p class="titre_section">Afin d'accèder à la plateforme de télédéclaration, veuillez remplir les champs suivants :</p>
+        <p class="titre_section">Afin d'accèder à la plateforme de télédéclaration de votre <strong>interprofession</strong>, veuillez remplir les champs suivants :</p>
         <br/>
         <div id="nouvelle_declaration" class="row" >
             <div class="bloc_form bloc_form_condensed">
