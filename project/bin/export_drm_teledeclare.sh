@@ -27,6 +27,14 @@ fi
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation | grep -iE "$PRODUIT" | cut -d "," -f 1 | cut -d "-" -f 2 | sort | uniq > $OPERATEURSFILE
 
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_changes?since=$NUMEROSEQUENCE > $CHANGESFILE
+<<<<<<< HEAD
+=======
+if grep error $CHANGESFILE > /dev/null ; then
+	rm $COUCHDBSEQFILE;
+	echo "Erreur de fichier de sequence $COUCHDBSEQFILE" 1>&2
+	exit 2
+fi
+>>>>>>> 6a75389b4bfddb5a49e7f57b93916acb1dfefe18
 LASTNUMEROSEQUENCE=$(grep "last_seq" $CHANGESFILE | sed 's/.*seq":"*//' | sed 's/}/"/' | awk -F '"' '{print $1}')
 
 echo -n > $LISTDRMFILE

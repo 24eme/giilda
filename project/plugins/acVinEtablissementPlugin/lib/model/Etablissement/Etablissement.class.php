@@ -205,18 +205,24 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
     }
 
+    public function isSynchroAutoActive() {
+        return sfConfig::get('app_compte_synchro', true);
+    }
+
     public function save() {
         $societe = $this->getSociete();
         $this->add('date_modification', date('Y-m-d'));
 
+        $needSocieteSave = false;
         if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
-            if(!$this->getCompte()){
+            if($this->isSynchroAutoActive() && !$this->getCompte()){
                 $this->setCompte($this->getSociete()->getMasterCompte()->_id);
             }
-    		if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
+    		if($this->isSynchroAutoActive() && (!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete())){
     		    if ($this->isSameCompteThanSociete()) {
     		        $compte = $societe->createCompteFromEtablissement($this);
     		        $compte->addOrigine($this->_id);
+                    $needSocieteSave = true;
     		    } else {
     		        $compte = $this->getMasterCompte();
     		    }
@@ -227,13 +233,13 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     		    $compte->nom = $this->nom;
 
     		    $this->compte = $compte->_id;
-    		} else if(!$this->isSameCompteThanSociete()){
+    		} else if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()){
     		    $compteEtablissement = $this->getMasterCompte();
     		    $compteSociete = $this->getSociete()->getMasterCompte();
 
     		    $this->compte = $compteSociete->_id;
-    		    $this->getSociete()->removeContact($compteEtablissement->_id);
-    		    $compteEtablissement = $this->compte;
+    		    $societe->removeContact($compteEtablissement->_id);
+                $needSocieteSave = true;
     		}
 	    } else {
             $compte = $societe->findOrCreateCompteFromEtablissement($this);
@@ -263,7 +269,6 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $societe->addEtablissement($this);
         }
 
-        $needSocieteSave = false;
         if($this->isNew()) {
           $needSocieteSave = true;
           $societe->addEtablissement($this);
@@ -273,11 +278,20 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         $this->getMasterCompte()->setStatut($this->getStatut());
 
-        if($needSocieteSave) {
-            $societe->save();
+        if ($this->isSynchroAutoActive()) {
+            if($needSocieteSave) {
+                $societe->save();
+            }
+
+            if($needSocieteSave && $this->isSameCompteThanSociete()) {
+
+                $this->save();
+            }
         }
 
-	    $compte->save();
+        if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()) {
+    		$compte->save();
+	    }
     }
 
     public function delete() {
