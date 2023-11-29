@@ -239,7 +239,10 @@ class compte_teledeclarantActions extends sfActions {
     {
         $this->checkApiAccess($request);
         $login = $request->getParameter('login');
-        $compte = acCouchdbManager::getClient('Compte')->retrieveByLogin(strtolower($login));
+        $compte = acCouchdbManager::getClient('Compte')->retrieveByLogin($login);
+        if (!$compte) {
+            $compte = acCouchdbManager::getClient('Compte')->retrieveByLogin(strtolower($login));
+        }
         if (!$compte) {
             http_response_code(401);
             die("Unauthorized $login");
