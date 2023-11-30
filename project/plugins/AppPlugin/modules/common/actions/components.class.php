@@ -66,6 +66,17 @@ class commonComponents extends sfComponents {
 
     }
 
+    public function executeBlocksTeledeclarationExtra(sfWebRequest $request) {
+        $context  = stream_context_create(array('http' => array('header' => 'Accept: application/xml')));
+        $xmlObj = simplexml_load_file('https://actus.ivbdpro.fr/feed/');
+        $this->actus = [];
+        $index = 0;
+        foreach ($xmlObj->channel->item as $article) {
+            $this->actus += array($index => array(array('titre' => html_entity_decode(strip_tags((string)$article->title))), array('description' => html_entity_decode(strip_tags((string)$article->description))), array('url' => html_entity_decode(strip_tags((string)$article->guid))), array('date' => html_entity_decode(strip_tags((string)$article->pubDate)))));
+            $index++;
+        }
+    }
+
     public function executeBlockItem(sfWebRequest $request) {
         $this->actif = preg_match('/^' . $this->prefix . '/', $this->getRequest()->getParameter('module'));
     }
