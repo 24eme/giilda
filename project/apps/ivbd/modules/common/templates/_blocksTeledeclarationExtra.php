@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div style='text-align: right; margin-bottom: 3rem;'>
-                            <strong><p><a href="<?php echo $article[2]['url']; ?>" class="text-muted" >En savoir plus</a></p></strong>
+                            <strong><p><a href="<?php echo $article[2]['url']; ?>" class="text-muted">En savoir plus</a></p></strong>
                         </div>
                         <?php if (++$i > 2){ break; }?>
                         <?php endforeach;?>
