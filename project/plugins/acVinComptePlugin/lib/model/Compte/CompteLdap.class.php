@@ -59,7 +59,12 @@ class CompteLdap extends acVinLdap
         $info['uidNumber']        = (int)self::getIdentifiant($compte);
         $info['gidNumber']        = '1000';
         $info['homeDirectory']    = '/home/'.self::getIdentifiant($compte);
-        $info['o']                = $compte->getSociete()->raison_sociale;
+        $info['gecos']            = self::getGecos($compte);
+        if ($compte->isEtablissementContact()) {
+             $info['businessCategory'] = $compte->getEtablissement()->famille;
+        }
+        $info['o']                = ($compte->getSociete()) ? $compte->getSociete()->raison_sociale : $compte->nom_a_afficher;
+
         $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';
         $info['sn'] = ($compte->getNom()) ?: $compte->nom_a_afficher;
 
@@ -103,4 +108,28 @@ class CompteLdap extends acVinLdap
 
         return $info;
     }
+
+    public static function getGecos($compte) {
+
+        if($compte->exist('gecos') && $compte->gecos) {
+            return $compte->gecos;
+        }
+
+        $etablissement = $compte->getEtablissement();
+
+        if(!$etablissement) {
+            return sprintf("%s,%s,%s,%s", $compte->identifiant, null, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+        }
+
+        //Hack pour la compatibilité GAMMAlsace du CIVA
+        if (class_exists('civaConfiguration')) {
+            $gamma = acCouchdbManager::getClient()->find(str_replace('ETABLISSEMENT', 'GAMMA', $etablissement->_id), acCouchdbClient::HYDRATE_JSON);
+            if ($gamma) {
+                return sprintf("%s,%s,%s,%s", $gamma->identifiant_inscription, $gamma->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+            }
+        }
+
+        return sprintf("%s,%s,%s,%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+    }
+
 }
