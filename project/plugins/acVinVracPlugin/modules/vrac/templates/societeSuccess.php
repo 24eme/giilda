@@ -80,10 +80,11 @@ use_helper('PointsAides');
             Voir tout l'historique
         </a>
         <?php if ($sf_user->hasTeledeclarationVracCreation()):
+          $etablissementVendeur = $etablissementPrincipal;
+          $etablissementAcheteur = $etablissementPrincipal;
           if ($societe->isNegociant()) {
-            $etablissementCreateur = $societe->getNegociant();
-          }else{
-            $etablissementCreateur = $etablissementPrincipal;
+            $etablissementAcheteur = $societe->getNegociant();
+            $etablissementVendeur = ($societe->isViticulteur()) ? $societe->getViticulteur() : $etablissementAcheteur;
           }
           ?>
             <div class="pull-right">
@@ -92,11 +93,11 @@ use_helper('PointsAides');
                     Saisir un nouveau contrat <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                  <?php if (!$etablissementCreateur->isCourtier()): ?>
-                  <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementCreateur->identifiant]); ?>"><?php if($etablissementCreateur->isNegociant()): ?><strong><?php endif; ?>Manuellement en tant qu'acheteur<?php if($etablissementCreateur->isNegociant()): ?></strong><?php endif; ?></a></li>
-                  <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementCreateur->identifiant, 'vrac[isVendeur]' => true]); ?>"><?php if($etablissementCreateur->isViticulteur()): ?><strong><?php endif; ?>Manuellement en tant que vendeur<?php if($etablissementCreateur->isViticulteur()): ?></strong><?php endif; ?></a></li>
-                  <?php elseif($etablissementCreateur->isCourtier()): ?>
-                  <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementCreateur->identifiant]); ?>">Manuellement</a></li>
+                  <?php if ($etablissementPrincipal->isCourtier()): ?>
+                    <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementPrincipal->identifiant]); ?>">Manuellement</a></li>
+                  <?php else : ?>
+                    <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementAcheteur->identifiant]); ?>"><?php if($etablissementAcheteur->isNegociant()): ?><strong><?php endif; ?>Manuellement en tant qu'acheteur<?php if($etablissementAcheteur->isNegociant()): ?></strong><?php endif; ?></a></li>
+                    <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementVendeur->identifiant, 'vrac[isVendeur]' => true]); ?>"><?php if($etablissementVendeur->isViticulteur()): ?><strong><?php endif; ?>Manuellement en tant que vendeur<?php if($etablissementVendeur->isViticulteur()): ?></strong><?php endif; ?></a></li>
                   <?php endif; ?>
                   <li><a href="<?= url_for('vrac_upload_index') ?>">Via un fichier</a></li>
                 </ul>
