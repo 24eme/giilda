@@ -4,7 +4,7 @@
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 $tabindex = $numProduit * 100 ;
-$drmTeledeclaree = $detail->getDocument()->teledeclare;
+$drmTeledeclaree = $detail->getDocument()->isTeledeclare();
 ?>
 <div class="pull-left" style="width: 150px;">
     <div data-hash="<?php echo $detail->getHash() ?>"  class="panel panel-default col_recolte<?php if ($active): ?> active col_active<?php endif; ?> <?php echo ($detail->isEdited()) ? 'col_edited panel-success' : '' ?>" data-input-focus="<?php echo $tabindex; ?>" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>" style="margin-right: 10px;">
