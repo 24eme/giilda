@@ -29,7 +29,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
     public function needDouaneObservation($negoce = false) {
 
-        return (!$negoce)? preg_match('/autres-entrees|autres-sorties|replacement-suspension|manipulations/', $this->douane_cat) :
+        return (!$negoce)? preg_match('/cooperative|autres-entrees|autres-sorties|replacement-suspension|manipulations/', $this->douane_cat) :
                            preg_match('/autres-entrees|autres-sorties|replacement-suspension/', $this->douane_cat_negoce);
     }
 
@@ -39,7 +39,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
             return false;
         }
 
-        return preg_match('/replacement-suspension/', $this->douane_cat);
+        return preg_match('/replacement-suspension|cooperative/', $this->douane_cat);
     }
 
     public function hasDetails() {

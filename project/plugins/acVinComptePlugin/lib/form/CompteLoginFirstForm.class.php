@@ -8,7 +8,7 @@ class CompteLoginFirstForm extends BaseForm {
         ));
 
         $this->widgetSchema->setLabels(array(
-                'login'  => 'Identifiant : ',
+                'login'  => 'Identifiant interprofessionnel : ',
                 'mdp'  => 'Code de création : '
         ));
 
@@ -16,12 +16,12 @@ class CompteLoginFirstForm extends BaseForm {
                 'login' => new sfValidatorString(array('required' => true)),
                 'mdp' => new sfValidatorString(array('required' => true, 'min_length' => 4)),
         ));
-        
+
         $this->widgetSchema->setNameFormat('first_connection[%s]');
 
         $this->validatorSchema['login']->setMessage('required', 'Champ obligatoire');
         $this->validatorSchema['mdp']->setMessage('required', 'Champ obligatoire');
-        
+
 
         $this->validatorSchema->setPostValidator(new ValidatorCompteLoginFirst());
     }
