@@ -88,7 +88,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function isTeledeclare() {
 
-        return $this->exist('teledeclare') && $this->teledeclare;
+        return ($this->exist('teledeclare') && $this->teledeclare) || ($this->exist('type_creation') && $this->type_creation == 'IMPORT');
     }
 
     public function changedToTeledeclare() {
@@ -1115,7 +1115,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function isReouvrable() {
 
-        return $this->isModifiable() && $this->isTeledeclare() && $this->isNonFactures() && !$this->hasSuivante();
+        return $this->isModifiable() && $this->isTeledeclare() && $this->type_creation != 'IMPORT' && $this->isNonFactures() && !$this->hasSuivante();
     }
 
     public function getPreviousVersion() {

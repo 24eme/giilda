@@ -132,7 +132,7 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->getObject()->setPays($values['pays']);
         $this->getObject()->setAdresseComplementaire($values['adresse_complementaire']);
         $this->getObject()->setCodePostal($values['code_postal']);
-        if (method_exists($this->getObject(), 'getEmailTeledeclaration')) {
+        if (method_exists($this->getObject(), 'setEmailTeledeclaration')) {
             $this->getObject()->setEmailTeledeclaration($values['teledeclaration_email']);
         }
         $this->getObject()->setEmail($values['email']);
