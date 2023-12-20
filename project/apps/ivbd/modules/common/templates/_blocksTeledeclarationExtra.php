@@ -20,11 +20,10 @@
                     <div class="col-md-8">
                         <?php foreach ($actus as $index => $article): ?>
                         <li>
-                            <div class="row">
-                                <div class="col-md-6">
+                            <div class="row" style="padding-bottom: 0.4rem;">
+                                <div class="col-md-10">
                                     <strong><a href="<?php echo $article[2]['url']; ?>"><?php echo $article[0]['titre']; ?></a></strong>
                                 </div>
-                                <div class="col-md-4"></div>
                                 <div class="col-md-2">
                                     <small><p class="text-muted"><?php echo date('d/m/Y H:i', strtotime($article[3]['date'])); ?></p></small>
                                 </div>
