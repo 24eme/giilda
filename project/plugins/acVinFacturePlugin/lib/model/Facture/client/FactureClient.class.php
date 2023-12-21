@@ -335,6 +335,9 @@ class FactureClient extends acCouchdbClient {
         $f->add('avoir', $avoir->_id);
         $f->save();
         foreach ($avoir->lignes as $type => $lignes) {
+            if($lignes->exist('quantite')) {
+                $lignes->quantite *= -1;
+            }
             foreach ($lignes->details as $id => $ligne) {
                 $ligne->quantite *= -1;
                 $ligne->montant_ht *= -1;
