@@ -307,7 +307,7 @@ class DAEImportCsvEdi extends DAECsvEdi
     private function checkCSVIntegrity() {
         $ligne_num = 1;
         foreach ($this->getDocRows() as $csvRow) {
-            if(count($csvRow) != 19){
+            if(count($csvRow) < 19){
               $this->csvDoc->addErreur($this->createWrongFormatFieldCountError($ligne_num, $csvRow));
               $ligne_num++;
               continue;
