@@ -132,10 +132,7 @@ class drmActions extends drmGeneriqueActions {
                   if(!DRMConfiguration::getInstance()->getRepriseDonneesUrl() || !sfConfig::get('app_url_reprise_donnees_drm')){
                     throw new sfException("Ce choix n'est pas possible : il n'y a aucune url spécifié pour la reprise");
                   }
-                  $url_reprise_donnees_drm = sfConfig::get('app_url_reprise_donnees_drm');
-                  $url_reprise_donnees_drm = str_replace(":identifiant",$identifiant,$url_reprise_donnees_drm);
-                  $url_reprise_donnees_drm = str_replace(":periode",$periode,$url_reprise_donnees_drm);
-
+                  $url_reprise_donnees_drm = DRMConfiguration::getInstance()->getRepriseDonneesUrl($identifiant, $periode);
 
                   // Récupère la dernière DRM de la campagne pour regarder si elle a des colonnes Total Alsace banc et Alsace Lieu, si c'est le cas on demande les données des contrats, ds, récolte aggrégées
                   $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
