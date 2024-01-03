@@ -57,6 +57,16 @@ class DRMConfiguration {
         return $this->configuration['reprise_donnees_url'];
     }
 
+    public function getFinalRepriseDonneesUrl($identifiant, $periode) {
+        $url_reprise_donnees_drm = sfConfig::get('app_url_reprise_donnees_drm');
+        if (!$url_reprise_donnees_drm) {
+            $url_reprise_donnees_drm = $this->getRepriseDonneesUrl();
+        }
+        $url_reprise_donnees_drm = str_replace(":identifiant", $identifiant, $url_reprise_donnees_drm);
+        $url_reprise_donnees_drm = str_replace(":periode", $periode, $url_reprise_donnees_drm);
+        return $url_reprise_donnees_drm;
+    }
+
     public function hasSansContratOption() {
 
         return $this->configuration['sans_contrat_option'];
