@@ -54,16 +54,34 @@ class DRMConfiguration {
 
     public function getRepriseDonneesUrl() {
 
+        $url_reprise_donnees_drm = sfConfig::get('app_url_reprise_donnees_drm');
+        if ($url_reprise_donnees_drm) {
+            return $url_reprise_donnees_drm;
+        }
         return $this->configuration['reprise_donnees_url'];
     }
 
-    public function getFinalRepriseDonneesUrl($identifiant, $periode) {
-        $url_reprise_donnees_drm = sfConfig::get('app_url_reprise_donnees_drm');
-        if (!$url_reprise_donnees_drm) {
-            $url_reprise_donnees_drm = $this->getRepriseDonneesUrl();
+    public function getFinalRepriseDonneesUrl($identifiant, $periode, $options = null) {
+        if (!$options) {
+            $options = [];
         }
+
+        $url_reprise_donnees_drm = $this->getRepriseDonneesUrl();
         $url_reprise_donnees_drm = str_replace(":identifiant", $identifiant, $url_reprise_donnees_drm);
         $url_reprise_donnees_drm = str_replace(":periode", $periode, $url_reprise_donnees_drm);
+
+        if(isset($options['aggregate']) && $options['aggregate']) {
+            $url_reprise_donnees_drm.= '?aggregate='.$produitsTotaux;
+        }
+
+        if(isset($options['lieudit']) && $options['lieudit']) {
+            $url_reprise_donnees_drm.= '?lieudit='.implode("|", $withDenomination);
+        }
+
+        if(isset($options['firstdrm']) && $options['firstdrm']) {
+            $url_reprise_donnees_drm.= "?firstdrm=1";
+        }
+
         return $url_reprise_donnees_drm;
     }
 
