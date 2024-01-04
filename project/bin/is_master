@@ -4,11 +4,20 @@ cd $(dirname $0)/.. > /dev/null 2>&1
 
 . bin/config.inc
 
+CURLBIN="curl"
 if ! test "$SOCKS5_URL" ; then
-    SOCKS5_URL="socks5://127.0.0.1:9050"
+    if which torsocks > /dev/null ; then
+        CURLBIN="torsocks $CURLBIN"
+    else
+        SOCKS5_URL="socks5://127.0.0.1:9050"
+        CURLBIN="$CURLBIN --preproxy "$SOCKS5_URL
+    fi
+
+else
+    CURLBIN="$CURLBIN --preproxy "$SOCKS5_URL
 fi
 
-if test $(hostname) = "$(curl  --preproxy "$SOCKS5_URL" -k -s $PROJETURL"/master.php" 2> /dev/null)" ; then
+if test $(hostname) = "$($CURLBIN -k -s $PROJETURL"/master.php" 2> /dev/null)" ; then
 	exit 0;
 else
 	exit 1;
