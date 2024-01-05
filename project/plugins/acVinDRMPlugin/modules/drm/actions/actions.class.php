@@ -152,15 +152,15 @@ class drmActions extends drmGeneriqueActions {
                   }
                   $options = [];
                   if(isset($produitsTotaux) && $produitsTotaux) {
-                      $options['aggregate'] = true;
+                      $options['aggregate'] = $produitsTotaux);
                   }
 
                   if(isset($withDenomination) && $withDenomination) {
-                      $options['lieudit'] = true;
+                      $options['lieudit'] = implode("|", $withDenomination);
                   }
 
                   if(!DRMClient::getInstance()->findLastByIdentifiant($identifiant, acCouchdbClient::HYDRATE_JSON)) {
-                      $options['firstdrm'] = true;
+                      $options['firstdrm'] = 1;
                   }
                   $url_reprise_donnees_drm = DRMConfiguration::getInstance()->getFinalRepriseDonneesUrl($identifiant, $periode, $options);
 
