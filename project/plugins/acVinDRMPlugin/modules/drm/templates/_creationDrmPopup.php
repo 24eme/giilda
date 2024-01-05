@@ -21,6 +21,7 @@
                                 <?php if(DRMConfiguration::getInstance()->getRepriseDonneesUrl()): ?>
                                     <li class="col-xs-10 col-xs-offset-1">
                                         <input type="radio" checked="checked" id="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_DOCUMENTS.'_'.$periode . '_' . $identifiant; ?>" value="<?php echo DRMClient::DRM_CREATION_DOCUMENTS; ?>" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_DOCUMENTS.'_'.$periode . '_' . $identifiant; ?>">Création d'une drm pré-remplie</label>
+                                            &nbsp; <a class="text-muted" style="color: #ddd" href="<?php echo DRMConfiguration::getInstance()->getFinalRepriseDonneesUrl($identifiant, $periode); ?>">csv</a>
                                             <div class="pull-right"><?php echo getPointAideHtml('drm','creation_nouvelle') ?></div>
                                     </li>
                                 <?php endif; ?>
