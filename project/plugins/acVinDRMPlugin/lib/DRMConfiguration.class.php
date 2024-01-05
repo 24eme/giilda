@@ -71,15 +71,15 @@ class DRMConfiguration {
         $url_reprise_donnees_drm = str_replace(":periode", $periode, $url_reprise_donnees_drm);
 
         if(isset($options['aggregate']) && $options['aggregate']) {
-            $url_reprise_donnees_drm.= '?aggregate='.$produitsTotaux;
+            $url_reprise_donnees_drm.= '?aggregate='.$options['aggregate'];
         }
 
         if(isset($options['lieudit']) && $options['lieudit']) {
-            $url_reprise_donnees_drm.= '?lieudit='.implode("|", $withDenomination);
+            $url_reprise_donnees_drm.= '?lieudit='.$options['lieudit'];
         }
 
         if(isset($options['firstdrm']) && $options['firstdrm']) {
-            $url_reprise_donnees_drm.= "?firstdrm=1";
+            $url_reprise_donnees_drm.= "?firstdrm=".$options['firstdrm'];
         }
 
         return $url_reprise_donnees_drm;
