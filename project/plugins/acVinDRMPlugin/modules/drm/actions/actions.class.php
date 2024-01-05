@@ -152,7 +152,7 @@ class drmActions extends drmGeneriqueActions {
                   }
                   $options = [];
                   if(isset($produitsTotaux) && $produitsTotaux) {
-                      $options['aggregate'] = $produitsTotaux);
+                      $options['aggregate'] = $produitsTotaux;
                   }
 
                   if(isset($withDenomination) && $withDenomination) {
