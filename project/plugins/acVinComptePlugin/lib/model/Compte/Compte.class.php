@@ -65,7 +65,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             $this->nom_a_afficher = trim(sprintf('%s', $this->nom));
             return;
         }
-        $this->nom_a_afficher = trim(sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom));
+        $this->nom_a_afficher = trim(preg_replace('/[ ]+/', ' ', sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom)));
     }
 
     public static function transformTag($tag) {
@@ -128,6 +128,22 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         return false;
     }
 
+    public function getEmailTeledeclaration() {
+      if ($this->isSocieteContact()) {
+        $societe = $this->getSociete();
+        if ($societe->exist('teledeclaration_email') && $societe->teledeclaration_email) {
+            return $societe->teledeclaration_email;
+        }
+      }
+      if ($this->isEtablissementContact()) {
+        $etablissement = $this->getEtablissement();
+        if ($etablissement->exist('teledeclaration_email') && $etablissement->teledeclaration_email) {
+            return $etablissement->teledeclaration_email;
+        }
+      }
+      return null;
+    }
+
     public function save() {
         $this->tags->remove('automatique');
         $this->tags->add('automatique');
@@ -168,6 +184,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
         if (!$this->isEtablissementContact() && !$this->isSocieteContact()) {
             $this->addTag('automatique', 'Interlocuteur');
+            if($this->fonction) {
+                $this->addTag('automatique', $this->fonction);
+            }
         }
 
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
@@ -185,6 +204,72 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $this->societe_informations->telephone = $societe->telephone;
         $this->societe_informations->fax = $societe->fax;
 
+        $etablissement = null;
+        if($this->isEtablissementContact()) {
+            $etablissement = $this->getEtablissement();
+        }
+        foreach(SocieteConfiguration::getInstance()->getExtras() as $extraKey => $extraInfos) {
+            $this->add('extras')->add($extraKey);
+
+            if(!isset($extraInfos['auto']) || !$extraInfos['auto']) {
+                continue;
+            }
+
+            $this->extras->add($extraKey);
+            $this->extras->set($extraKey, null);
+
+            $fields = explode("|", $extraInfos['auto']);
+
+            foreach($fields as $field) {
+                $entity = explode("->", $field)[0];
+                $property = explode("->", $field)[1];
+                $method = null;
+
+                if(strpos($property, '(') !== false) {
+                    $method = str_replace(array("(",")"), null, $property);
+                    $property = null;
+                }
+
+                if($entity == "societe" && $property && $societe->exist($property)) {
+                    $this->extras->add($extraKey, $societe->get($property));
+                }
+
+                if($entity == "societe" && $method) {
+                    try {
+                        $value = call_user_func(array($societe, $method));
+                    } catch(Exception $e) {
+                        $value = null;
+                    }
+
+                    if(is_array($value)) {
+                        sort($value);
+                        $value = implode('|', $value);
+                    }
+
+                    $this->extras->add($extraKey, $value);
+                }
+
+                if($entity == "etablissement" && $etablissement && $property && $etablissement->exist($property)) {
+                    $this->extras->add($extraKey, $etablissement->get($property));
+                }
+
+                if($entity == "etablissement" && $method) {
+                    try {
+                        $value = call_user_func(array($etablissement, $method));
+                    } catch(Exception $e) {
+                        $value = null;
+                    }
+
+                    if(is_array($value)) {
+                        sort($value);
+                        $value = implode('|', $value);
+                    }
+
+                    $this->extras->add($extraKey, $value);
+                }
+            }
+        }
+
         $new = $this->isNew();
 
         if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $this->isSameAdresseThanSociete()) {
@@ -193,6 +278,18 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $this->isSameContactThanSociete()) {
             CompteGenerique::pullContact($this, $societe->getMasterCompte());
+        }
+
+        if($this->isEtablissementContact()) {
+            $this->remove('droits');
+            $this->add('droits', $this->getSociete()->getMasterCompte()->droits);
+        }
+
+        if ($this->exist('droits')) {
+            foreach ($this->droits as $droit) {
+                $this->addTag('droits', $droit);
+                $this->addTag('droits', preg_replace('/:.*/', '', $droit));
+            }
         }
 
         parent::save();
@@ -254,7 +351,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
     public function getEtablissementOrigine() {
         foreach ($this->origines as $origine) {
-            if (preg_match('/^ETABLISSEMENT[-]{1}[0-9]*$/', $origine)) {
+            if (preg_match('/^ETABLISSEMENT/', $origine)) {
                 return $origine;
             }
         }
@@ -281,6 +378,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getStatutTeledeclarant() {
+        if($this->getStatut() == CompteClient::STATUT_SUSPENDU) {
+            return CompteClient::STATUT_TELEDECLARANT_INACTIF;
+        }
+
         if (preg_match("{TEXT}", $this->mot_de_passe)) {
 
             return CompteClient::STATUT_TELEDECLARANT_NOUVEAU;
@@ -535,6 +636,21 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
     public function getFax() {
         return $this->_get('fax');
+    }
+
+    public function getExtrasEditables($empty = false) {
+        $extras = array();
+        foreach(SocieteConfiguration::getInstance()->getExtras() as $k => $e) {
+            if ($this->exist('extras') && $this->extras->exist($k)) {
+                $e['value'] = $this->extras->get($k);
+            }
+            if (!isset($e['auto']) || !$e['auto']) {
+                if ( $empty || isset($e['value']) ) {
+                    $extras[$k] = $e;
+                }
+            }
+        }
+        return $extras;
     }
 
 }

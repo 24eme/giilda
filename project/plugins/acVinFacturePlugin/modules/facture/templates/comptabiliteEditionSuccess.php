@@ -70,7 +70,7 @@
 
         <div class="row row-margin">
             <div class="col-xs-6 text-left">
-                <a class="btn btn-default btn-lg btn-upper" href="<?php echo url_for('facture_mouvements') ?>">Annuler</a>
+                <a class="btn btn-default btn-lg btn-upper" href="<?php echo url_for('facture_mouvements') ?>">Retour</a>
             </div>
             <div class="col-xs-6 text-right">
                 <button type="submit" class="btn btn-success btn-lg btn-upper" tabindex="<?php echo $tabIndex; ?>">Valider</button>

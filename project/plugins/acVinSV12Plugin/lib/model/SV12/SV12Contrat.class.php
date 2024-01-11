@@ -106,6 +106,10 @@ class SV12Contrat extends BaseSV12Contrat {
 
         $mouvement = DRMMouvement::freeInstance($this->getDocument());
         $mouvement->produit_hash = $this->produit_hash;
+        $mouvement->produit_libelle = trim($this->produit_libelle);
+        if ($this->getProduitObject()->getDocument()->exist('interpro')) {
+            $mouvement->add('interpro', $this->getProduitObject()->getDocument()->interpro);
+        }
         $mouvement->facture = 0;
         $mouvement->version = $this->getDocument()->version;
         $mouvement->date_version = ($this->getDocument()->valide->date_saisie) ? ($this->getDocument()->valide->date_saisie) : date('Y-m-d');
@@ -195,10 +199,7 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function getTauxCvo() {
-        if (is_null($this->cvo)) {
-            $this->cvo = $this->getDroitCVO()->taux*1.0;
-        }
-
+        $this->cvo = $this->getDroitCVO()->taux*1.0;
         return $this->cvo;
     }
 
@@ -208,8 +209,7 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function getProduitObject() {
-
-        return ConfigurationClient::getCurrent()->getConfigurationProduit($this->produit_hash);
+        return ConfigurationClient::getConfiguration($this->getDocument()->getDate())->getConfigurationProduit($this->produit_hash);
     }
 
     public function getContratTypeLibelle() {
@@ -225,7 +225,7 @@ class SV12Contrat extends BaseSV12Contrat {
         if ($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID] != $this->produit_hash ||
                 $this->vendeur_identifiant != $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID] ||
                 $this->contrat_type != $viewinfo[VracClient::VRAC_VIEW_TYPEPRODUIT]) {
-            $produit = ConfigurationClient::getCurrent()->getConfigurationProduit($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID]);
+            $produit = ConfigurationClient::getInstance()->getConfiguration($this->getDocument()->getDate())->getConfigurationProduit($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID]);
             return $this->updateNoContrat($produit, array('contrat_type' => $viewinfo[VracClient::VRAC_VIEW_TYPEPRODUIT], 'vendeur_identifiant' => $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID], 'vendeur_nom' => $viewinfo[VracClient::VRAC_VIEW_VENDEUR_NOM], 'contrat_numero' => $this->contrat_numero, 'volume' => $this->volume, 'volume_prop' => $this->volume_prop));
         }
         return;

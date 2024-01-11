@@ -1,0 +1,9 @@
+all:
+  configuration:
+    societe:
+      droits:
+        teledeclaration: "Télédéclaration",
+        teledeclaration_vrac: "Signature contrats"
+        teledeclaration_vrac_creation: "Création contrats"
+        teledeclaration_drm: "DRM"
+        teledeclaration_douane: "Transmission Ciel"

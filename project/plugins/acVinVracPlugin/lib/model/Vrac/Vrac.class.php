@@ -671,6 +671,8 @@ class Vrac extends BaseVrac {
         $this->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
       }
       $this->update();
+      $this->setInterneTrueIfLiaison();
+
       return parent::save();
     }
 
@@ -942,6 +944,7 @@ class Vrac extends BaseVrac {
     public function autoSignIfIsIntern(){
         if($this->getVendeurObject()->getSociete() == $this->getAcheteurObject()->getSociete()){
             $this->signatureByEtb($this->getVendeurObject());
+            $this->signatureByEtb($this->getAcheteurObject());
             $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
         }
     }
@@ -1047,5 +1050,20 @@ class Vrac extends BaseVrac {
         return ($this->responsable == Vrac::VRAC_RESPONSABLE_REPRESENTANT);
     }
 
+    public function setInterneTrueIfLiaison(){
+        if ($this->getAcheteurObject() === null || $this->getVendeurObject() === null) {
+            return $this;
+        }
 
+        $etabAcheteur = EtablissementClient::getInstance()->findByIdentifiant($this->getAcheteurObject()->getIdentifiant());
+        $etabVendeur = EtablissementClient::getInstance()->findByIdentifiant($this->getVendeurObject()->getIdentifiant());
+
+        if($etabAcheteur === $etabVendeur){
+            $this->_set('interne',true);
+        }
+        elseif($etabAcheteur->haveLiaison($etabVendeur) && $etabVendeur->haveLiaison($etabAcheteur)){
+            $this->_set('interne',true);
+        }
+        return $this;
+    }
 }

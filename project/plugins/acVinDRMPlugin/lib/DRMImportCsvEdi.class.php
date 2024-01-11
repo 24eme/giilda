@@ -364,6 +364,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               continue;
           }
 
+          if (!isset(DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))])) {
+              $this->csvDoc->addErreur($this->DRMTypeNotFoundError($num_ligne, $datas));
+              continue;
+          }
+
           /// CREATION DU DETAILS
           $produit =  $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire, $tav);
 
@@ -403,7 +408,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
 
         if($this->drm->isMoisOuvert()) {
-          return;
+            if ($this->drmPrecedente) {
+                if ($produitsReserve = $this->drmPrecedente->getProduitsReserveInterpro()) {
+                    foreach ($produitsReserve as $produitReserve) {
+                        if ($this->drm->exist($produitReserve->getHash())) {
+                            $produitAddReserve = $this->drm->get($produitReserve->getHash());
+                            $produitAddReserve->add('reserve_interpro', $produitReserve->getRerserveIntepro());
+                        }
+                    }
+                }
+            }
+            return;
         }
       //on prépare les vérifications
       $check = array();
@@ -844,7 +859,7 @@ private function importMouvementsFromCSV($just_check = false) {
         if ($type_key == 'contrat' && !preg_match('/AOC/', $certif)) {
             $disabled = true;
         }
-        if ((strpos($certif, 'AUTRE') === 0 || strpos($genre, 'VCI') === 0) && strpos($certif, 'AUTRESVINS') === false && !preg_match("#/(TRANQ|EFF|MOU)/#", $drmDetails->getHash()) && $codeDouane != "BOISSONS_FERMENTEES_AUTRES" && !in_array($type_key, array('distillationusageindustriel', 'destructionperte', 'manquant', 'vracsanscontratsuspendu', 'lies', 'usageindustriel', 'rebeches', 'consommationfamilialedegustation', 'autre', 'repli', 'exoversutilisateurauto', 'exoversutilisateurauto'))) {
+        if ((strpos($certif, 'AUTRE') === 0 || strpos($genre, 'VCI') === 0) && strpos($certif, 'AUTRESVINS') === false && !preg_match("#/(TRANQ|EFF|MOU)/#", $drmDetails->getHash()) && $codeDouane != "BOISSONS_FERMENTEES_AUTRES" && !in_array($type_key, array('distillationusageindustriel', 'destructionperte', 'manquant', 'vracsanscontratsuspendu', 'lies', 'usageindustriel', 'rebeches', 'consommationfamilialedegustation', 'autre', 'repli', 'exoversutilisateurauto', 'exoversutilisateurauto', 'vci'))) {
             $disabled = true;
         }
         if ($certif == 'AUTRE' && !preg_match("#/(TRANQ|EFF|MOU)/#", $drmDetails->getHash()) && in_array($type_key, array('ventefrancecrd', 'exporttaxe'))) {
@@ -918,15 +933,7 @@ private function importMouvementsFromCSV($just_check = false) {
       }
     } else {
       $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
-      if($cat_key == "stocks_debut" && !is_null($oldVolume) && $oldVolume != "") {
-        if ($drmDetails->canSetStockDebutMois()) {
-            $drmDetails->getOrAdd($cat_key)->add($type_key, $detailTotalVol);
-        }else {
-            $this->drm->commentaire .= sprintf("IMPORT de %s le stock_debut %s de %s hl n'a pas été pris en compte\n", $drmDetails->getLibelle(), $type_key, $detailTotalVol);
-        }
-      } else {
-        $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
-      }
+      $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
     }
 
     if(isset($csvRow[self::CSV_CAVE_COMMENTAIRE]) && $csvRow[self::CSV_CAVE_COMMENTAIRE] && trim($csvRow[self::CSV_CAVE_COMMENTAIRE])) {

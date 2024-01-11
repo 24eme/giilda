@@ -100,11 +100,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 		$this->valide->date_saisie = null;
 		$this->valide->date_signee = null;
 		$this->valide->identifiant = null;
-		$this->referente = 0;
-		if ($mother = $this->getMother()) {
-			$mother->referente = 1;
-			$mother->save();
-		}
+        $this->updateReferente();
 	}
 
 	public function validate()
@@ -112,12 +108,39 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 		$this->valide->date_saisie = date('Y-m-d');
 		$this->valide->date_signee = $this->valide->date_saisie;
 		$this->valide->identifiant = $this->identifiant;
-		$this->referente = 1;
-		if ($mother = $this->getMother()) {
-			$mother->referente = 0;
-			$mother->save();
-		}
+        $this->updateReferente();
 	}
+
+    public function updateReferente()
+    {
+        $this->referente = ($this->isValidee())? 1 : 0;
+
+        $master = $this->getSuivante();
+        $mother = $this->getMother();
+
+        if ($master && $master->_id === $this->_id) {
+            $master = null;
+        }
+
+        if ($mother && $mother->_id === $mother->_id) {
+            $mother = null;
+        }
+
+        if ($master && $master->isValidee()) {
+            $this->referente = 0;
+        }
+
+    	if ($mother) {
+            if ($this->referente) {
+    		    $mother->referente = 0;
+            } elseif ($master && $master->isValidee()) {
+                $mother->referente = 0;
+            } else {
+                $mother->referente = 1;
+            }
+    		$mother->save();
+    	}
+    }
 
 	public function isValidee()
 	{
@@ -263,6 +286,10 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 					if ($subvalue->stock_declare_millesime_courant != $old->stock_declare_millesime_courant)
 						return true;
 					if ($subvalue->dont_vraclibre_millesime_courant != $old->dont_vraclibre_millesime_courant)
+						return true;
+					if ($subvalue->stock_declare_millesime_precedent != $old->stock_declare_millesime_precedent)
+						return true;
+					if ($subvalue->dont_vraclibre_millesime_precedent != $old->dont_vraclibre_millesime_precedent)
 						return true;
 					if ($subvalue->stock_declare_millesime_anterieur != $old->stock_declare_millesime_anterieur)
 						return true;

@@ -195,10 +195,6 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return $this->getDroit()->has($droit);
     }
 
-    public function getDroits() {
-        return EtablissementFamilles::getDroitsByFamilleAndSousFamille($this->famille, $this->sous_famille);
-    }
-
     public function isInterpro() {
         return ($this->region != EtablissementClient::REGION_HORS_CVO);
     }
@@ -210,7 +206,6 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function isSynchroAutoActive() {
-
         return sfConfig::get('app_compte_synchro', true);
     }
 
@@ -218,17 +213,16 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         $societe = $this->getSociete();
         $this->add('date_modification', date('Y-m-d'));
 
-        if($this->isSynchroAutoActive()) {
-            if(!$this->getCompte()){
+        $needSocieteSave = false;
+        if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            if($this->isSynchroAutoActive() && !$this->getCompte()){
                 $this->setCompte($this->getSociete()->getMasterCompte()->_id);
             }
-        }
-
-        if($this->isSynchroAutoActive()) {
-    		if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
+    		if($this->isSynchroAutoActive() && (!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete())){
     		    if ($this->isSameCompteThanSociete()) {
     		        $compte = $societe->createCompteFromEtablissement($this);
     		        $compte->addOrigine($this->_id);
+                    $needSocieteSave = true;
     		    } else {
     		        $compte = $this->getMasterCompte();
     		    }
@@ -239,25 +233,32 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     		    $compte->nom = $this->nom;
 
     		    $this->compte = $compte->_id;
-    		} else if(!$this->isSameCompteThanSociete()){
+    		} else if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()){
     		    $compteEtablissement = $this->getMasterCompte();
     		    $compteSociete = $this->getSociete()->getMasterCompte();
 
     		    $this->compte = $compteSociete->_id;
-    		    $this->getSociete()->removeContact($compteEtablissement->_id);
-    		    $compteEtablissement = $this->compte;
+    		    $societe->removeContact($compteEtablissement->_id);
+                $needSocieteSave = true;
     		}
+	    } else {
+            $compte = $societe->findOrCreateCompteFromEtablissement($this);
+            $compte->addOrigine($this->_id);
+            $this->pushContactAndAdresseTo($compte);
+            $compte->id_societe = $this->getSociete()->_id;
+            $compte->nom = $this->nom;
+            $compte->statut = $this->statut;
+            $this->compte = $compte->_id;
+        }
 
-    		if($this->isSameAdresseThanSociete()) {
-    		    $this->pullAdresseFrom($this->getSociete()->getMasterCompte());
-    		}
-    		if($this->isSameContactThanSociete()) {
-    		    $this->pullContactFrom($this->getSociete()->getMasterCompte());
-    		}
+        if($this->isSameAdresseThanSociete()) {
+            $this->pullAdresseFrom($this->getSociete()->getMasterCompte());
+        }
+        if($this->isSameContactThanSociete()) {
+            $this->pullContactFrom($this->getSociete()->getMasterCompte());
+        }
 
-            $this->raison_sociale = $societe->raison_sociale;
-	    }
-
+        $this->raison_sociale = $societe->raison_sociale;
         $this->initFamille();
         $this->interpro = "INTERPRO-declaration";
         if(VracConfiguration::getInstance()->getRegionDepartement() !== false && $this->region != EtablissementClient::REGION_HORS_CVO) {
@@ -268,17 +269,29 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $societe->addEtablissement($this);
         }
 
+        if($this->isNew()) {
+          $needSocieteSave = true;
+          $societe->addEtablissement($this);
+        }
+
         parent::save();
 
-	if($this->isSynchroAutoActive()) {
-        	$societe->save();
+        $this->getMasterCompte()->setStatut($this->getStatut());
 
-	}
+        if ($this->isSynchroAutoActive()) {
+            if($needSocieteSave) {
+                $societe->save();
+            }
 
-	if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()) {
+            if($needSocieteSave && $this->isSameCompteThanSociete()) {
+
+                $this->save();
+            }
+        }
+
+        if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()) {
     		$compte->save();
-	}
-
+	    }
     }
 
     public function delete() {
@@ -447,4 +460,20 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
     }
 
+    public function haveLiaison($etablissement){
+        foreach ($this->liaisons_operateurs as $key => $value) {
+            if($value->id_etablissement == $etablissement->_id ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getEtablissementsLies(){
+        $result=array();
+        foreach($this->liaisons_operateurs as $id => $tab){
+            $result[$tab['id_etablissement']]=$tab['libelle_etablissement'];
+        }
+        return $result;
+    }
 }

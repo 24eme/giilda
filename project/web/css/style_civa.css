@@ -48,6 +48,8 @@ h4 {
     float: left;
     text-align: center;
     width: 135px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 /* Titre rubrique */
@@ -101,7 +103,7 @@ h4 {
 
 #header #acces_directs ul { margin: 0;  padding: 0; line-height: 1; list-style-type: none }
 
-#header #acces_directs ul li { margin: 0;  padding: 0; }
+#header #acces_directs ul li { margin: 0;  padding: 0; line-height: 14px; }
 
 #header #acces_directs ul li a { color: #c4d00a; }
 
@@ -115,9 +117,14 @@ a.admin { color: #ff0000; }
 	color: #cccc;
 }
 
+#nav #onglets_majeurs li {
+	padding-left: 5px !important;
+	padding-right: 5px !important;
+}
+
 #nav {
     background: #f1f1f1;
-    padding-top: 15px;
+    padding-top: 30px;
     margin-bottom: 20px;
 }
 

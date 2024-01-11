@@ -84,7 +84,7 @@
                     <p><?php if ($societe->getMasterCompte()->exist('droits')): ?>
                             <strong>Droits :</strong>
                             <?php foreach ($societe->getMasterCompte()->getDroits() as $droit) : ?>
-                                <label class="label label-default"><?php echo isset(Roles::$teledeclarationLibelles[$droit]) ? Roles::$teledeclarationLibelles[$droit] : $droit; ?></label>
+                                <label class="label label-default"><?php echo SocieteConfiguration::getInstance()->getDroitLibelle($droit); ?></label>
                             <?php endforeach; ?>
                 <?php endif; ?></p>
                 </div>
@@ -158,7 +158,7 @@
         <?php if(!$compte): continue; endif; ?>
             <?php if ($compte->isSocieteContact() || $compte->isEtablissementContact()): ?><?php continue; ?><?php endif; ?>
         <div class="col-xs-4" style="<?php if (isset($etablissement) || (isset($interlocuteur) && $interlocuteur->_id != $compte->_id)): ?>opacity: 0.6<?php endif; ?>">
-    <?php include_partial('compte/visualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
+    <?php include_partial('compte/visualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'hideExtras' => true)); ?>
         </div>
 <?php endforeach; ?>
 

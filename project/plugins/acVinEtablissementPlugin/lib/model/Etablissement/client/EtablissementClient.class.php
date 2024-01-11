@@ -17,6 +17,7 @@ class EtablissementClient extends acCouchdbClient {
     const TYPE_LIAISON_CONTRAT_INTERNE = 'CONTRAT_INTERNE';
     const STATUT_ACTIF = 'ACTIF'; #'actif';
     const STATUT_SUSPENDU = 'SUSPENDU'; #'suspendu';
+    const STATUT_SUPPRIME = "SUPPRIME";
     const OUI = 'OUI';
     const NON = 'NON';
     const RELANCE_DS_OUI = self::OUI;
@@ -263,27 +264,6 @@ class EtablissementClient extends acCouchdbClient {
         }
 
         throw new sfException("La famille $f doit être soit producteur soit negociant soit courtier");
-    }
-
-    public function matchSousFamille($sf) {
-        $sf = KeyInflector::slugify($sf);
-        $matches = array("(particuliere|cooperative)" => EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE,
-            "regional" => EtablissementFamilles::SOUS_FAMILLE_REGIONAL,
-            "exterieur" => EtablissementFamilles::SOUS_FAMILLE_EXTERIEUR,
-            "etranger" => EtablissementFamilles::SOUS_FAMILLE_ETRANGER,
-            "union" => EtablissementFamilles::SOUS_FAMILLE_UNION,
-            "vinificateur" => EtablissementFamilles::SOUS_FAMILLE_VINIFICATEUR);
-        foreach ($matches as $match => $s) {
-            if (preg_match('/' . $match . '/i', $sf)) {
-                return $s;
-            }
-        }
-
-        if (!$sf) {
-            return EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
-        }
-
-        throw new sfException('Sous Famille "' . $sf . '" inconnue');
     }
 
     public static function getStatuts() {

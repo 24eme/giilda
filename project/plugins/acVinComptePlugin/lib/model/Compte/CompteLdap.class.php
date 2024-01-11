@@ -59,7 +59,12 @@ class CompteLdap extends acVinLdap
         $info['uidNumber']        = (int)self::getIdentifiant($compte);
         $info['gidNumber']        = '1000';
         $info['homeDirectory']    = '/home/'.self::getIdentifiant($compte);
-        $info['o']                = $compte->getSociete()->raison_sociale;
+        $info['gecos']            = self::getGecos($compte);
+        if ($compte->isEtablissementContact()) {
+             $info['businessCategory'] = $compte->getEtablissement()->famille;
+        }
+        $info['o']                = ($compte->getSociete()) ? $compte->getSociete()->raison_sociale : $compte->nom_a_afficher;
+
         $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';
         $info['sn'] = ($compte->getNom()) ?: $compte->nom_a_afficher;
 
@@ -79,23 +84,19 @@ class CompteLdap extends acVinLdap
         }
 
         if ($compte->commune) {
-            $info['l']                = $compte->commune;
+            $info['l']                = trim($compte->commune);
         }
 
         if ($compte->code_postal) {
-            $info['postalCode']       = $compte->code_postal;
+            $info['postalCode']       = trim($compte->code_postal);
         }
 
         if ($compte->telephone_bureau) {
-            $info['telephoneNumber']  = $compte->telephone_bureau;
-        }
-
-        if ($compte->fax) {
-            $info['facsimileTelephoneNumber'] = $compte->fax;
+            $info['telephoneNumber']  = trim(str_replace("_", "", $compte->telephone_bureau));
         }
 
         if ($compte->telephone_mobile) {
-            $info['mobile']           = $compte->telephone_mobile;
+            $info['mobile']           = trim(str_replace("_", "", $compte->telephone_mobile));
         }
 
         if ($compte->exist('mot_de_passe')) {
@@ -107,4 +108,35 @@ class CompteLdap extends acVinLdap
 
         return $info;
     }
+
+    public static function getGecos($compte) {
+
+        if($compte->exist('gecos') && $compte->gecos) {
+            return $compte->gecos;
+        }
+
+        $etablissement = $compte->getEtablissement();
+
+        $gecos = null;
+
+        if(!$etablissement) {
+            $gecos = sprintf("%s,%s,%s,%s", $compte->identifiant, null, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+        }
+
+        //Hack pour la compatibilité GAMMAlsace du CIVA
+        if (!$gecos && class_exists('civaConfiguration')) {
+            $gamma = acCouchdbManager::getClient()->find(str_replace('ETABLISSEMENT', 'GAMMA', $etablissement->_id), acCouchdbClient::HYDRATE_JSON);
+            if ($gamma) {
+                $gecos =  sprintf("%s,%s,%s,%s", $gamma->identifiant_inscription, $gamma->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+            }
+        }
+
+        if (!$gecos) {
+            $gecos =  sprintf("%s,%s,%s,%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+        }
+
+        $gecos = str_replace(array('é', 'è', 'ê', 'ë', 'à', 'ù', 'ü', 'ï', 'ç', 'ö', 'ô'), array('e', 'e', 'e', 'e', 'a', 'u', 'u', 'i', 'c', 'o', 'o'), $gecos);
+        return $gecos;
+    }
+
 }

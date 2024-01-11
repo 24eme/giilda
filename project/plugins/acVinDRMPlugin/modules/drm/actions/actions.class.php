@@ -35,11 +35,13 @@ class drmActions extends drmGeneriqueActions {
       $from = $res_by_page * ($this->page_num  - 1);
       $this->drm_controles = [];
       $this->nb_results = 0;
-      if(!acElasticaManager::getIndex()->exists()){
-        return;
+
+      try {
+          $index = acElasticaManager::getType('DRM');
+      } catch(Exception $e) {
+          return;
       }
 
-      $index = acElasticaManager::getType('DRM');
       $query = new acElasticaQuery();
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setQuery("_exists_:doc.controles");
@@ -127,13 +129,9 @@ class drmActions extends drmGeneriqueActions {
 
             switch ($choixCreation) {
                 case DRMClient::DRM_CREATION_DOCUMENTS :
-                  if(!DRMConfiguration::getInstance()->getRepriseDonneesUrl() || !sfConfig::get('app_url_reprise_donnees_drm')){
+                  if(!DRMConfiguration::getInstance()->getRepriseDonneesUrl()){
                     throw new sfException("Ce choix n'est pas possible : il n'y a aucune url spécifié pour la reprise");
                   }
-                  $url_reprise_donnees_drm = sfConfig::get('app_url_reprise_donnees_drm');
-                  $url_reprise_donnees_drm = str_replace(":identifiant",$identifiant,$url_reprise_donnees_drm);
-                  $url_reprise_donnees_drm = str_replace(":periode",$periode,$url_reprise_donnees_drm);
-
 
                   // Récupère la dernière DRM de la campagne pour regarder si elle a des colonnes Total Alsace banc et Alsace Lieu, si c'est le cas on demande les données des contrats, ds, récolte aggrégées
                   $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
@@ -152,18 +150,19 @@ class drmActions extends drmGeneriqueActions {
                           }
                       }
                   }
-
+                  $options = [];
                   if(isset($produitsTotaux) && $produitsTotaux) {
-                      $url_reprise_donnees_drm.= '?aggregate='.$produitsTotaux;
+                      $options['aggregate'] = $produitsTotaux;
                   }
 
                   if(isset($withDenomination) && $withDenomination) {
-                      $url_reprise_donnees_drm.= '?lieudit='.implode("|", $withDenomination);
+                      $options['lieudit'] = implode("|", $withDenomination);
                   }
 
                   if(!DRMClient::getInstance()->findLastByIdentifiant($identifiant, acCouchdbClient::HYDRATE_JSON)) {
-                      $url_reprise_donnees_drm.= "?firstdrm=1";
+                      $options['firstdrm'] = 1;
                   }
+                  $url_reprise_donnees_drm = DRMConfiguration::getInstance()->getFinalRepriseDonneesUrl($identifiant, $periode, $options);
 
                   $discr = date('YmdHis').'_'.uniqid();
                   $md5file = md5($discr);

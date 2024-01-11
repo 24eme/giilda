@@ -88,7 +88,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function isTeledeclare() {
 
-        return $this->exist('teledeclare') && $this->teledeclare;
+        return ($this->exist('teledeclare') && $this->teledeclare) || ($this->exist('type_creation') && $this->type_creation == 'IMPORT');
     }
 
     public function changedToTeledeclare() {
@@ -1115,7 +1115,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function isReouvrable() {
 
-        return $this->isModifiable() && $this->isTeledeclare() && $this->isNonFactures() && !$this->hasSuivante();
+        return $this->isModifiable() && $this->isTeledeclare() && $this->type_creation != 'IMPORT' && $this->isNonFactures() && !$this->hasSuivante();
     }
 
     public function getPreviousVersion() {
@@ -1407,7 +1407,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         foreach ($to_removes as $removeRegime => $crds) {
             $this->getOrAdd('crds')->remove($removeRegime);
-            $this->getOrAdd('crds')->add($newCrdRegime, $crds);
+            if(!$this->getOrAdd('crds')->exist($newCrdRegime)) {
+                $this->getOrAdd('crds')->add($newCrdRegime, $crds);
+            }
         }
         foreach ($this->getProduits() as $produit) {
           $this->switchDetailsCrdRegime($produit,$newCrdRegime,DRM::DETAILS_KEY_SUSPENDU);

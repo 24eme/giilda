@@ -54,7 +54,35 @@ class DRMConfiguration {
 
     public function getRepriseDonneesUrl() {
 
+        $url_reprise_donnees_drm = sfConfig::get('app_url_reprise_donnees_drm');
+        if ($url_reprise_donnees_drm) {
+            return $url_reprise_donnees_drm;
+        }
         return $this->configuration['reprise_donnees_url'];
+    }
+
+    public function getFinalRepriseDonneesUrl($identifiant, $periode, $options = null) {
+        if (!$options) {
+            $options = [];
+        }
+
+        $url_reprise_donnees_drm = $this->getRepriseDonneesUrl();
+        $url_reprise_donnees_drm = str_replace(":identifiant", $identifiant, $url_reprise_donnees_drm);
+        $url_reprise_donnees_drm = str_replace(":periode", $periode, $url_reprise_donnees_drm);
+
+        if(isset($options['aggregate']) && $options['aggregate']) {
+            $url_reprise_donnees_drm.= '?aggregate='.$options['aggregate'];
+        }
+
+        if(isset($options['lieudit']) && $options['lieudit']) {
+            $url_reprise_donnees_drm.= '?lieudit='.$options['lieudit'];
+        }
+
+        if(isset($options['firstdrm']) && $options['firstdrm']) {
+            $url_reprise_donnees_drm.= "?firstdrm=".$options['firstdrm'];
+        }
+
+        return $url_reprise_donnees_drm;
     }
 
     public function hasSansContratOption() {
@@ -229,7 +257,17 @@ class DRMConfiguration {
 
     public function hasActiveReserveInterpro() {
         $desactive = $this->getConfig('desactive_reserve_interpro');
-        return ($desactive === true)? false : true;
+        if ($desactive === true) {
+            return false;
+        }
+        return ($this->getConfig('reserve_interpro_message'));
+    }
+
+    public function getRerserveInteproMessage() {
+        if (!$this->hasActiveReserveInterpro()) {
+            return null;
+        }
+        return $this->getConfig('reserve_interpro_message');
     }
 
 }

@@ -99,7 +99,26 @@ class compte_teledeclarantActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeModification(sfWebRequest $request) {
-        $this->compte = $this->getUser()->getCompte();
+        if($request->getParameter('identifiant')) {
+            $this->compte = CompteClient::getInstance()->find("COMPTE-".$request->getParameter('identifiant'));
+        } else {
+            $this->compte = $this->getUser()->getCompte();
+        }
+
+        if(!$this->compte) {
+
+            throw new sfError404Exception("Compte ".$request->getParameter('identifiant')." not found");
+        }
+
+        if(!$this->getUser()->hasCredential(AppUser::CREDENTIAL_ADMIN) && $this->compte->getSociete()->_id != $this->getUser()->getCompte()->getSociete()->_id) {
+
+            throw new sfError403Exception();
+        }
+
+        if($this->compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU) {
+
+            return sfView::SUCCESS;
+        }
 
         $this->form = new CompteTeledeclarantForm($this->compte);
 
@@ -109,7 +128,7 @@ class compte_teledeclarantActions extends sfActions {
                 $this->form->save();
 
                 $this->getUser()->setFlash('maj', 'Vos identifiants ont bien été mis à jour.');
-                $this->redirect('compte_teledeclarant_modification');
+                $this->redirect('compte_teledeclarant_modification_id', ['identifiant' => $this->compte->identifiant]);
             }
         }
     }
@@ -197,4 +216,84 @@ class compte_teledeclarantActions extends sfActions {
         return $this->renderText(file_get_contents($path));
     }
 
+    private function checkApiAccess(sfWebRequest $request) {
+        $secret = sfConfig::get('app_viticonnect_secret');
+        $login = $request->getParameter('login');
+        $epoch = $request->getParameter('epoch');
+        if(empty($secret)) {
+            http_response_code(403);
+            die('Forbidden');
+        }
+        if(abs(time() - $epoch) > 30) {
+            http_response_code(403);
+            die('Forbidden');
+        }
+        $md5 = $request->getParameter('md5');
+        if ($md5 != md5($secret."/".$login."/".$epoch)) {
+            http_response_code(401);
+            die("Unauthorized");
+        }
+    }
+
+    public function executeViticonnectApi(sfWebRequest $request)
+    {
+        $this->checkApiAccess($request);
+        $login = $request->getParameter('login');
+        $compte = acCouchdbManager::getClient('Compte')->retrieveByLogin($login);
+        if (!$compte) {
+            $compte = acCouchdbManager::getClient('Compte')->retrieveByLogin(strtolower($login));
+        }
+        if (!$compte) {
+            http_response_code(401);
+            die("Unauthorized $login");
+        }
+
+        $this->entities = array('raison_sociale' => [], 'cvi' => [], 'siret' => [], 'ppm' => [], 'accise' => [], 'tva' => []);
+        $this->entities_number = 0;
+        $entities = array();
+        foreach($compte->getSociete()->getEtablissementsObj() as $e) {
+            $k = $e->etablissement->cvi.$e->etablissement->no_accises;
+            if ($k) {
+                $entities[$k] = $e;
+            }
+        }
+        foreach($entities as $k => $e) {
+            $this->entities['raison_sociale'][] = htmlspecialchars($e->etablissement->raison_sociale, ENT_XML1, 'UTF-8');
+            $this->entities['cvi'][] = str_replace(' ', '', $e->etablissement->cvi);
+            $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
+            $this->entities['accises'][] = str_replace(' ', '', $e->etablissement->no_accises);
+            $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
+            if($request->getParameter('extra')) {
+                $this->entities['numero_interne'][] = str_replace(' ', '', $e->etablissement->getNumInterne());
+                $this->entities['code_comptable_client'][] = str_replace(' ', '', $compte->getSociete()->getCodeComptableClient());
+                $this->entities['adresse'][] = htmlspecialchars($e->etablissement->getAdresse(), ENT_XML1, 'UTF-8');
+                $this->entities['adresse_complementaire'][] = htmlspecialchars($e->etablissement->getAdresseComplementaire(), ENT_XML1, 'UTF-8');
+                $this->entities['code_postal'][] = $e->etablissement->getCodePostal();
+                $this->entities['commmune'][] = htmlspecialchars($e->etablissement->getCommune(), ENT_XML1, 'UTF-8');
+                $this->entities['famille'][] = $e->etablissement->getFamille();
+                $this->entities['email'][] = $e->etablissement->getEmailTeledeclaration();
+                $this->entities['telephone_bureau'][] = str_replace(' ', '', $e->etablissement->getTelephoneBureau());
+                $this->entities['telephone_mobile'][] = str_replace(' ', '', $e->etablissement->getTelephoneMobile());
+                $this->entities['telephone_perso'][] = str_replace(' ', '', $e->etablissement->getTelephonePerso());
+                $this->entities['droits'][] = implode("|", ($compte->exist('droits')) ? $compte->getDroits()->toArray() : []);
+            }
+            $this->entities_number++;
+        }
+        $this->setLayout(false);
+        $this->getResponse()->setHttpHeader('Content-Type', 'text/plain');
+    }
+
+    public function executeViticonnectCheck(sfWebRequest $request)
+    {
+        $this->checkApiAccess($request);
+        $login = $request->getParameter('login');
+        $comptes = EtablissementAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, $login);
+        if(count($comptes) == 1) {
+            echo "Found";
+            exit;
+        }
+        http_response_code(404);
+        die('Not found');
+
+    }
 }

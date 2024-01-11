@@ -7,6 +7,8 @@
 class Societe extends BaseSociete implements InterfaceCompteGenerique, InterfaceMandatSepaPartie {
 
     private $comptes = null;
+    const REFERENCE_INTERPROS_METAS = "&interpros_metas";
+    const FACTURATION_NB_PAIEMENTS_NODE = 'nb_paiements';
 
     public function constructId() {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);
@@ -49,18 +51,23 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function setIdentifiant($identifiant) {
         $r = $this->_set('identifiant', $identifiant);
-
-        $this->code_comptable_client = $this->getCodeComtableClient();
-
         return $r;
     }
 
-    public function getCodeComtableClient() {
-        if(!$this->_get('code_comptable_client')) {
-            return FactureConfiguration::getInstance()->getPrefixCodeComptable().((int)$this->identifiant)."";
+    public function getCodeComptableClient($interpro = null) {
+        $cc = ($interpro)? $this->getDataFromInterproMetas($interpro, 'code_comptable_client') : $this->_get('code_comptable_client');
+        if(!$cc) {
+            return FactureConfiguration::getInstance($interpro)->getPrefixCodeComptable().((int)$this->identifiant)."";
         }
+        return $cc;
+    }
 
-        return $this->_get('code_comptable_client');
+    public function addCodeComptableClient($cc, $interpro = null) {
+        if (!$interpro)
+            $this->_set('code_comptable_client', $cc);
+        else {
+            $this->setMetasForInterpro($interpro, ['code_comptable_client' => $cc]);
+        }
     }
 
     public function canHaveChais() {
@@ -157,12 +164,13 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $etbObj->etablissement;
     }
 
-    public function getContactsObj() {
+    public function getAllCompteObj() {
         if (!$this->comptes || !count($this->comptes)) {
             foreach ($this->contacts as $id => $obj) {
-                $compte = CompteClient::getInstance()->find($id);
-                if ($compte) {
-                    $this->addToComptes($compte);
+                if (!strlen($id)) continue;
+                $compteToAdd = CompteClient::getInstance()->find($id);
+                if($compteToAdd){
+                    $this->addToComptes($compteToAdd);
                 }
             }
         }
@@ -193,7 +201,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         $this->comptes[$compte->_id] = $compte;
     }
     private function removeFromComptes($compte) {
-        $this->getContactsObj();
+        $this->getAllCompteObj();
         unset($this->comptes[$compte->_id]);
     }
 
@@ -202,15 +210,26 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         foreach ($this->getEtablissementsObj() as $id => $obj) {
             $contacts[$id] = EtablissementClient::getInstance()->find($id);
         }
-        foreach ($this->getContactsObj() as $id => $obj) {
+        foreach ($this->getAllCompteObj() as $id => $obj) {
             $contacts[$id] = $obj;
         }
 
         return $contacts;
     }
 
+    public function getComptesInterlocuteurs() {
+        $Interlocuteurs = array();
+        foreach ($this->getAllCompteObj() as $id => $compte) {
+          if($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+              continue;
+          }
+          $Interlocuteurs[$id] = $compte;
+        }
+        return $Interlocuteurs;
+    }
+
     public function getCompte($id) {
-        $this->getContactsObj();
+        $this->getAllCompteObj();
         if (!isset($this->comptes[$id]) || !$this->comptes[$id]) {
             throw new sfException($this->_id." :  pas de compte ".$id);
         }
@@ -358,10 +377,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $this->exist('statut') && $this->statut === EtablissementClient::STATUT_SUSPENDU;
     }
 
-    public function hasNumeroCompte() {
-        return ($this->code_comptable_client || $this->code_comptable_fournisseur);
-    }
-
     public function getSiegeAdresses() {
         $a = $this->siege->adresse;
         if ($this->siege->exist("adresse_complementaire")) {
@@ -403,7 +418,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     }
 
     public function isSynchroAutoActive() {
-
         return sfConfig::get('app_compte_synchro', true);
     }
 
@@ -417,12 +431,12 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         if ($this->isSynchroAutoActive() && !$compteMaster) {
             $compteMaster = $this->createCompteSociete();
         }
-
+        $this->checkInterprosMetas();
         parent::save();
 
         SocieteClient::getInstance()->setSingleton($this);
 
-        if($this->isSynchroAutoActive()) {
+        if ($this->isSynchroAutoActive()) {
             $compteMasterOrigin = clone $compteMaster;
             $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
 
@@ -430,7 +444,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
                 $this->pushToCompteOrEtablissementAndSave($compteMaster, EtablissementClient::getInstance()->find($id), $compteMasterOrigin);
             }
 
-            foreach ($this->getContactsObj() as $id => $compte) {
+            foreach ($this->getComptesInterlocuteurs() as $id => $compte) {
                 $this->pushToCompteOrEtablissementAndSave($compteMaster, $compte, $compteMasterOrigin);
             }
         }
@@ -458,11 +472,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
         if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $ret = $this->pushAdresseTo($compteOrEtablissement);
-            $needSave = $needSave || $ret;
-        }
-        if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $ret = $this->pushContactTo($compteOrEtablissement);
-            $needSave = $needSave || $ret;
+            $needSave = true;
         }
         if ($needSave) {
             $compteOrEtablissement->save();
@@ -526,7 +537,17 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function getSocietesLieesIds() {
         if(!$this->exist('societes_liees')) {
-
+            if ($compte = $this->getMasterCompte()) {
+                if ($compte->exist('tiers') && method_exists($compte, 'getTiersCollection')) {
+                    $societesLiees = [];
+                    foreach($compte->getTiersCollection() as $tiers) {
+                        if ($tiers->exist('societe') && $tiers->_get('societe')) {
+                            $societesLiees[] = $tiers->_get('societe');
+                        }
+                    }
+                    return $societesLiees;
+                }
+            }
             return array($this->_id);
         }
 
@@ -564,7 +585,11 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
             throw new sfException("La société doit être créée avant de créer l'établissement");
         }
         $etablissement->setSociete($societeSingleton);
-        $etablissement->identifiant = EtablissementClient::getInstance()->getNextIdentifiantForSociete($societeSingleton);
+        if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $etablissement->identifiant = EtablissementClient::getInstance()->getNextIdentifiantForSociete($societeSingleton);
+        } else {
+            $etablissement->identifiant = $societeSingleton->identifiant;
+        }
         if ($famille) {
             $etablissement->famille = $famille;
         }
@@ -577,6 +602,15 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         $compte = CompteClient::getInstance()->createCompteFromEtablissement($etablissement);
         $this->addCompte($compte);
         return $compte;
+    }
+
+    public function findOrCreateCompteFromEtablissement($etablissement) {
+      $compte = CompteClient::getInstance()->findByIdentifiant($etablissement->identifiant);
+      if(!$compte){
+        $compte = CompteClient::getInstance()->createCompteForEtablissementFromSociete($etablissement);
+        $this->addCompte($compte);
+      }
+      return $compte;
     }
 
     public function switchStatusAndSave() {
@@ -624,21 +658,76 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
       return $this->siege->commune;
     }
 
-    public function getMandatSepa() {
-        return MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant());
+    public function getMandatSepa($interpro = null) {
+        return MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant(), $interpro);
     }
 
-    public function hasMandatSepa() {
-      return ($this->getMandatSepa() != null);
+    public function hasMandatSepa($interpro = null) {
+      return ($this->getMandatSepa($interpro) != null);
     }
 
-    public function hasMandatSepaActif() {
-      $mandat = $this->getMandatSepa();
+    public function hasMandatSepaActif($interpro = null) {
+      $mandat = $this->getMandatSepa($interpro);
       if (!$mandat) {
           return false;
       }
       return $mandat->is_actif;
     }
     // fin
+
+    public function checkInterprosMetas() {
+        if (!$this->exist('interpros_metas')) return;
+        if (!count($this->interpros_metas)) return;
+        foreach($this->interpros_metas as $interpro => $datas) {
+            foreach($datas as $k => $v) {
+                if ($this->exist($k) && $this->get($k) && $this->get($k) != self::REFERENCE_INTERPROS_METAS) {
+                    $this->interpros_metas->getOrAdd('DEFAUT')->add($k, $this->get($k));
+                    $this->set($k, self::REFERENCE_INTERPROS_METAS);
+                }
+            }
+        }
+    }
+
+    public function getMetasForInterpro($interpro) {
+        return $this->getOrAdd('interpros_metas')->getOrAdd($interpro);
+    }
+
+    public function setMetasForInterpro($interpro, array $datas) {
+        $metas = $this->getMetasForInterpro($interpro);
+        foreach($datas as $k => $v) {
+            $metas->add($k, $v);
+        }
+    }
+
+    public function getDataFromInterproMetas($interpro, $meta) {
+        $metas = $this->getMetasForInterpro($interpro);
+        return ($metas->exist($meta))? $metas->get($meta) : null;
+    }
+
+    public function getIdentifiantByInterpro($interpro = null) {
+        if (!$interpro) return $this->identifiant;
+        if (count($this->etablissements) != 1)  return $this->identifiant;
+        $etablissement = $this->getEtablissementPrincipal();
+        if (method_exists($etablissement, 'getIdentifiantByInterpro')) {
+            return $etablissement->getIdentifiantByInterpro($interpro);
+        }
+        return $this->identifiant;
+    }
+
+    public function getMetasForFacturation($typeFacturation) {
+        return $this->getOrAdd('facturation_metas')->getOrAdd($typeFacturation);
+    }
+
+    public function setMetasForFacturation($typeFacturation, array $datas) {
+        $metas = $this->getMetasForFacturation($typeFacturation);
+        foreach($datas as $k => $v) {
+            $metas->add($k, $v);
+        }
+    }
+
+    public function getDataFromFacturationMetas($typeFacturation, $meta) {
+        $metas = $this->getMetasForFacturation($typeFacturation);
+        return ($metas->exist($meta))? $metas->get($meta) : null;
+    }
 
 }

@@ -22,11 +22,12 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
     public function configure() {
         parent::configure();
 
-        $this->setWidget('famille', new bsWidgetFormChoice(array('choices' => $this->getFamilles())));
+        $this->setWidget('famille', new bsWidgetFormChoice(array('choices' => array_merge(["" => ""], $this->getFamilles()))));
         $this->setWidget('nom', new bsWidgetFormInput());
         $this->setWidget('region', new bsWidgetFormChoice(array('choices' => self::getRegions())));
         $this->setWidget('nature_inao', new bsWidgetFormChoice(array('choices' => self::getNaturesInao())));
         $this->setWidget('no_accises', new bsWidgetFormInput());
+        $this->setWidget('num_interne', new bsWidgetFormInput());
         $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
         $this->setWidget('site_fiche', new bsWidgetFormInput());
         $this->setWidget('mois_stock_debut', new bsWidgetFormChoice(array('choices' => $this->getMonths())));
@@ -37,6 +38,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->widgetSchema->setLabel('nature_inao', 'Nature INAO *');
         $this->widgetSchema->setLabel('region', 'Région viticole *');
         $this->widgetSchema->setLabel('no_accises', "N° d'Accise");
+        $this->widgetSchema->setLabel('num_interne', "N° interne");
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
         $this->widgetSchema->setLabel('site_fiche', 'Site Fiche Publique');
         $this->widgetSchema->setLabel('mois_stock_debut', 'Mois de saisie du stock');
@@ -48,6 +50,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->setValidator('region', new sfValidatorChoice(array('required' => true, 'choices' => array_keys(self::getRegions()))));
         $this->setValidator('site_fiche', new sfValidatorString(array('required' => false)));
         $this->setValidator('no_accises', new sfValidatorString(array('required' => false)));
+        $this->setValidator('num_interne', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         $this->setValidator('mois_stock_debut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getMonths()))));
         $this->setValidator('exclusion_stats', new sfValidatorBoolean(['required' => false]));
@@ -61,6 +64,23 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
             $this->setWidget('carte_pro', new bsWidgetFormInput());
             $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnelle');
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
+        }
+
+        if($this->getObject()->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $this->getWidget('adresse')->setAttribute('readonly', 'readonly');
+            $this->getWidget('adresse_complementaire')->setAttribute('readonly', 'readonly');
+            $this->getWidget('code_postal')->setAttribute('readonly', 'readonly');
+            $this->getWidget('insee')->setAttribute('readonly', 'readonly');
+            $this->getWidget('commune')->setAttribute('readonly', 'readonly');
+            $this->getWidget('pays')->setAttribute('readonly', 'readonly');
+            $this->getWidget('droits')->setAttribute('readonly', 'readonly');
+            $this->getWidget('email')->setAttribute('readonly', 'readonly');
+            $this->getWidget('teledeclaration_email')->setAttribute('readonly', 'readonly');
+            $this->getWidget('telephone_perso')->setAttribute('readonly', 'readonly');
+            $this->getWidget('telephone_bureau')->setAttribute('readonly', 'readonly');
+            $this->getWidget('telephone_mobile')->setAttribute('readonly', 'readonly');
+            $this->getWidget('fax')->setAttribute('readonly', 'readonly');
+            $this->getWidget('site_internet')->setAttribute('readonly', 'readonly');
         }
 
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');

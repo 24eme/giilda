@@ -8,18 +8,15 @@
             </div>
             <div class="panel-body">
         <?php
-        $libelle = "Merci d'indiquer votre e-mail, votre mot de passe";
-        $libelle .= ($form->getTypeCompte() == SocieteClient::TYPE_COURTIER)? " et votre numéro de carte professionnelle" : "";
-        $libelle .= ($form->getTypeCompte() == SocieteClient::TYPE_OPERATEUR)?
-                    " et votre numéro de SIRET" : "";
-        $libelle .= " :";
+        $libelle_pwd = "Merci d'indiquer votre mot de passe : ";
+        $libelle_mail = "Merci de renseigner l'adresse email sur laquelle vous voulez recevoir les informations liées à vos déclarations :";
         ?>
-          <div class="row">
+        <div class="row">
               <div class="col-xs-12">
-                <p class="well"><strong>Conseil :</strong> Utiliser un email connu par vos collaborateurs habilités à télé-déclarer sur vos différents établissements.</p>
+                <p class="well">Veuillez renseigner un mot de passe de <strong>8 caractères minimum.</strong></p>
               </div>
               <div class="col-xs-12">
-                <p class="titre_section">&nbsp;&nbsp;<?php echo $libelle; ?></p>
+                <p class="titre_section">&nbsp;&nbsp;<?php echo $libelle_pwd; ?></p>
               </div>
         <div id="creation_compte_teledeclaration" class="col-xs-12" >
             <div class="bloc_form bloc_form_condensed">
@@ -28,22 +25,7 @@
                     <?php echo $form->renderHiddenFields(); ?>
                     <?php echo $form->renderGlobalErrors(); ?>
                   </div>
-                <div class="col-xs-12">
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <?php echo $form['email']->renderError() ?>
-                      </div>
-                    </div>
-                      <div class="row">
-                      <div class="col-xs-4 text-right">
-                        <?php echo $form['email']->renderLabel() ?>
-                      </div>
-                      <div class="col-xs-4 col-xs-offset-2 text-left">
-                          <?php echo $form['email']->render(array('class' => "form-control")) ?>
-                      </div>
-                    </div>
-                    <br/>
-                </div>
+
                 <div class="col-xs-12">
                     <div class="row">
                       <div class="col-xs-12">
@@ -76,8 +58,32 @@
                     </div>
                     <br/>
                 </div>
+                <div class="col-xs-12">
+                  <p class="well"><strong>Conseil :</strong> Utiliser un <strong>email</strong> connu par vos collaborateurs habilités à télé-déclarer sur vos différents établissements.</p>
+                </div>
+                <div class="col-xs-12">
+                  <p class="titre_section">&nbsp;&nbsp;<?php echo $libelle_mail; ?></p>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <?php echo $form['email']->renderError() ?>
+                      </div>
+                    </div>
+                      <div class="row">
+                      <div class="col-xs-4 text-right">
+                        <?php echo $form['email']->renderLabel() ?>
+                      </div>
+                      <div class="col-xs-4 col-xs-offset-2 text-left">
+                          <?php echo $form['email']->render(array('class' => "form-control")) ?>
+                      </div>
+                    </div>
+                    <br/>
+                </div>
                 <?php if ($form->getTypeCompte() == SocieteClient::TYPE_COURTIER): ?>
                   <div class="col-xs-12">
+                    <br/>
+                    <br/>
                       <div class="row">
                         <div class="col-xs-12">
                         <?php echo $form['carte_pro']->renderError() ?>
@@ -96,6 +102,8 @@
                 <?php endif; ?>
                 <?php if ($form->getTypeCompte() == SocieteClient::TYPE_OPERATEUR): ?>
                   <div class="col-xs-12">
+                    <br />
+                    <br />
                       <div class="row">
                         <div class="col-xs-12">
                           <?php echo $form['siret']->renderError() ?>

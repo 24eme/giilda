@@ -307,7 +307,7 @@ class DAEImportCsvEdi extends DAECsvEdi
     private function checkCSVIntegrity() {
         $ligne_num = 1;
         foreach ($this->getDocRows() as $csvRow) {
-            if(count($csvRow) != 19){
+            if(count($csvRow) < 19){
               $this->csvDoc->addErreur($this->createWrongFormatFieldCountError($ligne_num, $csvRow));
               $ligne_num++;
               continue;
@@ -434,6 +434,7 @@ class DAEImportCsvEdi extends DAECsvEdi
         $dae->conditionnement_key = $csvRow[self::CSV_CONDITIONNEMENT_TYPE];
         $dae->contenance_key = $csvRow[self::CSV_CONDITIONNEMENT_VOLUME];
         $dae->conditionnement_libelle = $this->conditionnements[$dae->conditionnement_key];
+        $dae->contenance_libelle = '';
 
         $dae->label_key = trim($csvRow[self::CSV_PRODUIT_LABEL]);
         $dae->label_libelle = ($dae->label_key && isset($this->labels[$dae->label_key]))? $this->labels[$dae->label_key] : null;

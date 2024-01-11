@@ -94,6 +94,18 @@ class MandatSepa extends BaseMandatSepa {
     return $result;
   }
 
+  public function getRib(){
+    $iban = $this->getIban();
+    return ($iban)? substr($iban, 4) : '';
+  }
+
+  public function getRibFormate() {
+    $rib = $this->getRib();
+    if (!$rib) return '';
+    if (strlen($rib) != 23) return $rib;
+    return  substr($rib, 0, 5).' '.substr($rib, 5, 5).' '.substr($rib, 10, -2).' '.substr($rib, -2);
+  }
+
   public function getNumeroCompte() {
       $iban = $this->getIban();
       if (!$iban) {

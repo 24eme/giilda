@@ -18,3 +18,7 @@ modificationOublie:
  is_secure: false
 reglementationGenerale:
  is_secure: false
+viticonnectApi:
+ is_secure: false
+viticonnectCheck:
+ is_secure: false

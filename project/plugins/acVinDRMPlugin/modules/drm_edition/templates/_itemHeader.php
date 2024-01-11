@@ -2,7 +2,7 @@
 <?php
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
-$drmTeledeclaree = $drm->teledeclare;
+$drmTeledeclaree = $drm->isTeledeclare();
 ?>
 <div class="col-xs-4">
     <form action="<?php echo url_for('drm_choix_favoris', array('identifiant' => $formFavoris->getObject()->getIdentifiant(),

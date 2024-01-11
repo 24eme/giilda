@@ -1,4 +1,5 @@
 <?php use_helper('Date'); ?>
+<?php use_helper('Statistique'); ?>
 <table class="table table-striped">
 	<thead>
 		<tr>
@@ -11,11 +12,12 @@
 			<th>Total sorties</th>
 			<th>Total facturable</th>
 			<th>Total fin</th>
+			<th>Total statut</th>
 		</tr>
 	</thead>
 	<tbody>
-	<?php 
-	foreach ($hits as $hit): 
+	<?php
+	foreach ($hits as $hit):
 	$item = $hit->getData();
 	$parameters = array();
 	$parameters['identifiant'] = $item['doc']['identifiant'];
@@ -33,6 +35,9 @@
 			<td class="text-right"><?php echo number_format($item['doc']['declaration']['total_sorties'], 2, ',', ' ') ?></td>
 			<td class="text-right"><?php echo number_format($item['doc']['declaration']['total_facturable'], 2, ',', ' ') ?></td>
 			<td class="text-right"><?php echo number_format($item['doc']['declaration']['total'], 2, ',', ' ') ?></td>
+      <td class="text-right">
+        <?php echo getTransmissionStatut($item['doc']); ?>
+      </td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>

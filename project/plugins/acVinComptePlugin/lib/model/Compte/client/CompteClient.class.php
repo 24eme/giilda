@@ -7,6 +7,7 @@ class CompteClient extends acCouchdbClient {
     const TYPE_COMPTE_INTERLOCUTEUR = "INTERLOCUTEUR";
     const STATUT_ACTIF = "ACTIF";
     const STATUT_SUSPENDU = "SUSPENDU";
+    const STATUT_SUPPRIME = "SUPPRIME";
 
     const STATUT_TELEDECLARANT_NOUVEAU = "NOUVEAU";
     const STATUT_TELEDECLARANT_INSCRIT = "INSCRIT";
@@ -18,7 +19,7 @@ class CompteClient extends acCouchdbClient {
     }
 
     public function getId($identifiant) {
-        if (! ($identifiant * 1)) {
+        if (SocieteConfiguration::getInstance()->isIdentifiantSaisi() || ! (intval($identifiant))) {
             return 'COMPTE-' . $identifiant;
         }
         return 'COMPTE-' . sprintf('%08d', $identifiant);
@@ -29,7 +30,7 @@ class CompteClient extends acCouchdbClient {
         $comptes = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         $last_num = 0;
         foreach ($comptes as $id) {
-            if (!preg_match('/COMPTE-[0-9]{6}([0-9]{2})/', $id, $matches)) {
+            if (!preg_match('/COMPTE-[C0-9]{'.strlen($societe_id).'}([0-9]{2})/', $id, $matches)) {
                 continue;
             }
 
@@ -73,14 +74,14 @@ class CompteClient extends acCouchdbClient {
 
     public function createTypeFromOrigines($origines) {
         foreach ($origines as $o) {
-            if (preg_match('/SOCIETE/', $o)) {
-                return self::TYPE_COMPTE_SOCIETE;
+            if (preg_match('/ETABLISSEMENT/', $o)) {
+                return self::TYPE_COMPTE_ETABLISSEMENT;
             }
         }
 
         foreach ($origines as $o) {
-            if (preg_match('/ETABLISSEMENT/', $o)) {
-                return self::TYPE_COMPTE_ETABLISSEMENT;
+            if (preg_match('/SOCIETE/', $o)) {
+                return self::TYPE_COMPTE_SOCIETE;
             }
         }
 
@@ -100,23 +101,17 @@ class CompteClient extends acCouchdbClient {
         return $compte;
     }
 
-    public function findOrCreateCompteFromEtablissement($e) {
-        $compte = $this->find($e->getNumCompteEtablissement());
-
-        if (!$compte) {
-            $compte = $this->createCompteFromEtablissement($e);
-        }
-
-        return $compte;
-    }
-
     public function createCompteFromSociete($societe) {
         $compte = new Compte();
         $compte->id_societe = $societe->_id;
         if(!$societe->isNew()) {
             $societe->pushContactAndAdresseTo($compte);
         }
-        $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
+        if($compte->compte_type == self::TYPE_COMPTE_INTERLOCUTEUR || SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
+        } else {
+            $compte->identifiant = $societe->identifiant;
+        }
         $compte->constructId();
         $compte->interpro = 'INTERPRO-declaration';
         $compte->setStatut(CompteClient::STATUT_ACTIF);
@@ -129,6 +124,20 @@ class CompteClient extends acCouchdbClient {
         $compte->statut = $etablissement->statut;
         $compte->addOrigine($etablissement->_id);
         $etablissement->pushContactAndAdresseTo($compte);
+
+        return $compte;
+    }
+
+    public function createCompteForEtablissementFromSociete($etablissement,$import = false) {
+        $compte = new Compte();
+        $compte->id_societe = $etablissement->getSociete()->_id;
+        if(!$etablissement->isNew()) {
+            $etablissement->pushContactAndAdresseTo($compte);
+        }
+        $compte->identifiant = $etablissement->identifiant;
+        $compte->constructId();
+        $compte->interpro = 'INTERPRO-declaration';
+        $compte->setStatut(CompteClient::STATUT_ACTIF);
 
         return $compte;
     }

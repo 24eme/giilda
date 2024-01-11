@@ -8,7 +8,9 @@ class GenerationExportShell extends GenerationAbstract
 
         $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS);
 
-        if (!file_exists(FactureConfiguration::getInstance()->getExportShell())) {
+        $shellScript = $this->getShellScript();
+
+        if (!file_exists($shellScript)) {
             $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENERREUR);
             $this->generation->save();
             return false;
@@ -16,7 +18,7 @@ class GenerationExportShell extends GenerationAbstract
 
         $this->generation->save();
 
-        exec('bash '.FactureConfiguration::getInstance()->getExportShell(), $generatedFiles);
+        exec('bash '.$shellScript, $generatedFiles);
 
         foreach($generatedFiles as $file) {
             $names = explode('|', $file);
@@ -33,6 +35,11 @@ class GenerationExportShell extends GenerationAbstract
 
     public function getDocumentName() {
         return 'ExportShell';
+    }
+
+    public function getShellScript() {
+        $interpro = $this->getArgInterpro();
+        return FactureConfiguration::getInstance($interpro)->getExportShell();
     }
 
 }

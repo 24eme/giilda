@@ -5,6 +5,7 @@ Facture:
       _id: {}
       _rev: {}
       type: {}
+      type_archive: { required:false }
       identifiant: {}
       code_comptable_client: {}
       numero_facture: {}
@@ -21,11 +22,19 @@ Facture:
       numero_archive: {  }
       statut: {}
       avoir: {required: false}
-      taux_tva: {required: false}
+      taux_tva: {required: false} #deprecated
+      total_taxe_is_globalise: {required: false}
       region: {}
+      interpro: {required: false}
       versement_comptable: {type: integer}
       versement_comptable_paiement: {type: integer}
       versement_sepa: {type: integer}
+      relances:
+        required: false
+        type: array_collection
+        definition:
+          fields:
+            '*': { }
       arguments:
         type: collection
         definition:
@@ -69,6 +78,7 @@ Facture:
                 fields:
                   libelle: {  }
                   produit_identifiant_analytique: {required: false  }
+                  quantite: {type: float, required: false}
                   montant_tva: {type: float}
                   montant_ht: {type: float}
                   origine_mouvements:
@@ -148,6 +158,7 @@ Facture:
                   commentaire: { }
                   execute: {required: false}
                   versement_comptable: { }
+      type_facture: {}
 
 MouvementsFacture:
   definition:
@@ -188,6 +199,7 @@ MouvementsFacture:
                         facture: { type: integer }
                         facturable: { type: integer }
                         region : { }
+                        interpro : { required: false }
                         date : { }
                         vrac_numero : { } #Utilisé pour l'ordre
 

@@ -26,7 +26,7 @@
                 <div class="form-group" style="margin-bottom: 0">
                    <label class="col-sm-3 control-label">Sous famille</label>
                    <div class="col-sm-8">
-                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo ($ds->declarant->sous_famille)? EtablissementFamilles::getSousFamilleLibelle($ds->declarant->famille, $ds->declarant->sous_famille) : null; ?></p>
+                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo $ds->declarant->sous_famille; ?></p>
                    </div>
                 </div>
                 <div class="form-group" style="margin-bottom: 0">

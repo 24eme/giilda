@@ -8,7 +8,10 @@ class exportFacturePaiementsTask extends sfBaseTask
         $this->addOptions(array(
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
-            new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default')
+            new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+            new sfCommandOption('factureid', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export a specific Facture', ''),
+            new sfCommandOption('entete', null, sfCommandOption::PARAMETER_REQUIRED, "Ligne d'entête", true),
+            new sfCommandOption('interpro', null, sfCommandOption::PARAMETER_OPTIONAL, 'Interpro'),
         ));
 
         $this->namespace        = 'export';
@@ -33,13 +36,29 @@ EOF;
 
         }
         $app = $options['application'];
-        echo ExportFacturePaiementsCSV::getHeaderCsv();
+        if($options["entete"]) {
+            echo ExportFacturePaiementsCSV::getHeaderCsv();
+        }
+        if ($options['factureid']) {
+            $facture = FactureClient::getInstance()->find($options['factureid']);
+            if (!$facture) {
+                return;
+            }
+            if ($options["interpro"] && $facture->getOrAdd('interpro') != $options["interpro"]) {
+                return;
+            }
+            $export = new ExportFacturePaiementsCSV($facture, false, false);
+            echo $export->exportFacturePaiements();
+            return ;
+	    }
         $all_factures = FactureEtablissementView::getInstance()->getPaiementNonVerseeEnCompta();
         foreach($all_factures as $vfacture) {
-
           $facture = FactureClient::getInstance()->find($vfacture->id);
           if(!$facture) {
               throw new sfException(sprintf("Document %s introuvable", $vfacture->id));
+          }
+          if ($options["interpro"] && $facture->getOrAdd('interpro') != $options["interpro"]) {
+              continue;
           }
           $export = new ExportFacturePaiementsCSV($facture, false, true);
           echo $export->exportFacturePaiements();
