@@ -497,7 +497,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getDroits() {
-
+        if (!$this->exist('droits')) {
+            return array();
+        }
         return $this->_get('droits');
     }
 
