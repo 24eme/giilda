@@ -70,8 +70,14 @@ class FactureClient extends acCouchdbClient {
         if ($interpro) {
             $facture->add('interpro', $interpro);
         }
+        $biggestMouvementSocDate = null;
+        foreach ($mouvementsSoc as $mouvementSoc) {
+          if (isset($mouvementSoc->date) && $mouvementSoc->date > $biggestMouvementSocDate) {
+            $biggestMouvementSocDate = $mouvementSoc->date;
+          }
+        }
         $facture->checkModeCalculTotalTaxe();
-        $facture->storeDatesCampagne($date_facturation);
+        $facture->storeDatesCampagne($date_facturation, $biggestMouvementSocDate);
         $facture->constructIds($societe);
         $facture->storeDeclarant($societe);
 
