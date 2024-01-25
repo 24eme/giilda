@@ -235,6 +235,10 @@ class FactureConfiguration {
   		return isset($this->configuration['echeance_fin_de_mois']) ? $this->configuration['echeance_fin_de_mois'] : false;
   	}
 
+    public function getEcheanceDateMvt() {
+  		return isset($this->configuration['echeance_date_mvt']) ? $this->configuration['echeance_date_mvt'] : false;
+  	}
+
     public function getEmetteurCvo() {
         return isset($this->configuration['emetteur_cvo']) ? $this->configuration['emetteur_cvo'] : array();
     }
