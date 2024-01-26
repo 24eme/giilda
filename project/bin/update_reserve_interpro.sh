@@ -1,57 +1,45 @@
 #! /bin/bash
-#
-# cut -d';' -f2 dr* | grep -v [A-Z] | sort | uniq | while read CVI; do grep "$CVI" * | sed 's/:/;/' | cut -d';' -f1,3,4,10 ; done
-#
-# Usage : update_reserve_interpro.sh dr|sv
 
-if [ $# -ne 1 ]; then
-    echo "Argument manquant. Usage : $0 dr|sv"
+if [ $# -ne 3 ]; then
+    echo "Arguments manquants. Usage : $0 fichier periode appellation"
     exit 1
 fi
 
 function appellation() {
     case $1 in
         pinotgris)
-            echo "PINOTGRIS"
+            echo "declaration/certifications/AOC_ALSACE/genres/TRANQ/appellations/ALSACEBLANC/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/PG/reserve_interpro"
             ;;
         gewurztraminer)
-            echo "GW"
-            ;;
-        *)
-            echo "rien"
+            echo "declaration/certifications/AOC_ALSACE/genres/TRANQ/appellations/ALSACEBLANC/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/GW/reserve_interpro"
             ;;
     esac
 }
 
-function value() {
-    case $1 in
-        dr)
-            echo 9
-            ;;
-        sv)
-            echo 8
-            ;;
-    esac
-}
+FICHIER=$1
+PERIODE=$2
+APPELLATION=$3
 
-TYPE=$1
-LIST_OF_CVIS=$(mktemp)
+LOGFILE="/tmp/reserve.$APPELLATION.log"
+UPDFILE="./.updated.$APPELLATION.log"
 
-cut -d';' -f 2 "$TYPE"_* | grep -v "[A-Z]" | sort | uniq > "$LIST_OF_CVIS"
+touch "$LOGFILE" "$UPDFILE"
 
-while read -r CVI; do
-    APLFORCVI=$(mktemp)
+sed 1d "$FICHIER" | while read -r line; do
+    CVI=$(echo "$line" | cut -d";" -f2)
+    VALUE=$(echo "$line" | cut -d";" -f9)
 
-    grep "$CVI" -- "$TYPE"*.csv | sed 's/:/;/' | cut -d'_' -f2 > "$APLFORCVI"
+    if [ -e "$UPDFILE" ] && grep -wq "$CVI" "$UPDFILE"; then
+        echo "$CVI déjà à jour" >> "$LOGFILE"
+        continue
+    fi
 
-    while read -r APL; do
-        VALUE=$(grep "$CVI" -- "$TYPE"*"$APL"*.csv | sed 's/:/;/' | cut -d';' -f "$(value "$TYPE")")
-        echo "$CVI $APL $VALUE"
-        # php symfony document:setvalue "DRM-$CVI-202401" appellation "$APL"
-    done < "$APLFORCVI"
+    # Pour les SV, qui ont un CIVABA comme identifiant de DRM
+    # TODO: à changer le check du déjà updated
+    # CIVABA=$(grep "$CVI" /tmp/export_bi_etablissements.csv | cut -d';' -f7)
+    # php symfony --application=civa document:setvalue "DRM-$CIVABA-$PERIODE" "$(appellation "$APPELLATION")" "$VALUE" 2>> "$LOGFILE"
 
-    rm "$APLFORCVI"
+    php symfony --application=civa document:setvalue "DRM-$CVI-$PERIODE" "$(appellation "$APPELLATION")" "$VALUE" 2>> "$LOGFILE"
+done
 
-done < "$LIST_OF_CVIS"
-
-rm "$LIST_OF_CVIS"
+grep "les valeurs suivantes ont été changés" "$LOGFILE" | cut -d'-' -f2 > "$UPDFILE"
