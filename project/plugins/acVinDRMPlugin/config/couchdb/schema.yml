@@ -648,9 +648,11 @@ DRM:
                         entrees_achats: {  }
                         entrees_retours: {  }
                         entrees_excedents: {  }
+                        entrees_autres: {  }
                         sorties_utilisations: {  }
                         sorties_destructions: {  }
                         sorties_manquants: {  }
+                        sorties_autres: {  }
       favoris:
         type: collection
         required: false

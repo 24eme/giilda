@@ -25,8 +25,8 @@
                                     <tr>
                                         <th class="col-xs-2 text-center vertical-center" rowspan="2">CRD<?php echo getPointAideHtml('drm','crd_type') ?></th>
                                         <th class="col-xs-1 text-center vertical-center" rowspan="2">Stock<?php echo getPointAideHtml('drm','crd_stock_debut') ?></th>
-                                        <th class="text-center" colspan="3">Entrées</th>
-                                        <th class="text-center" colspan="3">Sorties</th>
+                                        <th class="text-center" colspan="4">Entrées</th>
+                                        <th class="text-center" colspan="4">Sorties</th>
                                         <th class="col-xs-1 text-center vertical-center" rowspan="2" >Stock <?php echo getLastDayForDrmPeriode($drm); ?><?php echo getPointAideHtml('drm','crd_stock_fin') ?></th>
                                     </tr>
                                     <tr>
@@ -34,10 +34,12 @@
                                         <th class="col-xs-1 text-center">Achat<?php echo getPointAideHtml('drm','crd_entree_achat'); ?></th>
                                         <th class="col-xs-1 text-center">Retour<?php echo getPointAideHtml('drm','crd_entree_retour'); ?></th>
                                         <th class="col-xs-1 text-center">Excéd.<?php echo getPointAideHtml('drm','crd_entree_exc'); ?></th>
+                                        <th class="col-xs-1 text-center">Autres</th>
 
                                         <th class="col-xs-1 text-center">Utilisé<?php echo getPointAideHtml('drm','crd_sortie_utilisee'); ?></th>
                                         <th class="col-xs-1 text-center">Destr.<?php echo getPointAideHtml('drm','crd_sortie_detruite'); ?></th>
                                         <th class="col-xs-1 text-center">Manq.<?php echo getPointAideHtml('drm','crd_sortie_manquant'); ?></th>
+                                        <th class="col-xs-1 text-center">Autres</th>
 
                                     </tr>
                                 </thead>
@@ -49,9 +51,11 @@
                                             <td class="crds_entreesAchats"><?php echo $crdsForms['entrees_achats_' . $regime . '_' . $crdKey]->render(); ?></td>
                                             <td class="crds_entreesRetours"><?php echo $crdsForms['entrees_retours_' . $regime . '_' . $crdKey]->render(); ?></td>
                                             <td class="crds_entreesExcedents"><?php echo $crdsForms['entrees_excedents_' . $regime . '_' . $crdKey]->render(); ?></td>
+                                            <td class="crds_entreesAutres"><?php echo $crdsForms['entrees_autres_' . $regime . '_' . $crdKey]->render(); ?></td>
                                             <td class="crds_sortiesUtilisations"><?php echo $crdsForms['sorties_utilisations_' . $regime . '_' . $crdKey]->render(); ?></td>
                                             <td class="crds_sortiesDestructions"><?php echo $crdsForms['sorties_destructions_' . $regime . '_' . $crdKey]->render(); ?></td>
                                             <td class="crds_sortiesManquants"><?php echo $crdsForms['sorties_manquants_' . $regime . '_' . $crdKey]->render(); ?></td>
+                                            <td class="crds_sortiesAutres"><?php echo $crdsForms['sorties_autres_' . $regime . '_' . $crdKey]->render(); ?></td>
                                             <td class="crds_fin_de_mois text-center vertical-center"><?php echo (is_null($crd->stock_fin)) ? "0" : $crd->stock_fin; ?></td>
                                         </tr>
                                     <?php endforeach; ?>
