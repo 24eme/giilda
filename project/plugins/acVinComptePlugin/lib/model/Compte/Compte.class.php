@@ -280,6 +280,11 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             CompteGenerique::pullContact($this, $societe->getMasterCompte());
         }
 
+        if($this->isEtablissementContact() && $this->_id != $this->getSociete()->getMasterCompte()->_id && $this->getSociete()->getMasterCompte()->exist('droits')) {
+            $this->remove('droits');
+            $this->add('droits', $this->getSociete()->getMasterCompte()->droits);
+        }
+
         if ($this->exist('droits')) {
             foreach ($this->droits as $droit) {
                 $this->addTag('droits', $droit);
@@ -497,7 +502,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getDroits() {
-
+        if (!$this->exist('droits')) {
+            return array();
+        }
         return $this->_get('droits');
     }
 

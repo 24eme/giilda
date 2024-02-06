@@ -113,10 +113,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return FactureConfiguration::getInstance($this->getOrAdd('interpro'));
     }
 
-    public function storeDatesCampagne($date_facturation = null) {
+    public function storeDatesCampagne($date_facturation = null, $biggestMouvementSocDate = null) {
         $this->date_emission = date('Y-m-d');
         $this->date_facturation = $date_facturation;
-        $date_facturation_object = new DateTime($this->date_facturation);
+        if ($biggestMouvementSocDate && $this->getConfiguration()->getEcheanceDateMvt()) {
+          $date_facturation_object = new DateTime($biggestMouvementSocDate);
+        } else {
+          $date_facturation_object = new DateTime($this->date_facturation);
+        }
         $day = ($this->getConfiguration()->getEcheanceFinDeMois())? 't' : 'd';
         $this->date_echeance = $date_facturation_object->modify($this->getConfiguration()->getEcheance())->format('Y-m-'.$day);
         if (!$this->date_facturation) {
@@ -729,7 +733,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function storeDeclarant($doc) {
         if ($doc->siege->code_postal === null || $doc->siege->commune === null) {
-            throw new sfException('Le déclarant doit avoir une adresse dans sa Société');
+            throw new sfException('Le déclarant '.$doc->_id.' doit avoir une adresse dans sa Société');
         }
 
         $this->numero_adherent = $doc->getIdentifiantByInterpro($this->getOrAdd('interpro'));

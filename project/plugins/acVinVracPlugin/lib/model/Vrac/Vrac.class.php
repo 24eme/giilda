@@ -507,13 +507,15 @@ class Vrac extends BaseVrac {
 
     public function getNonCreateursArray() {
         $non_createurs = array();
-        $non_createurs[$this->vendeur_identifiant] = $this->getVendeurObject();
-        if (!$this->mandataire_exist) {
-            return $non_createurs;
+        if ($this->acheteur_identifiant == $this->createur_identifiant) {
+            $non_createurs[$this->vendeur_identifiant] = $this->getVendeurObject();
+        }
+        if ($this->vendeur_identifiant == $this->createur_identifiant) {
+            $non_createurs[$this->acheteur_identifiant] = $this->getAcheteurObject();
         }
         if ($this->mandataire_identifiant == $this->createur_identifiant) {
+            $non_createurs[$this->vendeur_identifiant] = $this->getVendeurObject();
             $non_createurs[$this->acheteur_identifiant] = $this->getAcheteurObject();
-            return $non_createurs;
         }
         return $non_createurs;
     }
@@ -944,6 +946,7 @@ class Vrac extends BaseVrac {
     public function autoSignIfIsIntern(){
         if($this->getVendeurObject()->getSociete() == $this->getAcheteurObject()->getSociete()){
             $this->signatureByEtb($this->getVendeurObject());
+            $this->signatureByEtb($this->getAcheteurObject());
             $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
         }
     }

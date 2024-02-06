@@ -30,7 +30,7 @@ class CompteClient extends acCouchdbClient {
         $comptes = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         $last_num = 0;
         foreach ($comptes as $id) {
-            if (!preg_match('/COMPTE-[0-9]{6}([0-9]{2})/', $id, $matches)) {
+            if (!preg_match('/COMPTE-[C0-9]{'.strlen($societe_id).'}([0-9]{2})/', $id, $matches)) {
                 continue;
             }
 
@@ -107,7 +107,7 @@ class CompteClient extends acCouchdbClient {
         if(!$societe->isNew()) {
             $societe->pushContactAndAdresseTo($compte);
         }
-        if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+        if($compte->compte_type == self::TYPE_COMPTE_INTERLOCUTEUR || SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
             $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
         } else {
             $compte->identifiant = $societe->identifiant;
