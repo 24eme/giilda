@@ -21,7 +21,7 @@ class DRMCrd extends BaseDRMCrd {
     }
 
     public function udpateStockFinDeMois() {
-        $this->stock_fin = $this->stock_debut + $this->entrees_achats + $this->entrees_retours + $this->entrees_excedents - $this->sorties_utilisations - $this->sorties_destructions - $this->sorties_manquants;
+        $this->stock_fin = $this->stock_debut + $this->entrees_achats + $this->entrees_retours + $this->entrees_excedents + $this->entrees_autres - $this->sorties_utilisations - $this->sorties_destructions - $this->sorties_manquants - $this->sorties_autres;
     }
 
     public function isBib() {
