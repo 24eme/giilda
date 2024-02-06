@@ -22,7 +22,7 @@ $hasNonApurement = $drm->exist('releve_non_apurement') && count($drm->releve_non
         <?php endforeach; ?>
         \end{large}
         ~ \\ ~ \\
-        \begin{tabular}{C{30mm} |C{20mm}|C{22mm}|C{22mm}|C{22mm}|C{20mm}|C{22mm}|C{22m}|C{22mm}|C{20mm}|C{20mm}|}
+        \begin{tabular}{C{30mm} |C{10mm}|C{22mm}|C{22mm}|C{22mm}|C{20mm}|C{22mm}|C{22m}|C{22mm}|C{20mm}|C{10mm}|}
 
         \cline{3-8}
         \multicolumn{1}{c}{~} &
@@ -33,7 +33,7 @@ $hasNonApurement = $drm->exist('releve_non_apurement') && count($drm->releve_non
         \\
         \hline
         \multicolumn{1}{|C{30mm}}{\cellcolor[gray]{0.7}\small{\textbf{CRD}}} &
-        \multicolumn{1}{|C{20mm}}{\cellcolor[gray]{0.7}\small{\textbf{Stock}}} &
+        \multicolumn{1}{|C{10mm}}{\cellcolor[gray]{0.7}\small{\textbf{Stock}}} &
 
         \multicolumn{1}{|C{22mm}}{\cellcolor[gray]{0.7}\small{\textbf{Achats}}} &
         \multicolumn{1}{|C{22mm}}{\cellcolor[gray]{0.7}\small{\textbf{Retours}}} &
@@ -43,7 +43,7 @@ $hasNonApurement = $drm->exist('releve_non_apurement') && count($drm->releve_non
         \multicolumn{1}{|C{22mm}}{\cellcolor[gray]{0.7}\small{\textbf{Destructions}}} &
         \multicolumn{1}{|C{22mm}}{\cellcolor[gray]{0.7}\small{\textbf{Manquants}}} &
         \multicolumn{1}{|C{20mm}}{\cellcolor[gray]{0.7}\small{\textbf{Autres}}} &
-        \multicolumn{1}{|C{20mm}|}{\cellcolor[gray]{0.7}\small{\textbf{Stock fin de mois}}}
+        \multicolumn{1}{|C{10mm}|}{\cellcolor[gray]{0.7}\small{\textbf{Stock fin de mois}}}
         \\
         \hline
 
