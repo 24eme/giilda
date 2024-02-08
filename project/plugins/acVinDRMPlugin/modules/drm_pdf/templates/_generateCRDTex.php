@@ -17,8 +17,10 @@ $hasNonApurement = $drm->exist('releve_non_apurement') && count($drm->releve_non
         \end{large}
         \end{center}
         \begin{large}
-        <?php foreach (DRMClient::getInstance()->getAllRegimesCrdsChoices(false) as $crd_regime_key => $libelle): ?>
-            <?php echo $libelle; ?>~:~<?php echo getCheckBoxe($crd_regime_key == $regime_crd); ?>~~~~~~~~~~~~
+        <?php foreach (getActualRegime(DRMClient::getInstance()->getAllRegimesCrdsChoices(false), $regime_crd) as $key => $libelle): ?>
+          <?php foreach ($libelle as $libelle => $value): ?>
+            <?php echo $libelle; ?>~:~<?php echo getCheckBoxe($value); ?>~~~~~~~~~~~~
+          <?php endforeach; ?>
         <?php endforeach; ?>
         \end{large}
         ~ \\ ~ \\
