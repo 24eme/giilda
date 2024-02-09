@@ -63,6 +63,11 @@ class EtablissementClient extends acCouchdbClient {
         self::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU => 'Banalisées acquittées + Banalisées suspendues',
         self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'Personnalisé + Banalisées suspendues',
     );
+    public static $regimes_crds_libelles_simplifies = array(
+        self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Banalisées acquittées',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Banalisées suspendues'
+    );
     public static $natures_inao_libelles = array(
         "01" => self::NATURE_INAO_PRODUCTEUR_INDIVIDUEL,
         "04" => self::NATURE_INAO_COOPERATIVE,
