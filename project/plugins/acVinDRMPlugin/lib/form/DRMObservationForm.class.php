@@ -28,7 +28,10 @@ class DRMObservationForm extends BaseForm
 		{
 			$w = array('observations' => new bsWidgetFormTextarea());
 			$v = array('observations' => new sfValidatorString(array('required' => false)));
-			$l = array('observations' => $this->_detail->getLibelle());
+            $l = array('observations' => $this->_detail->getCompletLibelle());
+            if ($this->_detail instanceof DRMCrd) {
+                $l['observations'] .= '<br/>Autres Entrées / Sorties';
+            }
 
 			if ($this->_detail->exist('replacement_date')) {
 				$w['replacement_date'] = new bsWidgetFormInputDate();

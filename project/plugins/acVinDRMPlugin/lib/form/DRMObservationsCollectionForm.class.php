@@ -11,10 +11,18 @@ class DRMObservationsCollectionForm extends BaseForm
 
         public function configure()
         {
-			  foreach ($this->drm->getProduitsDetails() as $hash => $detail) {
-        if($detail->exist('observations')){
-          $this->embedForm($hash, new DRMObservationForm($detail));
-          }
-			}
+			foreach ($this->drm->getProduitsDetails() as $hash => $detail) {
+                if($detail->exist('observations')){
+                  $this->embedForm($hash, new DRMObservationForm($detail));
+                  }
+        	}
+
+            foreach ($this->drm->crds as $regime => $crdsRegime) {
+                foreach ($crdsRegime as $nodeName => $crd) {
+                    if ($crd->exist('observations')) {
+                        $this->embedForm($crd->getHash(), new DRMObservationForm($crd));
+                    }
+                }
+            }
     }
 }

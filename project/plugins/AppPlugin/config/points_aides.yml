@@ -146,7 +146,7 @@ all:
         annexe_nonapurement_num_doc: "Indiquer le n° de document."
         annexe_nonapurement_date: "Indiquer la date d’expédition du vin."
         annexe_nonapurement_num_accise: "Indiquer le n° d’accise du destinataire."
-        annexe_observations: "La douane exige que vous remplissiez les observations concernant les mouvements de retour de vin, transfert de comptabilité matières,  destruction, excédents ou manquants pour les vins suivants."
+        annexe_observations: "La douane exige que vous remplissiez les observations concernant les mouvements de retour de vin, transfert de comptabilité matières, destruction, excédents, manquants et les autres entrées ou sorties de CRD pour les vins suivants."
         annexe_statistique_eur: "Veuillez indiquer ci dessous vos quantités de moûts transformées en jus de raisin, MCR et vinaigre."
         annexe_tavs: "Veuillez indiquer ci dessous vos TAV pour l'ensemble de vos alcools."
         annexe_paiement_douane: "Indiquer la fréquence de paiement des droits d’accise aux douanes et, si vous payer de manière annuelle, le cumul des droits des mois précédents."
