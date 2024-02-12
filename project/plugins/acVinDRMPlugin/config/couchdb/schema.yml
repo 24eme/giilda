@@ -645,6 +645,7 @@ DRM:
                         couleur: {  }
                         centilitrage: {  }
                         detail_libelle: {  }
+                        observations: { required: false }
                         entrees_achats: {  }
                         entrees_retours: {  }
                         entrees_excedents: {  }

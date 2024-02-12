@@ -124,6 +124,9 @@
         		</sorties-capsules>
 <?php endif; ?>
         		<stock-fin-periode><?php echo ($crd->stock_fin)? $crd->stock_fin : 0 ?></stock-fin-periode>
+<?php if ($crd->exist('observations')): ?>
+            <observations><?php echo $crd->get('observations'); ?></observations>
+<?php endif; ?>
       		</centilisation>
 <?php endforeach; ?>
     	</compte-crd>

@@ -1473,6 +1473,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
                 foreach ($crdsRegime as $nodeName => $crd) {
                     $crd->udpateStockFinDeMois();
                     $result[$regime . '_' . $nodeName] = $crd;
+                    if (($crd->exist('entrees_autres')  && $crd->entrees_autres) || ($crd->exist('sorties_autres') && $crd->sorties_autres)) {
+                        $crd->add('observations');
+                    }
                 }
             }
         }
