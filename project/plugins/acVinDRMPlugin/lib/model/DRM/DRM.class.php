@@ -1473,6 +1473,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
                 foreach ($crdsRegime as $nodeName => $crd) {
                     $crd->udpateStockFinDeMois();
                     $result[$regime . '_' . $nodeName] = $crd;
+                    if (($crd->exist('entrees_autres')  && $crd->entrees_autres) || ($crd->exist('sorties_autres') && $crd->sorties_autres)) {
+                        $crd->add('observations');
+                    }
                 }
             }
         }
@@ -1876,7 +1879,15 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         if($detail->exist('observations')){
           return true;
         }
-      }
+    }
+
+        foreach ($this->crds as $regime => $crdsRegime) {
+            foreach ($crdsRegime as $nodeName => $crd) {
+                if ($crd->exist('observations')) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -1886,6 +1897,13 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         if($detail->exist('observations') && $detail->get('observations')){
           $observations[$detail->getLibelle()] = $detail->get('observations');
         }
+      }
+      foreach ($this->crds as $regime => $crdsRegime) {
+          foreach ($crdsRegime as $nodeName => $crd) {
+            if ($crd->exist('observations') && $crd->get('observations')) {
+                $observations[$crd->getCompletLibelle()] = $crd->get('observations');
+            }
+          }
       }
       return $observations;
     }

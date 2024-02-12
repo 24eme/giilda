@@ -192,8 +192,8 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                                 <?php foreach ($annexesForm['observationsProduits'] as $formObservations): ?>
                                   <?php if(isset($formObservations['observations'])): ?>
                                   <tr>
-                                    <td class="col-xs-4" ><?php echo $formObservations['observations']->renderLabel() ?></td>
-                                    <td class="col-xs-8" >
+                                    <td class="col-xs-5" ><?php echo $formObservations['observations']->renderLabel(null, ["class" => "text-left"]) ?></td>
+                                    <td class="col-xs-7" >
                                       <div class="row">
                                           <div class="col-xs-12">
                                           <?php echo $formObservations['observations']->renderError() ?>

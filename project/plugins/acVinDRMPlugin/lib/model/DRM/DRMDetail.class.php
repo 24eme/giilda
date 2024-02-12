@@ -25,6 +25,10 @@ class DRMDetail extends BaseDRMDetail {
         return $s;
     }
 
+    public function getCompletLibelle() {
+        return $this->getLibelle();
+    }
+
     public function isAlcoolPur() {
         return ($this->tav) && $this->entrees->exist('transfertsrecolte') && ($this->entrees->transfertsrecolte);
     }

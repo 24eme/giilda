@@ -261,6 +261,9 @@ class DRMValidation extends DocumentValidation {
                             $genreLibelle = ($genre == 'TRANQ') ? 'TRANQUILLE' : $genre;
                             $this->addPoint('erreur', 'crd_negatif', $crd->getLibelle() . ' (' . $genreLibelle . ')', $this->generateUrl('drm_crd', $this->document));
                         }
+                        if (($crd->entrees_autres || $crd->sorties_autres) && $crd->exist('observations') && !$crd->observations) {
+                            $this->addPoint('erreur', 'observations', $crd->getLibelle() . ' (' . $crd->genre . ')', $this->generateUrl('drm_crd', $this->document));
+                        }
                     }
                 }
             }
