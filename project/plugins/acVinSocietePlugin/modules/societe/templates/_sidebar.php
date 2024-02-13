@@ -2,8 +2,16 @@
     <div class="panel-heading"><h3 class="panel-title"><span class="glyphicon glyphicon-calendar"></span> Société</h3></div>
     <div class="list-group">
         <div class="list-group-item clearfix <?php if($societe->_id == $activeObject->_id): ?>active-bordered<?php endif; ?>">
+
             <?php include_partial('societe/bloc', array('societe' => $societe)); ?>
         </div>
+    <?php foreach($societe->getSocietesLieesIds() as $societeLieeId): ?>
+      <?php $societeLiee = SocieteClient::getInstance()->find($societeLieeId); ?>
+      <?php if(!$societeLiee || $societeLiee->_id == $societe->_id): continue; endif; ?>
+      <div class="list-group-item clearfix">
+        <a href="<?php echo url_for('societe_visualisation', $societeLiee) ?>"><span class="glyphicon glyphicon-link"></span> <?php echo $societeLiee->raison_sociale ?></a>
+      </div>
+    <?php endforeach; ?>
     </div>
 </div>
 <div class="panel panel-default" style="margin-bottom: 10px;">

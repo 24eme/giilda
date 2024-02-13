@@ -133,6 +133,26 @@ class societeActions extends sfCredentialActions {
         $this->redirect('societe_modification', array('identifiant' => $this->societe->identifiant));
     }
 
+    public function executeAddSocieteLiee(sfWebRequest $request)
+    {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->form = new SocieteAddSocieteLieeForm($this->societe);
+
+        if ($request->isMethod(sfWebRequest::POST) === false) {
+            return sfView::SUCCESS;
+        }
+
+        $this->form->bind($request->getParameter($this->form->getName()));
+
+        if ($this->form->isValid() === false) {
+            return sfView::SUCCESS;
+        }
+
+        $this->form->save();
+
+        $this->redirect('societe_visualisation', ['identifiant' => $this->societe->identifiant]);
+    }
+
     public function executeSwitchStatus(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->societe->switchStatusAndSave();
