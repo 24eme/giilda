@@ -1077,7 +1077,7 @@ private function importCrdsFromCSV($just_check = false) {
         $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
     }
 
-    if(!in_array($fieldNameCrd, array('stock_debut', 'entrees_achats', 'entrees_excedents', 'entrees_retours', 'sorties_destructions', 'sorties_manquants', 'sorties_utilisations', 'stock_fin'))) {
+    if(!in_array($fieldNameCrd, array('stock_debut', 'entrees_achats', 'entrees_excedents', 'entrees_retours', 'entrees_autres', 'sorties_destructions', 'sorties_manquants', 'sorties_autres', 'sorties_utilisations', 'stock_fin'))) {
         $this->csvDoc->addErreur($this->typeCRDNotFoundError($num_ligne, $csvRow));
         continue;
     }

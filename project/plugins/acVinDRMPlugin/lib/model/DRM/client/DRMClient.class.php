@@ -782,6 +782,8 @@ class DRMClient extends acCouchdbClient {
             return "destructions";
         case "manquants":
             return "manquants";
+        case "autres":
+            return "autres";
       }
       return '';
     }
