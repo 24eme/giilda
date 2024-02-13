@@ -48,6 +48,9 @@
                             <small><?php if ($societe->date_creation) : ?><span class="label label-info">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?>
 <?php if ($societe->date_modification) : ?>
                                     <span class="label label-info">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?></small>
+                            <small><a class="label label-success" href="<?php echo url_for('societe_addSocieteLiee', $societe) ?>">
+                              <span class="glyphicon glyphicon-plus"></span> Ajouter une société liée
+                            </a></small>
                         </p>
                     </div>
                 </div>

@@ -77,12 +77,19 @@ class SocieteRouting {
             'type' => 'object')
         ));
 
+        $r->prependRoute('societe_addSocieteLiee', new SocieteRoute('/societe/:identifiant/ajout-societe-liee', [
+            'module' => 'societe', 'action' => 'addSocieteLiee'
+        ], [
+            'sf_method' => ['get', 'post']
+        ], ['model' => 'Societe', 'type' => 'object']
+        ));
+
           $r->prependRoute('societe_switch_statut', new SocieteRoute('/societe/:identifiant/switchStatus', array('module' => 'societe',
             'action' => 'switchStatus'), array('sf_method' => array('get', 'post')), array('model' => 'Societe',
             'type' => 'object')
         ));
 
-        
+
         $r->prependRoute('societe_upload', new sfRoute('/societe/upload-csv-rgt-en-attente', array('module' => 'societe',
             'action' => 'upload')));
 
