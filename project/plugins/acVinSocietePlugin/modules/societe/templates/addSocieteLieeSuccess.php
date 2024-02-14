@@ -2,7 +2,7 @@
 
 <p>
 Sociétés liées actuellement :
-<?php if (count($societe->getSocietesLiees()) === 0): ?>
+<?php if ($societe->exist('societes_liees') === false || count($societe->getSocietesLiees()) === 0): ?>
   <em>Aucune société liée</em>
 <?php else: ?>
   <?php foreach ($societe->getSocietesLiees() as $sid): ?>
