@@ -65,4 +65,8 @@ class SocieteConfiguration {
         return isset($this->configuration['identifiant_compte_incremental']) && ($this->configuration['identifiant_compte_incremental']);
     }
 
+    public function hasNumeroArchive()
+    {
+        return $this->configuration['has_numero_archive'];
+    }
 }
