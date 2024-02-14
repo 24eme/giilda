@@ -86,6 +86,11 @@ class SocieteClient extends acCouchdbClient {
         $societe->setPays('FR');
         $societe->add("date_creation", date('Y-m-d'));
         $societe->constructId();
+
+        if (FactureConfiguration::getInstance()->hasGenerationCodeComptable()) {
+            $societe->setCodeComptableClient(FactureClient::getInstance()->generateCodeComptable());
+        }
+
         return $societe;
     }
 
