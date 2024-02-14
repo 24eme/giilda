@@ -420,11 +420,6 @@ class FactureClient extends acCouchdbClient {
         return $taux;
     }
 
-    public function generateCodeComptable()
-    {
-        return sprintf('%04d', rand(0, 999));
-    }
-
     public static function generateAuthKey($id)
     {
         if(!sfConfig::get('app_secret')) {

@@ -6,7 +6,6 @@ all:
       prefix_sage: "VEN"
       tva_compte: "44578"
       defaut_compte: "75620"
-      generation_code_comptable: true
       stockage_code_produit: "identifiant_analytique"
       pdf_produit: false
       pdf_nom_ref_client: "N° ADHÉRENT"

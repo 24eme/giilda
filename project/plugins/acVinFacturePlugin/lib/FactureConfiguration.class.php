@@ -67,11 +67,6 @@ class FactureConfiguration {
         return $this->configuration['prefix_sage_divers'];
     }
 
-    public function hasGenerationCodeComptable()
-    {
-        return $this->configuration['generation_code_comptable'];
-    }
-
     public function getPrefixCodeComptable() {
 
         return isset($this->configuration['prefix_code_comptable']) ? $this->configuration['prefix_code_comptable'] : null;
