@@ -143,7 +143,7 @@
             <li>Acheteur de raisin : Oui</li>
           <?php endif ?>
           <?php if ($etablissement->exist('exclusion_stats') && $etablissement->getExclusionStats()): ?>
-            Exclu des stats : Oui
+            <li>Exclu des stats : Oui</li>
           <?php endif ?>
         </ul>
 
