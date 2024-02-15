@@ -126,6 +126,10 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
 
+        if($this->getObject() instanceof Etablissement && $this->getObject()->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            return;
+        }
+
         $this->getObject()->setAdresse($values['adresse']);
         $this->getObject()->setCommune($values['commune']);
         $this->getObject()->setInsee($values['insee']);
