@@ -88,12 +88,7 @@ class Vrac extends BaseVrac {
     public function setCepage($value) {
         if ($value != $this->_get('cepage')) {
             $this->_set('cepage', $value);
-            if ($value) {
-                $cepages = $this->getCepagesConfig();
-                $this->cepage_libelle = $cepages[$value];
-            }else{
-              $this->cepage_libelle = null;
-            }
+            $this->cepage_libelle = $value;
         }
     }
 
