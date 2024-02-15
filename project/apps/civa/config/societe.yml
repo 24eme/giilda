@@ -3,6 +3,7 @@ all:
     societe:
       identifiant_saisi:  "CVI/CIVABA"
       identifiant_compte_incremental: false
+      has_numero_archive: true
       droits:
         teledeclaration: "Télédéclaration"
         teledeclaration_dr: "DR"

@@ -107,7 +107,7 @@ class ConfigurationCepage extends BaseConfigurationCepage {
     }
 
     public function isCepageAutorise($cepage) {
-    	return in_array($cepage, $this->cepages_autorises->toArray());
+    	return in_array(strtoupper($cepage), array_map(function($value) { strtoupper($value); }, $this->cepages_autorises->toArray()));
     }
 
     public function getCorrespondanceHash() {
