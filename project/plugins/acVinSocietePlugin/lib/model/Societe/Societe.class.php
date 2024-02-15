@@ -759,8 +759,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return null;
     }
 
-    public function getCampagne()
+    public function getCampagneArchive()
     {
+        $this->_set('campagne_archive', self::CAMPAGNE_ARCHIVE);
         return self::CAMPAGNE_ARCHIVE;
     }
 
