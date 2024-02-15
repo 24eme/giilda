@@ -70,20 +70,23 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         }
 
         if($this->getObject()->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
-            $this->getWidget('adresse')->setAttribute('readonly', 'readonly');
-            $this->getWidget('adresse_complementaire')->setAttribute('readonly', 'readonly');
-            $this->getWidget('code_postal')->setAttribute('readonly', 'readonly');
-            $this->getWidget('insee')->setAttribute('readonly', 'readonly');
-            $this->getWidget('commune')->setAttribute('readonly', 'readonly');
-            $this->getWidget('pays')->setAttribute('readonly', 'readonly');
-            $this->getWidget('droits')->setAttribute('readonly', 'readonly');
-            $this->getWidget('email')->setAttribute('readonly', 'readonly');
-            $this->getWidget('teledeclaration_email')->setAttribute('readonly', 'readonly');
-            $this->getWidget('telephone_perso')->setAttribute('readonly', 'readonly');
-            $this->getWidget('telephone_bureau')->setAttribute('readonly', 'readonly');
-            $this->getWidget('telephone_mobile')->setAttribute('readonly', 'readonly');
-            $this->getWidget('fax')->setAttribute('readonly', 'readonly');
-            $this->getWidget('site_internet')->setAttribute('readonly', 'readonly');
+            $this->getWidget('adresse')->setAttribute('disabled', 'disabled');
+            $this->getWidget('adresse_complementaire')->setAttribute('disabled', 'disabled');
+            $this->getWidget('code_postal')->setAttribute('disabled', 'disabled');
+            $this->getWidget('insee')->setAttribute('disabled', 'disabled');
+            $this->getWidget('commune')->setAttribute('disabled', 'disabled');
+            $this->getWidget('pays')->setAttribute('disabled', 'disabled');
+            $this->getWidget('droits')->setAttribute('disabled', 'disabled');
+            $this->getWidget('email')->setAttribute('disabled', 'disabled');
+            $this->getWidget('teledeclaration_email')->setAttribute('disabled', 'disabled');
+            $this->getWidget('telephone_perso')->setAttribute('disabled', 'disabled');
+            $this->getWidget('telephone_bureau')->setAttribute('disabled', 'disabled');
+            $this->getWidget('telephone_mobile')->setAttribute('disabled', 'disabled');
+            $this->getWidget('fax')->setAttribute('disabled', 'disabled');
+            $this->getWidget('site_internet')->setAttribute('disabled', 'disabled');
+            foreach($this->getExtrasEditables() as $k => $e) {
+                $this->getWidget('extra_'.$k)->setAttribute('disabled', 'disabled');
+            }
         }
 
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');

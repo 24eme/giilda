@@ -3,6 +3,7 @@ $isCompteSociete = isset($isCompteSociete) && $isCompteSociete;
 $colClass = ($isCompteSociete) ? 'col-xs-8' : 'col-xs-4';
 $isSameAdresseThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameAdresseThanSociete();
 $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameContactThanSociete();
+$isSameExtraThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameCompteThanSociete();
 
 ?>
 <div id="coordonnees_modification">
@@ -59,11 +60,11 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><h4 class="panel-title">E-mail / téléphone / fax <?php if ($isSameContactThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même contact que la société</span><?php endif; ?></h4>
-            <span class="pull-right <?php echo ($isCompteSociete) ? '' : ' clickable pointer '; echo ($isSameContactThanSociete) ? ' panel-collapsed ' : ' '; ?>" style="margin-top: -20px; font-size: 15px;">
-                <span class="label-edit" ><?php echo ($isSameContactThanSociete) ? 'Editer' : 'Edition'; ?></span>&nbsp;
-                <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameContactThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
-            </span>
+            <div class="panel-heading"><h4 class="panel-title">E-mail / téléphone / fax <?php if ($isSameContactThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même contact que la société</span><?php endif; ?></h4>
+                <span class="pull-right <?php echo ($isCompteSociete) ? '' : ' clickable pointer '; echo ($isSameContactThanSociete) ? ' panel-collapsed ' : ' '; ?>" style="margin-top: -20px; font-size: 15px;">
+                    <span class="label-edit" ><?php echo ($isSameContactThanSociete) ? 'Editer' : 'Edition'; ?></span>&nbsp;
+                    <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameContactThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
+                </span>
         </div>
         <div class="panel-body  <?php echo ($isSameContactThanSociete) ? ' collapse ' : ''; ?>">
             <div class="form-group">
@@ -123,11 +124,13 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
 <?php if (SocieteConfiguration::getInstance()->getExtras()): ?>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title">Champs extras</h4><span class="pull-right" style="margin-top: -20px; font-size: 15px;" >
-                <span>Edition</span>&nbsp;
-            </span>
+            <h4 class="panel-title">Champs extras<?php if ($isSameExtraThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même informations que la société</span><?php endif; ?></h4>
+                <span class="pull-right <?php echo ($isCompteSociete) ? '' : ' clickable pointer '; echo ($isSameExtraThanSociete) ? ' panel-collapsed ' : ' '; ?>" style="margin-top: -20px; font-size: 15px;">
+                    <span class="label-edit" ><?php echo ($isSameExtraThanSociete) ? 'Editer' : 'Edition'; ?></span>&nbsp;
+                    <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameExtraThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
+                </span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body <?php echo ($isSameExtraThanSociete) ? ' collapse ' : ''; ?>">
         <?php foreach(SocieteConfiguration::getInstance()->getExtras() as $k => $e): ?>
               <?php if (!isset($e['auto']) || !$e['auto']): ?>
                 <?php if(isset($compteForm['extra_'.$k])): ?>
