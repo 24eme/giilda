@@ -279,6 +279,21 @@ class compte_teledeclarantActions extends sfActions {
             }
             $this->entities_number++;
         }
+        if(!$societe->canHaveChais()) {
+            $this->entities['raison_sociale'][] = htmlspecialchars($compte->getSociete()->raison_sociale, ENT_XML1, 'UTF-8');
+            $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
+            $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
+            $this->entities['adresse'][] = htmlspecialchars($e->etablissement->getAdresse(), ENT_XML1, 'UTF-8');
+            $this->entities['adresse_complementaire'][] = htmlspecialchars($compte->getSociete()->getAdresseComplementaire(), ENT_XML1, 'UTF-8');
+            $this->entities['code_postal'][] = $compte->getSociete()->getCodePostal();
+            $this->entities['commmune'][] = htmlspecialchars($compte->getSociete()->getCommune(), ENT_XML1, 'UTF-8');
+            $this->entities['email'][] = $compte->getSociete()->getEmailTeledeclaration();
+            $this->entities['telephone_bureau'][] = str_replace(' ', '', $compte->getSociete()->getTelephoneBureau());
+            $this->entities['telephone_mobile'][] = str_replace(' ', '', $compte->getSociete()->getTelephoneMobile());
+            $this->entities['telephone_perso'][] = str_replace(' ', '', $compte->getSociete()->getTelephonePerso());
+            $this->entities['droits'][] = implode("|", ($compte->exist('droits')) ? $compte->getDroits()->toArray() : []);
+        }
+
         $this->setLayout(false);
         $this->getResponse()->setHttpHeader('Content-Type', 'text/plain');
     }
