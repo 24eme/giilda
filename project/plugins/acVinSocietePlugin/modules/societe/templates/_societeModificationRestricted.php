@@ -10,47 +10,32 @@ $societe = $societeForm->getObject();
         <span class="champ_long"><?php echo $societe->type_societe; ?></span>
     </div>
     <div class="form_ligne">
-        <label for="societe_modification_raison_sociale">Nom de la société </label> 
-        <input type="text" id="societe_modification_raison_sociale" class="champ_long" value="<?php echo $societe->raison_sociale; ?>" disabled="disabled"> 
+        <label for="societe_modification_raison_sociale">Nom de la société </label>
+        <input type="text" id="societe_modification_raison_sociale" class="champ_long" value="<?php echo $societe->raison_sociale; ?>" disabled="disabled">
     </div>
     <div class="form_ligne">
         <div class="form_colonne">
-            <label for="societe_modification_raison_sociale_abregee">Abrégé</label>	
+            <label for="societe_modification_raison_sociale_abregee">Abrégé</label>
             <input type="text" id="societe_modification_raison_sociale_abregee" value="<?php echo $societe->raison_sociale_abregee; ?>" disabled="disabled">
         </div>
         <div class="form_colonne">
             <label for="societe_modification_statut" class="label_liste">Statut</label>
             <ul class="radio_list">
                 <li disabled="disabled">
-                    <input type="radio" id="societe_modification_statut_ACTIF" disabled="disabled" 
+                    <input type="radio" id="societe_modification_statut_ACTIF" disabled="disabled"
                            <?php echo ($societe->statut == 'ACTIF') ? 'checked="checked"' : ''; ?> >&nbsp;
                     <label for="societe_modification_statut_ACTIF">Actif</label>
                 </li>
                 <li disabled="disabled">
-                    <input type="radio" id="societe_modification_statut_SUSPENDU" disabled="disabled" 
+                    <input type="radio" id="societe_modification_statut_SUSPENDU" disabled="disabled"
                            <?php echo ($societe->statut != 'ACTIF') ? 'checked="checked"' : ''; ?> >&nbsp;
                     <label for="societe_modification_statut_SUSPENDU">Suspendu</label>
                 </li>
-            </ul>	
-        </div>
-    </div>
-    <?php if ($societe->isNegoOrViti()) : ?>
-        <div class="form_ligne">
-            <label class="label_liste" for="societe_modification_cooperative">Cave coopérative </label>
-            <ul class="radio_list">
-                <li>
-                    <input id="societe_modification_cooperative_0" type="radio"  <?php echo (!$societe->cooperative) ? 'checked="checked"' : ""; ?> disabled="disabled" >
-                    <label for="societe_modification_cooperative_0">Non</label>
-                </li>
-                <li>
-                    <input id="societe_modification_cooperative_1" type="radio" <?php echo ($societe->cooperative) ? 'checked="checked"' : ""; ?> disabled="disabled" >
-                    <label for="societe_modification_cooperative_1">Oui</label>
-                </li>
             </ul>
         </div>
-    <?php endif; ?>
+    </div>
 
-    <div class="form_ligne"> 
+    <div class="form_ligne">
         <label for="societe_modification_type_numero_compte_fournisseur" class="label_liste">Numéros de compte</label>
         <ul class="checkbox_list" disabled="disabled">
             <li disabled="disabled">
@@ -64,12 +49,12 @@ $societe = $societeForm->getObject();
                 <label for="societe_modification_type_numero_compte_fournisseur_FOURNISSEUR">Fournisseur</label>
             </li>
         </ul>
-    </div>  
+    </div>
     <div class="form_ligne">
-        <label for="societe_modification_type_fournisseur" class="label_liste">Type fournisseur</label> 
+        <label for="societe_modification_type_fournisseur" class="label_liste">Type fournisseur</label>
         <ul class="checkbox_list">
             <li disabled="disabled">
-                <input type="checkbox" id="societe_modification_type_fournisseur_MDV" value="MDV" disabled="disabled" 
+                <input type="checkbox" id="societe_modification_type_fournisseur_MDV" value="MDV" disabled="disabled"
                        <?php echo ($societe->exist('type_fournisseur') && in_array('MDV', $societe->type_fournisseur->toArray(true,false))) ? 'checked="checked"' : ''; ?> >&nbsp;
                 <label for="societe_modification_type_fournisseur_MDV">MDV</label>
             </li>
@@ -78,28 +63,28 @@ $societe = $societeForm->getObject();
                        <?php echo ($societe->exist('type_fournisseur') && in_array('PLV', $societe->type_fournisseur->toArray(true,false))) ? 'checked="checked"' : ''; ?> >&nbsp;
                 <label for="societe_modification_type_fournisseur_PLV">PLV</label>
             </li>
-        </ul>    
+        </ul>
     </div>
 
     <div class="form_ligne">
-        <div class="form_colonne">            
-            <label for="societe_modification_siret">SIRET</label>	
-            <input type="text" id="societe_modification_siret" disabled="disabled" value="<?php echo $societe->siret; ?>">	
+        <div class="form_colonne">
+            <label for="societe_modification_siret">SIRET</label>
+            <input type="text" id="societe_modification_siret" disabled="disabled" value="<?php echo $societe->siret; ?>">
         </div>
         <div class="form_colonne">
 
-            <label for="societe_modification_code_naf">Code Naf</label>		
-            <input type="text" id="societe_modification_code_naf" disabled="disabled" value="<?php echo $societe->code_naf; ?>" >	
+            <label for="societe_modification_code_naf">Code Naf</label>
+            <input type="text" id="societe_modification_code_naf" disabled="disabled" value="<?php echo $societe->code_naf; ?>" >
         </div>
-    </div> 
+    </div>
     <div class="form_ligne">
-        <label for="societe_modification_no_tva_intracommunautaire">TVA Intracom.</label>       
-        <input type="text" id="societe_modification_no_tva_intracommunautaire" disabled="disabled" value="<?php echo $societe->no_tva_intracommunautaire; ?>" >          
-    </div> 
+        <label for="societe_modification_no_tva_intracommunautaire">TVA Intracom.</label>
+        <input type="text" id="societe_modification_no_tva_intracommunautaire" disabled="disabled" value="<?php echo $societe->no_tva_intracommunautaire; ?>" >
+    </div>
 
     <?php if ($societe->exist('enseignes') && count($societe->enseignes)) : ?>
         <div id="enseignes_list">
-            <?php foreach ($societe->enseignes as $cpt => $enseigne) : ?>    
+            <?php foreach ($societe->enseignes as $cpt => $enseigne) : ?>
                 <div class="form_ligne">
                     <label for="societe_modification_enseignes_<?php echo $cpt; ?>_label">Enseigne</label>
                     <input id="societe_modification_enseignes_<?php echo $cpt; ?>_label" type="text" value="<?php echo $enseigne->label; ?>" disabled="disabled">
