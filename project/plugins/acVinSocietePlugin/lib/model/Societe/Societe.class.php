@@ -492,8 +492,14 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
         if($compteOrEtablissement instanceof Etablissement && $compteOrEtablissement->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
             $needSave = true;
-        }elseif (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
+        }
+
+        if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $this->pushAdresseTo($compteOrEtablissement);
+            $needSave = true;
+        }
+
+        if (CompteGenerique::isSameContactThan($compteOrEtablissement, $compteMasterOrigin)) {
             $this->pushContactTo($compteOrEtablissement);
             $needSave = true;
         }
@@ -763,6 +769,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function getCampagneArchive()
     {
+        $this->add('campagne_archive');
         $this->_set('campagne_archive', self::CAMPAGNE_ARCHIVE);
         return self::CAMPAGNE_ARCHIVE;
     }
