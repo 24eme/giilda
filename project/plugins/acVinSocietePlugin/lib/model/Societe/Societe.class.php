@@ -769,21 +769,17 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function getCampagneArchive()
     {
-        $this->add('campagne_archive');
         $this->_set('campagne_archive', self::CAMPAGNE_ARCHIVE);
         return self::CAMPAGNE_ARCHIVE;
     }
 
     public function isArchivageCanBeSet()
     {
-        return true;
+        return SocieteConfiguration::getInstance()->hasNumeroArchive();
     }
 
     public function preSave()
     {
-        if (SocieteConfiguration::getInstance()->hasNumeroArchive()) {
-            $this->add('numero_archive');
-            $this->archivage_document->preSave();
-        }
+        $this->archivage_document->preSave();
     }
 }

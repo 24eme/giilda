@@ -86,6 +86,12 @@ class SocieteClient extends acCouchdbClient {
         $societe->setPays('FR');
         $societe->add("date_creation", date('Y-m-d'));
         $societe->constructId();
+
+        if (SocieteConfiguration::getInstance()->hasNumeroArchive()) {
+            $this->add('numero_archive');
+            $this->add('campagne_archive');
+        }
+
         return $societe;
     }
 
