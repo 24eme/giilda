@@ -121,7 +121,7 @@ $isSameExtraThanSociete = !$isCompteSociete && $compteForm->getObject() instance
 
         </div>
     </div>
-<?php if (SocieteConfiguration::getInstance()->getExtras()): ?>
+<?php if (SocieteConfiguration::getInstance()->getExtras() && !$compteForm->getObject() instanceof Compte): ?>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">Champs extras<?php if ($isSameExtraThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même informations que la société</span><?php endif; ?></h4>
@@ -153,7 +153,7 @@ $isSameExtraThanSociete = !$isCompteSociete && $compteForm->getObject() instance
 <?php endif; ?>
 
 
-    <?php if ($isCompteSociete) : ?>
+    <?php if ($isCompteSociete || $compteForm->getObject() instanceof Compte) : ?>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">Droits</h4><span class="pull-right" style="margin-top: -20px; font-size: 15px;" >

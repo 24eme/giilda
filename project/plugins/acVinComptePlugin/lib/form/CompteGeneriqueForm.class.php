@@ -116,10 +116,15 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
     }
 
     public function getExtrasEditables() {
+        if($this->getObject() instanceof Compte && $this->getObject()->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+            return [];
+        }
+
         $compte = $this->getObject()->getMasterCompte();
         if (!$compte) {
             return array();
         }
+
         return $compte->getExtrasEditables(true);
     }
 
