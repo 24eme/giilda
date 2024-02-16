@@ -88,8 +88,8 @@ class SocieteClient extends acCouchdbClient {
         $societe->constructId();
 
         if (SocieteConfiguration::getInstance()->hasNumeroArchive()) {
-            $this->add('numero_archive');
-            $this->add('campagne_archive');
+            $this->add('numero_archive', null);
+            $this->add('campagne_archive', Societe::CAMPAGNE_ARCHIVE);
         }
 
         return $societe;
