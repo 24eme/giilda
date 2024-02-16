@@ -32,10 +32,8 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getMasterCompte() {
-        if ($this->isSameAdresseThanSociete() && $this->isSameContactThanSociete()) {
-            return $this->getSociete()->getContact();
-        }
-        return null;
+
+        return $this;
     }
 
     public function isSameAdresseThanSociete() {
