@@ -101,13 +101,13 @@ class CompteClient extends acCouchdbClient {
         return $compte;
     }
 
-    public function createCompteFromSociete($societe) {
+    public function createCompteFromSociete($societe, $forceIncrement = false) {
         $compte = new Compte();
         $compte->id_societe = $societe->_id;
         if(!$societe->isNew()) {
             $societe->pushContactAndAdresseTo($compte);
         }
-        if($compte->compte_type == self::TYPE_COMPTE_INTERLOCUTEUR || SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+        if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental() || $forceIncrement) {
             $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
         } else {
             $compte->identifiant = $societe->identifiant;
@@ -117,6 +117,11 @@ class CompteClient extends acCouchdbClient {
         $compte->setStatut(CompteClient::STATUT_ACTIF);
 
         return $compte;
+    }
+
+    public function createCompteInterlocuteurFromSociete($societe) {
+
+        return $this->createCompteFromSociete($societe, true);
     }
 
     public function createCompteFromEtablissement($etablissement) {

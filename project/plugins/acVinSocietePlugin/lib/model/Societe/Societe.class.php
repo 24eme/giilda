@@ -4,14 +4,31 @@
  * Model for Societe
  *
  */
-class Societe extends BaseSociete implements InterfaceCompteGenerique, InterfaceMandatSepaPartie {
+class Societe extends BaseSociete implements InterfaceCompteGenerique, InterfaceMandatSepaPartie, InterfaceArchivageDocument {
+
+    const CAMPAGNE_ARCHIVE = "UNIQUE";
 
     private $comptes = null;
+    protected $archivage_document = null;
+
     const REFERENCE_INTERPROS_METAS = "&interpros_metas";
     const FACTURATION_NB_PAIEMENTS_NODE = 'nb_paiements';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->initDocuments();
+    }
+
     public function constructId() {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);
+    }
+
+    public function initDocuments()
+    {
+        if (SocieteConfiguration::getInstance()->hasNumeroArchive()) {
+            $this->archivage_document = new ArchivageDocument($this);
+        }
     }
 
     public function removeContact($idContact) {
@@ -57,6 +74,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     public function getCodeComptableClient($interpro = null) {
         $cc = ($interpro)? $this->getDataFromInterproMetas($interpro, 'code_comptable_client') : $this->_get('code_comptable_client');
         if(!$cc) {
+            if ($this->getNumeroArchive()) {
+                return $this->getNumeroArchive();
+            }
             return FactureConfiguration::getInstance($interpro)->getPrefixCodeComptable().((int)$this->identifiant)."";
         }
         return $cc;
@@ -470,9 +490,17 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         if ($compteOrEtablissement instanceof Compte && $compteOrEtablissement->societe->type != $this->type_societe) {
             $needSave = true;
         }
+        if($compteOrEtablissement instanceof Etablissement && $compteOrEtablissement->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $needSave = true;
+        }
+
         if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
-            $ret = $this->pushAdresseTo($compteOrEtablissement);
-            $ret = $this->pushContactTo($compteOrEtablissement);
+            $this->pushAdresseTo($compteOrEtablissement);
+            $needSave = true;
+        }
+
+        if (CompteGenerique::isSameContactThan($compteOrEtablissement, $compteMasterOrigin)) {
+            $this->pushContactTo($compteOrEtablissement);
             $needSave = true;
         }
         if ($needSave) {
@@ -730,4 +758,28 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return ($metas->exist($meta))? $metas->get($meta) : null;
     }
 
+    public function getNumeroArchive()
+    {
+        if ($this->exist('numero_archive')) {
+            return $this->_get('numero_archive');
+        }
+
+        return null;
+    }
+
+    public function getCampagneArchive()
+    {
+        $this->_set('campagne_archive', self::CAMPAGNE_ARCHIVE);
+        return self::CAMPAGNE_ARCHIVE;
+    }
+
+    public function isArchivageCanBeSet()
+    {
+        return SocieteConfiguration::getInstance()->hasNumeroArchive();
+    }
+
+    public function preSave()
+    {
+        $this->archivage_document->preSave();
+    }
 }

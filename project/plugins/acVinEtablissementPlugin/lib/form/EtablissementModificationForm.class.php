@@ -22,6 +22,11 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
     public function configure() {
         parent::configure();
 
+        if($this->getObject()->isNew() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $this->setWidget('identifiant', new bsWidgetFormInput());
+            $this->setValidator('identifiant', new sfValidatorString(array('required' => true)));
+        }
+
         $this->setWidget('famille', new bsWidgetFormChoice(array('choices' => array_merge(["" => ""], $this->getFamilles()))));
         $this->setWidget('nom', new bsWidgetFormInput());
         $this->setWidget('region', new bsWidgetFormChoice(array('choices' => self::getRegions())));
@@ -31,6 +36,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
         $this->setWidget('site_fiche', new bsWidgetFormInput());
         $this->setWidget('mois_stock_debut', new bsWidgetFormChoice(array('choices' => $this->getMonths())));
+        $this->setWidget('acheteur_raisin', new bsWidgetFormInputCheckbox());
         $this->setWidget('exclusion_stats', new bsWidgetFormInputCheckbox());
 
         $this->widgetSchema->setLabel('famille', 'Famille *');
@@ -42,6 +48,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
         $this->widgetSchema->setLabel('site_fiche', 'Site Fiche Publique');
         $this->widgetSchema->setLabel('mois_stock_debut', 'Mois de saisie du stock');
+        $this->widgetSchema->setLabel('acheteur_raisin', 'Acheteur de raisin');
         $this->widgetSchema->setLabel('exclusion_stats', 'Exclure des stats');
 
         $this->setValidator('famille', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getFamilles()))));
@@ -53,6 +60,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->setValidator('num_interne', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         $this->setValidator('mois_stock_debut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getMonths()))));
+        $this->setValidator('acheteur_raisin', new sfValidatorBoolean(['required' => false]));
         $this->setValidator('exclusion_stats', new sfValidatorBoolean(['required' => false]));
 
         if (!$this->etablissement->isCourtier()) {
@@ -67,20 +75,23 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         }
 
         if($this->getObject()->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
-            $this->getWidget('adresse')->setAttribute('readonly', 'readonly');
-            $this->getWidget('adresse_complementaire')->setAttribute('readonly', 'readonly');
-            $this->getWidget('code_postal')->setAttribute('readonly', 'readonly');
-            $this->getWidget('insee')->setAttribute('readonly', 'readonly');
-            $this->getWidget('commune')->setAttribute('readonly', 'readonly');
-            $this->getWidget('pays')->setAttribute('readonly', 'readonly');
-            $this->getWidget('droits')->setAttribute('readonly', 'readonly');
-            $this->getWidget('email')->setAttribute('readonly', 'readonly');
-            $this->getWidget('teledeclaration_email')->setAttribute('readonly', 'readonly');
-            $this->getWidget('telephone_perso')->setAttribute('readonly', 'readonly');
-            $this->getWidget('telephone_bureau')->setAttribute('readonly', 'readonly');
-            $this->getWidget('telephone_mobile')->setAttribute('readonly', 'readonly');
-            $this->getWidget('fax')->setAttribute('readonly', 'readonly');
-            $this->getWidget('site_internet')->setAttribute('readonly', 'readonly');
+            $this->getWidget('adresse')->setAttribute('disabled', 'disabled');
+            $this->getWidget('adresse_complementaire')->setAttribute('disabled', 'disabled');
+            $this->getWidget('code_postal')->setAttribute('disabled', 'disabled');
+            $this->getWidget('insee')->setAttribute('disabled', 'disabled');
+            $this->getWidget('commune')->setAttribute('disabled', 'disabled');
+            $this->getWidget('pays')->setAttribute('disabled', 'disabled');
+            $this->getWidget('droits')->setAttribute('disabled', 'disabled');
+            $this->getWidget('email')->setAttribute('disabled', 'disabled');
+            $this->getWidget('teledeclaration_email')->setAttribute('disabled', 'disabled');
+            $this->getWidget('telephone_perso')->setAttribute('disabled', 'disabled');
+            $this->getWidget('telephone_bureau')->setAttribute('disabled', 'disabled');
+            $this->getWidget('telephone_mobile')->setAttribute('disabled', 'disabled');
+            $this->getWidget('fax')->setAttribute('disabled', 'disabled');
+            $this->getWidget('site_internet')->setAttribute('disabled', 'disabled');
+            foreach($this->getExtrasEditables() as $k => $e) {
+                $this->getWidget('extra_'.$k)->setAttribute('disabled', 'disabled');
+            }
         }
 
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');

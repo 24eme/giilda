@@ -88,12 +88,7 @@ class Vrac extends BaseVrac {
     public function setCepage($value) {
         if ($value != $this->_get('cepage')) {
             $this->_set('cepage', $value);
-            if ($value) {
-                $cepages = $this->getCepagesConfig();
-                $this->cepage_libelle = $cepages[$value];
-            }else{
-              $this->cepage_libelle = null;
-            }
+            $this->cepage_libelle = $value;
         }
     }
 
@@ -507,13 +502,15 @@ class Vrac extends BaseVrac {
 
     public function getNonCreateursArray() {
         $non_createurs = array();
-        $non_createurs[$this->vendeur_identifiant] = $this->getVendeurObject();
-        if (!$this->mandataire_exist) {
-            return $non_createurs;
+        if ($this->acheteur_identifiant == $this->createur_identifiant) {
+            $non_createurs[$this->vendeur_identifiant] = $this->getVendeurObject();
+        }
+        if ($this->vendeur_identifiant == $this->createur_identifiant) {
+            $non_createurs[$this->acheteur_identifiant] = $this->getAcheteurObject();
         }
         if ($this->mandataire_identifiant == $this->createur_identifiant) {
+            $non_createurs[$this->vendeur_identifiant] = $this->getVendeurObject();
             $non_createurs[$this->acheteur_identifiant] = $this->getAcheteurObject();
-            return $non_createurs;
         }
         return $non_createurs;
     }

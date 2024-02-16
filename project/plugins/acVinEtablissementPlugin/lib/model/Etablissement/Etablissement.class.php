@@ -251,10 +251,8 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $this->compte = $compte->_id;
         }
 
-        if($this->isSameAdresseThanSociete()) {
+        if($this->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
             $this->pullAdresseFrom($this->getSociete()->getMasterCompte());
-        }
-        if($this->isSameContactThanSociete()) {
             $this->pullContactFrom($this->getSociete()->getMasterCompte());
         }
 

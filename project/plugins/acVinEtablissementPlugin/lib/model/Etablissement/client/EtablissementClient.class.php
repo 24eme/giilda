@@ -45,23 +45,28 @@ class EtablissementClient extends acCouchdbClient {
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
         self::STATUT_SUSPENDU => 'SUSPENDU');
     public static $regimes_crds_libelles_longs = array(
-        self::REGIME_CRD_PERSONNALISE => 'personnalisé (P)',
-        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'banalisées acquittées (DA)',
-        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'banalisées suspendues (DS)',
-        self::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU => 'banalisées acquittées + banalisées suspendues (DA+DS)',
-        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'personnalisé + banalisées suspendues (P+DS)',
+        self::REGIME_CRD_PERSONNALISE => 'Personnalisé (P)',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Banalisées acquittées (DA)',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Banalisées suspendues (DS)',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU => 'Banalisées acquittées + Banalisées suspendues (DA+DS)',
+        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'Personnalisé + Banalisées suspendues (P+DS)',
     );
     public static $regimes_crds_libelles_longs_only_suspendu = array(
         self::REGIME_CRD_PERSONNALISE => 'CRD personnalisées',
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'CRD collectives ou Pas de CRD',
-        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'personnalisé + banalisées suspendues (P+DS)'
+        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'Personnalisé + Banalisées suspendues (P+DS)'
     );
     public static $regimes_crds_libelles = array(
         self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Banalisées acquittées',
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Banalisées suspendues',
-        self::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU => 'Banalisées acquittées + banalisées suspendues',
-        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'Personnalisé + banalisées suspendues',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU => 'Banalisées acquittées + Banalisées suspendues',
+        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'Personnalisé + Banalisées suspendues',
+    );
+    public static $regimes_crds_libelles_simplifies = array(
+        self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Banalisées acquittées',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Banalisées suspendues'
     );
     public static $natures_inao_libelles = array(
         "01" => self::NATURE_INAO_PRODUCTEUR_INDIVIDUEL,
