@@ -3,6 +3,15 @@
     echo $etablissementForm->renderHiddenFields();
     echo $etablissementForm->renderGlobalErrors();
     ?>
+
+    <?php if(isset($etablissementForm['identifiant'])): ?>
+    <div class="form-group<?php if($etablissementForm['identifiant']->hasError()): ?> has-error<?php endif; ?>">
+        <?php echo $etablissementForm['identifiant']->renderError(); ?>
+        <?php echo $etablissementForm['identifiant']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8"><?php echo $etablissementForm['identifiant']->render(); ?></div>
+    </div>
+    <?php endif; ?>
+
     <div class="form-group<?php if($etablissementForm['famille']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $etablissementForm['famille']->renderError(); ?>
         <?php echo $etablissementForm['famille']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>

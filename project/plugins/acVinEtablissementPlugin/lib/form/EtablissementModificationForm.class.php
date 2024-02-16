@@ -22,6 +22,11 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
     public function configure() {
         parent::configure();
 
+        if($this->getObject()->isNew() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $this->setWidget('identifiant', new bsWidgetFormInput());
+            $this->setValidator('identifiant', new sfValidatorString(array('required' => true)));
+        }
+
         $this->setWidget('famille', new bsWidgetFormChoice(array('choices' => array_merge(["" => ""], $this->getFamilles()))));
         $this->setWidget('nom', new bsWidgetFormInput());
         $this->setWidget('region', new bsWidgetFormChoice(array('choices' => self::getRegions())));
