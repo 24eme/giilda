@@ -279,7 +279,7 @@ class compte_teledeclarantActions extends sfActions {
             }
             $this->entities_number++;
         }
-        if(!$societe->canHaveChais()) {
+        if(!$compte->getSociete()->canHaveChais()) {
             $this->entities['raison_sociale'][] = htmlspecialchars($compte->getSociete()->raison_sociale, ENT_XML1, 'UTF-8');
             $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
             $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
