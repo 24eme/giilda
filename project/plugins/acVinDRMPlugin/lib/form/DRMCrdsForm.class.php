@@ -32,28 +32,34 @@ class DRMCrdsForm extends acCouchdbObjectForm {
                     $this->setWidget('entrees_achats' . $keyWidgetsSuffixe, new bsWidgetFormInputInteger());
                     $this->setWidget('entrees_retours' . $keyWidgetsSuffixe, new bsWidgetFormInputInteger());
                     $this->setWidget('entrees_excedents' . $keyWidgetsSuffixe, new bsWidgetFormInputInteger());
+                    $this->setWidget('entrees_autres' . $keyWidgetsSuffixe, new bsWidgetFormInputInteger());
 
                     $this->setWidget('sorties_utilisations' . $keyWidgetsSuffixe, new bsWidgetFormInputInteger());
                     $this->setWidget('sorties_destructions' . $keyWidgetsSuffixe, new bsWidgetFormInputInteger());
                     $this->setWidget('sorties_manquants' . $keyWidgetsSuffixe, new bsWidgetFormInputInteger());
+                    $this->setWidget('sorties_autres' . $keyWidgetsSuffixe, new bsWidgetFormInputInteger());
 
                     $this->widgetSchema->setLabel('stock_debut' . $keyWidgetsSuffixe, 'Début de mois');
                     $this->widgetSchema->setLabel('entrees_achats' . $keyWidgetsSuffixe, 'Achats');
                     $this->widgetSchema->setLabel('entrees_retours' . $keyWidgetsSuffixe, 'Retours');
                     $this->widgetSchema->setLabel('entrees_excedents' . $keyWidgetsSuffixe, 'Excédents');
+                    $this->widgetSchema->setLabel('entrees_autres' . $keyWidgetsSuffixe, 'Entrées Autres');
 
                     $this->widgetSchema->setLabel('sorties_utilisations' . $keyWidgetsSuffixe, 'Utilisations');
                     $this->widgetSchema->setLabel('sorties_destructions' . $keyWidgetsSuffixe, 'Destructions');
                     $this->widgetSchema->setLabel('sorties_manquants' . $keyWidgetsSuffixe, 'Manquants');
+                    $this->widgetSchema->setLabel('sorties_autres' . $keyWidgetsSuffixe, 'Sorties Autres');
 
                     $this->setValidator('stock_debut' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
                     $this->setValidator('entrees_achats' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
                     $this->setValidator('entrees_retours' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
                     $this->setValidator('entrees_excedents' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
+                    $this->setValidator('entrees_autres' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
 
                     $this->setValidator('sorties_utilisations' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
                     $this->setValidator('sorties_destructions' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
                     $this->setValidator('sorties_manquants' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
+                    $this->setValidator('sorties_autres' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
                 }
             }
         }
@@ -65,7 +71,7 @@ class DRMCrdsForm extends acCouchdbObjectForm {
         parent::doUpdateObject($values);
         foreach ($values as $key => $value) {
             $matches = array();
-            if (preg_match('/^(stock_debut|entrees_achats|entrees_retours|entrees_excedents|sorties_utilisations|sorties_destructions|sorties_manquants)_(.*)_(.*)$/', $key, $matches)) {
+            if (preg_match('/^(stock_debut|entrees_achats|entrees_retours|entrees_excedents|entrees_autres|sorties_utilisations|sorties_destructions|sorties_manquants|sorties_autres)_(.*)_(.*)$/', $key, $matches)) {
                 $crdField = $matches[1];
                 $crdRegimeKey = $matches[2];
                 $crdKey = $matches[3];
@@ -90,10 +96,12 @@ class DRMCrdsForm extends acCouchdbObjectForm {
                     $this->setDefault('entrees_achats_' . $keyWidgetsSuffixe, ($crd->entrees_achats) ? $crd->entrees_achats : null);
                     $this->setDefault('entrees_retours_' . $keyWidgetsSuffixe, ($crd->entrees_retours) ? $crd->entrees_retours : null);
                     $this->setDefault('entrees_excedents_' . $keyWidgetsSuffixe, ($crd->entrees_excedents) ? $crd->entrees_excedents : null);
+                    $this->setDefault('entrees_autres_' . $keyWidgetsSuffixe, ($crd->entrees_autres) ? $crd->entrees_autres : null);
 
                     $this->setDefault('sorties_utilisations_' . $keyWidgetsSuffixe, ($crd->sorties_utilisations) ? $crd->sorties_utilisations : null);
                     $this->setDefault('sorties_destructions_' . $keyWidgetsSuffixe, ($crd->sorties_destructions) ? $crd->sorties_destructions : null);
                     $this->setDefault('sorties_manquants_' . $keyWidgetsSuffixe, ($crd->sorties_manquants) ? $crd->sorties_manquants : null);
+                    $this->setDefault('sorties_autres_' . $keyWidgetsSuffixe, ($crd->sorties_autres) ? $crd->sorties_autres : null);
                 }
             }
         }

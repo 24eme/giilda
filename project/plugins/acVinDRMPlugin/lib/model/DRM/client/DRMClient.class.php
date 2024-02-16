@@ -782,6 +782,8 @@ class DRMClient extends acCouchdbClient {
             return "destructions";
         case "manquants":
             return "manquants";
+        case "autres":
+            return "autres";
       }
       return '';
     }
@@ -865,10 +867,13 @@ class DRMClient extends acCouchdbClient {
         return $recapCvos;
     }
 
-    public function getAllRegimesCrdsChoices($libelleLong = false){
+    public function getAllRegimesCrdsChoices($libelleLong = false, $listLibelleShort = false){
       $crdsRegimesChoices = array();
       $crdsRegimesChoices = EtablissementClient::$regimes_crds_libelles;
 
+      if ($listLibelleShort) {
+          $crdsRegimesChoices = EtablissementClient::$regimes_crds_libelles_simplifies;
+      }
       if($libelleLong){
         $crdsRegimesChoices = EtablissementClient::$regimes_crds_libelles_longs;
       }

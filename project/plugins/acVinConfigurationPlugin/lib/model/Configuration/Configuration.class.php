@@ -49,7 +49,7 @@ class Configuration extends BaseConfiguration {
     	foreach($this->declaration->getProduits($date, "INTERPRO-declaration", null, $attributes) as $produit) {
     		$cepages_autorises = $produit->cepages_autorises->toArray();
     		foreach ($cepages_autorises as $ca) {
-    			$cepages[$ca] = $ca;
+    			$cepages[strtoupper($ca)] = strtoupper($ca);
     		}
     	}
     	return $cepages;
