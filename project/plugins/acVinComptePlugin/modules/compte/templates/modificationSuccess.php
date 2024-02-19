@@ -97,8 +97,14 @@ end_slot();
 ?>
 
 <script>
-document.querySelector('input[id=checkbox-exploitant]')?.addEventListener('change', function () {
-  const input = this.closest('.form-group').querySelector('input')
+document.addEventListener('DOMContentLoaded', function (e) {
+const checkbox = document.querySelector('input[id=checkbox-exploitant]')
+if (! checkbox) return false
+const input = checkbox.closest('.form-group').querySelector('input')
+
+if (input.value === "Exploitant") { checkbox.checked = true }
+
+checkbox.addEventListener('change', function () {
   if (this.checked) {
     input.setAttribute('readonly', true)
     input.value = 'Exploitant'
@@ -106,5 +112,8 @@ document.querySelector('input[id=checkbox-exploitant]')?.addEventListener('chang
     input.removeAttribute('readonly')
     input.value = ''
   }
+})
+
+checkbox.dispatchEvent(new Event('change'))
 })
 </script>
