@@ -38,7 +38,10 @@
                         <div class="form-group">
                             <?php echo $compteForm['fonction']->renderError(); ?>
                             <?php echo $compteForm['fonction']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-                            <div class="col-xs-8"><?php echo $compteForm['fonction']->render(); ?></div>
+                            <div class="col-xs-5"><?php echo $compteForm['fonction']->render(); ?></div>
+                            <div class="col-xs-3">
+                              <label><input id="checkbox-exploitant" type="checkbox"> Exploitant ?</label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <?php echo $compteForm['commentaire']->renderError(); ?>
@@ -92,3 +95,16 @@ slot('colButtons');
 <?php
 end_slot();
 ?>
+
+<script>
+document.querySelector('input[id=checkbox-exploitant]')?.addEventListener('change', function () {
+  const input = this.closest('.form-group').querySelector('input')
+  if (this.checked) {
+    input.setAttribute('readonly', true)
+    input.value = 'Exploitant'
+  } else {
+    input.removeAttribute('readonly')
+    input.value = ''
+  }
+})
+</script>
