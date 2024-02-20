@@ -1,7 +1,6 @@
 all:
   configuration:
     societe:
-      identifiant_saisi:  "Identifiant (CVI ou CIVABA)"
       identifiant_compte_incremental: false
       has_numero_archive: true
       droits:
