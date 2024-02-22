@@ -120,6 +120,9 @@ class compte_teledeclarantActions extends sfActions {
             return sfView::SUCCESS;
         }
 
+        $this->societe = $this->compte->getSociete();
+        $this->mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
+
         $this->form = new CompteTeledeclarantForm($this->compte);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -195,6 +198,26 @@ class compte_teledeclarantActions extends sfActions {
             }
         }
     }
+
+    public function executeCoordonneesBancaires(sfWebRequest $request) {
+        $this->compte = $this->getUser()->getCompte();
+        $this->societe = $this->compte->getSociete();
+        $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
+        if (!$mandatSepa) {
+            $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
+        }
+        $this->form = new MandatSepaDebiteurForm($mandatSepa->debiteur);
+
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+                $this->getUser()->setFlash('maj', 'Vos coordonnées bancaires ont bien été mises à jour.');
+                $this->redirect('compte_teledeclarant_modification');
+            }
+        }
+    }
+
 
     public function executeReglementationGenerale() {
         return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/reglementation_generale_des_transactions.pdf", "reglementation_generale_des_transactions.pdf");
@@ -279,6 +302,21 @@ class compte_teledeclarantActions extends sfActions {
             }
             $this->entities_number++;
         }
+        if(!$compte->getSociete()->canHaveChais()) {
+            $this->entities['raison_sociale'][] = htmlspecialchars($compte->getSociete()->raison_sociale, ENT_XML1, 'UTF-8');
+            $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
+            $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
+            $this->entities['adresse'][] = htmlspecialchars($compte->getSociete()->getAdresse(), ENT_XML1, 'UTF-8');
+            $this->entities['adresse_complementaire'][] = htmlspecialchars($compte->getSociete()->getAdresseComplementaire(), ENT_XML1, 'UTF-8');
+            $this->entities['code_postal'][] = $compte->getSociete()->getCodePostal();
+            $this->entities['commmune'][] = htmlspecialchars($compte->getSociete()->getCommune(), ENT_XML1, 'UTF-8');
+            $this->entities['email'][] = $compte->getSociete()->getEmailTeledeclaration();
+            $this->entities['telephone_bureau'][] = str_replace(' ', '', $compte->getSociete()->getTelephoneBureau());
+            $this->entities['telephone_mobile'][] = str_replace(' ', '', $compte->getSociete()->getTelephoneMobile());
+            $this->entities['telephone_perso'][] = str_replace(' ', '', $compte->getSociete()->getTelephonePerso());
+            $this->entities['droits'][] = implode("|", ($compte->exist('droits')) ? $compte->getDroits()->toArray() : []);
+        }
+
         $this->setLayout(false);
         $this->getResponse()->setHttpHeader('Content-Type', 'text/plain');
     }

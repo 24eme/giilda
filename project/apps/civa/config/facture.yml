@@ -20,3 +20,4 @@ all:
       export_shell: "%sf_root_dir%/bin/exportSage.sh"
       seuil_minimum: 20
       pdf_ligne_details: false
+      sousgen_facture_with_prlv_auto: false

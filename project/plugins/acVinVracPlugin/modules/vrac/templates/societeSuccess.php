@@ -97,7 +97,10 @@ use_helper('PointsAides');
                     <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementPrincipal->identifiant]); ?>">Manuellement</a></li>
                   <?php else : ?>
                     <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementAcheteur->identifiant]); ?>"><?php if($etablissementAcheteur->isNegociant()): ?><strong><?php endif; ?>Manuellement en tant qu'acheteur<?php if($etablissementAcheteur->isNegociant()): ?></strong><?php endif; ?></a></li>
-                    <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementVendeur->identifiant, 'vrac[isVendeur]' => true]); ?>"><?php if($etablissementVendeur->isViticulteur()): ?><strong><?php endif; ?>Manuellement en tant que vendeur<?php if($etablissementVendeur->isViticulteur()): ?></strong><?php endif; ?></a></li>
+                    <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementVendeur->identifiant, 'vrac[isVendeur]' => true]); ?>"><?php if($etablissementVendeur->isViticulteur()): ?><strong><?php endif; ?>Manuellement en tant que vendeur<?php if ($etablissementAcheteur->isNegociant() && $etablissementVendeur->isViticulteur() && $etablissementAcheteur->identifiant != $etablissementVendeur->identifiant): ?> - Chai Négoce<?php endif; ?><?php if($etablissementVendeur->isViticulteur()): ?></strong><?php endif; ?></a></li>
+                    <?php if ($etablissementAcheteur->isNegociant() && $etablissementVendeur->isViticulteur() && $etablissementAcheteur->identifiant != $etablissementVendeur->identifiant): ?>
+                    <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementAcheteur->identifiant, 'vrac[isVendeur]' => true]); ?>"><strong>Manuellement en tant que vendeur - Chai Négoce</a></li>
+                    <?php endif; ?>
                   <?php endif; ?>
                   <li><a href="<?= url_for('vrac_upload_index') ?>">Via un fichier</a></li>
                 </ul>
