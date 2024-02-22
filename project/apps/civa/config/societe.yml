@@ -1,7 +1,7 @@
 all:
   configuration:
     societe:
-      identifiant_saisi:  "CVI/CIVABA"
+      identifiant_saisi:  "Identifiant (CVI ou CIVABA)"
       identifiant_compte_incremental: false
       has_numero_archive: true
       droits:
@@ -13,7 +13,6 @@ all:
         teledeclaration_vrac_creation: "Création contrats"
         teledeclaration_ds_propriete: "DS Propriété"
         teledeclaration_ds_negoce: "DS Négoce"
-        teledeclaration_ds_decembre: "DS Décembre"
         teledeclaration_drm: "DRM"
         teledeclaration_douane: "Transmission Ciel"
         extranet_admin: "Extranet Admin"

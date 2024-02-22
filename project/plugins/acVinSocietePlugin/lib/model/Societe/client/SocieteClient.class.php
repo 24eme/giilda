@@ -49,8 +49,11 @@ class SocieteClient extends acCouchdbClient {
 
         foreach ($res->getResults() as $er) {
             $r = $er->getData();
-
-            return $this->find($r['_id']);
+            if (isset($r['_id']))
+              return $this->find($r['_id']);
+            if (isset($r['doc']) && isset($r['doc']['_id']))
+              return $this->find($r['doc']['_id']);
+            return $this->find($r['id']);
         }
 
         return null;
@@ -88,8 +91,8 @@ class SocieteClient extends acCouchdbClient {
         $societe->constructId();
 
         if (SocieteConfiguration::getInstance()->hasNumeroArchive()) {
-            $this->add('numero_archive');
-            $this->add('campagne_archive');
+            $societe->add('numero_archive');
+            $societe->add('campagne_archive', Societe::CAMPAGNE_ARCHIVE);
         }
 
         return $societe;

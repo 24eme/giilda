@@ -136,7 +136,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
     public function getMonths()
     {
       $dateFormat = new sfDateFormat('fr_FR');
-      $results = array('' => '');
+      $results = array('' => $dateFormat->format('1900-08-01', 'MMMM').' (par défaut)');
       for ($i = 1; $i <= 12; $i++) {
             $month = $dateFormat->format(date('Y').'-'.$i.'-01', 'MMMM');
             $results[$i] = $month;
