@@ -779,6 +779,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function preSave()
     {
-        $this->archivage_document->preSave();
+        if ($this->archivage_document) {
+          $this->archivage_document->preSave();
+        }
     }
 }
