@@ -135,7 +135,8 @@ class CompteLdap extends acVinLdap
             $gecos =  sprintf("%s,%s,%s,%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
         }
 
-        $gecos = str_replace(array('é', 'è', 'ê', 'ë', 'à', 'ù', 'ü', 'ï', 'ç', 'ö', 'ô'), array('e', 'e', 'e', 'e', 'a', 'u', 'u', 'i', 'c', 'o', 'o'), $gecos);
+        $gecos = str_replace(array('é', 'è', 'ê', 'ë', 'à', 'ù', 'ä', 'ü', 'ï', 'ç', 'ö', 'ô', 'â', 'î', 'ô', 'û'),
+                             array('e', 'e', 'e', 'e', 'a', 'u', 'a', 'u', 'i', 'c', 'o', 'o', 'a', 'i', 'o', 'u'), $gecos);
         return $gecos;
     }
 

@@ -40,7 +40,7 @@
                         <?php if(!$societeLiee || $societeLiee->_id == $societe->_id): continue; endif; ?>
                         <a href="<?php echo url_for('societe_visualisation', $societeLiee) ?>"><span class="glyphicon glyphicon-link"></span> <?php echo $societeLiee->raison_sociale ?></a>
                       <?php endforeach; ?>
-                        <p class="lead" style="margin-bottom: 5px;">
+                        <div class="lead" style="margin-bottom: 5px;">
                             <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
                             <?php if ($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
                                 <span class="label label-default"><?php echo $societe->statut; ?></span>
@@ -48,7 +48,10 @@
                             <small><?php if ($societe->date_creation) : ?><span class="label label-info">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?>
 <?php if ($societe->date_modification) : ?>
                                     <span class="label label-info">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?></small>
-                        </p>
+                            <a class="btn btn-xs btn-default" href="<?php echo url_for('societe_addSocieteLiee', $societe) ?>">
+                              <span class="glyphicon glyphicon-plus"></span> Ajouter une société liée
+                            </a>
+                        </dvi>
                     </div>
                 </div>
             </div>

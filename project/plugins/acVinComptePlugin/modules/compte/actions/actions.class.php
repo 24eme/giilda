@@ -14,7 +14,7 @@ class compteActions extends sfCredentialActions {
 
     public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
-        $this->compte = CompteClient::getInstance()->createCompteFromSociete($this->societe);
+        $this->compte = CompteClient::getInstance()->createCompteInterlocuteurFromSociete($this->societe);
         $this->applyRights();
         if(!$this->modification && !$this->reduct_rights){
 

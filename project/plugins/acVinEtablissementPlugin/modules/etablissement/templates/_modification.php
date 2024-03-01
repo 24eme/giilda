@@ -3,6 +3,22 @@
     echo $etablissementForm->renderHiddenFields();
     echo $etablissementForm->renderGlobalErrors();
     ?>
+
+    <?php if(isset($etablissementForm['identifiant'])): ?>
+    <div class="form-group<?php if($etablissementForm['identifiant']->hasError()): ?> has-error<?php endif; ?>">
+        <?php echo $etablissementForm['identifiant']->renderError(); ?>
+        <?php echo $etablissementForm['identifiant']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8"><?php echo $etablissementForm['identifiant']->render(); ?></div>
+    </div>
+    <?php else: ?>
+      <div class="form-group">
+        <label class="col-xs-4 control-label">Identifiant</label>
+        <div class="col-xs-8">
+          <p class="form-control-static"><?php echo $etablissementForm->getObject()->identifiant ?></p>
+        </div>
+      </div>
+    <?php endif; ?>
+
     <div class="form-group<?php if($etablissementForm['famille']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $etablissementForm['famille']->renderError(); ?>
         <?php echo $etablissementForm['famille']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
@@ -61,6 +77,12 @@
         <?php echo $etablissementForm['commentaire']->renderError(); ?>
         <?php echo $etablissementForm['commentaire']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
         <div class="col-xs-8"><?php echo $etablissementForm['commentaire']->render(); ?></div>
+    </div>
+
+    <div class="form-group<?php if($etablissementForm['acheteur_raisin']->hasError()): ?> has-error<?php endif; ?>">
+        <?php echo $etablissementForm['acheteur_raisin']->renderError(); ?>
+        <?php echo $etablissementForm['acheteur_raisin']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8"><?php echo $etablissementForm['acheteur_raisin']->render(); ?></div>
     </div>
 
     <div class="form-group<?php if($etablissementForm['exclusion_stats']->hasError()): ?> has-error<?php endif; ?>">
