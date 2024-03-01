@@ -458,7 +458,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
         if ($this->isSynchroAutoActive()) {
             $compteMasterOrigin = clone $compteMaster;
-            $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
+            $this->pushToCompteOrEtablissementAndSave($this->createCompteSociete(), $compteMaster);
 
             foreach ($this->etablissements as $id => $obj) {
                 $this->pushToCompteOrEtablissementAndSave($compteMaster, EtablissementClient::getInstance()->find($id), $compteMasterOrigin);
@@ -494,12 +494,12 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
             $needSave = true;
         }
 
-        if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
+        if (!CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $this->pushAdresseTo($compteOrEtablissement);
             $needSave = true;
         }
 
-        if (CompteGenerique::isSameContactThan($compteOrEtablissement, $compteMasterOrigin)) {
+        if (!CompteGenerique::isSameContactThan($compteOrEtablissement, $compteMasterOrigin)) {
             $this->pushContactTo($compteOrEtablissement);
             $needSave = true;
         }
@@ -779,8 +779,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function preSave()
     {
-        if(isset($this->archivage_document)) {
-            $this->archivage_document->preSave();
+        if ($this->archivage_document) {
+          $this->archivage_document->preSave();
         }
     }
 }

@@ -13,7 +13,6 @@ all:
         teledeclaration_vrac_creation: "Création contrats"
         teledeclaration_ds_propriete: "DS Propriété"
         teledeclaration_ds_negoce: "DS Négoce"
-        teledeclaration_ds_decembre: "DS Décembre"
         teledeclaration_drm: "DRM"
         teledeclaration_douane: "Transmission Ciel"
         extranet_admin: "Extranet Admin"

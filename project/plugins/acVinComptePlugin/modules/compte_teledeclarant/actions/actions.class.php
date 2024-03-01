@@ -120,6 +120,9 @@ class compte_teledeclarantActions extends sfActions {
             return sfView::SUCCESS;
         }
 
+        $this->societe = $this->compte->getSociete();
+        $this->mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
+
         $this->form = new CompteTeledeclarantForm($this->compte);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -195,6 +198,26 @@ class compte_teledeclarantActions extends sfActions {
             }
         }
     }
+
+    public function executeCoordonneesBancaires(sfWebRequest $request) {
+        $this->compte = $this->getUser()->getCompte();
+        $this->societe = $this->compte->getSociete();
+        $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
+        if (!$mandatSepa) {
+            $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
+        }
+        $this->form = new MandatSepaDebiteurForm($mandatSepa->debiteur);
+
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+                $this->getUser()->setFlash('maj', 'Vos coordonnées bancaires ont bien été mises à jour.');
+                $this->redirect('compte_teledeclarant_modification');
+            }
+        }
+    }
+
 
     public function executeReglementationGenerale() {
         return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/reglementation_generale_des_transactions.pdf", "reglementation_generale_des_transactions.pdf");

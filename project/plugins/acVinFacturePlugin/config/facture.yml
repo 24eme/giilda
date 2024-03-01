@@ -28,3 +28,4 @@ all:
       export_relances: false
       teledeclaration: false
       seuil_minimum: null
+      sousgen_facture_with_prlv_auto: true
