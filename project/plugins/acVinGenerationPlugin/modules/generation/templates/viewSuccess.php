@@ -76,7 +76,7 @@
           <a class="btn btn-link" href="<?= url_for('facture_sous_generation', [
             'generation' => $generation->_id,
             'type' => $sous_generation_type
-          ]) ?>"><?php if($generation->getOrCreateSubGeneration($sous_generation_type)->isNew()): ?><span class="glyphicon glyphicon-play-circle"></span><?php else: ?><span class="glyphicon glyphicon-eye-open"></span><?php endif; ?>&nbsp;<?php echo call_user_func_array(array(GenerationClient::getClassForGeneration($generation->getOrCreateSubGeneration($sous_generation_type)), "getActionLibelle"), array()); ?></a>
+          ]) ?>"><?php if($generation->getOrCreateSubGeneration($sous_generation_type)->isNew()): ?><span class="glyphicon glyphicon-play-circle"></span><?php else: ?><span class="glyphicon glyphicon-eye-open"></span><?php endif; ?>&nbsp;<?php echo call_user_func_array(array(GenerationClient::getInstance()->getClassForGeneration($generation->getOrCreateSubGeneration($sous_generation_type)), "getActionLibelle"), array()); ?></a>
         </p>
     <?php endforeach ?>
     <?php endif ?>
