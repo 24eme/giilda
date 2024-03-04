@@ -103,7 +103,7 @@
 				<excedents><?php echo $crd->entrees_excedents ?></excedents>
 <?php endif; ?>
 <?php if ($crd->entrees_autres): ?>
-				<entrees-autres><?php echo $crd->entrees_autres ?></entrees-autres>
+				<autres-entrees><?php echo $crd->entrees_autres ?></autres-entrees>
 <?php endif; ?>
         		</entrees-capsules>
 <?php endif; ?>
@@ -119,7 +119,7 @@
 				<manquants><?php echo $crd->sorties_manquants ?></manquants>
 <?php endif; ?>
 <?php if ($crd->sorties_autres): ?>
-				<sorties-autres><?php echo $crd->sorties_autres ?></sorties-autres>
+				<autres-sorties><?php echo $crd->sorties_autres ?></autres-sorties>
 <?php endif; ?>
         		</sorties-capsules>
 <?php endif; ?>
