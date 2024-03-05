@@ -49,8 +49,11 @@ class SocieteClient extends acCouchdbClient {
 
         foreach ($res->getResults() as $er) {
             $r = $er->getData();
-
-            return $this->find($r['_id']);
+            if (isset($r['_id']))
+              return $this->find($r['_id']);
+            if (isset($r['doc']) && isset($r['doc']['_id']))
+              return $this->find($r['doc']['_id']);
+            return $this->find($r['id']);
         }
 
         return null;
