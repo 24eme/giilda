@@ -305,6 +305,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function isSocieteContact() {
+        if(!$this->getSociete()) {
+            return;
+        }
+
         return ($this->getSociete()->compte_societe == $this->_id);
     }
 
