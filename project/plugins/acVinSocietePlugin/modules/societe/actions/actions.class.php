@@ -76,10 +76,6 @@ class societeActions extends sfCredentialActions {
                     'raison_sociale' => $rs
                 ];
 
-                if (isset($values['identifiant'])) {
-                    $args['identifiant'] = $values['identifiant'];
-                }
-
                 $this->redirect('societe_creation_doublon', $args);
             }
         }
@@ -88,21 +84,12 @@ class societeActions extends sfCredentialActions {
     public function executeCreationSocieteDoublon(sfWebRequest $request) {
         $this->raison_sociale = str_replace('-dot-', '.', $request->getParameter('raison_sociale', false));
         $this->type = $request->getParameter('type', false);
-        $this->identifiant = $request->getParameter('identifiant', SocieteRouting::CREATION_IDENTIFIANT_DEFAULT);
-        if ($this->identifiant == SocieteRouting::CREATION_IDENTIFIANT_DEFAULT) {
-            $this->identifiant = 0;
-        }
-        $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type, $this->raison_sociale, $this->identifiant);
+        $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type, $this->raison_sociale);
 
         $this->args = [
             'type' => $this->type,
-            'identifiant' => SocieteRouting::CREATION_IDENTIFIANT_DEFAULT,
             'raison_sociale' => $request->getParameter('raison_sociale', false)
         ];
-
-        if ($this->identifiant) {
-            $this->args['identifiant'] = $this->identifiant;
-        }
 
         if (!count($this->societesDoublons)) {
 
@@ -113,11 +100,7 @@ class societeActions extends sfCredentialActions {
     public function executeSocieteNew(sfWebRequest $request) {
         $this->raison_sociale = str_replace('-dot-', '.', $request->getParameter('raison_sociale', false));
         $this->type = $request->getParameter('type', false);
-        $this->identifiant = $request->getParameter('identifiant', SocieteRouting::CREATION_IDENTIFIANT_DEFAULT);
-        if ($this->identifiant == SocieteRouting::CREATION_IDENTIFIANT_DEFAULT) {
-            $this->identifiant = null;
-        }
-        $societe = SocieteClient::getInstance()->createSociete($this->raison_sociale, $this->type, $this->identifiant);
+        $societe = SocieteClient::getInstance()->createSociete($this->raison_sociale, $this->type);
         $societe->save();
         $this->redirect('societe_modification', array('identifiant' => $societe->identifiant));
     }

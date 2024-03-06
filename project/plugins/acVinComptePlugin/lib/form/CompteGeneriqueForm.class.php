@@ -120,11 +120,20 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         if (!$compte) {
             return array();
         }
+
+        if($compte->type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+            return array();
+        }
+
         return $compte->getExtrasEditables(true);
     }
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
+
+        if($this->getObject() instanceof Etablissement && $this->getObject()->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            return;
+        }
 
         $this->getObject()->setAdresse($values['adresse']);
         $this->getObject()->setCommune($values['commune']);

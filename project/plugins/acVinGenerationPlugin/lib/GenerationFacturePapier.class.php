@@ -6,6 +6,8 @@ class GenerationFacturePapier extends GenerationPDF
 
     public function preGeneratePDF()
     {
+        $wantFacturesPrlvAuto = FactureConfiguration::getInstance()->wantFacturePrlvAuto();
+
         foreach ($this->generation->getMasterGeneration()->documents as $id) {
             $facture = FactureClient::getInstance()->find($id);
 
@@ -14,6 +16,10 @@ class GenerationFacturePapier extends GenerationPDF
             }
 
             if ($facture->exist('telechargee') && $facture->telechargee) {
+                continue;
+            }
+
+            if ($wantFacturesPrlvAuto === false && $facture->getNbPaiementsAutomatique() > 0) {
                 continue;
             }
 

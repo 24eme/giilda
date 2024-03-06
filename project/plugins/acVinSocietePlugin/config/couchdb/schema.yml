@@ -6,6 +6,7 @@ Societe:
       _rev: { }
       type: { }
       identifiant: { }
+      campagne_archive: { required: false }
       numero_archive: { required: false }
       type_societe: { }
       raison_sociale: { searchable: true }

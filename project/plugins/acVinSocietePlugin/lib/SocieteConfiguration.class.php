@@ -26,10 +26,14 @@ class SocieteConfiguration {
     }
 
     public function isIdentifiantSaisi() {
+        throw new sfException(__FUNCTION__ . " est dépréciée. Toutes les interpro ont une génération d'identifiant automatique.");
+
         return isset($this->configuration['identifiant_saisi']) && ($this->configuration['identifiant_saisi']);
     }
 
     public function getIdentifiantSaisiLibelle() {
+        throw new sfException(__FUNCTION__ . " est dépréciée. Toutes les interpro ont une génération d'identifiant automatique.");
+
         if (!$this->isIdentifiantSaisi()) {
             return false;
         }

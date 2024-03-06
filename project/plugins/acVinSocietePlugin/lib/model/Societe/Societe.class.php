@@ -458,7 +458,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
         if ($this->isSynchroAutoActive()) {
             $compteMasterOrigin = clone $compteMaster;
-            $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
+            $this->pushToCompteOrEtablissementAndSave($this->createCompteSociete(), $compteMaster);
 
             foreach ($this->etablissements as $id => $obj) {
                 $this->pushToCompteOrEtablissementAndSave($compteMaster, EtablissementClient::getInstance()->find($id), $compteMasterOrigin);
@@ -490,9 +490,17 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         if ($compteOrEtablissement instanceof Compte && $compteOrEtablissement->societe->type != $this->type_societe) {
             $needSave = true;
         }
+        if($compteOrEtablissement instanceof Etablissement && $compteOrEtablissement->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $needSave = true;
+        }
+
         if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
-            $ret = $this->pushAdresseTo($compteOrEtablissement);
-            $ret = $this->pushContactTo($compteOrEtablissement);
+            $this->pushAdresseTo($compteOrEtablissement);
+            $needSave = true;
+        }
+
+        if (CompteGenerique::isSameContactThan($compteOrEtablissement, $compteMasterOrigin)) {
+            $this->pushContactTo($compteOrEtablissement);
             $needSave = true;
         }
         if ($needSave) {
@@ -759,21 +767,20 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return null;
     }
 
-    public function getCampagne()
+    public function getCampagneArchive()
     {
-        return self::CAMPAGNE_ARCHIVE;
+        return $this->_get('campagne_archive');
     }
 
     public function isArchivageCanBeSet()
     {
-        return true;
+        return $this->exist('numero_archive');
     }
 
     public function preSave()
     {
-        if (SocieteConfiguration::getInstance()->hasNumeroArchive()) {
-            $this->add('numero_archive');
-            $this->archivage_document->preSave();
+        if ($this->archivage_document) {
+          $this->archivage_document->preSave();
         }
     }
 }
