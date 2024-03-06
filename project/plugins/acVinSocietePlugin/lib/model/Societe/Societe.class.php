@@ -458,7 +458,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
         if ($this->isSynchroAutoActive()) {
             $compteMasterOrigin = clone $compteMaster;
-            $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
+            $this->pushToCompteOrEtablissementAndSave($this->createCompteSociete(), $compteMaster);
 
             foreach ($this->etablissements as $id => $obj) {
                 $this->pushToCompteOrEtablissementAndSave($compteMaster, EtablissementClient::getInstance()->find($id), $compteMasterOrigin);

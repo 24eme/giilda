@@ -33,12 +33,6 @@ class SocieteCreationForm extends baseForm {
         $this->widgetSchema->setLabel('raison_sociale', 'Raison sociale de la société : ');
         $this->widgetSchema->setLabel('type', 'Type de société : ');
 
-        if (SocieteConfiguration::getInstance()->isIdentifiantSaisi()) {
-            $this->setWidget('identifiant', new bsWidgetFormInput());
-            $this->setValidator('identifiant', new sfValidatorString(array('required' => true)));
-            $this->widgetSchema->setLabel('identifiant', SocieteConfiguration::getInstance()->getIdentifiantSaisiLibelle().' : ');
-        }
-
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
         $this->widgetSchema->setNameFormat('societe-creation[%s]');
     }
