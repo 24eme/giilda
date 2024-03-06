@@ -88,6 +88,11 @@ class CompteClient extends acCouchdbClient {
         return self::TYPE_COMPTE_INTERLOCUTEUR;
     }
 
+    public function generateCodeCreation() {
+
+        return sprintf("{TEXT}%04d", rand(1000, 9999));
+    }
+
     public function findOrCreateCompteSociete($societe) {
         $compte = null;
         if ($societe->compte_societe) {
