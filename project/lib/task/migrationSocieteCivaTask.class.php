@@ -165,7 +165,7 @@ EOF;
         throw new Exception("Societe ".$id." non trouvé");
     }
     $compteSociete = CompteClient::getInstance()->find($societe->compte_societe, acCouchdbClient::HYDRATE_JSON);
-    if($compteSociete->extras->db2_num_tiers) {
+    if(isset($compteSociete->extras->db2_num_tiers) && $compteSociete->extras->db2_num_tiers) {
         $newIdentifiant = sprintf("%06d", explode("|", $compteSociete->extras->db2_num_tiers)[0]);
     } else {
         $newIdentifiant = sprintf("%06d", $societe->code_comptable_client);
