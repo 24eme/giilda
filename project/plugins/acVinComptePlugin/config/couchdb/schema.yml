@@ -9,6 +9,7 @@ Compte:
       civilite: { }
       prenom: { searchable: true }
       nom: { searchable: true }
+      login: { required: false }
       mot_de_passe: { }
       date_creation: { type: date, required: false }
       nom_a_afficher: { searchable: true }
