@@ -107,6 +107,7 @@ EOF;
 
     $compteSociete->_id = "COMPTE-".$newIdentifiant;
     unset($compteSociete->_rev);
+    $compteSociete->login = $compteSociete->identifiant;
     $compteSociete->identifiant = $newIdentifiant;
     $compteSociete->compte_type = "SOCIETE";
     $compteSociete->origines = [$societe->_id];

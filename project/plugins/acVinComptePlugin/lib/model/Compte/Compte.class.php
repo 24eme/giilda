@@ -23,6 +23,16 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getLogin() {
+
+        if($this->exist('login')) {
+            return $this->_get('login');
+        }
+
+        if($this->isSocieteContact()) {
+
+            return $this->identifiant;
+        }
+
         if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
 
             return $this->identifiant;
