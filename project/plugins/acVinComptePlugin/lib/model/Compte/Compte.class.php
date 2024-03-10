@@ -173,7 +173,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                     $this->addTag('automatique', $type_fournisseur);
                 }
             }
-            $compte->tags->remove('documents');
+            $this->tags->remove('documents');
         }
 
         if ($this->exist('teledeclaration_active') && $this->teledeclaration_active) {
