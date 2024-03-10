@@ -213,6 +213,14 @@ ul.navbar-nav  > .active > a:focus {
 
 }
 
+#main > .navbar > .container {
+    width: 1000px;
+}
+#navbar ul.navbar-nav li {
+    width: auto;
+    padding: 13px 13px;
+}
+
 /***
  * ERROR 404
  ****************/
