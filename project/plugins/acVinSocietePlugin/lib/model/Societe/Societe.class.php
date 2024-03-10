@@ -418,7 +418,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         } else {
             $compte->statut = CompteClient::STATUT_ACTIF;
         }
-        $compte->mot_de_passe = "{TEXT}" . sprintf("%04d", rand(0, 9999));
+        $compte->mot_de_passe = CompteClient::getInstance()->generateCodeCreation();
         $compte->addOrigine($this->_id);
         $this->addCompte($compte, -1);
         $compte->nom = $this->raison_sociale;

@@ -23,6 +23,16 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getLogin() {
+
+        if($this->exist('login')) {
+            return $this->_get('login');
+        }
+
+        if($this->isSocieteContact()) {
+
+            return $this->identifiant;
+        }
+
         if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
 
             return $this->identifiant;
@@ -163,11 +173,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                     $this->addTag('automatique', $type_fournisseur);
                 }
             }
-            if($societe->isOperateur()){
-                foreach ($societe->getEtablissementsObj() as $etablissement) {
-                    $this->addTag('automatique', $etablissement->etablissement->famille);
-                }
-            }
+            $this->tags->remove('documents');
         }
 
         if ($this->exist('teledeclaration_active') && $this->teledeclaration_active) {
@@ -593,7 +599,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     public function generateCodeCreation()
     {
         if ($this->_get('mot_de_passe') === null) {
-            $this->_set('mot_de_passe', sprintf("{TEXT}%04d", rand(0, 9999)));
+            $this->_set('mot_de_passe', CompteClient::getInstance()->generateCodeCreation());
         }
         return $this;
     }
