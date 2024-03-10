@@ -178,7 +178,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                     $this->addTag('automatique', $etablissement->etablissement->famille);
                 }
             }
-            if(!SocieteConfiguration::getInstance()->isIdentifantCompteIncremental())
+            if(!SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
                 $this->tags->remove('documents');
             }
         }
