@@ -20,24 +20,14 @@ class SocieteConfiguration {
         $this->configuration = sfConfig::get('societe_configuration_societe', array());
     }
 
-    public function getExtras() {
+    public function isDisableSave() {
 
-        return isset($this->configuration['extras']) ? $this->configuration['extras'] : array();
+        return isset($this->configuration['disable_save']) && boolval($this->configuration['disable_save']);
     }
 
-    public function isIdentifiantSaisi() {
-        return isset($this->configuration['identifiant_saisi']) && ($this->configuration['identifiant_saisi']);
-    }
+    public function isVisualisationTeledeclaration() {
 
-    public function getIdentifiantSaisiLibelle() {
-        if (!$this->isIdentifiantSaisi()) {
-            return false;
-        }
-        return $this->configuration['identifiant_saisi'];
-    }
-
-    public function isElasticDisabled() {
-        return isset($this->configuration['elastic_disabled']) && ($this->configuration['elastic_disabled']);
+        return isset($this->configuration['visualisation_teledeclaration']) && boolval($this->configuration['visualisation_teledeclaration']);
     }
 
     public function getDroits() {
@@ -49,24 +39,4 @@ class SocieteConfiguration {
         return $this->configuration['droits'];
     }
 
-    public function getDroitLibelle($droit) {
-        $droits = $this->getDroits();
-
-        if(isset($droits[$droit])) {
-
-            return $droits[$droit];
-        }
-
-        return $droit;
-    }
-
-    public function isIdentifantCompteIncremental() {
-
-        return isset($this->configuration['identifiant_compte_incremental']) && ($this->configuration['identifiant_compte_incremental']);
-    }
-
-    public function hasNumeroArchive()
-    {
-        return $this->configuration['has_numero_archive'];
-    }
 }

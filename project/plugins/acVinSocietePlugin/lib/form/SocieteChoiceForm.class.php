@@ -13,15 +13,15 @@ class SocieteChoiceForm extends baseForm {
     public function __construct($interpro_id, $defaults = array(), $options = array(), $CSRFSecret = null) {
         $this->interpro_id = $interpro_id;
         $this->type_societe = array(SocieteClient::TYPE_OPERATEUR);
-        if(count($options) && isset($options['type_societe'])){
-            $this->type_societe = $options['type_societe'];
+        if(is_array($options) && isset($options['type_societe'])){
+            $this->type_societe[] = $options['type_societe'];
         }
         parent::__construct($defaults, $options, $CSRFSecret);
     }
 
     public function configure() {
         $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id,'type_societe' => $this->type_societe)));
-        
+
         $this->widgetSchema->setLabel('identifiant', 'Sélectionner une societe&nbsp;:');
         $this->setValidator('identifiant', new ValidatorSociete(array('required' => true)));
 

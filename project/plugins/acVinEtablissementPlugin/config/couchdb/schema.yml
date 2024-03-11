@@ -16,6 +16,7 @@ Etablissement:
        teledeclaration_email: {  }
        nature_inao: {  }
        mois_stock_debut: { required: false }
+       exclusion_stats: {required: false}
        recette_locale:
          type: collection
          definition:
@@ -35,8 +36,16 @@ Etablissement:
                  definition:
                    fields:
                      id_etablissement: { }
-                     libelle_etablissement: {}
+                     libelle_etablissement: { }
                      type_liaison: { }
+                     cvi: { }
+                     ppm: { }
+                     hash_chai: { }
+                     attributs_chai:
+                       type: collection
+                       definition:
+                         fields:
+                           '*': { }
                      aliases:
                        type: collection
                        definition:
@@ -45,28 +54,45 @@ Etablissement:
        site_fiche: {  }
        compte: {  }
        num_interne: {  }
-       raison_sociale: { searchable: true }
-       nom: { searchable: true }
+       raison_sociale: {  }
+       nom: {  }
        cvi: {  }
+       ppm: {  }
        no_accises: {  }
        carte_pro: {  }
        famille: {  }
        sous_famille: {  }
+
+       #adresse copié du compte
+       adresse: { }
+       adresse_complementaire: { }
+       code_postal: { }
+       commune: { }
+       pays: {  }
+       insee: { }
+       compte_type: { }
+       cedex: { required: false } #A supprimer
+
+       #contact
        email: {  }
-       telephone: {  }
+       telephone_perso: {  }
+       telephone_bureau: {  }
+       telephone_mobile: {  }
        fax: {  }
+       site_internet: { }
+       telephone: { required: false } #A supprimer
+
        commentaire: {  }
        crd_regime: { }
-       adresse_compta: { searchable: true }
+       adresse_compta: { }
+       siret: { }
        caution: { }
-       exclusion_stats: {required: false}
-       siret: { required: false }
        intitule: { required: false }
        declaration_commune: { required: false }
        declaration_commune: { required: false }
        declaration_insee: { required: false }
        raison_sociale_cautionneur: { required: false }
-       date_modification: { type: date, required: false }
+       date_modification: { required: false }
        acheteur_raisin: { required: false }
        ds_decembre: { required: false }
        no_ds_negociant: { required: false }
@@ -76,29 +102,31 @@ Etablissement:
           definition:
             fields:
               civilite: {  }
-              nom: { searchable: true }
-              adresse: { searchable: true }
+              nom: {  }
+              adresse: {  }
               code_postal: {  }
-              commune: { searchable: true }
+              commune: {  }
               telephone: {  }
-              date_naissance: { type: date }
+              date_naissance: {  }
        siege:
            type: collection
            definition:
              fields:
-               adresse: { searchable: true }
-               adresse_complementaire: { searchable: true }
+               adresse: {  }
+               adresse_complementaire: {  }
                code_postal: {  }
-               commune: { searchable: true }
-               pays: { searchable: true }
+               commune: {  }
+               pays: { }
+               insee: { }
+               code_insee: { required: false }
        comptabilite:
            type: collection
            definition:
              fields:
-               adresse: { searchable: true }
-               code_postal: { searchable: true }
-               commune: { searchable: true }
-               pays: { searchable: true }
+               adresse: {  }
+               code_postal: {  }
+               commune: {  }
+               pays: {}
        lieux_stockage:
          type: collection
          required: false
@@ -110,7 +138,126 @@ Etablissement:
                definition:
                  fields:
                    numero: {  }
-                   nom: { searchable: true }
-                   adresse: { searchable: true }
-                   commune: { searchable: true }
+                   nom: {  }
+                   adresse: {  }
+                   commune: {  }
                    code_postal: {  }
+       chais:
+         type: array_collection
+         required: false
+         definition:
+           fields:
+             '*':
+               class: EtablissementChais
+               type: collection
+               definition:
+                 fields:
+                   nom: { }
+                   adresse: { }
+                   commune: { }
+                   code_postal: { }
+                   partage: boolean
+                   archive: boolean
+                   lat: {  }
+                   lon: {  }
+                   attributs:
+                     type: collection
+                     definition:
+                       fields:
+                          '*': { }
+# TODO : champs à virer après le merge
+       compte_societe_saved:
+         type: collection
+         required: false
+         definition:
+           fields:
+             num_interne: {  }
+             civilite: { }
+             prenom: { }
+             nom: { }
+             nom_a_afficher: {}
+             fonction: { }
+             commentaire: { }
+             mot_de_passe: { }
+             login: { required: false }
+             date_modification: { required: false  }
+             origines:
+               type: array_collection
+               definition:
+                 fields:
+                    '*': { }
+             id_societe: { }
+             adresse_societe: {  }
+             adresse: { }
+             adresse_complementaire: { }
+             code_postal: { }
+             commune: { }
+             insee: { }
+             compte_type: { }
+             cedex: { require: false } #A supprimer
+             pays: {  }
+             email: {  }
+             telephone_perso: {  }
+             telephone_bureau: {  }
+             telephone_mobile: {  }
+             fax: {  }
+             site_internet: { }
+             nom_a_afficher: {  }
+             raison_sociale_societe: { required: false }
+             type_societe: { required: false }
+             teledeclaration_active: { required: false }
+             gecos: { required: false }
+             lat: {  }
+             lon: {  }
+             societe_informations:
+               type: collection
+               definition:
+                 fields:
+                   type: { }
+                   raison_sociale: { }
+                   adresse: {  }
+                   adresse_complementaire: {  }
+                   code_postal: {  }
+                   commune: {  }
+                   email: {  }
+                   telephone: {  }
+                   fax: {  }
+             etablissement_informations:
+               type: collection
+               definition:
+                 fields:
+                   cvi: { }
+                   ppm: { }
+             interpro: {  }
+             statut: {  }
+             groupes:
+               type: array_collection
+               definition:
+                 fields:
+                   '*':
+                     type: collection
+                     definition:
+                       fields:
+                         nom: { }
+                         fonction: { }
+             tags:
+               type: collection
+               definition:
+                 fields:
+                   '*':
+                     type: array_collection
+                     definition:
+                       fields:
+                         '*': {}
+             droits:
+               type: array_collection
+               required: false
+               definition:
+                 fields:
+                   '*': { }
+             delegation:
+               type: array_collection
+               required: false
+               definition:
+                 fields:
+                   '*': { }

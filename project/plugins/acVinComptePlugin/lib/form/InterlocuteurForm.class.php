@@ -31,7 +31,7 @@ class InterlocuteurForm extends CompteGeneriqueForm {
 
     public function configure() {
         parent::configure();
-        $this->setWidget('civilite', new bsWidgetFormChoice(array('choices' => array_merge(["" => ""], CompteGeneriqueForm::getCiviliteList()))));
+        $this->setWidget('civilite', new bsWidgetFormChoice(array('choices' => array_merge(["" => ""] , CompteGeneriqueForm::getCiviliteList()))));
         $this->setWidget('nom', new bsWidgetFormInput());
         $this->setWidget('prenom', new bsWidgetFormInput());
         $this->setWidget('fonction', new bsWidgetFormInput());

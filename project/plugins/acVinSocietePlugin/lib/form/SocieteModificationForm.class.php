@@ -19,8 +19,10 @@ class SocieteModificationForm extends CompteGeneriqueForm {
         $this->setWidget('raison_sociale', new bsWidgetFormInput());
         $this->setWidget('code_comptable_client', new bsWidgetFormInput());
 
-        $this->setWidget('type_societe', new bsWidgetFormChoice(array('choices' => $this->getSocieteTypes(), 'expanded' => false)));
-        $this->setValidator('type_societe', new sfValidatorChoice(array('required' => true, 'choices' => $this->getSocieteTypesValid())));
+        if ($this->getObject()->isNegoOrViti()) {
+
+            $this->setWidget('cooperative', new bsWidgetFormChoice(array('choices' => $this->getCooperative(), 'multiple' => false, 'expanded' => true)));
+        }
 
         $this->setWidget('siret', new bsWidgetFormInput());
         $this->setWidget('code_naf', new bsWidgetFormInput());
@@ -30,6 +32,10 @@ class SocieteModificationForm extends CompteGeneriqueForm {
 
         $this->widgetSchema->setLabel('raison_sociale', 'Nom de la société *');
         $this->widgetSchema->setLabel('code_comptable_client', 'Code comptable');
+
+        if ($this->getObject()->isNegoOrViti()) {
+            $this->widgetSchema->setLabel('cooperative', 'Cave coopérative *');
+        }
 
         $this->widgetSchema->setLabel('siret', 'SIRET');
         $this->widgetSchema->setLabel('code_naf', 'Code Naf');
@@ -41,7 +47,11 @@ class SocieteModificationForm extends CompteGeneriqueForm {
         $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
         $this->setValidator('code_comptable_client', new sfValidatorString(array('required' => false)));
 
-        $this->setValidator('siret', new sfValidatorString(array('required' => false)));
+        if ($this->getObject()->isNegoOrViti()) {
+            $this->setValidator('cooperative', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperative()))));
+        }
+
+        $this->setValidator('siret', new sfValidatorRegex(array("required" => false, "pattern" => "/^[0-9]{14}$/"), array("invalid" => "Le siret doit être un nombre à 14 chiffres")));
         $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
         $this->setValidator('no_tva_intracommunautaire', new sfValidatorString(array('required' => false)));
 
@@ -49,6 +59,20 @@ class SocieteModificationForm extends CompteGeneriqueForm {
 
 
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
+    }
+
+    protected function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+
+        if ($this->getObject()->isNegoOrViti()) {
+            if (is_null($this->getObject()->cooperative)) {
+                $this->setDefault('cooperative', 0);
+            }
+        }
+    }
+
+    public function getCooperative() {
+        return array('Non', 'Oui');
     }
 
     public function doUpdateObject($values) {

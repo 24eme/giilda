@@ -1,5 +1,28 @@
 <?php
 
+/* This file is part of the acVinComptePlugin package.
+ * Copyright (c) 2011 Actualys
+ * Authors :
+ * Tangui Morlier <tangui@tangui.eu.org>
+ * Charlotte De Vichet <c.devichet@gmail.com>
+ * Vincent Laurent <vince.laurent@gmail.com>
+ * Jean-Baptiste Le Metayer <lemetayer.jb@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * acVinComptePlugin task.
+ *
+ * @package    acVinComptePlugin
+ * @subpackage lib
+ * @author     Tangui Morlier <tangui@tangui.eu.org>
+ * @author     Charlotte De Vichet <c.devichet@gmail.com>
+ * @author     Vincent Laurent <vince.laurent@gmail.com>
+ * @author     Jean-Baptiste Le Metayer <lemetayer.jb@gmail.com>
+ * @version    0.1
+ */
 class acVinCompteUpdateProductionTagTask extends sfBaseTask {
 
     protected $debug = false;
@@ -10,10 +33,6 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
-            new sfCommandOption('campagne', null, sfCommandOption::PARAMETER_OPTIONAL, 'Campagne', null),
-            new sfCommandOption('reinitialisation_tags_produit', null, sfCommandOption::PARAMETER_REQUIRED, 'Reset tags', false),
-            new sfCommandOption('reinitialisation_tags_export', null, sfCommandOption::PARAMETER_REQUIRED, 'Reset tags', false),
-            new sfCommandOption('reinitialisation_tags_domaines', null, sfCommandOption::PARAMETER_REQUIRED, 'Reset tags', false),
             new sfCommandOption('debug', null, sfCommandOption::PARAMETER_OPTIONAL, 'use only one code creation', '0'),
         ));
 
@@ -30,109 +49,47 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
 
         $this->debug = array_key_exists('debug', $options) && $options['debug'];
 
-
-        if (!isset($options['campagne']) || !$options['campagne']) {
-            $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
-        } else {
-            $campagne = $options['campagne'];
+        $campagnes = [];
+        $currentCampagne = ConfigurationClient::getInstance()->getCampagneVinicole()->getCurrent();
+        for($i=0; $i < 3; $i++) {
+            $campagnes[$currentCampagne] = $currentCampagne;
+            $currentCampagne = ConfigurationClient::getInstance()->getCampagneVinicole()->getPrevious($currentCampagne);
         }
 
-        $campagnes = [ConfigurationClient::getInstance()->getCampagneVinicole()->getPrevious($campagne), $campagne];
-
-        $this->logSection("campagnes use", implode(', ', $campagnes));
-
-        $ds = [];
-        $factures = [];
-        foreach($campagnes as $campagne) {
-            $periode = explode("-", $campagne)[0];
-            foreach(ArchivageAllView::getInstance()->getByTypeAndCampagne("DS", ConfigurationClient::getInstance()->getCampagneVinicole()->getPrevious($campagne)) as $row) {
-                $id = explode("-", $row->id);
-                $ds[$id[1]][$id[2]] = $id[2];
-            }
-            foreach(ArchivageAllView::getInstance()->getByTypeAndCampagne("Facture", $periode) as $row) {
-                $id = explode("-", $row->id);
-                $factures[$id[1]][$periode] = $periode;
-            }
-        }
+        $this->logSection("campagne use", implode(',', $campagnes));
 
         foreach (EtablissementAllView::getInstance()->findByInterproStatutAndFamilleVIEW('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, null) as $e) {
             $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
-            $identifiant = $e->key[EtablissementAllView::KEY_IDENTIFIANT];
-            $societeIdentifiant = str_replace("SOCIETE-", "", $e->key[EtablissementAllView::KEY_SOCIETE_ID]);
-            $cvi = $e->key[EtablissementAllView::KEY_CVI];
             $tags = array('export' => array(), 'produit' => array(), 'domaines' => array(), 'documents' => array());
-
-            foreach($campagnes as $c) {
-                $periode = explode("-", $c)[0];
-                $mvts = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $c);
-                foreach ($mvts as $m) {
-                    $produit_libelle = $this->getProduitLibelle($m->produit_hash);
-                    if(!$produit_libelle) {
-                        continue;
-                    }
-                    $tags['produit'][$produit_libelle] = 1;
-                    $tags['documents']['SV12'.$c] = 1;
-                }
-                $mvts = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $c);
-                foreach ($mvts as $m) {
-                    $produit_libelle = $this->getProduitLibelle($m->produit_hash);
-                    if(!$produit_libelle) {
-                        continue;
-                    }
-                    $tags['produit'][$produit_libelle] = 1;
-                    $tags['documents']['DRM '.$c] = 1;
-                    if ($m->detail_libelle && preg_match("/export.*_details/", $m->type_hash)) {
-                        $tags['export'][$this->replaceAccents($m->detail_libelle)] = 1;
-                    }
-                }
-                if($cvi && $dr = acCouchdbManager::getClient()->find('DR-'.$cvi.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
-                    $tags['documents']['DR '.$periode] = 1;
-                    if(isset($dr->famille_calculee)) {
-                        $tags['documents']['DR '.$dr->famille_calculee] = 1;
-                    }
-                }
-                if($identifiant && acCouchdbManager::getClient()->find('SV11-'.$identifiant.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
-                    $tags['documents']['SV11 '.$periode] = 1;
-                }
-                if($identifiant && acCouchdbManager::getClient()->find('SV12-'.$identifiant.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
-                    $tags['documents']['SV12 '.$periode] = 1;
-                }
-                if($cvi && acCouchdbManager::getClient()->find('SV11-'.$cvi.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
-                    $tags['documents']['SV11 '.$periode] = 1;
-                }
-                if($cvi && acCouchdbManager::getClient()->find('SV12-'.$cvi.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
-                    $tags['documents']['SV12 '.$periode] = 1;
-                }
-                if($identifiant && isset($ds[$identifiant])) {
-                    foreach($ds[$identifiant] as $dsPeriode) {
-                        $tags['documents']['DS '.$dsPeriode] = 1;
-                    }
-                }
-                if($cvi && isset($ds[$cvi])) {
-                    foreach($ds[$cvi] as $dsPeriode) {
-                        $tags['documents']['DS '.$dsPeriode] = 1;
-                    }
-                }
-                if($societeIdentifiant && isset($factures[$societeIdentifiant])) {
-                    foreach($factures[$societeIdentifiant] as $facturePeriode) {
-                        $tags['documents']['Facture '.$facturePeriode] = 1;
-                    }
-                }
-            }
-
-            $contratDomaines = VracDomainesView::getInstance()->findDomainesByVendeur(str_replace('ETABLISSEMENT-', '', $id), date('Y'), 1000);
-            foreach ($contratDomaines->rows as $domaineView) {
-                $domaine = $this->replaceAccents($domaineView->key[VracDomainesView::KEY_DOMAINE]);
-                $tags['domaines'][$domaine] = 1;
-            }
-
             $etablissement = EtablissementClient::getInstance()->findByIdentifiant(str_replace('ETABLISSEMENT-', '', $id));
+            if (!$etablissement) {
+                throw new sfException("etablissement $id non trouvé");
+            }
             $compte = $etablissement->getContact();
-            $compte->tags->remove('export');
-            $compte->tags->remove('produit');
-            $compte->tags->remove('domaines');
+            if (class_exists('DeclarationIdentifiantView')) {
+                $types_view = DeclarationIdentifiantView::getInstance()->getByIdentifiant($etablissement->identifiant);
+                foreach($types_view->rows as $t) {
+                    $docCampagne = $t->key[DeclarationIdentifiantView::KEY_CAMPAGNE];
+
+                    if(strlen($docCampagne) == 4) {
+                        $docCampagne = $docCampagne.'-'.($docCampagne + 1);
+                    }
+                    if (in_array($docCampagne, $campagnes)) {
+                        $tags['documents'][$t->key[DeclarationIdentifiantView::KEY_TYPE].'_'.explode("-", $docCampagne)[0]] = 1;
+                    }
+                }
+            }
+
+            if (class_exists('MouvementLotView')) {
+                foreach(MouvementLotView::getInstance()->getByIdentifiant($etablissement->identifiant)->rows as $row) {
+                    if (in_array($row->value->campagne, $campagnes) && $row->value->affectable) {
+                        $tags['documents']['controle_odg_'.explode("-", $row->value->campagne)[0]] = 1;
+                    }
+                }
+            }
             $compte->tags->remove('documents');
-            $compte->tags->remove('droits');
+
+            $this->logSection("reset tags documents", $compte->identifiant);
 
             if (!count($tags)) {
                 continue;

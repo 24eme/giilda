@@ -1,12 +1,19 @@
 <?php
-$interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
+$societe = $compte->getSociete();
+$identifiant = $societe->getIdentifiant();
+$etablissement = $societe->getEtablissementPrincipal();
+$organismeNom = sfConfig::get('app_organisme_nom');
 ?>
 Madame, Monsieur,
 
-Votre compte a bien été créé sur l'espace professionnel <?php echo $interpro; ?>.
+Votre compte a bien été créé pour l’espace professionnel du <?php echo $organismeNom ?>.
 
-Nous vous rappelons que votre identifiant restera toujours le : <?php echo $compte->getLogin(); ?>.
+Votre identifiant est : <?php echo $identifiant ?>.
 
-Cordialement,
+Vous pouvez dès maintenant gérer toutes vos obligations déclaratives via cet espace.
 
-L'espace professionnel <?php echo $interpro; ?>
+Votre syndicat reste à votre disposition pour plus d'information.
+
+Bonne journée.
+
+<?php echo sfConfig::get('app_email_plugin_signature'); ?>

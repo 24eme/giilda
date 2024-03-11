@@ -7,6 +7,8 @@
  * @property string $id_etablissement
  * @property string $libelle_etablissement
  * @property string $type_liaison
+ * @property string $cvi
+ * @property string $ppm
  * @property acCouchdbJson $aliases
 
  * @method string getIdEtablissement()
@@ -15,6 +17,10 @@
  * @method string setLibelleEtablissement()
  * @method string getTypeLiaison()
  * @method string setTypeLiaison()
+ * @method string getCvi()
+ * @method string setCvi()
+ * @method string getPpm()
+ * @method string setPpm()
  * @method acCouchdbJson getAliases()
  * @method acCouchdbJson setAliases()
  

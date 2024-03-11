@@ -11,7 +11,6 @@ class SocieteAllView extends acCouchdbView
 	const KEY_SIRET = 6;
 	const KEY_COMMUNE = 7;
 	const KEY_CODE_POSTAL = 8;
-	const KEY_CODE_COMPTABLE = 9;
 
     public static function getInstance() {
         return acCouchdbManager::getView('societe', 'all', 'Societe');
@@ -23,18 +22,15 @@ class SocieteAllView extends acCouchdbView
 	->getView($this->design, $this->view)->rows;
       }
 
-    public function findByInterproAndStatut($interpro, $statut, $typesocietes = array(), $q = null, $limit = null) {
+    public function findByInterproAndStatut($interpro, $statut, $q = null, $limit = null) {
       try {
-	return $this->findByInterproAndStatutELASTIC($interpro, $statut, $typesocietes, $q, $limit);
+	return $this->findByInterproAndStatutELASTIC($interpro, $statut, $q, $limit);
       }catch(Exception $e) {
-	return $this->findByInterproAndStatutAndRaisonSocialeVIEW($interpro, $statut, $typesocietes,$q);
+	return $this->findByInterproAndStatutAndRaisonSocialeVIEW($interpro, $statut, $q);
       }
     }
 
-    private function findByInterproAndStatutELASTIC($interpro, $statut, $typesocietes, $q, $limit) {
-        if (SocieteConfiguration::getInstance()->isElasticDisabled()) {
-            throw new Exception('Elastic is disabled');
-        }
+    private function findByInterproAndStatutELASTIC($interpro, $statut, $q, $limit) {
       $query = array();
       foreach (explode(' ', $q) as $s) {
 	$query[] = "*$q*";
@@ -42,16 +38,7 @@ class SocieteAllView extends acCouchdbView
       if ($statut) {
 	$query[] = "doc.statut:$statut";
       }
-      if (count($typesocietes)) {
-	$tq = '';
-	foreach($typesocietes as $ts) {
-	  if ($tq) {
-	    $tq .= ' OR ';
-	  }
-	  $tq .= 'doc.type_societe:'.$ts;
-	}
-	$query[] = '('.$tq.')';
-      }
+
       $q = implode(' ', $query);
 
       $index = acElasticaManager::getType('SOCIETE');
@@ -84,18 +71,16 @@ class SocieteAllView extends acCouchdbView
       return $res;
     }
 
-    private function findByInterproAndStatutAndRaisonSocialeVIEW($interpro, $statut, $typesocietes = array(), $query = "") {
+    private function findByInterproAndStatutAndRaisonSocialeVIEW($interpro, $statut, $raison_sociale = "") {
           $societesViews = array();
-      foreach($typesocietes as $ts) {
-	$societesViews = array_merge($societesViews, $this->client->startkey(array($interpro, $statut, $ts))
-				->endkey(array($interpro, $statut, $ts, array()))
+		  $societesViews = array_merge($societesViews, $this->client->startkey(array($interpro, $statut))
+				->endkey(array($interpro, $statut, array()))
 				->getView($this->design, $this->view)->rows);
-      }
       $societes = array();
       foreach ($societesViews as $sView) {
-					if (Search::matchTerm($query, self::makeLibelle($sView->key))) {
-						$societes[] = $sView;
-					}
+          if($sView->key[self::KEY_RAISON_SOCIALE] == $raison_sociale){
+              $societes[] = $sView;
+          }
       }
       return $societes;
     }
@@ -125,7 +110,7 @@ class SocieteAllView extends acCouchdbView
         return $this->client->startkey(array($interpro,  SocieteClient::STATUT_ACTIF, $type, 'SOCIETE-000000', $raison_sociale))
                             ->endkey(array($interpro, SocieteClient::STATUT_ACTIF, $type, 'SOCIETE-999999', $raison_sociale, array()))
                             ->getView($this->design, $this->view)->rows;
-        
+
     }
 
     public function findByRaisonSocialeAndId($raison_sociale,$id) {
@@ -133,17 +118,14 @@ class SocieteAllView extends acCouchdbView
         return $this->client->startkey(array($interpro, $raison_sociale, $id))
                             ->endkey(array($interpro,  $raison_sociale, $id, array()))
                             ->getView($this->design, $this->view)->rows;
-        
+
     }
 
     public static function makeLibelle($datas) {
-        $libelle = '';
-        
+        $libelle = '🏢 ';
+
         if (isset($datas[self::KEY_RAISON_SOCIALE]) && $rs = $datas[self::KEY_RAISON_SOCIALE]) {
-            if ($libelle) {
-                $libelle .= ' / ';
-            }
-            $libelle .= $rs;
+			$libelle .= Anonymization::hideIfNeeded($rs);
         }
         $libelle .= ' '.$datas[self::KEY_IDENTIFIANT];
         if (isset($datas[self::KEY_SIRET]) && $siret = $datas[self::KEY_SIRET]) {
@@ -156,10 +138,6 @@ class SocieteAllView extends acCouchdbView
 
     	if (isset($datas[self::KEY_CODE_POSTAL]) && $code_postal = $datas[self::KEY_CODE_POSTAL])
     	  	$libelle .= ' / '.$code_postal;
-
-    	if (isset($datas[self::KEY_CODE_COMPTABLE]) && $code_comptable = $datas[self::KEY_CODE_COMPTABLE])
-    	  	$libelle .= ' / '.$code_comptable;
-
         $libelle .= ' (Société)';
         return trim($libelle);
     }
@@ -175,7 +153,7 @@ class SocieteAllView extends acCouchdbView
         return $this->client->startkey(array($societe->interpro, $societe->statut, $societe->type_societe, $societe->_id))
                             ->endkey(array($societe->interpro, $societe->statut, $societe->type_societe, $societe->_id, array()))
 			    ->getView($this->design, $this->view)->rows;
-        
+
     }
 
-}  
+}

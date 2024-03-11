@@ -2,17 +2,17 @@
 
 class SocieteClient extends acCouchdbClient {
 
-    const TYPE_OPERATEUR = 'RESSORTISSANT';
+    const TYPE_OPERATEUR = 'OPERATEUR';
     const TYPE_COURTIER = 'INTERMEDIAIRE';
     const TYPE_AUTRE = 'AUTRE';
 
     const SUB_TYPE_VITICULTEUR = 'VITICULTEUR';
     const SUB_TYPE_NEGOCIANT = 'NEGOCIANT';
+    const SUB_TYPE_COURTIER = 'COURTIER';
 
     const STATUT_ACTIF = 'ACTIF';
     const STATUT_SUSPENDU = 'SUSPENDU';
     const STATUT_EN_CREATION = 'EN_CREATION';
-    const STATUT_SUPPRIME = "SUPPRIME";
     const NUMEROCOMPTE_TYPE_CLIENT = 'CLIENT';
     const NUMEROCOMPTE_TYPE_FOURNISSEUR = 'FOURNISSEUR';
     const FOURNISSEUR_TYPE_MDV = "MDV";
@@ -35,25 +35,36 @@ class SocieteClient extends acCouchdbClient {
         return $identifiant = str_replace('SOCIETE-', '', $id_or_identifiant);
     }
 
+    public function findBySiretOrTVA($siret) {
+        $s = $this->findBySiret($siret);
+        if ($s) {
+            return $s;
+        }
+        return $this->findByField('no_tva_intracommunautaire', $siret);
+    }
+
     public function findBySiret($siret) {
+        return $this->findByField('siret', $siret);
+    }
+
+    private function findByField($field, $siret) {
         $index = acElasticaManager::getType('SOCIETE');
         $elasticaQueryString = new acElasticaQueryQueryString();
         $elasticaQueryString->setDefaultOperator('AND');
-        $elasticaQueryString->setQuery(sprintf("doc.siret:%s", $siret));
-
+        $elasticaQueryString->setQuery(sprintf("doc.$field:%s", $siret));
         $q = new acElasticaQuery();
         $q->setQuery($elasticaQueryString);
         $q->setLimit(1);
 
-        $res = $index->search($q);
+        try {
+            $res = $index->search($q);
 
-        foreach ($res->getResults() as $er) {
-            $r = $er->getData();
-            if (isset($r['_id']))
-              return $this->find($r['_id']);
-            if (isset($r['doc']) && isset($r['doc']['_id']))
-              return $this->find($r['doc']['_id']);
-            return $this->find($r['id']);
+            foreach ($res->getResults() as $er) {
+                $r = $er->getData();
+                return $this->find($r['id']);
+            }
+        } catch(Exception $e) {
+
         }
 
         return null;
@@ -63,37 +74,36 @@ class SocieteClient extends acCouchdbClient {
         return array_reverse(SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', $statut));
     }
 
-    public function getSocietesWithTypeAndRaisonSociale($type, $raison_sociale, $identifiant = null) {
-        $societes = SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_ACTIF, array($type), $raison_sociale);
-        if ($identifiant) {
-                $s = SocieteAllView::getInstance()->findBySociete($this->getIdentifiant($identifiant));
-                if ($s) {
-                    $societes = array_merge($societes, $s);
-                }
-        }
-        return array_merge($societes, SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_SUSPENDU, array($type), $raison_sociale));
+    public function getSocietesWithRaisonSociale($raison_sociale) {
+        return array_merge(SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_ACTIF, $raison_sociale),
+                SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_SUSPENDU, $raison_sociale));
     }
 
-    public function createSociete($raison_sociale, $type, $identifiant = null) {
+    public function getSocieteFormatIdentifiant() {
+
+        return sfConfig::get('app_societe_format_identifiant', "%06d");
+    }
+
+    public function getSocieteFormatIdentifiantRegexp() {
+
+        return preg_replace('/(.*)%0([0-9]{1})d/', '(\1)([0-9]{\2})', $this->getSocieteFormatIdentifiant());
+    }
+
+    public function createSociete($raison_sociale, $type = SocieteClient::TYPE_AUTRE, $identifiant = null) {
+        if(is_null($identifiant)) {
+            $identifiant = $this->getNumeroSuivant();
+        }
+
         $societe = new Societe();
         $societe->raison_sociale = $raison_sociale;
         $societe->type_societe = $type;
         $societe->interpro = 'INTERPRO-declaration';
-        if ($identifiant) {
-            $societe->identifiant = $identifiant;
-        }else{
-            $societe->identifiant = $this->getNextIdentifiantSociete();
-        }
+        $societe->identifiant = sprintf($this->getSocieteFormatIdentifiant(), $identifiant);
         $societe->statut = SocieteClient::STATUT_ACTIF;
         $societe->cooperative = 0;
         $societe->setPays('FR');
         $societe->add("date_creation", date('Y-m-d'));
         $societe->constructId();
-
-        if (SocieteConfiguration::getInstance()->hasNumeroArchive()) {
-            $societe->add('numero_archive');
-            $societe->add('campagne_archive', Societe::CAMPAGNE_ARCHIVE);
-        }
 
         return $societe;
     }
@@ -128,22 +138,22 @@ class SocieteClient extends acCouchdbClient {
       return $this->societes[$id];
     }
 
-    public function getNextIdentifiantSociete() {
+    public function getNumeroSuivant() {
         $id = '';
         $societes = $this->getSocietesIdentifiants(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         $last_num = 0;
         foreach ($societes as $id) {
-            if (!preg_match('/^SOCIETE-([0-9]{6})$/', $id, $matches)) {
+            if (!preg_match('/^SOCIETE-'.$this->getSocieteFormatIdentifiantRegexp().'$/', $id, $matches)) {
                 continue;
             }
 
-            $num = $matches[1];
+            $num = $matches[2];
             if ($num > $last_num) {
                 $last_num = $num;
             }
         }
 
-        return sprintf("%06d", $last_num + 1);
+        return $last_num + 1;
     }
 
     public function getNextCodeFournisseur() {
@@ -160,7 +170,8 @@ class SocieteClient extends acCouchdbClient {
     }
 
     public function getSocietesIdentifiants($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('SOCIETE-000000')->endkey('SOCIETE-999999')->execute($hydrate);
+        $prefix = sfConfig::get('app_societe_prefix', null);
+        return $this->startkey('SOCIETE-'.sprintf($this->getSocieteFormatIdentifiant(), 0))->endkey('SOCIETE-'.sprintf($this->getSocieteFormatIdentifiant(), 999999999999))->execute($hydrate);
     }
 
     public function findByIdentifiantSociete($identifiant) {
@@ -172,17 +183,14 @@ class SocieteClient extends acCouchdbClient {
         $result = array();
         foreach ($contactsArr as $id => $value) {
             $compte = CompteClient::getInstance()->find($id);
-            if ($compte->statut != SocieteClient::STATUT_SUSPENDU) {
+            if ($withSuspendus) {
                 $result[] = $compte;
+            } else {
+
+                if ($compte->statut != SocieteClient::STATUT_SUSPENDU) {
+                    $result[] = $compte;
+                }
             }
-        }
-        if ($withSuspendus) {
-          foreach ($contactsArr as $id => $value) {
-              $compte = CompteClient::getInstance()->find($id);
-              if ($compte->statut == SocieteClient::STATUT_SUSPENDU) {
-                  $result[] = $compte;
-              }
-          }
         }
         return $result;
     }
@@ -261,6 +269,22 @@ class SocieteClient extends acCouchdbClient {
         }
         fclose($file);
         return $resultArr;
+    }
+
+    public static function matchSociete($view_res, $term, $limit) {
+        $json = array();
+        foreach ($view_res as $key => $one_row) {
+            $text = SocieteAllView::getInstance()->makeLibelle($one_row->key);
+
+            if (Search::matchTerm($term, $text)) {
+                $json[$one_row->id] = $text;
+            }
+
+            if (count($json) >= $limit) {
+                break;
+            }
+        }
+        return $json;
     }
 
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class WidgetEtablissement extends bsWidgetFormInput
 {
@@ -7,7 +7,7 @@ class WidgetEtablissement extends bsWidgetFormInput
     public function __construct($options = array(), $attributes = array())
     {
         parent::__construct($options, $attributes);
-        
+
         $this->setAttribute('data-ajax', $this->getUrlAutocomplete());
     }
 
@@ -26,7 +26,7 @@ class WidgetEtablissement extends bsWidgetFormInput
         if($name == 'familles') {
             $this->setAttribute('data-ajax', $this->getUrlAutocomplete());
         }
-        
+
         if($name == 'autofocus') {
             $this->setAttribute('autofocus','autofocus');
         }
@@ -42,7 +42,7 @@ class WidgetEtablissement extends bsWidgetFormInput
         }
 
         if (is_array($familles) && count($familles) > 0) {
-            
+
             return sfContext::getInstance()->getRouting()->generate('etablissement_autocomplete_byfamilles', array('interpro_id' => $interpro_id, 'familles' => implode("|",$familles)));
         }
 
@@ -60,6 +60,12 @@ class WidgetEtablissement extends bsWidgetFormInput
             } else {
                 foreach($etablissements as $key => $etablissement) {
                     $value = $etablissement->id.','.EtablissementAllView::getInstance()->makeLibelle($etablissement);
+                    $compte = CompteClient::getInstance()->find(str_replace("ETABLISSEMENT-", "COMPTE-", $etablissement->id));
+                    $exploite_plus = $compte && $compte->exist('tags') && $compte->tags->exist('manuel') && in_array('exploite_plus', $compte->tags->manuel->toArray(0,1));
+                    $en_alerte = $compte && $compte->exist('en_alerte') && $compte->en_alerte;
+                    if($exploite_plus || $en_alerte){
+                        $value = str_replace('(', ' ⛔ (', $value);
+                    }
                 }
             }
         }

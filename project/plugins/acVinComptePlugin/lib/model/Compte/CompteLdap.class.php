@@ -1,17 +1,14 @@
 <?php
-class CompteLdap extends acVinLdap
-{
-    public $ou = 'ou=People';
-    public $id = 'uid';
+class CompteLdap extends acVinLdap {
 
-    public function saveCompte($compte, $verbose = 0)
+  public function saveCompte($compte, $verbose = 0)
     {
-        $info = $this->info($compte);
-        if ($verbose) {
-            echo "save : ";
-            print_r($info);
-        }
-        return $this->save(self::getIdentifiant($compte), $info);
+      $info = $this->info($compte);
+      if ($verbose) {
+	echo "save : ";
+	print_r($info);
+      }
+      return $this->save(self::getIdentifiant($compte), $info);
     }
 
     /**
@@ -19,26 +16,23 @@ class CompteLdap extends acVinLdap
      * @param _Compte $compte
      * @return bool
      */
-    public function deleteCompte($compte, $verbose = 0)
-    {
-        if (is_string($compte)) {
-            $identifiant = $compte;
-        }else {
-            $identifiant = self::getIdentifiant($compte);
-        }
-        if ($verbose) {
-            echo $identifiant." deleted\n";
-        }
-        return $this->delete($identifiant);
+    public function deleteCompte($compte, $verbose = 0) {
+      if ($verbose) {
+	       echo self::getIdentifiant($compte)." deleted\n";
+      }
+      $id = $compte;
+      if (!is_string($compte)) {
+        $id = self::getIdentifiant($compte);
+      }
+      return $this->delete($id);
     }
 
-    public static function getIdentifiant($compte)
-    {
-        if ($compte->isSocieteContact()) {
-            return $compte->getSociete()->identifiant;
-        } else {
-            return $compte->identifiant;
-        }
+    protected static function getIdentifiant($compte) {
+      if ($compte->isSocieteContact()) {
+	return $compte->getSociete()->identifiant;
+      }else{
+	return $compte->identifiant;
+      }
     }
 
     /**
@@ -48,96 +42,53 @@ class CompteLdap extends acVinLdap
      */
     protected function info($compte)
     {
-        $info = array();
-        $info['uid']              = self::getIdentifiant($compte);
-        $info['cn']               = $compte->nom_a_afficher;
-        $info['objectClass'][0]   = 'top';
-        $info['objectClass'][1]   = 'person';
-        $info['objectClass'][2]   = 'posixAccount';
-        $info['objectClass'][3]   = 'inetOrgPerson';
-        $info['loginShell']       = '/bin/bash';
-        $info['uidNumber']        = (int)self::getIdentifiant($compte);
-        $info['gidNumber']        = '1000';
-        $info['homeDirectory']    = '/home/'.self::getIdentifiant($compte);
-        $info['gecos']            = self::getGecos($compte);
-        if ($compte->isEtablissementContact()) {
-             $info['businessCategory'] = $compte->getEtablissement()->famille;
-        }
-        $info['o']                = ($compte->getSociete()) ? $compte->getSociete()->raison_sociale : $compte->nom_a_afficher;
+      $info = array();
+      $info['uid']              = self::getIdentifiant($compte);
+      $info['cn']               = $compte->nom_a_afficher;
+      $info['objectClass'][0]   = 'top';
+      $info['objectClass'][1]   = 'person';
+      $info['objectClass'][2]   = 'posixAccount';
+      $info['objectClass'][3]   = 'inetOrgPerson';
+      $info['loginShell']       = '/bin/bash';
+      $info['uidNumber']        = (int)self::getIdentifiant($compte);
+      $info['gidNumber']        = '1000';
+      $info['homeDirectory']    = '/home/'.self::getIdentifiant($compte);
+      $info['o']                = $compte->getSociete()->raison_sociale;
+      $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';
 
-        $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';
-        $info['sn'] = ($compte->getNom()) ?: $compte->nom_a_afficher;
-
-        if ($compte->getPrenom()) {
-            $info['givenName']        = $compte->getPrenom();
-        }
-
-        if ($compte->email && filter_var($compte->email, FILTER_VALIDATE_EMAIL)) {
-            $info['mail']             = $compte->email;
-        }
-
-        if ($compte->adresse) {
-            $info['street']           = preg_replace('/;/', '\n', $compte->adresse);
-            if ($compte->adresse_complementaire) {
-                $info['street']        .= " \n ".preg_replace('/;/', '\n', $compte->adresse_complementaire);
-            }
-        }
-
-        if ($compte->commune) {
-            $info['l']                = trim($compte->commune);
-        }
-
-        if ($compte->code_postal) {
-            $info['postalCode']       = trim($compte->code_postal);
-        }
-
-        if ($compte->telephone_bureau) {
-            $info['telephoneNumber']  = trim(str_replace("_", "", $compte->telephone_bureau));
-        }
-
-        if ($compte->telephone_mobile) {
-            $info['mobile']           = trim(str_replace("_", "", $compte->telephone_mobile));
-        }
-
-        if ($compte->exist('mot_de_passe')) {
-            $info['userPassword']  = $compte->mot_de_passe;
-            if (!$compte->isActif()) {
-                $info['userPassword'] = null;
-            }
-        }
-
-        return $info;
-    }
-
-    public static function getGecos($compte) {
-
-        if($compte->exist('gecos') && $compte->gecos) {
-            return $compte->gecos;
-        }
-
-        $etablissement = $compte->getEtablissement();
-
-        $gecos = null;
-
-        if(!$etablissement) {
-            $gecos = sprintf("%s,%s,%s,%s", $compte->identifiant, null, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
-        }
-
-        //Hack pour la compatibilité GAMMAlsace du CIVA
-        if (!$gecos && class_exists('civaConfiguration')) {
-            $gamma = acCouchdbManager::getClient()->find(str_replace('ETABLISSEMENT', 'GAMMA', $etablissement->_id), acCouchdbClient::HYDRATE_JSON);
-            if ($gamma) {
-                $gecos =  sprintf("%s,%s,%s,%s", $gamma->identifiant_inscription, $gamma->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
-            }
-        }
-
-        if (!$gecos) {
-            $gecos =  sprintf("%s,%s,%s,%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
-        }
-
-        $gecos = str_replace(array('é', 'è', 'ê', 'ë', 'à', 'ù', 'ä', 'ü', 'ï', 'ç', 'ö', 'ô', 'â', 'î', 'ô', 'û'),
-                             array('e', 'e', 'e', 'e', 'a', 'u', 'a', 'u', 'i', 'c', 'o', 'o', 'a', 'i', 'o', 'u'), $gecos);
-        return $gecos;
+      if (!is_null($compte->getNom())){
+	        $info['sn']             = $compte->getNom();
+      } else {
+	        $info['sn']             = $compte->nom_a_afficher;
+      }
+      if (!$info['o']) {
+          $info['o']                = $info['sn'];
+      }
+      if ($compte->getPrenom()){
+          $info['givenName']        = $compte->getPrenom();
+      }
+      if ($compte->email && preg_match('/@/', $compte->email))
+	       $info['mail']             = $compte->email;
+      if ($compte->adresse) {
+         $info['street']           = preg_replace('/;/', '\n', $compte->adresse);
+      if ($compte->adresse_complementaire)
+	       $info['street']        .= " \n ".preg_replace('/;/', '\n', $compte->adresse_complementaire);
+      }
+      if ($compte->commune)
+          $info['l']                = trim($compte->commune);
+      if ($compte->code_postal)
+          $info['postalCode']       = trim($compte->code_postal);
+      if ($compte->telephone_bureau)
+          $info['telephoneNumber']  = trim(str_replace("_", "", $compte->telephone_bureau));
+      if ($compte->telephone_mobile)
+          $info['mobile']           = trim(str_replace("_", "", $compte->telephone_mobile));
+      if ($compte->exist('mot_de_passe')) {
+	        $info['userPassword']  = $compte->mot_de_passe;
+	        if(!$compte->isActif()) {
+	           $info['userPassword'] = null;
+	        }
+      }
+      return $info;
     }
 
 }

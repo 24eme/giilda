@@ -25,4 +25,30 @@ class EtablissementLieuStockage extends BaseEtablissementLieuStockage {
 
         return $this->getDocument()->getLieuStockagePrincipal(false, $this->getIdentifiant())->getNumeroIncremental() == $this->getNumeroIncremental();
     }
+
+    public function getNom() {
+      if ($this->nom) {
+        return $this->nom;
+      }
+      return $this->getDocument()->nom;
+    }
+    public function getAdresse() {
+      if ($this->adresse) {
+        return $this->adresse;
+      }
+      return $this->getDocument()->adresse;
+    }
+    public function getCommune() {
+      if ($this->commune) {
+        return $this->commune;
+      }
+      return $this->getDocument()->commune;
+    }
+    public function getCodePostal() {
+      if ($this->code_postal) {
+        return $this->code_postal;
+      }
+      return $this->getDocument()->code_postal;
+    }
+
 }

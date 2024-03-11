@@ -1,3 +1,9 @@
 all:
   is_secure: true
   credentials: contacts
+
+visualisation:
+  credentials:  []
+
+export:
+  credentials: [[api, ADMIN]]

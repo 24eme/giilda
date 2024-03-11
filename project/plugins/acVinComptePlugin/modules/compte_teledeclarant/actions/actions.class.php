@@ -27,7 +27,8 @@ class compte_teledeclarantActions extends sfActions {
 
     const SESSION_COMPTE_DOC_ID_CREATION = '';
     const SESSION_COMPTE_DOC_ID_OUBLIE = '';
-
+    const SESSION_REDIRECTION_APRES_CREATION = 'redirect_to';
+    const PARAM_REDIRECTION = 'service';
 
     /**
      * Executes index action
@@ -36,6 +37,12 @@ class compte_teledeclarantActions extends sfActions {
      */
     public function executeFirst(sfWebRequest $request) {
         $this->form = new CompteLoginFirstForm();
+
+        $this->getUser()->getAttributeHolder()->remove(self::SESSION_REDIRECTION_APRES_CREATION);
+        if ($request->hasParameter(self::PARAM_REDIRECTION)) {
+            $this->getUser()->setAttribute(self::SESSION_REDIRECTION_APRES_CREATION, $request->getParameter(self::PARAM_REDIRECTION));
+        }
+
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
@@ -73,7 +80,7 @@ class compte_teledeclarantActions extends sfActions {
         $this->forward404Unless($this->compte);
         $this->forward404Unless($this->compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU);
 
-        $this->form = new CompteTeledeclarantCreationForm($this->compte);
+        $this->form = new CompteTeledeclarantCreationForm($this->compte, array(), array('noSaveChangement' => true));
 
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -83,13 +90,17 @@ class compte_teledeclarantActions extends sfActions {
 
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_CREATION);
                 $this->getUser()->signInOrigin($this->compte);
-                try {
-                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Confirmation de création de votre compte", $this->getPartial('compte_teledeclarant/creationEmail', array('compte' => $this->compte)));
-                } catch (Exception $e) {
-                    $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
+
+                $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_email_plugin_from_adresse') => sfConfig::get('app_email_plugin_from_name')), $emailCible, "Confirmation de création de votre compte", $this->getPartial('compte_teledeclarant/creationEmail', array('compte' => $this->compte)));
+
+                if ($this->form->hasUpdatedValues()) {
+                    Email::getInstance()->sendNotificationModificationsExploitation($this->compte->getSociete()->getEtablissementPrincipal(), $this->form->getUpdatedValues());
                 }
 
-                return $this->redirect('common_homepage');
+                $urlback = $this->getUser()->getAttribute(self::SESSION_REDIRECTION_APRES_CREATION, null);
+                $this->getUser()->getAttributeHolder()->remove(self::SESSION_REDIRECTION_APRES_CREATION);
+
+                return ($urlback !== null) ? $this->redirect($urlback) : $this->redirect('common_homepage');
             }
         }
     }
@@ -99,29 +110,13 @@ class compte_teledeclarantActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeModification(sfWebRequest $request) {
-        if($request->getParameter('identifiant')) {
-            $this->compte = CompteClient::getInstance()->find("COMPTE-".$request->getParameter('identifiant'));
-        } else {
-            $this->compte = $this->getUser()->getCompte();
+        $this->compte = $this->getUser()->getCompte();
+        $this->etablissementPrincipal = null;
+        $societe = $this->compte->getSociete();
+        $this->mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($societe);
+        if($societe->isTransaction()){
+            $this->etablissementPrincipal = $societe->getEtablissementPrincipal();
         }
-
-        if(!$this->compte) {
-
-            throw new sfError404Exception("Compte ".$request->getParameter('identifiant')." not found");
-        }
-
-        if(!$this->getUser()->hasCredential(AppUser::CREDENTIAL_ADMIN) && $this->compte->getSociete()->_id != $this->getUser()->getCompte()->getSociete()->_id) {
-
-            throw new sfError403Exception();
-        }
-
-        if($this->compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU) {
-
-            return sfView::SUCCESS;
-        }
-
-        $this->societe = $this->compte->getSociete();
-        $this->mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
 
         $this->form = new CompteTeledeclarantForm($this->compte);
 
@@ -130,10 +125,33 @@ class compte_teledeclarantActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->form->save();
 
+                if ($this->form->hasUpdatedValues()) {
+                    Email::getInstance()->sendNotificationModificationsExploitation($this->etablissementPrincipal ? $this->etablissementPrincipal : $societe, $this->form->getUpdatedValues());
+                }
+
                 $this->getUser()->setFlash('maj', 'Vos identifiants ont bien été mis à jour.');
-                $this->redirect('compte_teledeclarant_modification_id', ['identifiant' => $this->compte->identifiant]);
+                $this->redirect('compte_teledeclarant_modification');
             }
         }
+    }
+
+    public function executeCoordonneesBancaires(sfWebRequest $request) {
+          $this->compte = $this->getUser()->getCompte();
+          $this->societe = $this->compte->getSociete();
+          $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
+          if (!$mandatSepa) {
+            $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
+          }
+          $this->form = new MandatSepaDebiteurForm($mandatSepa->debiteur);
+
+          if ($request->isMethod(sfWebRequest::POST)) {
+              $this->form->bind($request->getParameter($this->form->getName()));
+              if ($this->form->isValid()) {
+                  $this->form->save();
+                  $this->getUser()->setFlash('maj', 'Vos coordonnées bancaires ont bien été mises à jour.');
+                  $this->redirect('compte_teledeclarant_modification');
+              }
+          }
     }
 
     public function executeMotDePasseOublie(sfWebRequest $request) {
@@ -144,20 +162,13 @@ class compte_teledeclarantActions extends sfActions {
                 $compte = $this->form->save();
 
                 $societe = $compte->getSociete();
-                $lien = $this->generateUrl("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $compte->getLogin(), "mdp" => str_replace("{OUBLIE}", "", $compte->mot_de_passe)), true);
-                $emailCible = null;
-
-                if (!$societe->isTransaction()) {
-                    $emailCible = $societe->getEmailTeledeclaration();
-                }else{
-                     $emailCible = $societe->getEtablissementPrincipal()->getEmailTeledeclaration();
+                $lien = $this->generateUrl("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->identifiant, "mdp" => str_replace("{OUBLIE}", "", $compte->mot_de_passe)), true);
+                $emailCible = $compte->getTeledeclarationEmail();
+                if (!$emailCible) {
+                    $emailCible = $compte->getEmail();
                 }
 
-                try {
-                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $compte, 'lien' => $lien)));
-                } catch (Exception $e) {
-                    $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
-                }
+                $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_email_plugin_from_adresse') => sfConfig::get('app_email_plugin_from_name')), $emailCible, "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $compte, 'lien' => $lien)));
                 $this->redirect('compte_teledeclarant_mot_de_passe_oublie_confirm');
             }
         }
@@ -199,26 +210,6 @@ class compte_teledeclarantActions extends sfActions {
         }
     }
 
-    public function executeCoordonneesBancaires(sfWebRequest $request) {
-        $this->compte = $this->getUser()->getCompte();
-        $this->societe = $this->compte->getSociete();
-        $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
-        if (!$mandatSepa) {
-            $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
-        }
-        $this->form = new MandatSepaDebiteurForm($mandatSepa->debiteur);
-
-        if ($request->isMethod(sfWebRequest::POST)) {
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $this->form->save();
-                $this->getUser()->setFlash('maj', 'Vos coordonnées bancaires ont bien été mises à jour.');
-                $this->redirect('compte_teledeclarant_modification');
-            }
-        }
-    }
-
-
     public function executeReglementationGenerale() {
         return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/reglementation_generale_des_transactions.pdf", "reglementation_generale_des_transactions.pdf");
     }
@@ -242,6 +233,7 @@ class compte_teledeclarantActions extends sfActions {
     private function checkApiAccess(sfWebRequest $request) {
         $secret = sfConfig::get('app_viticonnect_secret');
         $login = $request->getParameter('login');
+
         $epoch = $request->getParameter('epoch');
         if(empty($secret)) {
             http_response_code(403);
@@ -251,7 +243,9 @@ class compte_teledeclarantActions extends sfActions {
             http_response_code(403);
             die('Forbidden');
         }
+
         $md5 = $request->getParameter('md5');
+
         if ($md5 != md5($secret."/".$login."/".$epoch)) {
             http_response_code(401);
             die("Unauthorized");
@@ -270,7 +264,6 @@ class compte_teledeclarantActions extends sfActions {
             http_response_code(401);
             die("Unauthorized $login");
         }
-
         $this->entities = array('raison_sociale' => [], 'cvi' => [], 'siret' => [], 'ppm' => [], 'accise' => [], 'tva' => []);
         $this->entities_number = 0;
         $entities = array();
@@ -283,42 +276,16 @@ class compte_teledeclarantActions extends sfActions {
         foreach($entities as $k => $e) {
             $this->entities['raison_sociale'][] = htmlspecialchars($e->etablissement->raison_sociale, ENT_XML1, 'UTF-8');
             $this->entities['cvi'][] = str_replace(' ', '', $e->etablissement->cvi);
-            $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
+            $this->entities['siret'][] = str_replace(' ', '', $compte->societe_informations->siret);
+            $this->entities['ppm'][] = str_replace(' ', '', $e->etablissement->ppm);
             $this->entities['accises'][] = str_replace(' ', '', $e->etablissement->no_accises);
             $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
-            if($request->getParameter('extra')) {
-                $this->entities['numero_interne'][] = str_replace(' ', '', $e->etablissement->getNumInterne());
-                $this->entities['code_comptable_client'][] = str_replace(' ', '', $compte->getSociete()->getCodeComptableClient());
-                $this->entities['adresse'][] = htmlspecialchars($e->etablissement->getAdresse(), ENT_XML1, 'UTF-8');
-                $this->entities['adresse_complementaire'][] = htmlspecialchars($e->etablissement->getAdresseComplementaire(), ENT_XML1, 'UTF-8');
-                $this->entities['code_postal'][] = $e->etablissement->getCodePostal();
-                $this->entities['commmune'][] = htmlspecialchars($e->etablissement->getCommune(), ENT_XML1, 'UTF-8');
-                $this->entities['famille'][] = $e->etablissement->getFamille();
-                $this->entities['email'][] = $e->etablissement->getEmailTeledeclaration();
-                $this->entities['telephone_bureau'][] = str_replace(' ', '', $e->etablissement->getTelephoneBureau());
-                $this->entities['telephone_mobile'][] = str_replace(' ', '', $e->etablissement->getTelephoneMobile());
-                $this->entities['telephone_perso'][] = str_replace(' ', '', $e->etablissement->getTelephonePerso());
-                $this->entities['droits'][] = implode("|", ($compte->exist('droits')) ? $compte->getDroits()->toArray() : []);
-            }
             $this->entities_number++;
-        }
-        if(!$compte->getSociete()->canHaveChais()) {
-            $this->entities['raison_sociale'][] = htmlspecialchars($compte->getSociete()->raison_sociale, ENT_XML1, 'UTF-8');
-            $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
-            $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
-            $this->entities['adresse'][] = htmlspecialchars($compte->getSociete()->getAdresse(), ENT_XML1, 'UTF-8');
-            $this->entities['adresse_complementaire'][] = htmlspecialchars($compte->getSociete()->getAdresseComplementaire(), ENT_XML1, 'UTF-8');
-            $this->entities['code_postal'][] = $compte->getSociete()->getCodePostal();
-            $this->entities['commmune'][] = htmlspecialchars($compte->getSociete()->getCommune(), ENT_XML1, 'UTF-8');
-            $this->entities['email'][] = $compte->getSociete()->getEmailTeledeclaration();
-            $this->entities['telephone_bureau'][] = str_replace(' ', '', $compte->getSociete()->getTelephoneBureau());
-            $this->entities['telephone_mobile'][] = str_replace(' ', '', $compte->getSociete()->getTelephoneMobile());
-            $this->entities['telephone_perso'][] = str_replace(' ', '', $compte->getSociete()->getTelephonePerso());
-            $this->entities['droits'][] = implode("|", ($compte->exist('droits')) ? $compte->getDroits()->toArray() : []);
         }
 
         $this->setLayout(false);
         $this->getResponse()->setHttpHeader('Content-Type', 'text/plain');
+
     }
 
     public function executeViticonnectCheck(sfWebRequest $request)
@@ -334,4 +301,5 @@ class compte_teledeclarantActions extends sfActions {
         die('Not found');
 
     }
+
 }

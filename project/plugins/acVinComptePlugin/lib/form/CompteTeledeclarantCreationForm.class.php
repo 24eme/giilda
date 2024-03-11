@@ -1,24 +1,14 @@
 <?php
 
 class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
-
     private $typeCompte;
 
     public function __construct($doc, $defaults = array(), $options = array(), $CSRFSecret = null) {
-        $societe = $doc->getSociete();
+        $this->typeCompte = $doc->getSociete()->type_societe;
 
-        $this->typeCompte = $societe->type_societe;
-
-        $defaults["siret"] = $societe->siret;
-
-        if($this->typeCompte == SocieteClient::TYPE_OPERATEUR) {
-            $defaults["num_accises"] = $societe->getEtablissementPrincipal()->no_accises;
-        }
-
-        if($this->typeCompte == SocieteClient::TYPE_COURTIER) {
-            $defaults["carte_pro"] = $societe->getEtablissementPrincipal()->carte_pro;
-        }
-
+        $defaults['cvi'] = $doc->getSociete()->getEtablissementPrincipal()->cvi;
+        $defaults['ppm'] = $doc->getSociete()->getEtablissementPrincipal()->ppm;
+        $defaults['siret'] = $doc->getSociete()->siret;
         parent::__construct($doc, $defaults, $options, $CSRFSecret);
     }
 
@@ -43,15 +33,24 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
                 'min_length' => 'Le numéro de SIRET doit être constitué de 14 chiffres',
                 'max_length' => 'Le numéro de SIRET doit être constitué de 14 chiffres')));
 
-            $this->setWidget('num_accises', new sfWidgetFormInputText());
-            $this->getWidget('num_accises')->setLabel("Numéro d'ACCISE :");
-            $this->setValidator('num_accises', new sfValidatorRegex(array('required' => false,
-                'pattern' => "/^[0-9A-Za-z]{13}$/",
-                'min_length' => 13,
-                'max_length' => 13), array('required' => "Le numéro d'ACCISE est obligatoire",
-                'invalid' => "Le numéro d'ACCISE doit être constitué de 13 caractères alphanumériques",
-                'min_length' => "Le numéro d'ACCISE doit être constitué de 13 caractères alphanumériques",
-                'max_length' => "Le numéro d'ACCISE doit être constitué de 13 caractères alphanumériques")));
+            $this->setWidget('cvi', new sfWidgetFormInputText());
+            $this->getWidget('cvi')->setLabel("Numéro CVI/EVV :");
+            $this->setValidator('cvi', new sfValidatorRegex(array('required' => false,
+                'pattern' => "/^[0-9A-Za-z]{10}$/",
+                'min_length' => 10,
+                'max_length' => 10), array('required' => "Le numéro de CVI/EVV est obligatoire",
+                'invalid' => "Le numéro CVI/EVV doit être constitué de 10 caractères alphanumériques",
+                'min_length' => "Le numéro CVI/EVV doit être constitué de 10 caractères alphanumériques",
+                'max_length' => "Le numéro CVI/EVV doit être constitué de 10 caractères alphanumériques")));
+            $this->setWidget('ppm', new sfWidgetFormInputText());
+            $this->getWidget('ppm')->setLabel("Numéro PPM :");
+            $this->setValidator('ppm', new sfValidatorRegex(array('required' => false,
+                'pattern' => "/^[A-Za-z][0-9A-Za-z]{8}$/",
+                'min_length' => 9,
+                'max_length' => 9), array('required' => "Le numéro de CVI/EVV est obligatoire",
+                'invalid' => "Le numéro PPM doit être constitué de 9 caractères alphanumériques",
+                'min_length' => "Le numéro PPM doit être constitué de 9 caractères alphanumériques",
+                'max_length' => "Le numéro PPM doit être constitué de 9 caractères alphanumériques")));
         }
     }
 
@@ -61,17 +60,50 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
 
         $etbPrincipal = $societe->getEtablissementPrincipal();
         if (($this->typeCompte == SocieteClient::TYPE_COURTIER) && ($this->getValue('carte_pro'))) {
-            $etbPrincipal->carte_pro = $this->getValue('carte_pro');
-            $etbPrincipal->save();
+            if ($etbPrincipal->exist('carte_pro') && $this->getValue('carte_pro') != $etbPrincipal->carte_pro) {
+                $this->updatedValues['carte_pro'] = array($etbPrincipal->carte_pro, $this->getValue('carte_pro'));
+            }
+            if (!$this->getOption('noSaveChangement', false)) {
+                $etbPrincipal->carte_pro = $this->getValue('carte_pro');
+                $etbPrincipal->save();
+            }
         }
         if ($this->typeCompte == SocieteClient::TYPE_OPERATEUR && $this->getValue('num_accises')) {
-            $etbPrincipal->no_accises = strtoupper($this->getValue('num_accises'));
-            $etbPrincipal->save();
+            if ($etbPrincipal->exist('num_accises') && $this->getValue('num_accises') != $etbPrincipal->num_accises) {
+                $this->updatedValues['num_accises'] = array($etbPrincipal->num_accises, $this->getValue('num_accises'));
+            }
+            if (!$this->getOption('noSaveChangement', false)) {
+                $etbPrincipal->no_accises = strtoupper($this->getValue('num_accises'));
+                $etbPrincipal->save();
+            }
         }
 
         if (($this->typeCompte == SocieteClient::TYPE_OPERATEUR) && ($this->getValue('siret'))) {
-            $societe->siret = $this->getValue('siret');
-            $societe->save();
+            if ($societe->exist('siret') && $this->getValue('siret') != $societe->siret) {
+                $this->updatedValues['siret'] = array($societe->siret, $this->getValue('siret'));
+            }
+            if (!$this->getOption('noSaveChangement', false)) {
+                $societe->siret = $this->getValue('siret');
+                $societe->save();
+            }
+        }
+        if (($this->typeCompte == SocieteClient::TYPE_OPERATEUR) && ($this->getValue('cvi'))) {
+            if ($etbPrincipal->exist('cvi') && $this->getValue('cvi') != $etbPrincipal->cvi) {
+                $this->updatedValues['cvi'] = array($etbPrincipal->cvi, $this->getValue('cvi'));
+            }
+            if (!$this->getOption('noSaveChangement', false)) {
+                $etbPrincipal->cvi = $this->getValue('cvi');
+                $etbPrincipal->save();
+            }
+        }
+        if (($this->typeCompte == SocieteClient::TYPE_OPERATEUR) && ($this->getValue('ppm'))) {
+            if ($etbPrincipal->exist('ppm') && $this->getValue('ppm') != $etbPrincipal->ppm) {
+                $this->updatedValues['ppm'] = array($etbPrincipal->ppm, $this->getValue('ppm'));
+            }
+            if (!$this->getOption('noSaveChangement', false)) {
+                $etbPrincipal->ppm = $this->getValue('ppm');
+                $etbPrincipal->save();
+            }
         }
     }
 

@@ -7,6 +7,7 @@
 class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
     private $societe = NULL;
+    private $cacheEtablissement;
 
     public function constructId() {
         $this->set('_id', 'COMPTE-' . $this->identifiant);
@@ -22,28 +23,34 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         return $this->societe;
     }
 
-    public function getLogin() {
-
-        if($this->exist('login')) {
-            return $this->_get('login');
+    public function getLibelleWithAdresse() {
+        $libelle = $this->nom_a_afficher;
+        if ($this->adresse || $this->adresse_complementaire || $this->code_postal || $this->commune || $this->pays) {
+            $libelle .= ' —';
         }
-
-        if($this->isSocieteContact()) {
-
-            return $this->identifiant;
+        if ($this->adresse) {
+            $libelle .= ' '.$this->adresse;
         }
-
-        if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
-
-            return $this->identifiant;
+        if ($this->adresse_complementaire) {
+            $libelle .=  ' '.$this->adresse_complementaire;
         }
-
-        return $this->getSociete()->identifiant;
+        if ($this->code_postal) {
+            $libelle .= ' '.$this->code_postal;
+        }
+        if ($this->commune) {
+            $libelle .= ' '.$this->commune;
+        }
+        if ($this->pays) {
+        	 $libelle .= ' ('.$this->pays.')';
+        }
+        return $libelle;
     }
 
     public function getMasterCompte() {
-
-        return $this;
+        if ($this->isSameAdresseThanSociete()) {
+            return $this->getSociete()->getContact();
+        }
+        return null;
     }
 
     public function isSameAdresseThanSociete() {
@@ -73,27 +80,65 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             $this->nom_a_afficher = trim(sprintf('%s', $this->nom));
             return;
         }
-        $this->nom_a_afficher = trim(preg_replace('/[ ]+/', ' ', sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom)));
+        $this->nom_a_afficher = trim(sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom));
+    }
+
+    public function getCodeCreation() {
+        if(strpos("{TEXT}") === false) {
+            return null;
+        }
+
+        return str_replace("{TEXT}","", $this->mot_de_passe);
     }
 
     public static function transformTag($tag) {
-        $tag = strtolower($tag);
+        $tag = strtolower(KeyInflector::unaccent($tag));
         return preg_replace('/[^a-z0-9éàùèêëïç]+/', '_', $tag);
+    }
+
+    public function updateTagsGroupes() {
+        $this->tags->remove('groupes');
+        $this->tags->add('groupes');
+        foreach($this->groupes as $groupe_obj) {
+            $this->addTag('groupes', $groupe_obj->nom);
+        }
+    }
+
+    public function addInGroupes($grp,$fct){
+        $grp = preg_replace('/^ */', '', preg_replace('/ *$/', '', $grp));
+        $allGrps = $this->getOrAdd('groupes');
+        $grpNode = $allGrps->add();
+        $grpNode->nom = $grp;
+        $grpNode->fonction = $fct;
+    }
+
+    public function removeGroupes($grp){
+        $grp = preg_replace('/^ */', '', preg_replace('/ *$/', '', $grp));
+        $allGrps = $this->getOrAdd('groupes');
+        $grp_to_keep = array();
+        foreach ($allGrps as $oldGrp) {
+          if($oldGrp->nom != $grp){
+            $grp_to_keep[] = $oldGrp;
+          }
+        }
+        $this->remove("groupes");
+        $this->getOrAdd('groupes');
+        foreach ($grp_to_keep as $newgrp) {
+          $this->groupes->add(null,$newgrp);
+        }
+
+    }
+
+    public function getGroupesSortedNom(){
+      $gs = $this->groupes->toArray(1,0);
+      uasort($gs, "CompteClient::sortGroupes");
+      return $gs;
     }
 
     public function addTag($type, $tag) {
         $tags = $this->add('tags')->add($type)->toArray(true, false);
         $tags[] = Compte::transformTag($tag);
         $tags = array_unique($tags);
-        $this->get('tags')->remove($type);
-        $this->get('tags')->add($type, array_values($tags));
-    }
-
-    public function removeTag($type, $tags) {
-        $tag = Compte::transformTag($tag);
-        $tags_existant = $this->add('tags')->add($type)->toArray(true, false);
-
-        $tags_existant = array_diff($tags_existant, $tags);
         $this->get('tags')->remove($type);
         $this->get('tags')->add($type, array_values($tags));
     }
@@ -136,29 +181,21 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         return false;
     }
 
-    public function getEmailTeledeclaration() {
-      if ($this->isSocieteContact()) {
-        $societe = $this->getSociete();
-        if ($societe->exist('teledeclaration_email') && $societe->teledeclaration_email) {
-            return $societe->teledeclaration_email;
-        }
-      }
-      if ($this->isEtablissementContact()) {
-        $etablissement = $this->getEtablissement();
-        if ($etablissement->exist('teledeclaration_email') && $etablissement->teledeclaration_email) {
-            return $etablissement->teledeclaration_email;
-        }
-      }
-      return null;
-    }
-
     public function save() {
+        if(SocieteConfiguration::getInstance()->isDisableSave()) {
+
+            throw new Exception("L'enregistrement des sociétés, des établissements et des comptes sont désactivés");
+        }
+
         $this->tags->remove('automatique');
         $this->tags->add('automatique');
         if ($this->exist('teledeclaration_active') && $this->teledeclaration_active) {
             if ($this->hasDroit(Roles::TELEDECLARATION_VRAC)) {
                 $this->addTag('automatique', 'teledeclaration_active');
             }
+        }
+        if ($this->exist('region') && $this->region) {
+            $this->addTag('automatique', 'region_'.$this->region);
         }
 
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
@@ -173,7 +210,6 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                     $this->addTag('automatique', $type_fournisseur);
                 }
             }
-            $this->tags->remove('documents');
         }
 
         if ($this->exist('teledeclaration_active') && $this->teledeclaration_active) {
@@ -185,12 +221,33 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         if ($this->isEtablissementContact()) {
             $this->addTag('automatique', 'Etablissement');
             $this->addTag('automatique', $this->getEtablissement()->famille);
+            $this->etablissement_informations->cvi = $this->getEtablissement()->cvi;
+            $this->etablissement_informations->ppm = $this->getEtablissement()->ppm;
+            $this->add('region', $this->getEtablissement()->region);
+        } elseif ($this->isSocieteContact()) {
+            $cvis = array();
+            $ppms = array();
+            $regions = array();
+            foreach ($this->getSociete()->getEtablissementsObj() as $etb) {
+                $cvis[] = $etb->etablissement->cvi;
+                $ppms[] = $etb->etablissement->ppm;
+                $regions[] = $etb->etablissement->region;
+                $this->addTag('automatique', $etb->etablissement->famille);
+            }
+            $this->etablissement_informations->cvi = implode('|', $cvis);
+            $this->etablissement_informations->ppm = implode('|', $ppms);
+            if($societe->exist('region') && $societe->region) {
+                $this->add('region', $societe->region);
+            } else {
+                $this->add('region', implode('|', $regions));
+            }
+        }else{
+            $this->etablissement_informations->cvi = null;
+            $this->etablissement_informations->ppm = null;
+            $this->add('region', null);
         }
         if (!$this->isEtablissementContact() && !$this->isSocieteContact()) {
             $this->addTag('automatique', 'Interlocuteur');
-            if($this->fonction) {
-                $this->addTag('automatique', $this->fonction);
-            }
         }
 
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
@@ -205,74 +262,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $this->societe_informations->code_postal = $societe->siege->code_postal;
         $this->societe_informations->commune = $societe->siege->commune;
         $this->societe_informations->email = $societe->email;
-        $this->societe_informations->telephone = $societe->telephone;
+        $this->societe_informations->siret = $societe->siret;
+
         $this->societe_informations->fax = $societe->fax;
-
-        $etablissement = null;
-        if($this->isEtablissementContact()) {
-            $etablissement = $this->getEtablissement();
-        }
-        foreach(SocieteConfiguration::getInstance()->getExtras() as $extraKey => $extraInfos) {
-            $this->add('extras')->add($extraKey);
-
-            if(!isset($extraInfos['auto']) || !$extraInfos['auto']) {
-                continue;
-            }
-
-            $this->extras->add($extraKey);
-            $this->extras->set($extraKey, null);
-
-            $fields = explode("|", $extraInfos['auto']);
-
-            foreach($fields as $field) {
-                $entity = explode("->", $field)[0];
-                $property = explode("->", $field)[1];
-                $method = null;
-
-                if(strpos($property, '(') !== false) {
-                    $method = str_replace(array("(",")"), null, $property);
-                    $property = null;
-                }
-
-                if($entity == "societe" && $property && $societe->exist($property)) {
-                    $this->extras->add($extraKey, $societe->get($property));
-                }
-
-                if($entity == "societe" && $method) {
-                    try {
-                        $value = call_user_func(array($societe, $method));
-                    } catch(Exception $e) {
-                        $value = null;
-                    }
-
-                    if(is_array($value)) {
-                        sort($value);
-                        $value = implode('|', $value);
-                    }
-
-                    $this->extras->add($extraKey, $value);
-                }
-
-                if($entity == "etablissement" && $etablissement && $property && $etablissement->exist($property)) {
-                    $this->extras->add($extraKey, $etablissement->get($property));
-                }
-
-                if($entity == "etablissement" && $method) {
-                    try {
-                        $value = call_user_func(array($etablissement, $method));
-                    } catch(Exception $e) {
-                        $value = null;
-                    }
-
-                    if(is_array($value)) {
-                        sort($value);
-                        $value = implode('|', $value);
-                    }
-
-                    $this->extras->add($extraKey, $value);
-                }
-            }
-        }
 
         $new = $this->isNew();
 
@@ -284,21 +276,18 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             CompteGenerique::pullContact($this, $societe->getMasterCompte());
         }
 
-
-        $this->tags->remove('droits');
-        $this->tags->add('droits');
-
-        if($this->isEtablissementContact() && $this->_id != $this->getSociete()->getMasterCompte()->_id && $this->getSociete()->getMasterCompte()->exist('droits')) {
-            $this->remove('droits');
-            $this->add('droits', $this->getSociete()->getMasterCompte()->droits);
+        if($this->exist('en_alerte') && $this->en_alerte){
+            $this->addTag('automatique', 'en_alerte');
         }
 
         if ($this->exist('droits')) {
             foreach ($this->droits as $droit) {
-                $this->addTag('droits', $droit);
-                $this->addTag('droits', preg_replace('/:.*/', '', $droit));
+                $this->addTag('automatique', $droit);
+                $this->addTag('automatique', preg_replace('/:.*/', '', $droit));
             }
         }
+
+        $this->updateTagsGroupes();
 
         parent::save();
 
@@ -310,12 +299,25 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $this->autoUpdateLdap();
     }
 
-    public function isSocieteContact() {
-        if(!$this->getSociete()) {
-            return;
+    public function isEnAlerte() {
+        return ($this->exist('en_alerte') && $this->en_alerte);
+    }
+
+    protected function doSave() {
+        $this->add('date_modification', date('Y-m-d'));
+    }
+
+    public function getDateModification() {
+        if(!$this->exist('date_modification')) {
+
+            return $this->getSociete()->date_modification;
         }
 
-        return ($this->getSociete()->compte_societe == $this->_id);
+        return $this->_get('date_modification');
+    }
+
+    public function isSocieteContact() {
+        return ($this->getSociete() && ($this->getSociete()->compte_societe == $this->_id));
     }
 
     private function removeFournisseursTag() {
@@ -340,6 +342,15 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getEtablissement() {
+        if (!$this->cacheEtablissement) {
+            $this->cacheEtablissement = $this->getEtablissementReal();
+        }
+        return $this->cacheEtablissement;
+
+    }
+
+
+    public function getEtablissementReal() {
         if($this->isSocieteContact()) {
             $societe = $this->getSociete();
 
@@ -390,10 +401,6 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getStatutTeledeclarant() {
-        if($this->getStatut() == CompteClient::STATUT_SUSPENDU) {
-            return CompteClient::STATUT_TELEDECLARANT_INACTIF;
-        }
-
         if (preg_match("{TEXT}", $this->mot_de_passe)) {
 
             return CompteClient::STATUT_TELEDECLARANT_NOUVEAU;
@@ -412,10 +419,38 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         return CompteClient::STATUT_TELEDECLARANT_INACTIF;
     }
 
+    public function getStatutLibelle(){
+      return CompteClient::$statutsLibelles[$this->getStatut()];
+    }
+
     /**
      *
      * @param string $mot_de_passe
      */
+
+    public function getLogin() {
+
+        if($this->exist('login')) {
+            return $this->_get('login');
+        }
+
+        if(!$this->mot_de_passe && !$this->getSociete()->getContact()->mot_de_passe) {
+            return null;
+        }
+
+        if($this->isSocieteContact()) {
+
+            return $this->identifiant;
+        }
+
+        if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+
+            return $this->identifiant;
+        }
+
+        return preg_replace("/^(.*)([0-9][0-9])$/", '\1', $this->identifiant);
+    }
+
     public function setMotDePasseSSHA($mot_de_passe) {
         mt_srand((double) microtime() * 1000000);
         $salt = pack("CCCC", mt_rand(), mt_rand(), mt_rand(), mt_rand());
@@ -441,66 +476,46 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
     public function updateLdap($verbose = 0) {
         $ldap = new CompteLdap();
-        $groupldap = new CompteGroupLdap();
-
-        if ($this->isActif()) {
+        try {
+        if ($this->isActif())
             $ldap->saveCompte($this, $verbose);
+        else
+            @$ldap->deleteCompte($this, $verbose);
+        } catch(Exception $e) {
+            echo $this->_id." save ldap : ".$e->getMessage()."\n";
+        }
+    }
 
-            if (sfConfig::get('app_ldap_autogroup', false)) {
-                $comptes = $this->getSociete()->getInterlocuteursWithOrdre();
+    public function buildDroits($removeAll = false) {
+        if ((!$this->exist('type_societe') || !$this->type_societe) && (!$this->exist('id_societe') || !$this->id_societe)) {
+            throw new sfException("Aucun type de société les droits ne sont pas enregistrables");
+        }
+        if ($removeAll && $this->exist('droits') && $this->droits) {
+            $this->remove('droits');
+        }
+        $droits = $this->add('droits');
+        $acces_teledeclaration = false;
 
-                $groupes = [];
+        $type_societe = ($this->exist('type_societe') && $this->type_societe) ? $this->type_societe : null;
+        if (!$type_societe) {
+            $type_societe = $this->getSociete()->getTypeSociete();
+        }
 
-                foreach ($comptes as $compte_id => $info) {
-                    $compte = CompteClient::getInstance()->find($compte_id);
-
-                    if ($compte === null ||
-                        $compte->compte_type === CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
-                        continue;
-                    }
-
-                    foreach ($compte->tags as $type => $tags) {
-                        if (! array_key_exists($type, $groupes)) {
-                            $groupes[$type] = [];
-                        }
-
-                        foreach ($tags as $tag) {
-                            $short_tag = str_replace(CompteGroupLdap::$blacklist, '', $tag);
-
-                            if (! in_array($short_tag, $groupes[$type])) {
-                                $groupes[$type][] = $short_tag;
-                            }
-                        }
-                    }
-                }
-
-                $ldapUid = CompteLdap::getIdentifiant($this);
-
-                foreach ($groupldap->getMembership($ldapUid) as $groupe) {
-                    $groupldap->removeMember($groupe, $ldapUid);
-                }
-
-                $groupldap->saveMultipleGroup($groupes, $ldapUid);
-
-                if ($this->compte_type === CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
-                    foreach ($this->tags as $type => $tags) {
-                        if (! array_key_exists($type, $groupes)) {
-                            $groupes[$type] = [];
-                        }
-
-                        foreach ($tags as $tag) {
-                            $short_tag = str_replace(CompteGroupLdap::$blacklist, '', $tag);
-
-                            if (! in_array($short_tag, $groupes[$type])) {
-                                $groupes[$type][] = $short_tag;
-                            }
-                        }
-                    }
-                    $groupldap->saveMultipleGroup($groupes, $ldapUid);
-                }
+        if ($type_societe == SocieteClient::TYPE_OPERATEUR || $type_societe == SocieteClient::TYPE_COURTIER) {
+            $acces_teledeclaration = true;
+            $droits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
+            if ($this->getSociete()->isNegociant() || $type_societe == SocieteClient::TYPE_COURTIER) {
+                $droits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
             }
-        } else {
-            CompteClient::getInstance()->deleteLdapCompte(CompteLdap::getIdentifiant($this));
+        }
+        if ($type_societe == SocieteClient::TYPE_OPERATEUR && $this->getSociete()->isViticulteur()){
+            $acces_teledeclaration = true;
+            $droits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
+        }
+
+        if ($acces_teledeclaration) {
+            $droits->add(Roles::TELEDECLARATION, Roles::TELEDECLARATION);
+
         }
     }
 
@@ -510,13 +525,29 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             return false;
         }
         $droits = $this->get('droits')->toArray(0, 1);
+        foreach($droits as $key => $d) {
+            $droitTab = explode(":", $d);
+            $droits[$key] = $droitTab[0];
+        }
+
         return in_array($droit, $droits);
     }
 
-    public function getDroits() {
-        if (!$this->exist('droits')) {
-            return array();
+
+    public function getDroitValue($droit) {
+        foreach($this->droits as $d) {
+            $droitTab = explode(":", $d);
+            if($droit != $droitTab[0]) {
+                continue;
+            }
+            return isset($droitTab[1]) ? $droitTab[1] : null;
         }
+
+        return null;
+    }
+
+    public function getDroits() {
+
         return $this->_get('droits');
     }
 
@@ -596,14 +627,6 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         return $this;
     }
 
-    public function generateCodeCreation()
-    {
-        if ($this->_get('mot_de_passe') === null) {
-            $this->_set('mot_de_passe', CompteClient::getInstance()->generateCodeCreation());
-        }
-        return $this;
-    }
-
     public function getSiteInternet() {
         return $this->_get('site_internet');
     }
@@ -613,11 +636,11 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getAdresse() {
-        return $this->_get('adresse');
+        return Anonymization::hideIfNeeded($this->_get('adresse'));
     }
 
     public function getAdresseComplementaire() {
-        return $this->_get('adresse_complementaire');
+        return Anonymization::hideIfNeeded($this->_get('adresse_complementaire'));
     }
 
     public function getCommune() {
@@ -633,38 +656,196 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getEmail() {
-        return $this->_get('email');
+        return Anonymization::hideIfNeeded($this->_get('email'));
+    }
+    public function getEmails(){
+        return explode(';',$this->email);
+    }
+
+    public function getTelephoneDisponible() {
+        if ($this->getTelephoneBureau()) {
+            return $this->getTelephoneBureau();
+        } elseif ($this->getTelephoneMobile()) {
+            return $this->getTelephoneMobile();
+        } elseif ($this->getTelephonePerso()) {
+            return $this->getTelephonePerso();
+        } else {
+            return null;
+        }
     }
 
     public function getTelephoneBureau() {
-        return $this->_get('telephone_bureau');
+        return Anonymization::hideIfNeeded($this->_get('telephone_bureau'));
     }
 
     public function getTelephonePerso() {
-        return $this->_get('telephone_perso');
+        return Anonymization::hideIfNeeded($this->_get('telephone_perso'));
     }
 
     public function getTelephoneMobile() {
-        return $this->_get('telephone_mobile');
+        return Anonymization::hideIfNeeded($this->_get('telephone_mobile'));
     }
 
     public function getFax() {
-        return $this->_get('fax');
+        return Anonymization::hideIfNeeded($this->_get('fax'));
     }
 
-    public function getExtrasEditables($empty = false) {
-        $extras = array();
-        foreach(SocieteConfiguration::getInstance()->getExtras() as $k => $e) {
-            if ($this->exist('extras') && $this->extras->exist($k)) {
-                $e['value'] = $this->extras->get($k);
+    public function getDistances($lat1, $lon1, $lat2, $lon2)
+    {
+		 $rlo1 = deg2rad($lon1);
+	  	$rla1 = deg2rad($lat1);
+	  	$rlo2 = deg2rad($lon2);
+	  	$rla2 = deg2rad($lat2);
+	 	 $dlo = ($rlo2 - $rlo1) / 2;
+	 	  $dla = ($rla2 - $rla1) / 2;
+    	$a = (sin($dla) * sin($dla)) + cos($rla1) * cos($rla2) * (sin($dlo) * sin($dlo));
+    	$d = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    	return (6378137 * $d);
+    }
+
+    public function calculCoordonnees() {
+      return CompteClient::getInstance()->calculCoordonnees($this->adresse, $this->commune, $this->code_postal);
+    }
+
+    public function updateCoordonneesLongLatByNoeud($noeud,$latCompare = false,$lonCompare = false) {
+
+        $coordonnees = CompteClient::getInstance()->calculCoordonnees($noeud->adresse, $noeud->commune, $noeud->code_postal);
+
+        if(!$coordonnees) {
+            return false;
+        }
+        if($latCompare && $lonCompare){
+          if(round($this->getDistances($coordonnees["lat"], $coordonnees["lon"],$latCompare,$lonCompare)) > 20000){
+            $coordonnees = CompteClient::getInstance()->calculCoordonnees("", $noeud->commune, $noeud->code_postal);
+          }
+          if(round($this->getDistances($coordonnees["lat"], $coordonnees["lon"],$latCompare,$lonCompare)) > 20000){
+            $coordonnees["lon"] = null;
+            $coordonnees["lat"] = null;
+          }
+        }
+
+        $noeud->lon = $coordonnees["lon"];
+        $noeud->lat = $coordonnees["lat"];
+        return true;
+    }
+
+    public function updateCoordonneesLongLat($etbSave = false) {
+        $this->updateCoordonneesLongLatByNoeud($this);
+        if(!$etb = $this->getEtablissement()){
+          return true;
+        }
+        if(!$etb->exist('chais')) {
+            return true;
+        }
+        foreach($etb->chais as $chai) {
+            if($chai->adresse == $this->adresse && $chai->commune == $this->commune) {
+                $chai->lon = $this->lon;
+                $chai->lat = $this->lat;
+                continue;
             }
-            if (!isset($e['auto']) || !$e['auto']) {
-                if ( $empty || isset($e['value']) ) {
-                    $extras[$k] = $e;
+
+            $this->updateCoordonneesLongLatByNoeud($chai,$this->lat,$this->lon);
+
+        }
+        if($etbSave){
+          $etb->save();
+        }
+        return true;
+    }
+
+    public function getCoordonneesLatLon() {
+        $points = array();
+        if($this->lat && $this->lon) {
+            $points[$this->lat.$this->lon] = array($this->lat, $this->lon);
+        }
+        if(!$this->exist('chais')) {
+
+            return $points;
+        }
+        foreach($this->chais as $chai) {
+            if(!$chai->lat && !$chai->lon) {
+                continue;
+            }
+            $points[$chai->lat.$chai->lon] = array($chai->lat, $chai->lon);
+        }
+        return $points;
+    }
+
+    public function hasLatLonChais(){
+      $latLong = true;
+      if(!$this->getEtablissement() || !$this->getEtablissement()->exist('chais')) {
+          return true;
+      }
+      foreach($this->getEtablissement()->chais as $chai) {
+          if ($chai->commune) {
+            if(!$chai->lon && !$chai->lat) {
+              return false;
+            }
+          }
+      }
+      return true;
+    }
+
+    public function getNomAAfficher(){
+      return Anonymization::hideIfNeeded($this->_get('nom_a_afficher'));
+    }
+
+    public function getIdentifiantAAfficher(){
+      return $this->getIdentifiant();
+    }
+
+    public function getRegion() {
+        if (!$this->exist('region')) {
+            return null;
+        }
+        return $this->_get('region');
+    }
+
+    public function getRegionViticole(){
+      return strtoupper(sfContext::getInstance()->getConfiguration()->getApplication());
+    }
+
+    public function getCodeComptable(){
+      return ($this->getSociete())? $this->getSociete()->getCodeComptable() : null;
+    }
+
+    public function getTagsDegustateur()
+    {
+        $tags = [];
+
+        if ($this->tags->exist('manuel')) {
+            foreach ($this->tags->manuel as $tag) {
+                if (strpos($tag, 'degustateur_') === 0) {
+                    $tags[] = ucfirst(str_replace('_', ' ', substr($tag, strlen('degustateur_'))));
                 }
             }
         }
-        return $extras;
+
+        return $tags;
     }
 
+    public function getTeledeclarationEmail() {
+        $email = '';
+        if ($this->isEtablissementContact()) {
+            $email = $this->getEtablissement()->getTeledeclarationEmail();
+        }elseif ($this->isSocieteContact()) {
+            $email = $this->getSociete()->getTeledeclarationEmail();
+        }
+        if ($email && ! in_array($email, $this->getEmails())) {
+            return $email;
+        }
+        return null;
+    }
+
+
+    public function hasAlternativeLogins() {
+        if (!$this->exist('alternative_logins')) {
+            return false;
+        }
+        $a = $this->_get('alternative_logins');
+        if (count($a) == 1 && !$a[0]) {
+            return false;
+        }
+        return (count($a));
+    }
 }
