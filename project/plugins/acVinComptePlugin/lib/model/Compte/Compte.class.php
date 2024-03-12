@@ -266,6 +266,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $this->societe_informations->fax = $societe->fax;
 
+        $this->updateExtras();
         $new = $this->isNew();
 
         if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $this->isSameAdresseThanSociete()) {
@@ -297,6 +298,74 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
 
         $this->autoUpdateLdap();
+    }
+
+    public function updateExtras() {
+        $etablissement = null;
+        if($this->isEtablissementContact()) {
+            $etablissement = $this->getEtablissement();
+        }
+        foreach(SocieteConfiguration::getInstance()->getExtras() as $extraKey => $extraInfos) {
+            $this->add('extras')->add($extraKey);
+
+            if(!isset($extraInfos['auto']) || !$extraInfos['auto']) {
+                continue;
+            }
+
+            $this->extras->add($extraKey);
+            $this->extras->set($extraKey, null);
+
+            $fields = explode("|", $extraInfos['auto']);
+
+            foreach($fields as $field) {
+                $entity = explode("->", $field)[0];
+                $property = explode("->", $field)[1];
+                $method = null;
+
+                if(strpos($property, '(') !== false) {
+                    $method = str_replace(array("(",")"), null, $property);
+                    $property = null;
+                }
+
+                if($entity == "societe" && $property && $societe->exist($property)) {
+                    $this->extras->add($extraKey, $societe->get($property));
+                }
+
+                if($entity == "societe" && $method) {
+                    try {
+                        $value = call_user_func(array($societe, $method));
+                    } catch(Exception $e) {
+                        $value = null;
+                    }
+
+                    if(is_array($value)) {
+                        sort($value);
+                        $value = implode('|', $value);
+                    }
+
+                    $this->extras->add($extraKey, $value);
+                }
+
+                if($entity == "etablissement" && $etablissement && $property && $etablissement->exist($property)) {
+                    $this->extras->add($extraKey, $etablissement->get($property));
+                }
+
+                if($entity == "etablissement" && $method) {
+                    try {
+                        $value = call_user_func(array($etablissement, $method));
+                    } catch(Exception $e) {
+                        $value = null;
+                    }
+
+                    if(is_array($value)) {
+                        sort($value);
+                        $value = implode('|', $value);
+                    }
+
+                    $this->extras->add($extraKey, $value);
+                }
+            }
+        }
     }
 
     public function isEnAlerte() {

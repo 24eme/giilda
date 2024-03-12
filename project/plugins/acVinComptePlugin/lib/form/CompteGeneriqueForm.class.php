@@ -70,6 +70,12 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setValidator('telephone_mobile', new sfValidatorRegex(array('required' => false, "pattern" => "/^(\+[1-9][0-9 \.]+|0[0-9 \.]{9,13})$/")), array('invalid' => 'Téléphone invalide : 04 12 34 56 78 ou +33412345678 attendus'));
         $this->setValidator('fax', new sfValidatorRegex(array('required' => false, "pattern" => "/^(\+[1-9][0-9 \.]+|0[0-9 \.]{9,13})$/")), array('invalid' => 'Fax invalide : 04 12 34 56 78 ou +33412345678 attendus'));
         $this->setValidator('site_internet', new sfValidatorRegex(array('required' => false, "pattern" => "/(^https?:\/\/|^www\.)/")), array('invalid' => 'Site invalide : doit commencer par http://'));
+
+        foreach($this->getExtrasEditables() as $k => $e) {
+            $this->setWidget('extra_'.$k, new bsWidgetFormInput());
+            $this->widgetSchema->setLabel('extra_'.$k, $e['nom']);
+            $this->setValidator('extra_'.$k, new sfValidatorString(array('required' => false)));
+        }
     }
 
     protected function updateDefaultsFromObject() {
@@ -104,6 +110,15 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
             $this->setDefault('site_internet', $this->getObject()->getSociete()->getSiteInternet());
         }
 
+        $compte = $this->getObject()->getMasterCompte();
+        if ($compte) {
+            foreach($this->getExtrasEditables(true) as $k => $e) {
+                if ($compte->exist('extras')) {
+                    $this->setDefault('extra_'.$k, $e['value']);
+                }
+            }
+        }
+
         $defaultDroits = array();
         $compte = $this->getObject();
         if (get_class($compte) != "Compte" ) {
@@ -119,6 +134,19 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
             }
         }
         $this->setDefault('droits', $defaultDroits);
+    }
+
+    public function getExtrasEditables() {
+        $compte = $this->getObject()->getMasterCompte();
+        if (!$compte) {
+            return array();
+        }
+
+        if($compte->type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+            return array();
+        }
+
+        return $compte->getExtrasEditables(true);
     }
 
     public function doUpdateObject($values) {
@@ -144,6 +172,9 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         }
         if(!$compte) {
             return;
+        }
+        foreach($this->getExtrasEditables() as $k => $e) {
+            $compte->add('extras')->add($k, $values['extra_'.$k]);
         }
         if(isset($values['droits']) || $compte->exist('droits')){
             $compte->remove("droits");
