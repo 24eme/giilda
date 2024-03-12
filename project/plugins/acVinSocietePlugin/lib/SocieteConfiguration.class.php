@@ -20,6 +20,11 @@ class SocieteConfiguration {
         $this->configuration = sfConfig::get('societe_configuration_societe', array());
     }
 
+    public function getExtras() {
+
+        return isset($this->configuration['extras']) ? $this->configuration['extras'] : array();
+    }
+
     public function isDisableSave() {
 
         return isset($this->configuration['disable_save']) && boolval($this->configuration['disable_save']);

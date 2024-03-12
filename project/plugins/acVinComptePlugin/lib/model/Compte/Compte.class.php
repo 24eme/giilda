@@ -753,6 +753,21 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         return true;
     }
 
+    public function getExtrasEditables($empty = false) {
+        $extras = array();
+        foreach(SocieteConfiguration::getInstance()->getExtras() as $k => $e) {
+            if ($this->exist('extras') && $this->extras->exist($k)) {
+                $e['value'] = $this->extras->get($k);
+            }
+            if (!isset($e['auto']) || !$e['auto']) {
+                if ( $empty || isset($e['value']) ) {
+                    $extras[$k] = $e;
+                }
+            }
+        }
+        return $extras;
+    }
+
     public function getCoordonneesLatLon() {
         $points = array();
         if($this->lat && $this->lon) {
