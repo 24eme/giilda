@@ -27,26 +27,26 @@ class EtablissementLieuStockage extends BaseEtablissementLieuStockage {
     }
 
     public function getNom() {
-      if ($this->nom) {
-        return $this->nom;
+      if ($this->_get('nom')) {
+        return $this->_get('nom');
       }
       return $this->getDocument()->nom;
     }
     public function getAdresse() {
-      if ($this->adresse) {
-        return $this->adresse;
+      if ($this->_get('adresse')) {
+        return $this->_get('adresse');
       }
       return $this->getDocument()->adresse;
     }
     public function getCommune() {
-      if ($this->commune) {
-        return $this->commune;
+      if ($this->_get('commune')) {
+        return $this->_get('commune');
       }
       return $this->getDocument()->commune;
     }
     public function getCodePostal() {
-      if ($this->code_postal) {
-        return $this->code_postal;
+      if ($this->_get('code_postal')) {
+        return $this->_get('code_postal');
       }
       return $this->getDocument()->code_postal;
     }
