@@ -116,6 +116,12 @@ EOF;
     foreach($societe->etablissements as $etablissement_id => $etablissement_info) {
         $etablissement = EtablissementClient::getInstance()->find($etablissement_id, acCouchdbClient::HYDRATE_JSON);
         $etablissement->id_societe = $societe->_id;
+        $etablissement->adresse = $object2save[$etablissement->compte]->adresse;
+        $etablissement->adresse_complementaire = $object2save[$etablissement->compte]->adresse_complementaire;
+        $etablissement->commune = $object2save[$etablissement->compte]->commune;
+        $etablissement->code_postal = $object2save[$etablissement->compte]->code_postal;
+        $etablissement->insee = $object2save[$etablissement->compte]->insee;
+        $etablissement->pays = $object2save[$etablissement->compte]->pays;
         $etablissement->telephone_bureau = $object2save[$etablissement->compte]->telephone_bureau;
         $etablissement->telephone_mobile = $object2save[$etablissement->compte]->telephone_mobile;
         $etablissement->telephone_perso = $object2save[$etablissement->compte]->telephone_perso;
