@@ -82,5 +82,14 @@
         <?php echo $etablissementForm['commentaire']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
         <div class="col-xs-8"><?php echo $etablissementForm['commentaire']->render(); ?></div>
     </div>
-
+    <div class="form-group<?php if($etablissementForm['acheteur_raisin']->hasError()): ?> has-error<?php endif; ?>">
+        <?php echo $etablissementForm['acheteur_raisin']->renderError(); ?>
+        <?php echo $etablissementForm['acheteur_raisin']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8" style="padding-top: 5px;"><?php echo $etablissementForm['acheteur_raisin']->render(); ?></div>
+    </div>
+    <div class="form-group<?php if($etablissementForm['exclusion_stats']->hasError()): ?> has-error<?php endif; ?>">
+        <?php echo $etablissementForm['exclusion_stats']->renderError(); ?>
+        <?php echo $etablissementForm['exclusion_stats']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8" style="padding-top: 5px;"><?php echo $etablissementForm['exclusion_stats']->render(); ?></div>
+    </div>
 </div>

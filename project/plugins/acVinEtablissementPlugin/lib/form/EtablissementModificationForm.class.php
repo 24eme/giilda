@@ -38,7 +38,8 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
         $this->setWidget('site_fiche', new bsWidgetFormInput());
         $this->setWidget('mois_stock_debut', new bsWidgetFormChoice(array('choices' => $this->getMonths())));
-
+        $this->setWidget('acheteur_raisin', new bsWidgetFormInputCheckbox());
+        $this->setWidget('exclusion_stats', new bsWidgetFormInputCheckbox());
 
         $this->widgetSchema->setLabel('famille', 'Famille *');
         $this->widgetSchema->setLabel('nom', "Nom de l'établissement *");
@@ -51,6 +52,8 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
         $this->widgetSchema->setLabel('site_fiche', 'Site Fiche Publique');
         $this->widgetSchema->setLabel('mois_stock_debut', 'Mois de saisie du stock');
+        $this->widgetSchema->setLabel('acheteur_raisin', 'Acheteur de raisin');
+        $this->widgetSchema->setLabel('exclusion_stats', 'Exclure des stats');
 
         $this->setValidator('famille', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getFamilles()))));
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
@@ -63,6 +66,8 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->setValidator('num_interne', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         $this->setValidator('mois_stock_debut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getMonths()))));
+        $this->setValidator('acheteur_raisin', new sfValidatorBoolean(['required' => false]));
+        $this->setValidator('exclusion_stats', new sfValidatorBoolean(['required' => false]));
 
         if (!$this->etablissement->isCourtier()) {
             $this->setWidget('cvi', new bsWidgetFormInput());

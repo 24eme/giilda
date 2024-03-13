@@ -100,6 +100,14 @@
                                 <div style="margin-bottom: 5px;" class="col-xs-4 text-muted" title="Mois de saisie du stock">Mois&nbsp;stock&nbsp;:</div>
                                 <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo ucfirst(format_date(date("Y")."-".sprintf("%02d", $etablissement->getMoisToSetStock())."-01", 'MMMM', 'fr_FR')); ?></div>
                                 <?php endif; ?>
+                                <?php if ($etablissement->exist('acheteur_raisin') && $etablissement->acheteur_raisin): ?>
+                                <div title="Acheteur de raisin" style="margin-bottom: 5px;" class="col-xs-4 text-muted">Acha.&nbsp;Raisin&nbsp;:</div>
+                                <div style="margin-bottom: 5px; padding-left: 20px;" class="col-xs-8"><span class="glyphicon glyphicon-check"></span></div>
+                                <?php endif ?>
+                                <?php if ($etablissement->exist('exclusion_stats') && $etablissement->exclusion_stats): ?>
+                                <div title="Exclut des statistiques" style="margin-bottom: 5px;" class="col-xs-4 text-muted">Exclu&nbsp;Stats&nbsp;:</div>
+                                <div style="margin-bottom: 5px; padding-left: 20px;" class="col-xs-8"><span class="glyphicon glyphicon-check"></span></div>
+                                <?php endif ?>
                         </div>
                     </div>
                     <div class="col-xs-7" style="border-left: 1px solid #eee">
