@@ -52,9 +52,7 @@ EOF;
     $factures = FactureSocieteView::getInstance()->findBySociete($societe);
     $mandats = acCouchdbManager::getClient()->startkey_docid(sprintf(MandatSepaClient::TYPE_COUCHDB."-%s-%s", $societe->identifiant, "00000000"))->endkey_docid(sprintf(MandatSepaClient::TYPE_COUCHDB."-%s-%s", $societe->identifiant, "99999999"))->execute(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
 
-    $object2save[] = $societe;
     $object2delete[] = clone $societe;
-    $object2save[] = $compteSociete;
 
     $newIdentifiant = str_replace("SOCIETE-", "", $this->transformSocieteId($arguments['societe_id']));
 
@@ -75,6 +73,13 @@ EOF;
         }
         $societe->societes_liees = $newSocietesLiees;
     }
+    $societe->telephone_bureau = $compteSociete->telephone_bureau;
+    $societe->telephone_mobile = $compteSociete->telephone_mobile;
+    $societe->telephone_perso = $compteSociete->telephone_perso;
+    $societe->fax = $compteSociete->fax;
+    $societe->site_internet = $compteSociete->site_internet;
+    unset($societe->telephone);
+    $object2save[$societe->_id] = $societe;
 
     if(SocieteClient::getInstance()->find($societe->_id, acCouchdbClient::HYDRATE_JSON)) {
         echo "La société existe déjà : ".$arguments['societe_id']." -> ".$societe->_id."\n";
@@ -88,21 +93,28 @@ EOF;
         $oldCompteSociete->fonction = "Societe";
         $oldCompteSociete->origines = [];
 
-        $object2save[] = $oldCompteSociete;
+        $object2save[$oldCompteSociete->_id] = $oldCompteSociete;
     }
 
-    foreach($societe->etablissements as $etablissement_id => $etablissement_info) {
-        $etablissement = EtablissementClient::getInstance()->find($etablissement_id, acCouchdbClient::HYDRATE_JSON);
-        $etablissement->id_societe = $societe->_id;
-        $object2save[] = clone $etablissement;
-    }
     foreach($societe->contacts as $contact_id => $contact_info) {
         $compte = CompteClient::getInstance()->find($contact_id, acCouchdbClient::HYDRATE_JSON);
         $compte->id_societe = $societe->_id;
         if(isset($compte->extras->maison_mere_identifiant)) {
             $compte->extras->maison_mere_identifiant = $this->transformSocieteId($compte->extras->maison_mere_identifiant);
         }
-        $object2save[] = clone $compte;
+        $object2save[$compte->_id] = clone $compte;
+    }
+
+    foreach($societe->etablissements as $etablissement_id => $etablissement_info) {
+        $etablissement = EtablissementClient::getInstance()->find($etablissement_id, acCouchdbClient::HYDRATE_JSON);
+        $etablissement->id_societe = $societe->_id;
+        $etablissement->telephone_bureau = $object2save[$etablissement->compte]->telephone_bureau;
+        $etablissement->telephone_mobile = $object2save[$etablissement->compte]->telephone_mobile;
+        $etablissement->telephone_perso = $object2save[$etablissement->compte]->telephone_perso;
+        $etablissement->fax = $object2save[$etablissement->compte]->fax;
+        $etablissement->site_internet = $object2save[$etablissement->compte]->site_internet;
+        unset($etablissement->telephone);
+        $object2save[$etablissement->_id] = clone $etablissement;
     }
 
     $compteSociete->_id = "COMPTE-".$newIdentifiant;
@@ -115,6 +127,7 @@ EOF;
     if(isset($compteSociete->extras->maison_mere_identifiant)) {
         $compteSociete->extras->maison_mere_identifiant = $this->transformSocieteId($compteSociete->extras->maison_mere_identifiant);
     }
+    $object2save[$compteSociete->_id] = $compteSociete;
 
     $societe->contacts->{$compteSociete->_id} = ['nom' => $compteSociete->nom_a_afficher, 'ordre' => 0];
 
@@ -124,7 +137,7 @@ EOF;
         $facture->_id = str_replace($facture->identifiant, $newIdentifiant, $facture->_id);
         unset($facture->_rev);
         $facture->identifiant = $newIdentifiant;
-        $object2save[] = $facture;
+        $object2save[$facture->_id] = $facture;
     }
 
     foreach($mandats as $id) {
@@ -132,7 +145,7 @@ EOF;
         $object2delete[] = clone $mandat;
         $mandat->_id = str_replace($mandat->debiteur->identifiant_rum, $newIdentifiant, $mandat->_id);
         unset($mandat->_rev);
-        $object2save[] = $mandat;
+        $object2save[$mandat_id] = $mandat;
     }
 
     foreach($object2save as $doc) {

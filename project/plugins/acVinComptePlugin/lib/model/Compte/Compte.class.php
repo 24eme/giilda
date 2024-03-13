@@ -305,6 +305,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         if($this->isEtablissementContact()) {
             $etablissement = $this->getEtablissement();
         }
+        $societe = $this->getSociete();
         foreach(SocieteConfiguration::getInstance()->getExtras() as $extraKey => $extraInfos) {
             $this->add('extras')->add($extraKey);
 
