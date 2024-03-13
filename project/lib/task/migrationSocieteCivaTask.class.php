@@ -77,6 +77,9 @@ EOF;
     $societe->telephone_mobile = $compteSociete->telephone_mobile;
     $societe->telephone_perso = $compteSociete->telephone_perso;
     $societe->fax = $compteSociete->fax;
+    if(isset($compteSociete->extras->site_internet) && $compteSociete->extras->site_internet && !$compteSociete->site_internet) {
+        $compteSociete->site_internet = $compteSociete->extras->site_internet;
+    }
     $societe->site_internet = $compteSociete->site_internet;
     unset($societe->telephone);
     $object2save[$societe->_id] = $societe;
@@ -101,6 +104,9 @@ EOF;
         $compte->id_societe = $societe->_id;
         if(isset($compte->extras->maison_mere_identifiant)) {
             $compte->extras->maison_mere_identifiant = $this->transformSocieteId($compte->extras->maison_mere_identifiant);
+        }
+        if(isset($compte->extras->site_internet) && $compte->extras->site_internet && !$compte->site_internet) {
+            $compte->site_internet = $compte->extras->site_internet;
         }
         $object2save[$compte->_id] = clone $compte;
     }

@@ -34,7 +34,7 @@ all:
         acheteur_raisin: { nom: "acheteur_raisin", auto: 'etablissement->acheteur_raisin'  }
         activite: { nom: "activité" }
         cooperative: { nom: "coopérative" }
-        site_internet: { nom: "site_internet" }
+        site_internet: { nom: "site_internet", auto: 'societe->site_internet|etablissement->site_internet' }
         sous_region_viticole: { nom: "sous_region_viticole" }
         adherent_organisme: { nom: "adherent_organisme" }
         declaration_commune: { nom: "declaration_commune", auto: 'etablissement->declaration_commune' }
