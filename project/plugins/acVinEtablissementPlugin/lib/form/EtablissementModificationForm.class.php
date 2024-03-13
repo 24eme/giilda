@@ -101,7 +101,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
           return EtablissementClient::getRegions();
         }
 
-        return array_merge(array("" => ""),EtablissementClient::getRegions());
+        return EtablissementClient::getRegions();
     }
 
     public static function getNaturesInao() {
