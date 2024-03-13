@@ -50,7 +50,7 @@
         <?php endif; ?>
         <?php if ($compte->telephone_bureau) : ?>
             <div class="row">
-                <div class="col-xs-3 text-muted">
+                <div class="col-xs-3 text-muted" title="Téléphone du bureau" style='overflow: hidden; text-overflow: " :";'>
                     Tél.&nbsp;bureau&nbsp;:
                 </div>
                 <div class="col-xs-9"><a href="callto:<?php echo $compte->telephone_bureau; ?>"><?php echo $compte->telephone_bureau; ?></a>
@@ -79,7 +79,7 @@
         <?php endif; ?>
         <?php if ($compte->exist('site_internet') && $compte->site_internet) : ?>
             <div class="row">
-                <div class="col-xs-3 text-muted">
+                <div class="col-xs-3 text-muted" title="Site Internet" style='overflow: hidden; text-overflow: " :";'>
                     Site&nbsp;Internet&nbsp;:
                 </div>
                 <div class="col-xs-9">
