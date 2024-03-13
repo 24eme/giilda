@@ -1,5 +1,18 @@
 <?php $hasManuel = false; ?>
 <?php $modifiable = !isset($modifiable) || $modifiable; ?>
+<?php $extras = $compte->getExtrasEditables() ; if ((!isset($hideExtras) || !$hideExtras) && count($extras)): ?>
+  <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Champs extras</strong></h5>
+  <div class="row">
+  <?php foreach($extras as $k => $e):?>
+    <div style='margin-bottom: 5px; overflow: hidden; text-overflow: "... :";' title="<?php echo $k ?>" class="col-xs-3 text-muted"><?php echo str_replace(" ", "&nbsp;", $k) ?>&nbsp;:</div>
+    <div style='margin-bottom: 5px; overflow: hidden; text-overflow: "...";' title="<?php echo $e['value'] ?>" class="col-xs-3"><?php echo str_replace(" ", "&nbsp;", $e['value']); ?></div>
+  <?php endforeach; ?>
+  </div>
+  <hr/>
+<?php endif; ?>
+
+    <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Informations complémentaires</strong></h5>
+
     <div style="margin-bottom: 10px;">
       <div class="row" style="margin-bottom: 10px;">
         <div class="col-xs-2 text-muted">Groupes&nbsp;:</div>
@@ -106,13 +119,3 @@
       </div>
       <?php endif; ?>
     </div>
-    <?php $extras = $compte->getExtrasEditables() ; if ((!isset($hideExtras) || !$hideExtras) && count($extras)): ?>
-      <hr/>
-      <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Champs extras</strong></h5>
-      <div class="row">
-      <?php foreach($extras as $k => $e):?>
-        <div style='margin-bottom: 5px; overflow: hidden; text-overflow: "... :";' title="<?php echo $k ?>" class="col-xs-3 text-muted"><?php echo str_replace(" ", "&nbsp;", $k) ?>&nbsp;:</div>
-        <div style='margin-bottom: 5px; overflow: hidden; text-overflow: "...";' title="<?php echo $e['value'] ?>" class="col-xs-3"><?php echo str_replace(" ", "&nbsp;", $e['value']); ?></div>
-      <?php endforeach; ?>
-      </div>
-    <?php endif; ?>

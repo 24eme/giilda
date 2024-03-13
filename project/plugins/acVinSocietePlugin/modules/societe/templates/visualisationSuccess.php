@@ -108,7 +108,6 @@
                 <?php endif; ?>
                 <hr />
                 <?php endif; ?>
-                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Informations complémentaires</strong></h5>
                 <?php include_partial('compte/visualisationTags', array('compte' => $societe->getMasterCompte(), 'modifiable' => $modifiable)); ?>
             </div>
         </div>

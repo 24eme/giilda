@@ -65,7 +65,6 @@
                 <?php include_partial('compte/visualisationLogin', array('compte' => $compte)); ?>
                 <?php endif; ?>
                 <hr />
-                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Informations complémentaires</strong></h5>
                 <?php include_partial('compte/visualisationTags', array('compte' => $compte, 'formAjoutGroupe' => $formAjoutGroupe, 'modifiable' => $modifiable)); ?>
                 <?php if ($compte->commentaire && $modifiable) : ?>
                 <hr />
