@@ -32,6 +32,8 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->setWidget('num_interne', new bsWidgetFormInput());
         $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
         $this->setWidget('site_fiche', new bsWidgetFormInput());
+        $this->setWidget('mois_stock_debut', new bsWidgetFormChoice(array('choices' => $this->getMonths())));
+
 
         $this->widgetSchema->setLabel('famille', 'Famille *');
         $this->widgetSchema->setLabel('nom', "Nom de l'établissement *");
@@ -43,6 +45,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->widgetSchema->setLabel('num_interne', "N° interne");
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
         $this->widgetSchema->setLabel('site_fiche', 'Site Fiche Publique');
+        $this->widgetSchema->setLabel('mois_stock_debut', 'Mois de saisie du stock');
 
         $this->setValidator('famille', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getFamilles()))));
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
@@ -54,6 +57,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->setValidator('no_accises', new sfValidatorString(array('required' => false)));
         $this->setValidator('num_interne', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
+        $this->setValidator('mois_stock_debut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getMonths()))));
 
         if (!$this->etablissement->isCourtier()) {
             $this->setWidget('cvi', new bsWidgetFormInput());
@@ -124,6 +128,22 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
           $regions = array_keys(self::getRegions());
           $this->etablissement->region = $regions[0];
         }
+        if (!$this->etablissement->exist('mois_stock_debut')) {
+            $this->etablissement->add('mois_stock_debut', $values['mois_stock_debut']);
+        } else {
+            $this->etablissement->mois_stock_debut = $values['mois_stock_debut'];
+        }
+    }
+
+    public function getMonths()
+    {
+        $dateFormat = new sfDateFormat('fr_FR');
+        $results = array('' => $dateFormat->format('1900-08-01', 'MMMM').' (par défaut)');
+        for ($i = 1; $i <= 12; $i++) {
+            $month = $dateFormat->format(date('Y').'-'.$i.'-01', 'MMMM');
+            $results[$i] = $month;
+        }
+        return $results;
     }
 
     public function updateEmbedForm($name, $form) {

@@ -1,6 +1,6 @@
-<?php use_helper('Compte');
-$types_liaisons = EtablissementClient::getTypesLiaisons();
-?>
+<?php use_helper('Compte'); ?>
+<?php use_helper('Date'); ?>
+<?php $types_liaisons = EtablissementClient::getTypesLiaisons(); ?>
 <ol class="breadcrumb">
     <?php if(!$sf_user->hasCredential('contacts')): ?>
         <li><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>">Contacts</a></li>
@@ -93,8 +93,12 @@ $types_liaisons = EtablissementClient::getTypesLiaisons();
                                 <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo $etablissement->region; ?></div>
                                 <?php endif; ?>
                                 <?php if ($etablissement->exist('crd_regime') && $etablissement->crd_regime): ?>
-                                    <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">Régime&nbsp;CRD&nbsp;:</div>
-                                    <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo $etablissement->crd_regime; ?></div>
+                                <div title="Régime CRD" style="margin-bottom: 5px;" class="col-xs-4 text-muted">Régim.&nbsp;CRD&nbsp;:</div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo $etablissement->crd_regime; ?></div>
+                                <?php endif; ?>
+                                <?php if($etablissement->exist('mois_stock_debut') && !is_null($etablissement->mois_stock_debut)): ?>
+                                <div style="margin-bottom: 5px;" class="col-xs-4 text-muted" title="Mois de saisie du stock">Mois&nbsp;stock&nbsp;:</div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo ucfirst(format_date(date("Y")."-".sprintf("%02d", $etablissement->getMoisToSetStock())."-01", 'MMMM', 'fr_FR')); ?></div>
                                 <?php endif; ?>
                         </div>
                     </div>

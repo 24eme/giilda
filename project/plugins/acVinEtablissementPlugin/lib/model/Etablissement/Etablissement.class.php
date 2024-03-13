@@ -489,6 +489,23 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return $this->_set('commentaire', $s);
     }
 
+    public function getCrdRegimeArray(){
+        if(!$this->hasRegimeCrd()){
+            return null;
+        }
+        return explode(",",$this->crd_regime);
+    }
+
+    public function hasRegimeCollectifAcquitte(){
+        return in_array(EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE, $this->getCrdRegimeArray());
+    }
+    public function hasRegimeCollectifSuspendu(){
+        return in_array(EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU, $this->getCrdRegimeArray());
+    }
+    public function hasRegimePersonnalise(){
+        return in_array(EtablissementClient::REGIME_CRD_PERSONNALISE, $this->getCrdRegimeArray());
+    }
+
     public function getNatureLibelle() {
         if(!$this->exist('nature_inao') || !$this->nature_inao){
             return null;
@@ -498,6 +515,14 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     public function hasLegalSignature() {
       return $this->getSociete()->hasLegalSignature();
+    }
+
+    public function getMoisToSetStock()
+    {
+        if ($this->exist('mois_stock_debut') && $this->mois_stock_debut) {
+            return $this->mois_stock_debut;
+        }
+        return DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
     }
 
     public function hasFamille($famille) {
