@@ -257,6 +257,10 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_VINIFICATEUR);
     }
 
+    public function isCaveCooperative() {
+        return ($this->famille == EtablissementFamilles::FAMILLE_COOPERATIVE);
+    }
+
     public function isCourtier() {
         return ($this->famille == EtablissementFamilles::FAMILLE_COURTIER);
     }
@@ -449,6 +453,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     public function hasCompteTeledeclarationActivate() {
         return $this->getSociete()->getMasterCompte()->isTeledeclarationActive();
+    }
+
+    // Deprecated use getTeledeclarationEmail instead
+    public function getEmailTeledeclaration() {
+        return $this->getTeledeclarationEmail();
     }
 
     public function getTeledeclarationEmail() {
