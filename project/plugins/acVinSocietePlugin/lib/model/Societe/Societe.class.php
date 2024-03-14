@@ -118,7 +118,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $regions;
     }
 
-    public function getEtablissementsObj($withSuspendu = true) {
+    public function getEtablissementsObj($withSuspendu = true, $withSocietesLiees = false) {
         $etablissements = array();
         foreach ($this->etablissements as $id => $obj) {
             $etb = EtablissementClient::getInstance()->find($id);
@@ -130,6 +130,14 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
             $etablissements[$id] = new stdClass();
             $etablissements[$id]->etablissement = $etb;
             $etablissements[$id]->ordre = $obj->ordre;
+        }
+        if($withSocietesLiees && $this->exist('societes_liees')) {
+            foreach($this->societes_liees as $idSociete) {
+                $societe = SocieteClient::getInstance()->find($idSociete);
+                foreach($societe->getEtablissementsObj() as $id => $etb) {
+                    $etablissements[$id] = clone $etb;
+                }
+            }
         }
         return $etablissements;
     }
@@ -168,6 +176,20 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
       }
       return $this->comptes;
+    }
+
+    public function addAndSaveSocieteLiee($societe) {
+        $this->add('societes_liees');
+        if(!in_array($societe->_id, $this->societes_liees->toArray())) {
+            $this->societes_liees->add(null, $societe->_id);
+        }
+        $this->save();
+
+        $societe->add('societes_liees');
+        if(!in_array($this->_id, $societe->societes_liees->toArray())) {
+            $societe->societes_liees->add(null, $this->_id);
+        }
+        $societe->save();
     }
 
     private function addToComptes($compte) {
