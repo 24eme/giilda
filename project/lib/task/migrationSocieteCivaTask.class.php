@@ -97,7 +97,7 @@ EOF;
         $oldCompteSociete->compte_type = "INTERLOCUTEUR";
         $oldCompteSociete->fonction = "Societe";
         $oldCompteSociete->origines = [];
-
+        unset($oldCompteSociete->tags->documents);
         $object2save[$oldCompteSociete->_id] = $oldCompteSociete;
     }
 
@@ -110,6 +110,7 @@ EOF;
         if(isset($compte->extras->site_internet) && $compte->extras->site_internet && !$compte->site_internet) {
             $compte->site_internet = $compte->extras->site_internet;
         }
+        unset($compte->tags->documents);
         $object2save[$compte->_id] = clone $compte;
     }
 
@@ -141,6 +142,7 @@ EOF;
     if(isset($compteSociete->extras->maison_mere_identifiant)) {
         $compteSociete->extras->maison_mere_identifiant = $this->transformSocieteId($compteSociete->extras->maison_mere_identifiant);
     }
+    unset($compteSociete->tags->documents);
     $object2save[$compteSociete->_id] = $compteSociete;
 
     $societe->contacts->{$compteSociete->_id} = ['nom' => $compteSociete->nom_a_afficher, 'ordre' => 0];
