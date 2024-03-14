@@ -23,7 +23,7 @@
      }
    });
    });
-  });
+  };
 </script>
 <div class="row">
     <section class="col-xs-12 col-sm-8 col-md-9" id="contenu_etape">
@@ -205,7 +205,7 @@
                             <span class="badge" style="position: absolute; right: 10px;"><?php echo $count; ?></span></a>
           <?php $cptTags++; ?>
 					<?php endforeach; ?>
-          <a class="list-group-item list-group-item-xs  plus-tags text-center" style ><span class="glyphicon glyphicon-chevron-down"></span></a>
+          <a class="list-group-item list-group-item-xs plus-tags text-center pointer"><span class="glyphicon glyphicon-chevron-down"></span></a>
 					</div>
 			    <?php endif; ?>
 			<?php endforeach; ?>
