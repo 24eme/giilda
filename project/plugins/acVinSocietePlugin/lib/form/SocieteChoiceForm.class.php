@@ -14,7 +14,7 @@ class SocieteChoiceForm extends baseForm {
         $this->interpro_id = $interpro_id;
         $this->type_societe = array(SocieteClient::TYPE_OPERATEUR);
         if(is_array($options) && isset($options['type_societe'])){
-            $this->type_societe[] = $options['type_societe'];
+            $this->type_societe += $options['type_societe'];
         }
         parent::__construct($defaults, $options, $CSRFSecret);
     }
