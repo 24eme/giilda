@@ -297,6 +297,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             $societe->save();
         }
 
+        if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $this->fonction) {
+            $this->addTag('fonction', $this->fonction);
+        }
+
         $this->autoUpdateLdap();
     }
 
