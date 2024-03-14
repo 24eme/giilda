@@ -284,6 +284,15 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return null;
     }
 
+    public function getDroits()
+    {
+        if (class_exists(EtablissementDroits::class)) {
+            return EtablissementDroits::getDroits($this);
+        }
+
+        throw new sfException("La classe ".EtablissementDroits::class." n'existe pas");
+    }
+
     public function getDroit() {
         if (is_null($this->droit)) {
 

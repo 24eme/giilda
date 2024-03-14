@@ -291,6 +291,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             }
         }
 
+        if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $this->fonction) {
+            $this->addTag('automatique', $this->fonction);
+        }
+
         $this->updateTagsGroupes();
 
         parent::save();
@@ -298,10 +302,6 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $new) {
             $societe->addCompte($this);
             $societe->save();
-        }
-
-        if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $this->fonction) {
-            $this->addTag('fonction', $this->fonction);
         }
 
         $this->autoUpdateLdap();
