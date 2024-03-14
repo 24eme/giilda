@@ -62,7 +62,23 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
       return $this->getCodeComptableClient();
     }
 
-    public function getCodeComtableClient() {
+    public function getCodeComptableClient($interpro = null) {
+        $cc = ($interpro)? $this->getDataFromInterproMetas($interpro, 'code_comptable_client') : $this->_get('code_comptable_client');
+        if(!$cc) {
+            if ($this->getNumeroArchive()) {
+                return $this->getNumeroArchive();
+            }
+            return FactureConfiguration::getInstance($interpro)->getPrefixCodeComptable().((int)$this->identifiant)."";
+        }
+        return $cc;
+    }
+
+    public function getCodeComtableClient($interpro = null) {
+        if($interpro) {
+
+            return $this->getDataFromInterproMetas($interpro, 'code_comptable_client');
+        }
+
         if(!$this->_get('code_comptable_client') && class_exists("FactureConfiguration")) {
             return FactureConfiguration::getInstance()->getPrefixCodeComptable().$this->identifiant."";
         }
@@ -73,6 +89,14 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
 
         return $this->_get('code_comptable_client');
+    }
+
+    public function addCodeComptableClient($cc, $interpro = null) {
+        if (!$interpro)
+            $this->_set('code_comptable_client', $cc);
+        else {
+            $this->setMetasForInterpro($interpro, ['code_comptable_client' => $cc]);
+        }
     }
 
     public function canHaveChais() {
@@ -98,23 +122,27 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
         if (!count($regions)) {
             if ($throwexception) {
-                throw new sfException("La societe " . $this->identifiant . " n'a pas de région viti :(");
+                throw new sfException("La societe " . $this->identifiant . " n'a pas de région viti ceci peut être dû au faite que ses établissements sont suspendus");
             }
             return '';
         }
         return array_shift($regions);
     }
 
-    private function getRegionsViticoles($excludeSuspendus = true) {
+    public function getRegionsViticoles($excludeSuspendus = true) {
         $regions = array();
         foreach ($this->getEtablissementsObj() as $id => $e) {
-            if ($e->etablissement->isActif()) {
-                $regions[$e->etablissement->region] = $e->etablissement->region;
+            if (!$e->etablissement->isActif() || $e->etablissement->region == EtablissementClient::REGION_HORS_CVO) {
+                continue;
             }
+            $regions[$e->etablissement->region] = $e->etablissement->region;
         }
         //Si tous suspendus que !excludeSuspendus, on va tout de même chercher des régions
         if (!count($regions) && !$excludeSuspendus) {
             foreach ($this->getEtablissementsObj() as $id => $e) {
+                if ($e->etablissement->region == EtablissementClient::REGION_HORS_CVO) {
+                    continue;
+                }
                 $regions[$e->etablissement->region] = $e->etablissement->region;
             }
         }
@@ -325,26 +353,45 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         if ($this->type_societe != SocieteClient::TYPE_OPERATEUR) {
             return false;
         }
+        return $this->getViticulteur();
+    }
 
+    public function getViticulteur() {
         foreach ($this->getEtablissementsObj() as $id => $e) {
             if ($e->etablissement->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
-                return true;
+                return $e->etablissement;
             }
         }
-        return false;
+        return null;
     }
 
     public function isNegociant() {
         if ($this->type_societe != SocieteClient::TYPE_OPERATEUR) {
             return false;
         }
+        return ($this->getNegociant() != null);
+    }
 
+    public function getNegociant() {
         foreach ($this->getEtablissementsObj() as $id => $e) {
             if ($e->etablissement->famille == EtablissementFamilles::FAMILLE_NEGOCIANT) {
-                return true;
+                return $e->etablissement;
             }
         }
-        return false;
+        return null;
+    }
+
+    public function isNegociantPur() {
+        if ($this->type_societe != SocieteClient::TYPE_OPERATEUR) {
+            return false;
+        }
+
+        foreach ($this->getEtablissementsObj() as $id => $e) {
+            if ($e->etablissement->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_PUR) {
+                return $e->etablissement;
+            }
+        }
+        return null;
     }
 
     public function isActif() {
@@ -367,7 +414,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return Anonymization::hideIfNeeded($a);
     }
 
-// A VIRER
     protected function createCompteSociete() {
         if ($this->compte_societe) {
             $c = $this->getCompte($this->compte_societe);
@@ -384,7 +430,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         } else {
             $compte->statut = CompteClient::STATUT_ACTIF;
         }
-        $compte->mot_de_passe = "{TEXT}" . sprintf("%04d", rand(1000, 9999));
+        $compte->mot_de_passe = CompteClient::getInstance()->generateCodeCreation();
         $compte->addOrigine($this->_id);
         $this->addCompte($compte, -1);
         $compte->nom = $this->raison_sociale;
@@ -503,6 +549,11 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function getEmailCompta() {
         return $this->getEmail();
+    }
+
+    // Deprecated use getTeledeclarationEmail instead
+    public function getEmailTeledeclaration() {
+        return $this->getTeledeclarationEmail();
     }
 
     public function getTeledeclarationEmail() {
@@ -673,19 +724,34 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     }
     // fin
 
-    public function hasMandatSepa() {
-      return (MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant()) != null);
+    public function getMandatSepa($interpro = null) {
+        return MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant(), $interpro);
     }
 
-    public function hasMandatSepaActif() {
-      if (!MandatSepaConfiguration::getInstance()->isActive()) {
-          return false;
-      }
-      $mandat = MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant());
-      if (!$mandat) {
-          return false;
-      }
-      return $mandat->is_signe;
+    public function hasMandatSepa($interpro = null) {
+      return ($this->getMandatSepa($interpro) != null);
+    }
+
+    public function hasMandatSepaActif($interpro = null) {
+        if (!MandatSepaConfiguration::getInstance()->isActive()) {
+            return false;
+        }
+        $mandat = $this->getMandatSepa($interpro);
+        if (!$mandat) {
+            return false;
+        }
+        return $mandat->is_actif;
+    }
+
+    public function hasMandatSepaActif($interpro = null) {
+        if (!MandatSepaConfiguration::getInstance()->isActive()) {
+            return false;
+        }
+        $mandat = MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant());
+        if (!$mandat) {
+            return false;
+        }
+        return $mandat->is_actif;
     }
 
     public function checkInterprosMetas() {
