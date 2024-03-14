@@ -546,18 +546,6 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     	return Anonymization::hideIfNeeded($this->_get('siret'));
     }
 
-
-
-    /**** FONCTIONS A RETIRER APRES LE MERGE ****/
-
-
-      public function isSameCompteThanSociete() {
-
-        return ($this->compte == $this->getSociete()->compte_societe);
-    }
-
-    /**** FIN FONCTIONS A RETIRER APRES LE MERGE ****/
-
     public function getNumeroCourt() {
 
         return str_replace(str_replace('SOCIETE-', '', $this->id_societe), '', $this->identifiant);
