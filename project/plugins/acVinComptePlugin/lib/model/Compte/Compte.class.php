@@ -281,10 +281,13 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             $this->addTag('automatique', 'en_alerte');
         }
 
+        $this->tags->remove('droits');
+        $this->tags->add('droits');
+
         if ($this->exist('droits')) {
             foreach ($this->droits as $droit) {
-                $this->addTag('automatique', $droit);
-                $this->addTag('automatique', preg_replace('/:.*/', '', $droit));
+                $this->addTag('droits', $droit);
+                $this->addTag('droits', preg_replace('/:.*/', '', $droit));
             }
         }
 
