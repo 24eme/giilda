@@ -1,6 +1,11 @@
 <?php
 use_helper('Date');
 ?>
+  <?php if ($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
+    <a href="<?php echo url_for('compte_teledeclarant_modification') ?>">
+      <small class="label label-sm label-default">Voir les infos SEPA</small>
+    </a>
+  <?php endif ?>
 <h2>Historique des factures de <?php echo $societe->getRaisonSociale() ?></h2>
 <?php if (count($factures)): ?>
 <table style="margin-bottom: 10px;" class="table table-striped">
