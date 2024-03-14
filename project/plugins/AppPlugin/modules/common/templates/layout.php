@@ -25,6 +25,7 @@ $gitcommit = file_get_contents('../../.git/ORIG_HEAD');
         <?php if(file_exists(sfConfig::get('sf_web_dir')."/css/style_".sfConfig::get('sf_app').'.css')): ?>
             <link href="<?php echo public_path("/css/style_".sfConfig::get('sf_app').".css").'?'.$gitcommit; ?>" rel="stylesheet">
         <?php endif; ?>
+        <link href="<?php echo public_path("/js/lib/leaflet/leaflet.css").'?'.$gitcommit; ?>" rel="stylesheet">
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -66,5 +67,6 @@ $gitcommit = file_get_contents('../../.git/ORIG_HEAD');
         <script src="<?php echo public_path("/js/facture.js?$gitcommit") ?>"></script>
         <script src="<?php echo public_path("/js/stats.js?$gitcommit") ?>"></script>
         <script src="<?php echo public_path("/js/lib/jquery.sticky.js") ?>"></script>
+        <script src="<?php echo public_path("/js/lib/leaflet/leaflet.js") ?>"></script>
   </body>
 </html>
