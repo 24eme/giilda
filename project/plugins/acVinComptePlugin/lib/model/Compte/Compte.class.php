@@ -618,7 +618,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                 }
             }
         } else {
-            @$ldap->deleteCompte($this, $verbose);
+            CompteClient::getInstance()->deleteLdapCompte(CompteLdap::getIdentifiant($this));
         }
     }
 

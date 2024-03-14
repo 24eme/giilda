@@ -7,6 +7,7 @@ class CompteClient extends acCouchdbClient {
     const TYPE_COMPTE_INTERLOCUTEUR = "INTERLOCUTEUR";
     const STATUT_ACTIF = "ACTIF";
     const STATUT_SUSPENDU = "SUSPENDU";
+    const STATUT_SUPPRIME = "SUPPRIME";
 
     const STATUT_TELEDECLARANT_NOUVEAU = "NOUVEAU";
     const STATUT_TELEDECLARANT_INSCRIT = "INSCRIT";
@@ -322,6 +323,18 @@ class CompteClient extends acCouchdbClient {
         }
 
         return array("lat" => $result->features[0]->geometry->coordinates[1], "lon" => $result->features[0]->geometry->coordinates[0]);
+    }
+
+    public function deleteLdapCompte($identifiant){
+        $ldap = new CompteLdap();
+        $groupldap = new CompteGroupLdap();
+        if (sfConfig::get('app_ldap_autogroup', false)) {
+            $ldapUid = $identifiant;
+            foreach ($groupldap->getMembership($ldapUid) as $group) {
+                $groupldap->removeMember($group, $ldapUid);
+            }
+        }
+        $ldap->deleteCompte($identifiant, $verbose);
     }
 
 }
