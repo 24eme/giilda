@@ -8,6 +8,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     private $comptes = null;
 
+    const REFERENCE_INTERPROS_METAS = "&interpros_metas";
+    const FACTURATION_NB_PAIEMENTS_NODE = 'nb_paiements';
+
     public function constructId() {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);
     }
@@ -685,8 +688,60 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
       return $mandat->is_signe;
     }
 
-    /*** TODO : Fonctions à retirer après le merge ****/
+    public function checkInterprosMetas() {
+        if (!$this->exist('interpros_metas')) return;
+        if (!count($this->interpros_metas)) return;
+        foreach($this->interpros_metas as $interpro => $datas) {
+            foreach($datas as $k => $v) {
+                if ($this->exist($k) && $this->get($k) && $this->get($k) != self::REFERENCE_INTERPROS_METAS) {
+                    $this->interpros_metas->getOrAdd('DEFAUT')->add($k, $this->get($k));
+                    $this->set($k, self::REFERENCE_INTERPROS_METAS);
+                }
+            }
+        }
+    }
 
+    public function getMetasForInterpro($interpro) {
+        return $this->getOrAdd('interpros_metas')->getOrAdd($interpro);
+    }
+
+    public function setMetasForInterpro($interpro, array $datas) {
+        $metas = $this->getMetasForInterpro($interpro);
+        foreach($datas as $k => $v) {
+            $metas->add($k, $v);
+        }
+    }
+
+    public function getDataFromInterproMetas($interpro, $meta) {
+        $metas = $this->getMetasForInterpro($interpro);
+        return ($metas->exist($meta))? $metas->get($meta) : null;
+    }
+
+    public function getIdentifiantByInterpro($interpro = null) {
+        if (!$interpro) return $this->identifiant;
+        if (count($this->etablissements) != 1)  return $this->identifiant;
+        $etablissement = $this->getEtablissementPrincipal();
+        if (method_exists($etablissement, 'getIdentifiantByInterpro')) {
+            return $etablissement->getIdentifiantByInterpro($interpro);
+        }
+        return $this->identifiant;
+    }
+
+    public function getMetasForFacturation($typeFacturation) {
+        return $this->getOrAdd('facturation_metas')->getOrAdd($typeFacturation);
+    }
+
+    public function setMetasForFacturation($typeFacturation, array $datas) {
+        $metas = $this->getMetasForFacturation($typeFacturation);
+        foreach($datas as $k => $v) {
+            $metas->add($k, $v);
+        }
+    }
+
+    public function getDataFromFacturationMetas($typeFacturation, $meta) {
+        $metas = $this->getMetasForFacturation($typeFacturation);
+        return ($metas->exist($meta))? $metas->get($meta) : null;
+    }
 
     public function getMasterCompte() {
         if (!$this->compte_societe) {
