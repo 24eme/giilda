@@ -5,6 +5,7 @@
 </ol>
 
 <script type="text/javascript">
+  window.onload = function () {
    $(document).ready(function() {
    $(".removetag").click(function() {
        return confirm('Etes vous sur(e) de vouloir supprimer définivement ce tag pour ces <?php echo $nb_results; ?> fiches ?');
@@ -20,9 +21,9 @@
        siblings.show();
        $(this).children("span").addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
      }
-
    });
-    });
+   });
+  });
 </script>
 <div class="row">
     <section class="col-xs-12 col-sm-8 col-md-9" id="contenu_etape">
