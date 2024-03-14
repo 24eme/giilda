@@ -743,17 +743,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $mandat->is_actif;
     }
 
-    public function hasMandatSepaActif($interpro = null) {
-        if (!MandatSepaConfiguration::getInstance()->isActive()) {
-            return false;
-        }
-        $mandat = MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant());
-        if (!$mandat) {
-            return false;
-        }
-        return $mandat->is_actif;
-    }
-
     public function checkInterprosMetas() {
         if (!$this->exist('interpros_metas')) return;
         if (!count($this->interpros_metas)) return;
