@@ -159,15 +159,16 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public static function extractIntitule($raisonSociale) {
-        $intitules = "EARL|EI|ETS|EURL|GAEC|GFA|HOIRIE|IND|M|MM|Mme|MME|MR|SA|SARL|SAS|SASU|SC|SCA|SCE|SCEA|SCEV|SCI|SCV|SFF|SICA|SNC|SPH|STE|STEF";
+        $intitules = "SA VINS|EARL|EI|ETS|EURL|GAEC|GFA|HOIRIE|IND|M|MM|Mme|MME|MR|MADAME|MONSIEUR|SA|SARL|SAS|SASU|SC|SCA|SCE|SCEA|SCEV|SCI|SCV|SFF|SICA|SNC|SPH|STE|STEF|S\.A\.S\.|DOMAINE|S\.A\.|DOM\.|SASL DOMAINE|VEUVE|SUCCESSION|SDF|HERITIERS|G\.F\.A\.|E\.I\.|S\.D\.F\.|S\.C\.A\.";
+        $intitulesExclude = "DOMAINE D";
         $intitule = null;
 
-        if(preg_match("/^(".$intitules.") /", $raisonSociale, $matches)) {
+        if(preg_match("/^(".$intitules.") /", $raisonSociale, $matches) && !preg_match("/^(".$intitulesExclude.")/", $raisonSociale)) {
             $intitule = $matches[1];
             $raisonSociale = preg_replace("/^".$intitule." /", "", $raisonSociale);
         }
 
-        if(preg_match("/ \((".$intitules.")\)$/", $raisonSociale, $matches)) {
+        if(preg_match("/ \((".$intitules.")\)$/", $raisonSociale, $matches) && !preg_match("/ \((".$intitulesExclude.")\)$/", $raisonSociale)) {
             $intitule = $matches[1];
             $raisonSociale = preg_replace("/ \((".$intitule.")\)$/", "", $raisonSociale);
         }
@@ -176,7 +177,13 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function getIntitule() {
-        $extract = $this->extractIntitule($this->raison_sociale);
+        $nom = $this->raison_sociale;
+
+        if($this->exist('nom')) {
+            $nom = $this->nom;
+        }
+
+        $extract = $this->extractIntitule($nom);
 
         return $extract[0];
     }
