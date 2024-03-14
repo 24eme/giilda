@@ -115,6 +115,9 @@ class CompteAllView extends acCouchdbView {
                         ->getView($this->design, $this->view)->rows;
     }
 
+    public function findAllVIEW() {
+        return $this->client->getView($this->design, $this->view)->rows;
+    }
 
     public static function makeLibelle($datas) {
         $libelle = '';
