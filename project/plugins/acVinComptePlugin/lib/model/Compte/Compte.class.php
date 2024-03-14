@@ -471,6 +471,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getStatutTeledeclarant() {
+        if($this->getStatut() == CompteClient::STATUT_SUSPENDU) {
+            return CompteClient::STATUT_TELEDECLARANT_INACTIF;
+        }
+
         if (preg_match("{TEXT}", $this->mot_de_passe)) {
 
             return CompteClient::STATUT_TELEDECLARANT_NOUVEAU;
@@ -546,13 +550,71 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
     public function updateLdap($verbose = 0) {
         $ldap = new CompteLdap();
-        try {
-        if ($this->isActif())
-            $ldap->saveCompte($this, $verbose);
-        else
+
+        if ($this->isActif()) {
+	        try {
+                $ldap->saveCompte($this, $verbose);
+	        } catch(Exception $e) {
+            	echo $this->_id." save ldap : ".$e->getMessage()."\n";
+            }
+
+            if (sfConfig::get('app_ldap_autogroup', false)) {
+	            $groupldap = new CompteGroupLdap();
+
+                $comptes = $this->getSociete()->getInterlocuteursWithOrdre();
+
+                $groupes = [];
+
+                foreach ($comptes as $compte_id => $info) {
+                    $compte = CompteClient::getInstance()->find($compte_id);
+
+                    if ($compte === null ||
+                        $compte->compte_type === CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+                        continue;
+                    }
+
+                    foreach ($compte->tags as $type => $tags) {
+                        if (! array_key_exists($type, $groupes)) {
+                            $groupes[$type] = [];
+                        }
+
+                        foreach ($tags as $tag) {
+                            $short_tag = str_replace(CompteGroupLdap::$blacklist, '', $tag);
+
+                            if (! in_array($short_tag, $groupes[$type])) {
+                                $groupes[$type][] = $short_tag;
+                            }
+                        }
+                    }
+                }
+
+                $ldapUid = CompteLdap::getIdentifiant($this);
+
+                foreach ($groupldap->getMembership($ldapUid) as $groupe) {
+                    $groupldap->removeMember($groupe, $ldapUid);
+                }
+
+                $groupldap->saveMultipleGroup($groupes, $ldapUid);
+
+                if ($this->compte_type === CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+                    foreach ($this->tags as $type => $tags) {
+                        if (! array_key_exists($type, $groupes)) {
+                            $groupes[$type] = [];
+                        }
+
+                        foreach ($tags as $tag) {
+                            $short_tag = str_replace(CompteGroupLdap::$blacklist, '', $tag);
+
+                            if (! in_array($short_tag, $groupes[$type])) {
+                                $groupes[$type][] = $short_tag;
+                            }
+                        }
+                    }
+                    $groupldap->saveMultipleGroup($groupes, $ldapUid);
+                }
+            }
+        } else {
             @$ldap->deleteCompte($this, $verbose);
-        } catch(Exception $e) {
-            echo $this->_id." save ldap : ".$e->getMessage()."\n";
         }
     }
 
@@ -617,7 +679,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getDroits() {
-
+        if (!$this->exist('droits')) {
+            return array();
+        }
         return $this->_get('droits');
     }
 
@@ -907,6 +971,11 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
 
         return $tags;
+    }
+
+    public function getEmailTeledeclaration() {
+
+        return $this->getTeledeclarationEmail();
     }
 
     public function getTeledeclarationEmail() {
