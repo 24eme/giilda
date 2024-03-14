@@ -31,17 +31,6 @@ class EtablissementFamilles
     	return self::$familles;
     }
 
-    public static function getFamillesByTypeSociete($typeSociete) {
-        $famillesKey = (isset(self::$type_societe_famille[$typeSociete])) ? self::$type_societe_famille[$typeSociete] : array();
-        $familles = array();
-
-        foreach ($famillesKey as $familleKey) {
-            $familles[$familleKey] = self::$familles[$familleKey];
-        }
-
-        return $familles;
-    }
-
     public static function getFamilleLibelle($famille = null)
     {
         $familles = self::getFamilles();

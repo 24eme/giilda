@@ -35,6 +35,11 @@ class SocieteConfiguration {
         return isset($this->configuration['visualisation_teledeclaration']) && boolval($this->configuration['visualisation_teledeclaration']);
     }
 
+    public function isIdentifiantEtablissementSaisi() {
+
+        return isset($this->configuration['identifiant_etablissement_saisi']) && ($this->configuration['identifiant_etablissement_saisi']);
+    }
+
     public function getDroits() {
         if(!isset($this->configuration['droits'])) {
 

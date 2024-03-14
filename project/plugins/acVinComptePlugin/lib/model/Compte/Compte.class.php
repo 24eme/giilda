@@ -529,7 +529,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             return $this->identifiant;
         }
 
-        return preg_replace("/^(.*)([0-9][0-9])$/", '\1', $this->identifiant);
+        return $this->getSociete()->identifiant;
     }
 
     public function setMotDePasseSSHA($mot_de_passe) {

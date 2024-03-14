@@ -1,6 +1,7 @@
 all:
   configuration:
     societe:
+      identifiant_etablissement_saisi: true
       droits:
         teledeclaration: "Télédéclaration"
         teledeclaration_dr: "DR"

@@ -22,8 +22,9 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
     public function configure() {
         parent::configure();
 
-        if($this->getObject()->isNew() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+        if($this->getObject()->isNew() && SocieteConfiguration::getInstance()->isIdentifiantEtablissementSaisi()) {
             $this->setWidget('identifiant', new bsWidgetFormInput());
+            $this->widgetSchema->setLabel('identifiant', 'Identifiant *');
             $this->setValidator('identifiant', new sfValidatorString(array('required' => true)));
         }
 
@@ -107,7 +108,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
 
     public function getFamilles()
     {
-        return EtablissementFamilles::getFamillesByTypeSociete($this->getObject()->getSociete()->getTypeSociete());
+        return EtablissementFamilles::getFamilles();
     }
 
     public static function getRegions() {
@@ -142,6 +143,10 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
             $this->etablissement->add('mois_stock_debut', $values['mois_stock_debut']);
         } else {
             $this->etablissement->mois_stock_debut = $values['mois_stock_debut'];
+        }
+
+        if($this->etablissement->isNew() && SocieteConfiguration::getInstance()->isIdentifiantEtablissementSaisi()) {
+            $this->etablissement->constructId();
         }
     }
 
