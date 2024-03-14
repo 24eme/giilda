@@ -123,7 +123,6 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
             $compte->tags->remove('produit');
             $compte->tags->remove('domaines');
             $compte->tags->remove('documents');
-            $compte->tags->remove('droits');
 
             if (!count($tags)) {
                 continue;
