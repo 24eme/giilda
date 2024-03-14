@@ -5,6 +5,7 @@
 </ol>
 
 <script type="text/javascript">
+  window.onload = function () {
    $(document).ready(function() {
    $(".removetag").click(function() {
        return confirm('Etes vous sur(e) de vouloir supprimer définivement ce tag pour ces <?php echo $nb_results; ?> fiches ?');
@@ -20,9 +21,9 @@
        siblings.show();
        $(this).children("span").addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
      }
-
    });
-    });
+   });
+  };
 </script>
 <div class="row">
     <section class="col-xs-12 col-sm-8 col-md-9" id="contenu_etape">
@@ -138,9 +139,9 @@
 
 </section>
 <section class="col-xs-12 col-sm-4 col-md-3" style="padding-bottom: 20px;">
+  <a href="<?php echo url_for('societe_creation', array()); ?>" class="btn btn-default btn-block"><span class="glyphicon glyphicon-plus"></span> Créer une société</a>
+  <a class="btn btn-default btn-block" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'], 'contacts_all' => ($contacts_all)? 1 : 0)); ?>"<?php if($nb_results > 50000): ?> disabled="disabled"<?php endif;?>> <span class="glyphicon glyphicon-export"></span> Exporter en CSV</a>
     	<a class="btn btn-default btn-default-step btn-block" href="<?php echo url_for("compte_recherche_avancee") ?>"><span class="glyphicon glyphicon-zoom-in"></span>&nbsp;&nbsp;Recherche avancée</a>
-        <a href="<?php echo url_for('societe_creation', array()); ?>" class="btn btn-default btn-block"><span class="glyphicon glyphicon-plus"></span> Créer une société</a>
-        <a class="btn btn-default btn-block" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'], 'contacts_all' => ($contacts_all)? 1 : 0)); ?>"<?php if($nb_results > 50000): ?> disabled="disabled"<?php endif;?>> <span class="glyphicon glyphicon-export"></span> Exporter en CSV</a>
       <a class="btn btn-default btn-block" href="<?php echo url_for('compte_groupes') ?>" > <span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Gérer les groupes</a>
       <p style="margin-top: 10px;"><strong><?php echo $nb_results; ?></strong> résultat(s) trouvé(s)</p>
 
@@ -204,7 +205,7 @@
                             <span class="badge" style="position: absolute; right: 10px;"><?php echo $count; ?></span></a>
           <?php $cptTags++; ?>
 					<?php endforeach; ?>
-          <a class="list-group-item list-group-item-xs  plus-tags text-center" style ><span class="glyphicon glyphicon-chevron-down"></span></a>
+          <a class="list-group-item list-group-item-xs plus-tags text-center pointer"><span class="glyphicon glyphicon-chevron-down"></span></a>
 					</div>
 			    <?php endif; ?>
 			<?php endforeach; ?>
