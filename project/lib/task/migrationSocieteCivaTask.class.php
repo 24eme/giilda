@@ -94,11 +94,8 @@ EOF;
 
     if($compteSociete->type == "SOCIETE") {
         $oldCompteSociete = clone $compteSociete;
-        $oldCompteSociete->compte_type = "INTERLOCUTEUR";
-        $oldCompteSociete->fonction = "Societe";
-        $oldCompteSociete->origines = [];
-        unset($oldCompteSociete->tags->documents);
-        $object2save[$oldCompteSociete->_id] = $oldCompteSociete;
+        unset($societe->contacts->{$oldCompteSociete->_id});
+        $object2delete[$oldCompteSociete->_id] = $oldCompteSociete;
     }
 
     foreach($societe->contacts as $contact_id => $contact_info) {
@@ -111,6 +108,9 @@ EOF;
             $compte->site_internet = $compte->extras->site_internet;
         }
         unset($compte->tags->documents);
+        if($compte->_id == $compteSociete->_id) {
+            $compte->mot_de_passe = null;
+        }
         $object2save[$compte->_id] = clone $compte;
     }
 
@@ -175,6 +175,9 @@ EOF;
     }
 
     foreach($object2save as $doc) {
+        if(!in_array($doc->type, ["Compte", "Etablissement", "Societe"])) {
+            continue;
+        }
         echo $doc->_id." saved with model\n";
         $doc = acCouchdbManager::getClient()->find($doc->_id);
         $doc->save();

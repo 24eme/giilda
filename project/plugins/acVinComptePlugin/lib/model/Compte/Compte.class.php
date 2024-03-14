@@ -515,6 +515,11 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             return $this->_get('login');
         }
 
+        if($this->mot_de_passe) {
+
+            return $this->identifiant;
+        }
+
         if(!$this->mot_de_passe && !$this->getSociete()->getContact()->mot_de_passe) {
             return null;
         }
@@ -529,7 +534,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             return $this->identifiant;
         }
 
-        return $this->getSociete()->identifiant;
+        return $this->getSociete()->getMasterCompte()->login;
     }
 
     public function setMotDePasseSSHA($mot_de_passe) {
