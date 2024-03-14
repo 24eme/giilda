@@ -45,6 +45,9 @@ class EtablissementClient extends acCouchdbClient {
     const REGIME_CRD_PERSONNALISE = 'PERSONNALISE';
     const REGIME_CRD_COLLECTIF_ACQUITTE = 'COLLECTIFACQUITTE';
     const REGIME_CRD_COLLECTIF_SUSPENDU = 'COLLECTIFSUSPENDU';
+    const REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU = 'COLLECTIFACQUITTE,COLLECTIFSUSPENDU';
+    const REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU = 'PERSONNALISE,COLLECTIFSUSPENDU';
+
     const CAUTION_DISPENSE = 'DISPENSE';
     const CAUTION_CAUTION = 'CAUTION';
     const NATURE_INAO_PRODUCTEUR_INDIVIDUEL = 'Producteur individuel';
@@ -69,17 +72,32 @@ class EtablissementClient extends acCouchdbClient {
 
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
         self::STATUT_SUSPENDU => 'SUSPENDU');
-    public static $regimes_crds_libelles_longs = array(self::REGIME_CRD_PERSONNALISE => 'personnalisé (P)',
-        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'banalisées acquittées (DA)',
-        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'banalisées suspendues (DS)');
-   public static $regimes_crds_libelles_longs_only_suspendu = array(self::REGIME_CRD_PERSONNALISE => 'CRD personnalisées',
-            self::REGIME_CRD_COLLECTIF_SUSPENDU => 'CRD collectives');
-    public static $regimes_crds_libelles = array(self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
+
+    public static $regimes_crds_libelles_longs = array(
+        self::REGIME_CRD_PERSONNALISE => 'Personnalisé (P)',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Banalisées acquittées (DA)',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Banalisées suspendues (DS)',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU => 'Banalisées acquittées + Banalisées suspendues (DA+DS)',
+        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'Personnalisé + Banalisées suspendues (P+DS)',
+    );
+    public static $regimes_crds_libelles_longs_only_suspendu = array(
+        self::REGIME_CRD_PERSONNALISE => 'CRD personnalisées',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'CRD collectives ou Pas de CRD',
+        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'Personnalisé + Banalisées suspendues (P+DS)'
+    );
+    public static $regimes_crds_libelles = array(
+        self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Banalisées acquittées',
-        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Banalisées suspendues');
-    public static $regimes_crds_libelles_courts = array(self::REGIME_CRD_PERSONNALISE => 'P',
-        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'DA',
-        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'DS');
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Banalisées suspendues',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU => 'Banalisées acquittées + Banalisées suspendues',
+        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'Personnalisé + Banalisées suspendues',
+    );
+    public static $regimes_crds_libelles_simplifies = array(
+        self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Banalisées acquittées',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Banalisées suspendues'
+    );
+
     public static $natures_inao_libelles = array(
         "01" => self::NATURE_INAO_PRODUCTEUR_INDIVIDUEL,
         "04" => self::NATURE_INAO_COOPERATIVE,
@@ -144,6 +162,43 @@ class EtablissementClient extends acCouchdbClient {
         return $this->startkey('ETABLISSEMENT-' . $societe_id . '00')->endkey('ETABLISSEMENT-' . $societe_id . '99')->execute($hydrate);
     }
 
+    public function getFormatIdentifiant() {
+
+        return sfConfig::get('app_etablissement_format_identifiant', "%societe_identifiant%%02d");
+    }
+
+    public function getSocieteIdentifiant($etablissementIdentifiant) {
+        if($this->getFormatIdentifiant() == "%societe_identifiant%%02d") {
+
+            return substr($etablissementIdentifiant, 0, -2);
+        }
+
+        if($this->getFormatIdentifiant() == "%societe_identifiant%") {
+
+            return $etablissementIdentifiant;
+        }
+
+        return str_replace("SOCIETE-", "", EtablissementClient::getInstance()->findByIdentifiant($etablissementIdentifiant, acCouchdbClient::HYDRATE_JSON)->id_societe);
+    }
+
+    public function getFirstIdentifiant($societeIdentifiant) {
+        if(!$this->getFormatIdentifiant()) {
+
+            return $societeIdentifiant;
+        }
+
+        return sprintf(str_replace("%societe_identifiant%", $societeIdentifiant, $this->getFormatIdentifiant()), "01");
+    }
+
+    public function getLastIdentifiant($societeIdentifiant) {
+        if(!$this->getFormatIdentifiant()) {
+
+            return $societeIdentifiant;
+        }
+
+        return sprintf(str_replace("%societe_identifiant%", $societeIdentifiant, $this->getFormatIdentifiant()), "99");
+    }
+
     public function getViewClient($view) {
         return acCouchdbManager::getView("etablissement", $view, 'Etablissement');
     }
@@ -205,6 +260,18 @@ class EtablissementClient extends acCouchdbClient {
       return $this->findByCviOrAcciseOrPPM($cvi, $with_suspendu, $hydrate);
     }
 
+    public function findAllByCvi($cvi) {
+        $rows = EtablissementFindByCviView::getInstance()->findByCvi($cvi);
+        if (!count($rows)) {
+            return array();
+        }
+        $etbs = array();
+        foreach ($rows as $row) {
+            $etbs[$row->id] = $this->find($row->id);
+        }
+        return $etbs;
+    }
+
     public function findByPPM($ppm, $with_suspendu = false) {
       return $this->findByCviOrAcciseOrPPM($ppm, $with_suspendu);
     }
@@ -247,6 +314,32 @@ class EtablissementClient extends acCouchdbClient {
           return $s->getEtablissementPrincipal();
       }
 
+      return null;
+    }
+
+    public function findByNoAccise($accise,$withSuspendu = true) {
+        $rows = EtablissementFindByCviView::getInstance()->findByAccise($accise);
+        if (!count($rows)) {
+            return null;
+        }
+        if(!$withSuspendu){
+          foreach ($rows as $row) {
+            $etb = $this->find($row->id);
+            if($etb->isActif()){
+              return $etb;
+            }
+          }
+          return null;
+        }
+
+        return $this->find($rows[0]->id);
+    }
+
+    public function retrieveByName($name) {
+      $e = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_NEGOCIANT), $name, 1);
+      if (count($e) == 1){
+        return $this->find($e[0]->id);
+      }
       return null;
     }
 
