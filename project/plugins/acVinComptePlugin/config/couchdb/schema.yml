@@ -15,7 +15,7 @@ Compte:
       mot_de_passe: { }
       login: { required: false }
       date_modification: { required: false  }
-      date_creation: { type: date, required: false }
+      date_creation: { required: false }
       origines:
         type: array_collection
         definition:
