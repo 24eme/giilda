@@ -159,7 +159,7 @@ EOF;
         $object2delete[] = clone $mandat;
         $mandat->_id = str_replace($mandat->debiteur->identifiant_rum, $newIdentifiant, $mandat->_id);
         unset($mandat->_rev);
-        $object2save[$mandat_id] = $mandat;
+        $object2save[$mandat->_id] = $mandat;
     }
 
     foreach($object2save as $doc) {
