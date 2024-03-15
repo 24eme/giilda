@@ -12,10 +12,18 @@ if($compte->getSociete()->isTransaction()){
     <div class="col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="titre_principal">Mon compte</h4>
+              <h4 class="titre_principal">Mon compte <span style="opacity: 0.5;" class="text-muted pull-right"><?php echo $compte->nom_a_afficher ?></span></h4>
             </div>
             <div class="panel-body">
-    <br/>
+            <?php if($compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU): ?>
+           <div class="alert alert-warning">Ce compte n'a pas encore été créé par le télédéclarant : <a href="<?php echo url_for('societe_visualisation', $compte->getSociete()) ?>">Voir la société</a></div>
+         <?php elseif($compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_OUBLIE): ?>
+           <div class="alert alert-info">Ce compte en est cours de mot de passe oublié : <a href="<?php echo url_for('societe_visualisation', $compte->getSociete()) ?>">Voir la société</a></div>
+         <?php elseif($compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_INACTIF): ?>
+           <div class="alert alert-danger">Ce compte est suspendu : <a href="<?php echo url_for('societe_visualisation', $compte->getSociete()) ?>">Voir la société</a></div>
+         <?php endif; ?>
+
+         <?php if(isset($form)): ?>
 
         <div id="modification_compte" class="col-xs-12">
         	<p>Sur cette page, si besoin, vous pouvez redéfinir votre mot de passe ou modifier vos informations de contact.</p>
@@ -167,7 +175,7 @@ if($compte->getSociete()->isTransaction()){
 
 
         </div>
-
+    <?php endif; ?>
 </div>
 </div>
 </div>
@@ -221,7 +229,7 @@ if($compte->getSociete()->isTransaction()){
                 </div>
               </div>
             </div>
-            <?php if (!$mandatSepa->is_telecharge): ?>
+            <?php if (!$mandatSepa->is_telecharge && false): ?>
             <?php include_partial('mandatsepa/popupIncitationSignatureMandat', array('mandatSepa' => $mandatSepa)); ?>
             <?php endif; ?>
           <?php else: ?>
