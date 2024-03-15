@@ -2,7 +2,7 @@
 use_helper('Date');
 ?>
   <?php if ($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
-    <a href="<?php echo url_for('compte_teledeclarant_modification') ?>">
+    <a href="<?php echo url_for('compte_teledeclarant_modification', ['identifiant' => $societe->identifiant]) ?>">
       <small class="label label-sm label-default">Voir les infos SEPA</small>
     </a>
   <?php endif ?>

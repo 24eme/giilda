@@ -11,7 +11,7 @@ class CompteRoute extends sfObjectRoute implements InterfaceCompteRoute {
       if ($myUser->isAdmin()) {
           return $this->compte;
       }
-      if ($myUser->hasTeledeclaration() && !$myUser->hasDrevAdmin()
+      if ($myUser->hasTeledeclaration() && !$myUser->isAdmin()
             && $myUser->getCompte()->identifiant != $this->getCompte()->getSociete()->getMasterCompte()->identifiant)
       {
             throw new sfError403Exception("Vous n'avez pas le droit d'accéder à cette page");
