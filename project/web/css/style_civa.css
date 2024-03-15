@@ -233,6 +233,10 @@ ul.navbar-nav  > .active > a:focus {
     color: #848c03;
 }
 
+#page_compte h2 {
+    margin-top: 5px;
+}
+
 /***
  * ERROR 404
  ****************/
