@@ -137,8 +137,6 @@ class compte_teledeclarantActions extends sfActions {
         }
 
         $this->societe = $this->compte->getSociete();
-        $this->mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
-
 
         $this->form = new CompteTeledeclarantForm($this->compte);
 
