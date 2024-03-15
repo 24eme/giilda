@@ -222,11 +222,11 @@ ul.navbar-nav  > .active > a:focus {
 }
 
 .list-group-item.active-bordered {
-    border-left: 6px solid #acb701 !important;
+    border-left: 6px solid #e0e1bd !important;
 }
 
 .panel-primary-bordered-right {
-    border-right: 6px solid #acb701;
+    border-right: 6px solid #e0e1bd;
 }
 
 #page_compte a, #page_compte .btn-link {
