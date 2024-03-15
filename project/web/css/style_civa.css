@@ -221,6 +221,18 @@ ul.navbar-nav  > .active > a:focus {
     padding: 13px 13px;
 }
 
+.list-group-item.active-bordered {
+    border-left: 6px solid #acb701 !important;
+}
+
+.panel-primary-bordered-right {
+    border-right: 6px solid #acb701;
+}
+
+#page_compte a, #page_compte .btn-link {
+    color: #848c03;
+}
+
 /***
  * ERROR 404
  ****************/

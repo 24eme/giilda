@@ -11,7 +11,7 @@
     <li class="active"><a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></a></li>
 </ol>
 
-<div class="row">
+<div class="row" id="page_compte">
     <div class="col-xs-12 col-sm-8">
         <div class="panel panel-default" style="margin-bottom: 0; border-bottom: 0;">
             <div class="panel-heading" style="border-bottom: 0;">

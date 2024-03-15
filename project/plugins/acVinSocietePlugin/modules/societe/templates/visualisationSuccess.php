@@ -8,7 +8,7 @@
     <li class="active"><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?>  (<?php echo $societe->identifiant ?>)</a></li>
 </ol>
 
-<div class="row">
+<div class="row" id="page_compte">
     <div class="col-xs-12 col-sm-8">
         <div class="panel panel-default">
             <div class="panel-heading">

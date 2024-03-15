@@ -9,7 +9,7 @@
     <li class="active"><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $compte->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($compte->getRawValue()) ?>"></span> <?php echo $compte->nom_a_afficher; ?></a></li>
 </ol>
 
-<div class="row">
+<div class="row" id="page_compte">
     <div class="col-xs-12 col-sm-8">
         <div class="panel panel-default">
             <div class="panel-heading">
