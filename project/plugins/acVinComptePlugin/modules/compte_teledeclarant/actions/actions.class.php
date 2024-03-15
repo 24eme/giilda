@@ -298,16 +298,42 @@ class compte_teledeclarantActions extends sfActions {
         foreach($entities as $k => $e) {
             $this->entities['raison_sociale'][] = htmlspecialchars($e->etablissement->raison_sociale, ENT_XML1, 'UTF-8');
             $this->entities['cvi'][] = str_replace(' ', '', $e->etablissement->cvi);
-            $this->entities['siret'][] = str_replace(' ', '', $compte->societe_informations->siret);
-            $this->entities['ppm'][] = str_replace(' ', '', $e->etablissement->ppm);
+            $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
             $this->entities['accises'][] = str_replace(' ', '', $e->etablissement->no_accises);
             $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
+            if($request->getParameter('extra')) {
+                $this->entities['numero_interne'][] = str_replace(' ', '', $e->etablissement->getNumInterne());
+                $this->entities['code_comptable_client'][] = str_replace(' ', '', $compte->getSociete()->getCodeComptableClient());
+                $this->entities['adresse'][] = htmlspecialchars($e->etablissement->getAdresse(), ENT_XML1, 'UTF-8');
+                $this->entities['adresse_complementaire'][] = htmlspecialchars($e->etablissement->getAdresseComplementaire(), ENT_XML1, 'UTF-8');
+                $this->entities['code_postal'][] = $e->etablissement->getCodePostal();
+                $this->entities['commmune'][] = htmlspecialchars($e->etablissement->getCommune(), ENT_XML1, 'UTF-8');
+                $this->entities['famille'][] = $e->etablissement->getFamille();
+                $this->entities['email'][] = $e->etablissement->getEmailTeledeclaration();
+                $this->entities['telephone_bureau'][] = str_replace(' ', '', $e->etablissement->getTelephoneBureau());
+                $this->entities['telephone_mobile'][] = str_replace(' ', '', $e->etablissement->getTelephoneMobile());
+                $this->entities['telephone_perso'][] = str_replace(' ', '', $e->etablissement->getTelephonePerso());
+                $this->entities['droits'][] = implode("|", ($compte->exist('droits')) ? $compte->getDroits()->toArray() : []);
+            }
             $this->entities_number++;
+        }
+        if(!$compte->getSociete()->canHaveChais()) {
+            $this->entities['raison_sociale'][] = htmlspecialchars($compte->getSociete()->raison_sociale, ENT_XML1, 'UTF-8');
+            $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
+            $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
+            $this->entities['adresse'][] = htmlspecialchars($compte->getSociete()->getAdresse(), ENT_XML1, 'UTF-8');
+            $this->entities['adresse_complementaire'][] = htmlspecialchars($compte->getSociete()->getAdresseComplementaire(), ENT_XML1, 'UTF-8');
+            $this->entities['code_postal'][] = $compte->getSociete()->getCodePostal();
+            $this->entities['commmune'][] = htmlspecialchars($compte->getSociete()->getCommune(), ENT_XML1, 'UTF-8');
+            $this->entities['email'][] = $compte->getSociete()->getEmailTeledeclaration();
+            $this->entities['telephone_bureau'][] = str_replace(' ', '', $compte->getSociete()->getTelephoneBureau());
+            $this->entities['telephone_mobile'][] = str_replace(' ', '', $compte->getSociete()->getTelephoneMobile());
+            $this->entities['telephone_perso'][] = str_replace(' ', '', $compte->getSociete()->getTelephonePerso());
+            $this->entities['droits'][] = implode("|", ($compte->exist('droits')) ? $compte->getDroits()->toArray() : []);
         }
 
         $this->setLayout(false);
         $this->getResponse()->setHttpHeader('Content-Type', 'text/plain');
-
     }
 
     public function executeViticonnectCheck(sfWebRequest $request)
