@@ -458,6 +458,16 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         return null;
     }
 
+    public function getEtablissementOrigineObject() {
+        $id = $this->getEtablissementOrigine();
+        if(!$id) {
+
+            return null;
+        }
+
+        return EtablissementClient::getInstance()->find($id);
+    }
+
     public function setCivilite($c) {
 
         return $this->_set('civilite', $c);
@@ -695,6 +705,11 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             return array();
         }
         return $this->_get('droits');
+    }
+
+    public function isInscrit() {
+
+        return $this->getStatutTeledeclarant() != CompteClient::STATUT_TELEDECLARANT_NOUVEAU && $this->getStatutTeledeclarant() != CompteClient::STATUT_TELEDECLARANT_INACTIF;
     }
 
     public function isTeledeclarationActive() {

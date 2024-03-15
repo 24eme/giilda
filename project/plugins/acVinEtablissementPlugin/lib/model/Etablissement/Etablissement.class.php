@@ -640,4 +640,96 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return $liaisonsOperateurs;
     }
 
+    public function hasLieuxStockage() {
+
+        return $this->exist('lieux_stockage') && count($this->lieux_stockage) > 0;
+    }
+
+    public function removeLieuxStockage($identifiant = null) {
+        $lieuxToRemove = array();
+        if(!$this->exist('lieux_stockage')) {
+            return;
+        }
+        foreach($this->_get('lieux_stockage') as $lieuStockage) {
+            if($identifiant && !preg_match("/".$identifiant."/", $lieuStockage->getKey())) {
+                continue;
+            }
+            $lieuxToRemove[$lieuStockage->getKey()] = $lieuStockage->getKey();
+        }
+
+        foreach($lieuxToRemove as $key) {
+            $this->add('lieux_stockage')->remove($key);
+        }
+    }
+
+    public function getLieuxStockage($ajoutLieuxStockage = false, $identifiant = null)
+    {
+        if($ajoutLieuxStockage && $this->isAjoutLieuxDeStockage() &&
+                (!$this->exist('lieux_stockage') || (!count($this->getLieuxStockage(false, $identifiant))))){
+            $lieu_stockage = $this->storeLieuStockage($this->adresse,
+                                                    $this->commune,
+                                                   $this->code_postal);
+            $this->lieux_stockage->add($lieu_stockage->numero, $lieu_stockage);
+
+            return $this->_get('lieux_stockage');
+        }
+        if(!$this->exist('lieux_stockage')){
+
+            return array();
+        }
+
+        if(is_null($identifiant)) {
+
+            return $this->_get('lieux_stockage');
+        }
+        $lieuxStockage = array();
+        foreach($this->_get('lieux_stockage') as $lieuStockage) {
+            if(!preg_match("/".$identifiant."/", $lieuStockage->getKey())) {
+                continue;
+            }
+            $lieuxStockage[$lieuStockage->getKey()] = $lieuStockage;
+        }
+
+        return $lieuxStockage;
+    }
+
+    public function getLieuStockagePrincipal($ajoutLieuxStockage = false, $identifiant = null) {
+        foreach($this->getLieuxStockage($ajoutLieuxStockage, $identifiant) as $lieu_stockage) {
+
+            return $lieu_stockage;
+        }
+
+        return null;
+    }
+
+    public function isAjoutLieuxDeStockage(){
+
+        return ($this->getFamille() != EtablissementFamilles::FAMILLE_PRODUCTEUR_VINIFICATEUR);
+    }
+
+    public function storeLieuStockage($adresse,$commune,$code_postal)
+    {
+        $newId = 0;
+        $identifiant = $this->getIdentifiant();
+        if(!$this->exist('lieux_stockage')){
+            $this->add('lieux_stockage');
+        }
+        $lieux_stockage = $this->getLieuxStockage(false, $identifiant);
+        foreach ($lieux_stockage as $key => $value) {
+            $current_id = intval(str_replace($identifiant, '', $key));
+            if($current_id > $newId){
+                $newId = $current_id;
+            }
+        }
+        $newId = $identifiant.sprintf('%03d',$newId+1);
+        $lieu_stockage = new stdClass();
+        $lieu_stockage->numero = $newId;
+        $lieu_stockage->nom = $this->nom;
+        $lieu_stockage->adresse = $adresse;
+        $lieu_stockage->commune = $commune;
+        $lieu_stockage->code_postal = $code_postal;
+        $this->_get('lieux_stockage')->add($newId, $lieu_stockage);
+        return $lieu_stockage;
+    }
+
 }
