@@ -99,6 +99,10 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
+
+        if($this->getObject()->isNew() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+            $this->setDefault('identifiant', null);
+        }
     }
 
     public function getFamilles()
