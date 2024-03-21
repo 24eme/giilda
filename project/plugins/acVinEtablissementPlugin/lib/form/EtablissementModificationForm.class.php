@@ -25,6 +25,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         if($this->getObject()->isNew() && SocieteConfiguration::getInstance()->isIdentifiantEtablissementSaisi()) {
             $this->setWidget('identifiant', new bsWidgetFormInput());
             $this->widgetSchema->setLabel('identifiant', 'Identifiant *');
+            $this->widgetSchema->setHelp('identifiant', SocieteConfiguration::getInstance()->getIdentifiantEtablissementSaisiHelp());
             $this->setValidator('identifiant', new sfValidatorString(array('required' => true)));
         }
 
@@ -101,6 +102,11 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
+
+        if($this->getObject()->isNew() && SocieteConfiguration::getInstance()->isIdentifiantEtablissementSaisi()) {
+            $this->setDefault('identifiant', null);
+        }
+
         if (!$this->getObject()->nom) {
         	$this->setDefault('nom', $this->getObject()->getSociete()->getRaisonSociale());
         }

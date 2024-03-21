@@ -2,6 +2,7 @@ all:
   configuration:
     societe:
       identifiant_etablissement_saisi: true
+      identifiant_etablissement_saisi_help: "- le numéro CVI\n- ou un numéro interne de 10 chiffres précédé d'un \"C\"\n- ou les 9 chiffres du SIREN"
       droits:
         teledeclaration: "Télédéclaration"
         teledeclaration_dr: "DR"

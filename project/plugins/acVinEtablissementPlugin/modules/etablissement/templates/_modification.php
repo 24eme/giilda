@@ -8,7 +8,10 @@
     <div class="form-group<?php if($etablissementForm['identifiant']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $etablissementForm['identifiant']->renderError(); ?>
         <?php echo $etablissementForm['identifiant']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-        <div class="col-xs-8"><?php echo $etablissementForm['identifiant']->render(); ?></div>
+        <div class="col-xs-8">
+          <?php echo $etablissementForm['identifiant']->render(); ?>
+          <?php echo nl2br($etablissementForm['identifiant']->renderHelp()); ?>
+        </div>
     </div>
     <?php else: ?>
         <div class="form-group">

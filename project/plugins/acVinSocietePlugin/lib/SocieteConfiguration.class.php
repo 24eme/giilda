@@ -40,6 +40,13 @@ class SocieteConfiguration {
         return isset($this->configuration['identifiant_etablissement_saisi']) && ($this->configuration['identifiant_etablissement_saisi']);
     }
 
+    public function getIdentifiantEtablissementSaisiHelp() {
+        if(!isset($this->configuration['identifiant_etablissement_saisi_help'])) {
+            return null;
+        }
+        return $this->configuration['identifiant_etablissement_saisi_help'];
+    }
+
     public function getDroits() {
         if(!isset($this->configuration['droits'])) {
 
