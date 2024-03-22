@@ -4,6 +4,7 @@ $colClass = ($isCompteSociete) ? 'col-xs-8' : 'col-xs-4';
 $isSameAdresseThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameAdresseThanSociete() && !$compteForm->hasErrors();
 $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameContactThanSociete() && !$compteForm->hasErrors();
 $isSameExtraThanSociete = !$isCompteSociete && $compteForm->getObject() instanceof Etablissement && $compteForm->getObject()->isSameCompteThanSociete();
+$isSameDroitsThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameDroitsThanSociete();
 
 ?>
 <div id="coordonnees_modification">
@@ -146,12 +147,13 @@ $isSameExtraThanSociete = !$isCompteSociete && $compteForm->getObject() instance
         <?php endif; ?>
 
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">Droits</h4><span class="pull-right" style="margin-top: -20px; font-size: 15px;" >
-                    <span>Edition</span>&nbsp;
+            <div class="panel-heading"><h4 class="panel-title">Droits<?php if ($isSameDroitsThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même droits que la société</span><?php endif; ?></h4>
+                <span class="pull-right <?php echo ($isCompteSociete) ? '' : ' clickable pointer '; echo ($isSameDroitsThanSociete) ? ' panel-collapsed ' : ' '; ?>" style="margin-top: -20px; font-size: 15px;">
+                    <span class="label-edit" ><?php echo ($isSameDroitsThanSociete) ? 'Editer' : 'Edition'; ?></span>&nbsp;
+                    <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameDroitsThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
                 </span>
             </div>
-            <div class="panel-body">
+            <div class="panel-body <?php echo ($isSameDroitsThanSociete) ? ' collapse ' : ''; ?>">
                 <div class="form-group">
                     <div class="col-xs-12"><?php echo $compteForm['droits']->renderError(); ?></div>
                     <?php echo $compteForm['droits']->renderLabel(null, array('class' => 'col-xs-3 control-label')); ?>

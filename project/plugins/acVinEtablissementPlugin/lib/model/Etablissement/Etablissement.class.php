@@ -109,6 +109,9 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return $this->isSameContactThan($this->getSociete()->getMasterCompte());
     }
 
+    public function isSameDroitsThanSociete() {
+        return Compte::isSameDroitsComptes($this->getMasterCompte(), $this->getSociete()->getMasterCompte());
+    }
 
     public function getNoTvaIntraCommunautaire() {
         $societe = $this->getSociete();

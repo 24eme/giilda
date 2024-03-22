@@ -111,29 +111,20 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         }
 
         $compte = $this->getObject()->getMasterCompte();
-        if ($compte) {
-            foreach($this->getExtrasEditables(true) as $k => $e) {
-                if ($compte->exist('extras')) {
-                    $this->setDefault('extra_'.$k, $e['value']);
-                }
+        foreach($this->getExtrasEditables(true) as $k => $e) {
+            if ($compte->exist('extras')) {
+                $this->setDefault('extra_'.$k, $e['value']);
             }
         }
 
-        $defaultDroits = array();
-        $compte = $this->getObject();
-        if (get_class($compte) != "Compte" ) {
-            $compte = $this->getObject()->getMasterCompte();
+        if(count($compte->getDroits())) {
+            $this->setDefault('droits', $compte->getDroits()->toArray(true, false));
         }
-        if($compte) {
-            $compte->add('droits');
-            foreach ($compte->getDroits() as $droit) {
-                $defaultDroits[] = $droit;
-            }
-            if ($compte->exist('alternative_logins')) {
-                $this->setDefault('alternative_logins', join(',', $compte->alternative_logins->toArray()));
-            }
+
+        if ($compte->exist('alternative_logins')) {
+            $this->setDefault('alternative_logins', join(',', $compte->alternative_logins->toArray()));
         }
-        $this->setDefault('droits', $defaultDroits);
+
     }
 
     public function getExtrasEditables() {
@@ -176,13 +167,11 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         foreach($this->getExtrasEditables() as $k => $e) {
             $compte->add('extras')->add($k, $values['extra_'.$k]);
         }
-        if(isset($values['droits']) || $compte->exist('droits')){
-            $compte->remove("droits");
+        $compte->remove("droits");
+        if(isset($values['droits'])) {
             $compte->add('droits');
-            if(isset($values['droits'])) {
-                foreach ($values['droits'] as $key => $droit) {
-                  $compte->getOrAdd("droits")->add(null, $droit);
-                }
+            foreach ($values['droits'] as $key => $droit) {
+              $compte->getOrAdd("droits")->add(null, $droit);
             }
         }
 

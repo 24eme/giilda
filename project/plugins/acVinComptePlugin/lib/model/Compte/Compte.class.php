@@ -47,10 +47,8 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getMasterCompte() {
-        if ($this->isSameAdresseThanSociete()) {
-            return $this->getSociete()->getContact();
-        }
-        return null;
+
+        return $this;
     }
 
     public function isSameAdresseThanSociete() {
@@ -66,6 +64,11 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     public function isSameContactThanSociete() {
 
        return CompteGenerique::isSameContactComptes($this, $this->getSociete()->getContact());
+    }
+
+    public function isSameDroitsThanSociete() {
+
+       return Compte::isSameDroitsComptes($this, $this->getSociete()->getContact());
     }
 
     public function updateNomAAfficher() {
@@ -186,6 +189,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
             throw new Exception("L'enregistrement des sociétés, des établissements et des comptes sont désactivés");
         }
+        // Pour le CIVA on prend comme login l'identifiant d'établissement (la plupart du temps le CVI)
+        if(SocieteConfiguration::getInstance()->isIdentifiantEtablissementSaisi() && $this->isSocieteContact() && !$this->exist('login') && $this->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU && $this->getSociete()->getEtablissementPrincipal()) {
+            $this->add('login', $this->getSociete()->getEtablissementPrincipal()->identifiant);
+        }
 
         $this->tags->remove('automatique');
         $this->tags->add('automatique');
@@ -281,10 +288,18 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             $this->addTag('automatique', 'en_alerte');
         }
 
+        if ($this->exist('droits') && !count($this->droits)) {
+            $this->remove('droits');
+        }
+
+        if (!$this->isSocieteContact() && self::isSameDroitsComptes($this, $societe->getMasterCompte())) {
+            $this->remove('droits');
+        }
+
         $this->tags->remove('droits');
-        $this->tags->add('droits');
 
         if ($this->exist('droits')) {
+            $this->tags->add('droits');
             foreach ($this->droits as $droit) {
                 $this->addTag('droits', $droit);
                 $this->addTag('droits', preg_replace('/:.*/', '', $droit));
@@ -297,6 +312,8 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $this->updateTagsGroupes();
 
+        $compteMasterOrigin = CompteClient::getInstance()->find($this->_id);
+
         parent::save();
 
         if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $new) {
@@ -305,6 +322,29 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
 
         $this->autoUpdateLdap();
+
+    }
+
+    public static function isSameDroitsComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
+        $droits1 = self::getFlatDroits($compte1);
+        $droits2 = self::getFlatDroits($compte2);
+
+        return $droits1 == $droits2 || !$droits1;
+    }
+
+    public static function getFlatDroits(InterfaceCompteGenerique $compte) {
+        if(!$compte->exist('droits')) {
+            return null;
+        }
+
+        $droits = $compte->droits;
+        if($droits instanceof acCouchdbJson) {
+            $droits = $droits->toArray(true, false);
+        }
+
+        $droits = implode(",", $droits);
+
+        return $droits;
     }
 
     public function updateExtras() {
@@ -701,9 +741,14 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getDroits() {
-        if (!$this->exist('droits')) {
+        if (!$this->exist('droits') && $this->isSocieteContact()) {
             return array();
         }
+
+        if (!$this->exist('droits')) {
+            return $this->getSociete()->getMasterCompte()->getDroits();
+        }
+
         return $this->_get('droits');
     }
 
