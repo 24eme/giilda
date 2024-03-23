@@ -14,6 +14,7 @@
     <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Informations complémentaires</strong></h5>
 
     <div style="margin-bottom: 10px;">
+      <?php if (SocieteConfiguration::getInstance()->hasGroupes()): ?>
       <div class="row" style="margin-bottom: 10px;">
         <div class="col-xs-2 text-muted">Groupes&nbsp;:</div>
         <div class="col-xs-10">
@@ -50,6 +51,7 @@
              <?php endif; ?>
         </div>
       </div>
+      <?php endif; ?>
       <?php foreach ($compte->tags as $type_tag => $tags) :
         if ($type_tag == 'groupes') {continue;}
         ?>
