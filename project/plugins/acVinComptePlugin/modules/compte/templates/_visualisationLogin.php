@@ -7,10 +7,10 @@
             <a style="text-decoration: none; color:gray;" href="<?php echo url_for('auth_usurpation', array('identifiant' => $compte->identifiant)) ?>" title="Connexion mode déclarant"><span class="glyphicon glyphicon-cloud-upload"></span></a>
 <?php endif; ?>
 </div>
-<?php if (preg_match('/{TEXT}(.*)/', $compte->getSociete()->getMasterCompte()->mot_de_passe, $m)) : ?>
+<?php if (preg_match('/{TEXT}(.*)/', $compte->mot_de_passe, $m)) : ?>
 <div style="margin-bottom: 5px;" class="col-xs-3 text-muted">Code de création&nbsp;:</div>
 <div style="margin-bottom: 5px;" class="col-xs-3"><?php echo $m[1]; ?></div>
-<?php elseif (preg_match('/{OUBLIE}(.*)/', $compte->getSociete()->getMasterCompte()->mot_de_passe, $m)) : ?>
+<?php elseif (preg_match('/{OUBLIE}(.*)/', $compte->mot_de_passe, $m)) : ?>
 <div style="margin-bottom: 5px;" class="col-xs-6"><span class="text-muted">Mot de passe oublié&nbsp;:</span><br/>
 <?php echo "https://".$_SERVER['HTTP_HOST'].url_for("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $compte->getSociete()->identifiant, "mdp" => $m[1])); ?></div>
 <?php else: ?>
@@ -28,9 +28,9 @@
     </div>
 <?php endif; ?>
 <div class="row">
-<?php if ($compte->getSociete()->getMasterCompte()->hasAlternativeLogins()) : ?>
+<?php if ($compte->hasAlternativeLogins()) : ?>
 <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Logins Interpro&nbsp;:</div>
-<div style="margin-bottom: 5px;" class="col-xs-9"><?php echo implode(', ', $compte->getSociete()->getMasterCompte()->alternative_logins->getRawValue()->toArray()); ?></div>
+<div style="margin-bottom: 5px;" class="col-xs-9"><?php echo implode(', ', $compte->alternative_logins->getRawValue()->toArray()); ?></div>
 </div>
 <div class="row">
 <?php endif; ?>

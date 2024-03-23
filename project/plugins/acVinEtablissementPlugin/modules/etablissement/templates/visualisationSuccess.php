@@ -115,8 +115,8 @@
                     </div>
                 </div>
                 <hr />
-                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Télédéclaration</strong></h5>
-                <?php include_partial('compte/visualisationLogin', array('compte' => $etablissement->getMasterCompte())); ?>
+                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Télédéclaration <?php if(!$compte->mot_de_passe): ?>de la société<?php endif; ?></strong></h5>
+                <?php include_partial('compte/visualisationLogin', array('compte' => ($compte->mot_de_passe) ? $compte : $societe->getMasterCompte())); ?>
                 <hr />
                 <?php if ((($etablissement->commentaire) || ($societe->commentaire)) && $modifiable) : ?>
                 <h5 style="margin-bottom: 15px; margin-top: 0px;"><strong>🗣 Commentaire️</strong></h5>

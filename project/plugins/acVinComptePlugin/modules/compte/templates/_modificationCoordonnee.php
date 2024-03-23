@@ -67,7 +67,7 @@ $isSameDroitsThanSociete = !$isCompteSociete && $compteForm->getObject()->isSame
                 <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameContactThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
             </span>
         </div>
-        <div class="panel-body  <?php echo ($isSameContactThanSociete) ? ' collapse ' : ''; ?>">
+        <div class="panel-body <?php echo ($isSameContactThanSociete) ? ' collapse ' : ''; ?>">
             <div class="form-group <?php if($compteForm['email']->hasError()): ?> has-error<?php endif; ?>">
 
                 <?php echo $compteForm['email']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
