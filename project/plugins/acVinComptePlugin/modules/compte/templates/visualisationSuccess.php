@@ -65,7 +65,7 @@
                 <?php include_partial('compte/visualisationLogin', array('compte' => $compte)); ?>
                 <?php endif; ?>
                 <hr />
-                <?php include_partial('compte/visualisationTags', array('compte' => $compte, 'formAjoutGroupe' => $formAjoutGroupe, 'modifiable' => $modifiable)); ?>
+                <?php include_partial('compte/visualisationTags', array('compte' => $compte, 'formAjoutGroupe' => $formAjoutGroupe, 'modifiable' => $modifiable, 'hideExtras' => $compte->isSameExtrasThanSociete())); ?>
                 <?php if ($compte->commentaire && $modifiable) : ?>
                 <hr />
                 <h5 class="text-muted" style="margin-bottom: 15px; margin-top: 0px;"><strong>Commentaire</strong></h5>

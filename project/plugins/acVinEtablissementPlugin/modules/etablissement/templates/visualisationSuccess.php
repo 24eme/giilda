@@ -129,7 +129,7 @@
                 <?php endif; ?>
                 <hr />
                 <?php endif; ?>
-                <?php include_partial('compte/visualisationTags', array('compte' => $etablissement->getMasterCompte(), 'modifiable' => $modifiable)); ?>
+                <?php include_partial('compte/visualisationTags', array('compte' => $etablissement->getMasterCompte(), 'modifiable' => $modifiable, 'hideExtras' => $etablissement->isSameExtrasThanSociete())); ?>
                 <hr />
                 <h5 class="text-muted" style="margin-bottom: 15px; margin-top: 0px;"><strong>Chais</strong></h5>
                 <?php if(($etablissement->exist('chais')  && count($etablissement->chais)) || $etablissement->hasLiaisonsChai()): ?>

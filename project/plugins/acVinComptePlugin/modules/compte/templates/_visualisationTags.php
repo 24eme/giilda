@@ -1,6 +1,7 @@
 <?php $hasManuel = false; ?>
 <?php $modifiable = !isset($modifiable) || $modifiable; ?>
-<?php $extras = $compte->getExtrasEditables() ; if ((!isset($hideExtras) || !$hideExtras) && count($extras)): ?>
+<?php $extras = $compte->getExtrasEditables() ; ?>
+<?php if ((!isset($hideExtras) || !$hideExtras) && count($extras)): ?>
   <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Champs extras</strong></h5>
   <div class="row">
   <?php foreach($extras as $k => $e):?>

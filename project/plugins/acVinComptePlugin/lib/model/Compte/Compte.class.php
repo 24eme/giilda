@@ -71,6 +71,11 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
        return Compte::isSameDroitsComptes($this, $this->getSociete()->getContact());
     }
 
+    public function isSameExtrasThanSociete() {
+
+       return Compte::isSameExtrasComptes($this, $this->getSociete()->getContact());
+    }
+
     public function updateNomAAfficher() {
         if (!$this->nom) {
             return;
@@ -323,6 +328,17 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $this->autoUpdateLdap();
 
+        if($this->isSocieteContact()) {
+            foreach($this->getSociete()->getContactsObj() as $compte) {
+                if($compte->_id == $this->_id) {
+                    continue;
+                }
+
+                if(self::isSameExtrasComptes($compte, $compteMasterOrigin)) {
+                    $this->pushExtrasEditableToAndSave($compte);
+                }
+            }
+        }
     }
 
     public static function isSameDroitsComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
@@ -330,6 +346,15 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $droits2 = self::getFlatDroits($compte2);
 
         return $droits1 == $droits2 || !$droits1;
+    }
+
+    public static function isSameExtrasComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
+        $extra1 = $compte1->getExtrasEditables();
+        ksort($extra1);
+        $extra2 = $compte2->getExtrasEditables();
+        ksort($extra2);
+
+        return $extra1 == $extra2 || !count($extra1);
     }
 
     public static function getFlatDroits(InterfaceCompteGenerique $compte) {
@@ -345,6 +370,21 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $droits = implode(",", $droits);
 
         return $droits;
+    }
+
+    public function pushExtrasEditableToAndSave($compte) {
+        $extraCompte = $compte->getExtrasEditables(true);
+        ksort($extraCompte);
+        $extraThis = $this->getExtrasEditables(true);
+        ksort($extraThis);
+
+        if($extraThis == $extraCompte) {
+            return;
+        }
+
+        $compte->remove('extras');
+        $compte->add('extras', $this->extras);
+        $compte->save();
     }
 
     public function updateExtras() {
