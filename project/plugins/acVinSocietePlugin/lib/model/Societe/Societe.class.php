@@ -627,6 +627,30 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $this->_set('commentaire', $s);
     }
 
+    public function getSocieteMaisonMereIdentifiant() {
+        if(!$this->getSocieteMaisonMereObject()) {
+            return $this->_id;
+        }
+
+        return $this->getSocieteMaisonMereObject()->_id;
+    }
+
+    public function getSocieteMaisonMereRaisonSociale() {
+        if(!$this->getSocieteMaisonMereObject()) {
+            return $this->raison_sociale;
+        }
+
+        return $this->getSocieteMaisonMereObject()->raison_sociale;
+    }
+
+    public function getSocieteMaisonMereSiret() {
+        if(!$this->getSocieteMaisonMereObject()) {
+            return $this->siret;
+        }
+
+        return $this->getSocieteMaisonMereObject()->siret;
+    }
+
     public function getSocieteMaisonMereObject() {
         if(!$this->exist('societe_maison_mere') || !$this->_get('societe_maison_mere')) {
 

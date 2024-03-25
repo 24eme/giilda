@@ -11,6 +11,8 @@
  */
 class CompteGeneriqueForm extends acCouchdbObjectForm {
 
+    protected $compteToSave = null;
+
     public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         parent::__construct($object, $options, $CSRFSecret);
     }
@@ -180,9 +182,20 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         }
 
         $compte->updateCoordonneesLongLat();
-        $compte->save();
+
+        $this->compteToSave = $compte;
       }
 
+    protected function doSave($con = null) {
+        parent::doSave($con);
+
+        if($this->compteToSave) {
+            if($this->getObject() instanceof Societe) {
+                $this->compteToSave->setSociete($this->getObject());
+            }
+            $this->compteToSave->save();
+        }
+    }
 
     public static function getCountryList() {
         $destinationChoicesWidget = new bsWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));

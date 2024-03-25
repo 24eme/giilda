@@ -39,9 +39,9 @@ all:
         declaration_commune: { nom: "declaration_commune", auto: 'etablissement->declaration_commune' }
         declaration_insee: { nom: "declaration_insee", auto: 'etablissement->declaration_insee' }
         societes_liees_identifiant: { nom: "societes_liees_identifiant", auto: 'societe->getSocietesLieesIds()' }
-        maison_mere_identifiant: { nom: "maison_mere_identifiant" }
-        maison_mere_raison_sociale: { nom: "maison_mere_raison_sociale" }
-        maison_mere_siret: { nom: "maison_mere_siret" }
+        maison_mere_identifiant: { nom: "maison_mere_identifiant", auto: 'societe->getSocieteMaisonMereIdentifiant()' }
+        maison_mere_raison_sociale: { nom: "maison_mere_raison_sociale", auto: 'societe->getSocieteMaisonMereRaisonSociale()' }
+        maison_mere_siret: { nom: "maison_mere_siret", auto: 'societe->getSocieteMaisonMereSiret()' }
         date_creation: { nom: "date_creation" }
         date_cloture: { nom: "date_cloture" }
         db2_num_tiers: { nom: "db2_num_tiers" }

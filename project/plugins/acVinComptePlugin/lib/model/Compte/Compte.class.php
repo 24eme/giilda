@@ -328,7 +328,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $this->autoUpdateLdap();
 
-        if($this->isSocieteContact()) {
+        if($this->isSocieteContact() && SocieteConfiguration::getInstance()->getExtras()) {
             foreach($this->getSociete()->getContactsObj() as $compte) {
                 if($compte->_id == $this->_id) {
                     continue;
