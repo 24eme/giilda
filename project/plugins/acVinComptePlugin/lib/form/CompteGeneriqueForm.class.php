@@ -161,13 +161,11 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         if(isset($values['droits'])){
             $compte->remove("droits");
             $compte->add('droits');
-            $flag = 0;
+            $compte->getOrAdd("droits")->add(null, Roles::TELEDECLARATION);
             foreach ($values['droits'] as $key => $droit) {
-              if(!$flag && !in_array(Roles::TELEDECLARATION, $compte->droits->toArray(true, false))) {
-                $compte->getOrAdd("droits")->add(null, Roles::TELEDECLARATION);
+              if(in_array($droit, $compte->droits->toArray(true, false)) === false) {
+                  $compte->getOrAdd("droits")->add(null, $droit);
               }
-              $flag++;
-              $compte->getOrAdd("droits")->add(null, $droit);
             }
         }
         $compte->save();
