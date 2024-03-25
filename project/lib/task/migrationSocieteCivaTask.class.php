@@ -145,6 +145,9 @@ EOF;
     unset($compteSociete->tags->documents);
     $object2save[$compteSociete->_id] = $compteSociete;
 
+    if($compteSociete->extras->maison_mere_identifiant != $societe->_id) {
+        $societe->societe_maison_mere = $compteSociete->extras->maison_mere_identifiant;
+    }
     $societe->contacts->{$compteSociete->_id} = ['nom' => $compteSociete->nom_a_afficher, 'ordre' => 0];
 
     foreach($factures as $row) {
