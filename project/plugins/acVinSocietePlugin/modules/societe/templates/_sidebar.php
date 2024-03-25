@@ -9,9 +9,14 @@
       <?php $societeLiee = SocieteClient::getInstance()->find($societeLieeId); ?>
       <?php if(!$societeLiee || $societeLiee->_id == $societe->_id): continue; endif; ?>
       <div class="list-group-item clearfix">
-        <a href="<?php echo url_for('societe_visualisation', $societeLiee) ?>"><span class="glyphicon glyphicon-link"></span> <?php echo $societeLiee->raison_sociale ?></a>
+        <a href="<?php echo url_for('societe_visualisation', $societeLiee) ?>" title="Société liée"><span class="glyphicon glyphicon-link"></span> <?php echo $societeLiee->raison_sociale ?></a>
       </div>
     <?php endforeach; ?>
+    <?php if($societe->getSocieteMaisonMereObject()): ?>
+    <div class="list-group-item clearfix">
+      <a href="<?php echo url_for('societe_visualisation', $societe->getSocieteMaisonMereObject()) ?>" title="Société maison mère"><span class="glyphicon glyphicon-stats"></span> <?php echo $societe->getSocieteMaisonMereObject()->raison_sociale ?></a>
+    </div>
+    <?php endif; ?>
     </div>
 </div>
 <div class="panel panel-default" style="margin-bottom: 10px;">

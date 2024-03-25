@@ -489,6 +489,11 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }else{
           $this->type_societe = SocieteClient::TYPE_AUTRE;
         }
+
+        if($this->exist('societe_maison_mere') && !$this->societe_maison_mere) {
+            $this->remove('societe_maison_mere');
+        }
+
         parent::save();
 
         SocieteClient::getInstance()->setSingleton($this);
@@ -620,6 +625,15 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
             return $this->_set('commentaire', $c . "\n" . $s);
         }
         return $this->_set('commentaire', $s);
+    }
+
+    public function getSocieteMaisonMereObject() {
+        if(!$this->exist('societe_maison_mere') || !$this->_get('societe_maison_mere')) {
+
+            return null;
+        }
+
+        return SocieteClient::getInstance()->findSingleton($this->_get('societe_maison_mere'));
     }
 
     public function getSocietesLieesIds() {

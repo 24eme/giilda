@@ -45,6 +45,10 @@ class SocieteModificationForm extends CompteGeneriqueForm {
 
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
 
+        $this->setWidget('societe_maison_mere', new WidgetSociete(['interpro_id' => $this->getObject()->interpro]));
+        $this->widgetSchema->setLabel('societe_maison_mere', 'Maison mère de la société');
+        $this->widgetSchema->setHelp('societe_maison_mere', 'dans le cas où la société maison mère est une autre société');
+        $this->setValidator('societe_maison_mere', new ValidatorSociete(array('required' => false)));
 
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
     }

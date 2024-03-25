@@ -42,6 +42,12 @@ echo $societeForm->renderGlobalErrors();
         <div class="col-xs-8"><?php echo $societeForm['no_tva_intracommunautaire']->render(); ?></div>
         <?php echo $societeForm['no_tva_intracommunautaire']->renderError(); ?>
     </div>
+    <div class="form-group<?php if($societeForm['societe_maison_mere']->hasError()): ?> has-error<?php endif; ?>">
+        <?php echo $societeForm['societe_maison_mere']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8"><?php echo $societeForm['societe_maison_mere']->render(array('class' => 'form-control select2autocomplete input-md', 'placeholder' => 'Rechercher')); ?>
+        <?php echo $societeForm['societe_maison_mere']->renderHelp(); ?></div>
+        <?php echo $societeForm['societe_maison_mere']->renderError(); ?>
+    </div>
     <div class="form-group<?php if($societeForm['commentaire']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $societeForm['commentaire']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
         <div class="col-xs-8"><?php echo $societeForm['commentaire']->render(); ?></div>

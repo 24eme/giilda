@@ -11,6 +11,7 @@ Societe:
       raison_sociale_abregee: { }
       statut: { }
       code_comptable_client: { }
+      societe_maison_mere: { required: false }
       interpros_metas:
         required: false
         type: collection
