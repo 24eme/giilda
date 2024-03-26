@@ -4,6 +4,9 @@ class mandatsepaActions extends sfActions
 {
 
 	public function executePdf(sfWebRequest $request) {
+        if (MandatSepaConfiguration::getInstance()->hasPDF() === false) {
+            return $this->redirect403();
+        }
 		$mandatSepa = $this->getRoute()->getMandatSepa();
 		$this->document = new MandatSepaPDF($mandatSepa, $request->getParameter('output','pdf'), false);
     $this->document->setPartialFunction(array($this, 'getPartial'));

@@ -48,6 +48,8 @@ use_helper('Float');
                           </div>
                         </div>
                         <div class="row">&nbsp;</div>
+
+                        <?php if (MandatSepaConfiguration::getInstance()->hasPDF()): ?>
                         <div class="row">
                           <div class="col-xs-6 text-right">
                               <label>Mandat de prélèvement SEPA :</label>
@@ -56,6 +58,7 @@ use_helper('Float');
                               <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;Télécharger le document</a>
                           </div>
                         </div>
+                        <?php endif ?>
                         <div class="row">
                           <div class="col-xs-6 text-right">
                               <label>Statut :</label>
