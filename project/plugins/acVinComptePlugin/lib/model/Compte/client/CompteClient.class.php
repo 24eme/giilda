@@ -279,14 +279,7 @@ class CompteClient extends acCouchdbClient {
     }
 
     public function findByLogin($login, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        $societe = SocieteClient::getInstance()->findByIdentifiantSociete($login);
-
-        if ($societe) {
-            return $societe->getMasterCompte();
-        }
-
-        $compte = $this->find("COMPTE-".$login);
-        return $compte;
+        return CompteLoginView::getInstance()->findOneCompteByLogin($login, $hydrate);
     }
 
     public static function triAlphaCompte($a, $b){
