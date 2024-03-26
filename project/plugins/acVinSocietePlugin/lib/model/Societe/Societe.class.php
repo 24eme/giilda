@@ -660,23 +660,17 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return SocieteClient::getInstance()->findSingleton($this->_get('societe_maison_mere'));
     }
 
-    public function getSocietesLieesIds() {
+    public function getSocietesLiees() {
         if(!$this->exist('societes_liees')) {
-            if ($compte = $this->getMasterCompte()) {
-                if ($compte->exist('tiers') && method_exists($compte, 'getTiersCollection')) {
-                    $societesLiees = [];
-                    foreach($compte->getTiersCollection() as $tiers) {
-                        if ($tiers->exist('societe') && $tiers->_get('societe')) {
-                            $societesLiees[] = $tiers->_get('societe');
-                        }
-                    }
-                    return $societesLiees;
-                }
-            }
-            return array($this->_id);
+            return [];
         }
 
-        return array_merge(array($this->_id), $this->societes_liees->toArray());
+        return $this->_get('societes_liees');
+    }
+
+    public function getSocietesLieesIds() {
+
+        return array_merge(array($this->_id), is_array($this->societes_liees) ? $this->societes_liees : $this->societes_liees->toArray());
     }
 
     public function hasLegalSignature() {

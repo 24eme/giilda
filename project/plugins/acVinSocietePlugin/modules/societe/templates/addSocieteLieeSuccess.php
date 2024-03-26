@@ -2,10 +2,10 @@
 
 <p>
 Sociétés liées actuellement :
-<?php if (count($societe->getSocietesLiees()) === 0): ?>
+<?php if (count($societe->societes_liees) === 0): ?>
   <em>Aucune société liée</em>
 <?php else: ?>
-  <?php foreach ($societe->getSocietesLiees() as $sid): ?>
+  <?php foreach ($societe->societes_liees as $sid): ?>
     <?php $societeLiee = SocieteClient::getInstance()->find($sid); ?>
     <a href="<?php echo url_for('societe_visualisation', ['identifiant' => $sid]) ?>">
       <?php echo $societeLiee->raison_sociale . " ($sid)" ?>
