@@ -1,4 +1,4 @@
-<form action="" class="form-horizontal" method="post" id="principal">
+<form action="<?php if($service): ?>?service=<?php echo $service ?><?php endif; ?>" class="form-horizontal" method="post" id="principal">
   <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
       <div class="panel panel-default">

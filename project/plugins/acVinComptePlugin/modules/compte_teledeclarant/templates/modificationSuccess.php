@@ -73,13 +73,13 @@ if($compte->getSociete()->isTransaction()){
               </div>
 
                 <div>
-                    <a href="<?php echo url_for('common_homepage'); ?>" class=" btn btn-default " alt="Retour" style="cursor: pointer;">Retour</a>
+                    <a href="<?php echo ($service) ? $service : url_for('common_homepage'); ?>" class=" btn btn-default " alt="Retour" style="cursor: pointer;">Retour</a>
                       <a href="#" class=" btn btn-default modifier" style="cursor: pointer; float: right;">Modifier les informations</a>
                 </div>
             </div>
             <div class="modification"<?php if (!$form->hasErrors()) echo ' style="display:none;"'; ?>>
 
-                <form method="post" class="form-horizontal" action="">
+                <form method="post" class="form-horizontal" action="<?php if($service): ?>?service=<?php echo $service ?><?php endif; ?>">
                     <?php echo $form->renderHiddenFields(); ?>
                     <?php echo $form->renderGlobalErrors(); ?>
 

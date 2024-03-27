@@ -36,6 +36,7 @@ class compte_teledeclarantActions extends sfActions {
      * @param sfRequest $request A request object
      */
     public function executeFirst(sfWebRequest $request) {
+        $this->service = $request->getParameter('service');
         $this->form = new CompteLoginFirstForm();
 
         $this->getUser()->getAttributeHolder()->remove(self::SESSION_REDIRECTION_APRES_CREATION);
@@ -48,6 +49,10 @@ class compte_teledeclarantActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->getUser()->setAttribute(self::SESSION_COMPTE_DOC_ID_CREATION, $this->form->getValue('compte')->_id);
 
+                if ($this->service) {
+                    return $this->redirect('compte_teledeclarant_cgu', ['service' => $this->service]);
+                }
+
                 return $this->redirect('compte_teledeclarant_cgu');
             }
         }
@@ -59,14 +64,16 @@ class compte_teledeclarantActions extends sfActions {
      * @param sfRequest $request A request object
      */
     public function executeCgu(sfWebRequest $request) {
+        $this->service = $request->getParameter('service');
+
         if(!is_file(sfConfig::get('sf_app_dir').'/modules/compte_teledeclarant/templates/cguSuccess.php')) {
 
-            return $this->redirect("compte_teledeclarant_creation");
+            return $this->service ? $this->redirect("compte_teledeclarant_creation") : $this->redirect("compte_teledeclarant_creation", ['service' => $this->service]);
         }
 
         if($request->isMethod(sfWebRequest::POST)) {
 
-            return $this->redirect("compte_teledeclarant_creation");
+            return $this->service ? $this->redirect("compte_teledeclarant_creation") : $this->redirect("compte_teledeclarant_creation", ['service' => $this->service]);
         }
     }
 
@@ -80,6 +87,7 @@ class compte_teledeclarantActions extends sfActions {
         $this->forward404Unless($this->compte);
         $this->forward404Unless($this->compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU);
 
+        $this->service = $request->getParameter('service');
         $this->form = new CompteTeledeclarantCreationForm($this->compte, array(), array('noSaveChangement' => true));
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -97,6 +105,10 @@ class compte_teledeclarantActions extends sfActions {
                     Email::getInstance()->sendNotificationModificationsExploitation($this->compte->getSociete()->getEtablissementPrincipal(), $this->form->getUpdatedValues());
                 }
 
+                if ($this->service) {
+                    return $this->redirect($this->service);
+                }
+
                 $urlback = $this->getUser()->getAttribute(self::SESSION_REDIRECTION_APRES_CREATION, null);
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_REDIRECTION_APRES_CREATION);
 
@@ -110,6 +122,7 @@ class compte_teledeclarantActions extends sfActions {
      * @param sfWebRequest $request
      */
     public function executeModification(sfWebRequest $request) {
+        $this->service = $request->getParameter('service');
         if($request->getParameter('identifiant')) {
             $this->compte = CompteClient::getInstance()->findByLogin($request->getParameter('identifiant'));
         } else {
@@ -150,7 +163,13 @@ class compte_teledeclarantActions extends sfActions {
                 }
 
                 $this->getUser()->setFlash('maj', 'Les informations ont été mises à jour.');
-                $this->redirect('compte_teledeclarant_modification_id', ['identifiant' => $this->compte->login]);
+
+                if($this->service) {
+
+                    return $this->redirect('compte_teledeclarant_modification_id', ['identifiant' => $this->compte->login, 'service' => $this->service]);
+                }
+
+                return $this->redirect('compte_teledeclarant_modification_id', ['identifiant' => $this->compte->login]);
             }
         }
     }
@@ -175,6 +194,7 @@ class compte_teledeclarantActions extends sfActions {
     }
 
     public function executeMotDePasseOublie(sfWebRequest $request) {
+        $this->service = $request->getParameter('service');
         $this->form = new CompteMotDePasseOublieForm();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -183,13 +203,21 @@ class compte_teledeclarantActions extends sfActions {
 
                 $societe = $compte->getSociete();
                 $lien = $this->generateUrl("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $compte->login, "mdp" => str_replace("{OUBLIE}", "", $compte->mot_de_passe)), true);
+                if ($this->service) {
+                    $lien .= '?service='.$this->service;
+                }
                 $emailCible = $compte->getTeledeclarationEmail();
                 if (!$emailCible) {
                     $emailCible = $compte->getEmail();
                 }
 
                 $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $compte, 'lien' => $lien)));
-                $this->redirect('compte_teledeclarant_mot_de_passe_oublie_confirm');
+
+                if ($this->service) {
+                    return $this->redirect('compte_teledeclarant_mot_de_passe_oublie_confirm', ['service' => $this->service]);
+                }
+
+                return $this->redirect('compte_teledeclarant_mot_de_passe_oublie_confirm');
             }
         }
     }
@@ -198,12 +226,18 @@ class compte_teledeclarantActions extends sfActions {
         $this->forward404Unless($compte = CompteClient::getInstance()->findByLogin($request->getParameter('login', null)));
         $this->forward404Unless($compte->mot_de_passe == '{OUBLIE}' . $request->getParameter('mdp', null));
         $this->getUser()->setAttribute(self::SESSION_COMPTE_DOC_ID_OUBLIE, $compte->_id);
+        $this->service = $request->getParameter('service');
 
-        $this->redirect('compte_teledeclarant_modification_oublie');
+        if($this->service) {
+
+            return $this->redirect('compte_teledeclarant_modification_oublie', ['service' => $this->service]);
+        }
+
+        return $this->redirect('compte_teledeclarant_modification_oublie');
     }
 
     public function executeMotDePasseOublieConfirm(sfWebRequest $request) {
-
+        $this->service = $request->getParameter('service');
     }
 
     /**
@@ -216,6 +250,7 @@ class compte_teledeclarantActions extends sfActions {
         $this->forward404Unless($this->compte);
         $this->forward404Unless($this->compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_OUBLIE);
 
+        $this->service = $request->getParameter('service');
         $this->form = new CompteTeledeclarantOublieForm($this->compte);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -224,6 +259,10 @@ class compte_teledeclarantActions extends sfActions {
                 $this->form->save();
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_OUBLIE);
                 $this->getUser()->signInOrigin($this->compte);
+
+                if ($this->service) {
+                    return $this->redirect($this->service);
+                }
 
                 return $this->redirect('common_homepage');
             }

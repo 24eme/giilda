@@ -10,7 +10,7 @@
         </p>
 
         <div style="margin-top: 30px;">
-          <a href="<?php echo url_for('common_homepage'); ?>" class=" btn btn-default" alt="Retour">Retour</a>
+          <a href="<?php if ($service) { echo $service; } else { echo url_for('common_homepage');} ?>" class=" btn btn-default" alt="Retour">Retour</a>
         </div>
       </div>
     </div>
