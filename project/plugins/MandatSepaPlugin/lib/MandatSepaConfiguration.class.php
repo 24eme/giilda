@@ -40,9 +40,9 @@ class MandatSepaConfiguration implements InterfaceMandatSepaPartie {
       return $this->configuration['is_active'];
   }
 
-  public function hasPDF()
+  public function isAccessibleTeledeclaration()
   {
-    return (isset($this->configuration['has_pdf'])) ? $this->configuration['has_pdf'] : false;
+    return (isset($this->configuration['accessible_teledeclaration'])) ? $this->configuration['accessible_teledeclaration'] : false;
   }
 
   public function getFrequencePrelevement() {

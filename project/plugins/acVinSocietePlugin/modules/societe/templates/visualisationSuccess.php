@@ -85,7 +85,7 @@
                   <div class="row">
                     <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">RUM&nbsp;</div>
                     <div style="margin-bottom: 5px;" class="col-xs-6"><?php echo $mandatSepa->debiteur->identifiant_rum; ?></div>
-                    <?php if (MandatSepaConfiguration::getInstance()->hasPDF()): ?>
+                    <?php if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration()): ?>
                       <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Mandat généré&nbsp;</div>
                       <div style="margin-bottom: 5px;" class="col-xs-2">
                         <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;PDF</a>

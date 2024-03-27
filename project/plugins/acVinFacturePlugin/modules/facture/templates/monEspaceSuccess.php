@@ -53,7 +53,7 @@ use_helper('Float');
                           </div>
                         </div>
 
-                        <?php if (MandatSepaConfiguration::getInstance()->hasPDF()): ?>
+                        <?php if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration()): ?>
                           <div class="row">
                             <div class="col-xs-3 text-right">
                                 <label>Mandat de prélèvement SEPA :</label>
