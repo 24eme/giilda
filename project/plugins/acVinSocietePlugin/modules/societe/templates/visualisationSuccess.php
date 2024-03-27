@@ -80,7 +80,12 @@
                 <hr />
                 <?php endif; ?>
                 <?php if (MandatSepaConfiguration::getInstance()->isActive()): ?>
-                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Coordonnées bancaires</strong></h5>
+                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted">
+                    <strong>Coordonnées bancaires</strong>
+                    <a class="pull-right" href="<?php echo url_for('mandatsepa_modification', ['identifiant' => $societe->getIdentifiant()]) ?>">
+                      Édition <i class="glyphicon glyphicon-edit"></i>
+                    </a>
+                </h5>
                 <?php if ($mandatSepa): ?>
                   <div class="row">
                     <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">RUM&nbsp;</div>

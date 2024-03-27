@@ -21,4 +21,23 @@ class mandatsepaActions extends sfActions
     return $this->renderText($output);
 	}
 
+    public function executeModification(sfWebRequest $request)
+    {
+        $this->societe = SocieteClient::getInstance()->find($request->getParameter('identifiant'));
+
+        $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
+        if (!$mandatSepa) {
+            $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
+        }
+        $this->form = new MandatSepaDebiteurForm($mandatSepa->debiteur);
+
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+                $this->getUser()->setFlash('maj', 'Vos coordonnées bancaires ont bien été mises à jour.');
+                $this->redirect('societe_visualisation', ['identifiant' => $this->societe->getIdentifiant()]);
+            }
+        }
+    }
 }

@@ -13,7 +13,7 @@
 
           <div class="col-sm-12">&nbsp;<br/></div>
 
-          <form action="<?php echo url_for('compte_teledeclarant_coordonnees_bancaires') ?>" method="post" class="form-horizontal">
+          <form action="<?php echo url_for('mandatsepa_modification', ['identifiant' => $societe->getIdentifiant()]) ?>" method="post" class="form-horizontal">
             <?php echo $form->renderHiddenFields(); ?>
             <?php echo $form->renderGlobalErrors(); ?>
 
