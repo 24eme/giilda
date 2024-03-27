@@ -177,7 +177,8 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
             }
         }
 
-        if(isset($values['alternative_logins'])){
+        $compte->remove('alternative_logins');
+        if(isset($values['alternative_logins']) && $values['alternative_logins']){
             $compte->add('alternative_logins', explode(',', $values['alternative_logins']));
         }
 
