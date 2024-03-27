@@ -22,66 +22,59 @@ use_helper('Float');
                 <h2>Prélèvement SEPA</h2>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                      <h4 class="titre_principal">Coordonnées bancaires</h4>
+                      <h4 class="titre_principal">Vos coordonnées bancaires</h4>
                     </div>
                     <div class="panel-body">
-
-                    <div class="col-xs-12">
-                      <h4>Vos coordonnées bancaires : </h4>
-                    </div>
                     <?php if ($mandatSepa): ?>
-                      <div class="col-xs-8">
                         <div class="row">
-                          <div class="col-xs-6 text-right">
-                              <label>IBAN :</label>
-                          </div>
-                          <div class="col-xs-6 text-left">
-                              <?php echo $mandatSepa->debiteur->iban; ?>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-xs-6 text-right">
-                              <label>BIC :</label>
-                          </div>
-                          <div class="col-xs-6 text-left">
-                              <?php echo $mandatSepa->debiteur->bic; ?>
-                          </div>
-                        </div>
-                        <div class="row">&nbsp;</div>
-
-                        <?php if (MandatSepaConfiguration::getInstance()->hasPDF()): ?>
-                        <div class="row">
-                          <div class="col-xs-6 text-right">
-                              <label>Mandat de prélèvement SEPA :</label>
-                          </div>
-                          <div class="col-xs-6 text-left">
-                              <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;Télécharger le document</a>
-                          </div>
-                        </div>
-                        <?php endif ?>
-                        <div class="row">
-                          <div class="col-xs-6 text-right">
+                          <div class="col-xs-2 text-right">
                               <label>Statut :</label>
                           </div>
                           <div class="col-xs-6 text-left<?php if(!$mandatSepa->is_signe): ?> text-danger<?php endif; ?>">
                               <?php echo $mandatSepa->getStatut(); ?>
                           </div>
                         </div>
-                      </div>
-                      <?php if (!$mandatSepa->is_telecharge && false): ?>
-                      <?php include_partial('mandatsepa/popupIncitationSignatureMandat', array('mandatSepa' => $mandatSepa)); ?>
-                      <?php endif; ?>
-                    <?php else: ?>
-                      <div class="col-xs-8">
+
                         <div class="row">
-                          <div class="col-xs-6 text-right"></div>
+                          <div class="col-xs-2 text-right">
+                              <label>IBAN :</label>
+                          </div>
                           <div class="col-xs-6 text-left">
-                            <p>Vous n'avez pas saisi de coordonnées bancaires</p>
+                              <?php echo chunk_split($mandatSepa->debiteur->iban, 4, ' '); ?>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-xs-12">
-                            <a href="<?php echo url_for('compte_teledeclarant_coordonnees_bancaires') ?>" class=" btn btn-warning modifier" style="cursor: pointer; float: right;">Saisir vos coordonnées bancaires</a>
+
+                        <div class="row">
+                          <div class="col-xs-2 text-right">
+                              <label>BIC :</label>
+                          </div>
+                          <div class="col-xs-6 text-left">
+                              <?php echo $mandatSepa->debiteur->bic; ?>
+                          </div>
+                        </div>
+
+                        <?php if (MandatSepaConfiguration::getInstance()->hasPDF()): ?>
+                          <div class="row">
+                            <div class="col-xs-3 text-right">
+                                <label>Mandat de prélèvement SEPA :</label>
+                            </div>
+                            <div class="col-xs-6 text-left">
+                                <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;Télécharger le document</a>
+                            </div>
+                          </div>
+                        <?php endif ?>
+
+                      <?php if (!$mandatSepa->is_telecharge && false): ?>
+                        <?php include_partial('mandatsepa/popupIncitationSignatureMandat', array('mandatSepa' => $mandatSepa)); ?>
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <div class="row">
+                        <div class="col-xs-6 col-xs-offset-3 text-center">
+                          <p>Vous n'avez pas encore saisi de coordonnées bancaires</p>
+                        </div>
+                        <div class="col-xs-12">
+                              <a href="<?php echo url_for('compte_teledeclarant_coordonnees_bancaires') ?>" class=" btn btn-warning modifier" style="cursor: pointer; float: right;">Saisir vos coordonnées bancaires</a>
+                        </div>
                       </div>
                     <?php endif; ?>
                     </div>
