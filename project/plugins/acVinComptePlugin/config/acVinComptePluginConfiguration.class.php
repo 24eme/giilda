@@ -31,5 +31,9 @@ class acVinComptePluginConfiguration extends sfPluginConfiguration
     public function initialize()
     {
         $this->dispatcher->connect('routing.load_configuration', array('acVinCompteRouting', 'listenToRoutingLoadConfigurationEvent'));
+
+        if(in_array('compte_teledeclarant', sfConfig::get('sf_enabled_modules'))) {
+            $this->dispatcher->connect('routing.load_configuration', array('acVinCompteRouting', 'listenToRoutingTeledeclarantLoadConfigurationEvent'));
+        }
     }
 }
