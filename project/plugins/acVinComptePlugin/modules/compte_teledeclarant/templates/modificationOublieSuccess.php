@@ -1,56 +1,34 @@
-<form action="" method="post" id="principal">
+<form action="" class="form-horizontal" method="post" id="principal">
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-xs-10 col-xs-offset-1">
       <div class="panel panel-default">
           <div class="panel-heading">
-    <h2 class="titre_principal">Modification de votre mot de passe</h2>
-  </div>
-    <div class="panel-body">
-    <div class="row" id="application_dr">
-
-        <!-- #nouvelle_declaration -->
-        <div id="nouvelle_declaration" class="col-xs-12">
-            <h3 class="titre_section" style="margin: 10px 0;">Connexion</h3>
+            <h4 class="titre_principal">Modification de votre mot de passe</h4>
           </div>
-            <div class="contenu_section col-xs-12 well">
-                <p class="intro">Merci d'indiquer un nouveau mot de passe: </p>
-              </div>
-                <div class="col-xs-12">
-                    <?php echo $form->renderHiddenFields(); ?>
-                    <?php echo $form->renderGlobalErrors(); ?>
+    <div class="panel-body">
+                <p style="margin-bottom: 20px;" class="intro">Merci d'indiquer un nouveau mot de passe :</p>
+                <?php echo $form->renderHiddenFields(); ?>
+                <?php echo $form->renderGlobalErrors(); ?>
+                <?php echo $form['mdp1']->renderError() ?>
+                <div class="form-group">
+                   <?php echo $form['mdp1']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                   <div class="col-sm-5">
+                     <?php echo $form['mdp1']->render() ?>
+                   </div>
                 </div>
-                <div class="col-xs-12">
-                    <?php echo $form['mdp1']->renderError() ?>
-                  </div>
-                  <div class="col-xs-12">
-                    <div class="row">
-                      <div class="col-xs-4 text-right">
-                      <?php echo $form['mdp1']->renderLabel() ?>
-                    </div>
-                      <div class="col-xs-8 text-left">
-                      <?php echo $form['mdp1']->render() ?>
-                      </div>
-                    </div>
-                    </div>
-                <div class="col-xs-12">
-                    <?php echo $form['mdp2']->renderError() ?>
-                  </div>
-                   <div class="col-xs-12">
-                     <div class="row">
-                         <div class="col-xs-4 text-right">
-                    <?php echo $form['mdp2']->renderLabel() ?>
-                    </div>
-                      <div class="col-xs-8 text-left">
-                    <?php echo $form['mdp2']->render() ?>
-                    </div>
-                  </div>
-                  </div>
-                  <div class="col-xs-12 text-right">
-                     <button class="btn btn-success" type="submit">Valider</button>
+                <?php echo $form['mdp2']->renderError() ?>
+                <div class="form-group">
+                   <?php echo $form['mdp2']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                   <div class="col-sm-5">
+                     <?php echo $form['mdp2']->render() ?>
+                   </div>
+                </div>
+
+                <div class="col-xs-12 text-right">
+                     <button class="btn btn-primary" type="submit">Valider</button>
                 </div>
             </div>
         </div>
     </div>
       </div>
-        </div>
 </form>

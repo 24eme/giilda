@@ -50,19 +50,19 @@ class CompteTeledeclarantForm extends acCouchdbForm {
 
     public function configure() {
         $this->setWidgets(array(
-            'email' => new sfWidgetFormInputText(),
-            'telephone_bureau' => new sfWidgetFormInputText(),
-            'telephone_mobile' => new sfWidgetFormInputText(),
-            'mdp1' => new sfWidgetFormInputPassword(),
-            'mdp2' => new sfWidgetFormInputPassword()
+            'email' => new bsWidgetFormInput(),
+            'telephone_bureau' => new bsWidgetFormInput(),
+            'telephone_mobile' => new bsWidgetFormInput(),
+            'mdp1' => new bsWidgetFormInputPassword(),
+            'mdp2' => new bsWidgetFormInputPassword()
         ));
 
         $this->widgetSchema->setLabels(array(
             'email' => 'Adresse e-mail* : ',
             'telephone_bureau' => 'Téléphone bureau :',
             'telephone_mobile' => 'Téléphone mobile :',
-            'mdp1' => 'Mot de passe* : ',
-            'mdp2' => 'Vérification du mot de passe* : '
+            'mdp1' => 'Mot de passe : ',
+            'mdp2' => 'Vérification du mot de passe : '
         ));
 
         $this->widgetSchema->setNameFormat('ac_vin_compte[%s]');
