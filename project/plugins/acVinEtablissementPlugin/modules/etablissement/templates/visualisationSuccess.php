@@ -226,6 +226,36 @@
                         <a href="<?php echo url_for("etablissement_ajout_relation", array('identifiant' => $etablissement->identifiant)); ?>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span>&nbsp;Ajouter une relation</a>
                     <?php endif; ?>
                 </div>
+
+                <hr />
+                <h5 class="text-muted" style="margin-bottom: 15px; margin-top: 0px;"><strong>Lieux de stockage</strong></h5>
+                <?php if($etablissement->exist('lieux_stockage')  && count($etablissement->lieux_stockage)): ?>
+                <table class="table table-condensed table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th class="col-xs-2">Numéro</th>
+                    <th class="col-xs-2">Nom</th>
+                    <th class="col-xs-3">Adresse</th>
+                    <th class="col-xs-3">Commune</th>
+                    <th class="col-xs-2">Code postal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($etablissement->lieux_stockage as $lieu): ?>
+                    <tr>
+                      <td><?php echo Anonymization::hiseIfNeeded($lieu->numero); ?></td>
+                      <td><?php echo Anonymization::hiseIfNeeded($lieu->nom); ?></td>
+                      <td><?php echo Anonymization::hiseIfNeeded($lieu->adresse); ?></td>
+                      <td><?php echo Anonymization::hiseIfNeeded($lieu->commune); ?></td>
+                      <td><?php echo Anonymization::hiseIfNeeded($lieu->code_postal); ?></td>
+                    </tr>
+                  <?php endforeach ?>
+                </tbody>
+                </table>
+                <?php else: ?>
+                  <p class="text-muted">Aucun lieu de stockage</p>
+                <?php endif ?>
+
                 <?php if ($etablissement->isViticulteur() && sfConfig::get("app_potentiel_production_enabled")): ?>
                 <hr />
                 <h5 class="text-muted" style="margin-bottom: 15px; margin-top: 0px;"><strong>Potentiel de production</strong></h5>
