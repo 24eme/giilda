@@ -3,3 +3,4 @@ all:
     configuration:
       is_active: false
       delai_echeance_prelevement: '+15 days'
+      has_pdf: true

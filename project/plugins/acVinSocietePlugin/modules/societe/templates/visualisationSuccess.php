@@ -85,10 +85,12 @@
                   <div class="row">
                     <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">RUM&nbsp;</div>
                     <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->identifiant_rum; ?></div>
-                    <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Mandat généré&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-3">
-                      <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;PDF</a>
-                    </div>
+                    <?php if (MandatSepaConfiguration::getInstance()->hasPDF()): ?>
+                      <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Mandat généré&nbsp;</div>
+                      <div style="margin-bottom: 5px;" class="col-xs-3">
+                        <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;PDF</a>
+                      </div>
+                    <?php endif ?>
                   </div>
                   <div class="row" style="margin-top: 5px;">
                     <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">IBAN&nbsp;</div>
