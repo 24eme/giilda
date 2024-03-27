@@ -1,19 +1,11 @@
-<?php
-$societe = $compte->getSociete();
-$identifiant = $societe->getIdentifiant();
-$etablissement = $societe->getEtablissementPrincipal();
-$organismeNom = sfConfig::get('app_organisme_nom');
-?>
+<?php echo use_helper('Orthographe'); ?>
 Madame, Monsieur,
 
-Votre compte a bien été créé pour l’espace professionnel du <?php echo $organismeNom ?>.
+Votre compte a bien été créé.
 
-Votre identifiant est : <?php echo $identifiant ?>.
+Nous vous rappelons que votre identifiant restera toujours le : <?php echo $compte->getLogin(); ?>
 
-Vous pouvez dès maintenant gérer toutes vos obligations déclaratives via cet espace.
 
-Votre syndicat reste à votre disposition pour plus d'information.
+Cordialement,
 
-Bonne journée.
-
-<?php echo sfConfig::get('app_email_plugin_signature'); ?>
+<?php echo elision('Le', sfConfig::get('app_teledeclaration_interpro')); ?>

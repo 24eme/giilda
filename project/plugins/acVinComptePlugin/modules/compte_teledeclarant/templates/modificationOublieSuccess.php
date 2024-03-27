@@ -12,14 +12,14 @@
           <?php echo $form['mdp1']->renderError() ?>
           <div class="form-group">
             <?php echo $form['mdp1']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
               <?php echo $form['mdp1']->render(['autofocus' => 'autofocus']) ?>
               </div>
             </div>
             <?php echo $form['mdp2']->renderError() ?>
             <div class="form-group">
               <?php echo $form['mdp2']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
-              <div class="col-sm-5">
+              <div class="col-sm-4">
                 <?php echo $form['mdp2']->render() ?>
                 </div>
               </div>
