@@ -73,7 +73,7 @@ use_helper('Float');
                           <p>Vous n'avez pas encore saisi de coordonnées bancaires</p>
                         </div>
                         <div class="col-xs-12">
-                              <a href="<?php echo url_for('compte_teledeclarant_coordonnees_bancaires') ?>" class=" btn btn-warning modifier" style="cursor: pointer; float: right;">Saisir vos coordonnées bancaires</a>
+                              <a href="<?php echo url_for('mandatsepa_modification', ['identifiant' => $societe->getIdentifiant()]) ?>" class=" btn btn-warning modifier" style="cursor: pointer; float: right;">Saisir vos coordonnées bancaires</a>
                         </div>
                       </div>
                     <?php endif; ?>
