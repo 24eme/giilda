@@ -131,6 +131,7 @@
                 <?php endif; ?>
                 <?php include_partial('compte/visualisationTags', array('compte' => $etablissement->getMasterCompte(), 'modifiable' => $modifiable, 'hideExtras' => $etablissement->isSameExtrasThanSociete())); ?>
                 <hr />
+                <?php if(false): // n'a pas été adapté encore ?>
                 <h5 class="text-muted" style="margin-bottom: 15px; margin-top: 0px;"><strong>Chais</strong></h5>
                 <?php if(($etablissement->exist('chais')  && count($etablissement->chais)) || $etablissement->hasLiaisonsChai()): ?>
                 <table class="table table-condensed table-bordered table-striped">
@@ -185,6 +186,8 @@
                     <?php endif; ?>
                 </div>
                 <hr />
+                <?php endif; ?>
+                <?php if(false): // n'a pas été adapté encore ?>
                 <h5 class="text-muted" style="margin-bottom: 15px; margin-top: 0px;"><strong>Relations</strong></h5>
                 <?php if($etablissement->exist('liaisons_operateurs')  && count($etablissement->liaisons_operateurs)): ?>
                 <table class="table table-condensed table-bordered table-striped">
@@ -228,6 +231,7 @@
                 </div>
 
                 <hr />
+                <?php endif; ?>
                 <h5 class="text-muted" style="margin-bottom: 15px; margin-top: 0px;"><strong>Lieux de stockage</strong></h5>
                 <?php if($etablissement->exist('lieux_stockage')  && count($etablissement->lieux_stockage)): ?>
                 <table class="table table-condensed table-bordered table-striped">
