@@ -111,7 +111,7 @@ class compte_teledeclarantActions extends sfActions {
      */
     public function executeModification(sfWebRequest $request) {
         if($request->getParameter('identifiant')) {
-            $this->compte = CompteClient::getInstance()->find("COMPTE-".$request->getParameter('identifiant'));
+            $this->compte = CompteClient::getInstance()->findByLogin($request->getParameter('identifiant'));
         } else {
             $this->compte = $this->getUser()->getCompte();
         }
@@ -149,8 +149,8 @@ class compte_teledeclarantActions extends sfActions {
                     Email::getInstance()->sendNotificationModificationsExploitation($this->etablissementPrincipal ? $this->etablissementPrincipal : $societe, $this->form->getUpdatedValues());
                 }
 
-                $this->getUser()->setFlash('maj', 'Vos identifiants ont bien été mis à jour.');
-                $this->redirect('compte_teledeclarant_modification_id', ['identifiant' => $this->compte->identifiant]);
+                $this->getUser()->setFlash('maj', 'Les informations ont été mises à jour.');
+                $this->redirect('compte_teledeclarant_modification_id', ['identifiant' => $this->compte->login]);
             }
         }
     }

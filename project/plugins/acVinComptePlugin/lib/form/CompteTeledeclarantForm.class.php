@@ -58,7 +58,7 @@ class CompteTeledeclarantForm extends acCouchdbForm {
         ));
 
         $this->widgetSchema->setLabels(array(
-            'email' => 'Adresse e-mail* : ',
+            'email' => 'Adresse e-mail : ',
             'telephone_bureau' => 'Téléphone bureau :',
             'telephone_mobile' => 'Téléphone mobile :',
             'mdp1' => 'Mot de passe : ',
