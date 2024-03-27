@@ -13,7 +13,7 @@
 <?php if ($compte->email) : ?>
     <div class="row">
         <div style="margin-bottom: 5px;" class="col-xs-3 text-muted">
-            Email<?php if(count($compte->getEmails()) > 1 ): ?>s<?php endif; ?> :
+        Email<?php if(count($compte->getEmails()) > 1 ): ?>s<?php endif; ?> <?php if ($compte->isSocieteContact()): ?>compta <?php endif ?> :
         </div>
 
             <div style="margin-bottom: 5px" class="col-xs-9">
