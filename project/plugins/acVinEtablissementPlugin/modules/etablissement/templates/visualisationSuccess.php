@@ -243,11 +243,11 @@
                 <tbody>
                   <?php foreach ($etablissement->lieux_stockage as $lieu): ?>
                     <tr>
-                      <td><?php echo Anonymization::hiseIfNeeded($lieu->numero); ?></td>
-                      <td><?php echo Anonymization::hiseIfNeeded($lieu->nom); ?></td>
-                      <td><?php echo Anonymization::hiseIfNeeded($lieu->adresse); ?></td>
-                      <td><?php echo Anonymization::hiseIfNeeded($lieu->commune); ?></td>
-                      <td><?php echo Anonymization::hiseIfNeeded($lieu->code_postal); ?></td>
+                      <td><?php echo $lieu->numero; ?></td>
+                      <td><?php echo $lieu->nom; ?></td>
+                      <td><?php echo $lieu->adresse; ?></td>
+                      <td><?php echo $lieu->commune; ?></td>
+                      <td><?php echo $lieu->code_postal; ?></td>
                     </tr>
                   <?php endforeach ?>
                 </tbody>
