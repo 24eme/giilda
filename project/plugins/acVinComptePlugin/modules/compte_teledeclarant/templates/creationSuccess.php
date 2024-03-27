@@ -1,201 +1,103 @@
-<div id="principal">
-  <form action="" method="post" id="principal">
+<form action="" class="form-horizontal" method="post" id="principal">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-10 col-xs-offset-1">
         <div class="panel panel-default">
             <div class="panel-heading">
-              <h2 class="titre_principal">Création de votre compte</h2>
+              <h4 class="titre_principal">Création de votre compte</h4>
             </div>
             <div class="panel-body">
-        <?php
-        $libelle = "Merci d'indiquer votre mot de passe";
-        $libelle .= ($form->getTypeCompte() == SocieteClient::TYPE_COURTIER)? " et votre numéro de carte professionnelle" : "";
-        $libelle_mail = "Merci de renseigner l'adresse email sur laquelle vous voulez recevoir les informations liées à vos déclarations :";
-        /*$libelle .= ($form->getTypeCompte() == SocieteClient::TYPE_OPERATEUR && isset($form['siret']))?
-                    //" et votre numéro de SIRET" : "";*/
-        $libelle .= " :";
-        ?>
-          <div class="row">
-              <div class="col-xs-12">
+                <?php
+                $libelle = "Merci d'indiquer votre mot de passe";
+                $libelle .= ($form->getTypeCompte() == SocieteClient::TYPE_COURTIER)? " et votre numéro de carte professionnelle" : "";
+                $libelle_mail = "Merci de renseigner l'adresse email sur laquelle vous voulez recevoir les informations liées à vos déclarations :";
+                $libelle .= " :";
+                ?>
                 <p class="well">Veuillez renseigner un mot de passe de <strong>8 caractères minimum.</strong></p>
-              </div>
-              <div class="col-xs-12">
-                <p class="titre_section">&nbsp;&nbsp;<?php echo $libelle; ?></p>
-              </div>
-        <div id="creation_compte_teledeclaration" class="col-xs-12" >
-            <div class="bloc_form bloc_form_condensed">
-              <div class="row">
-                  <div class="col-xs-12">
-                    <?php echo $form->renderHiddenFields(); ?>
-                    <?php echo $form->renderGlobalErrors(); ?>
+                <p class="titre_section"><?php echo $libelle; ?></p>
+                <?php echo $form->renderHiddenFields(); ?>
+                <?php echo $form->renderGlobalErrors(); ?>
+                <?php echo $form['mdp1']->renderError() ?>
+                <div class="form-group">
+                  <?php echo $form['mdp1']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                  <div class="col-sm-4">
+                    <?php echo $form['mdp1']->render(['autofocus' => 'autofocus']) ?>
                   </div>
-                <div class="col-xs-12">
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <?php echo $form['mdp1']->renderError() ?>
-                      </div>
-                    </div>
-                      <div class="row">
-                      <div class="col-xs-4 text-right">
-                        <?php echo $form['mdp1']->renderLabel() ?>
-                      </div>
-                      <div class="col-xs-4 col-xs-offset-2 text-left">
-                        <?php echo $form['mdp1']->render(array('class' => "form-control")) ?>
-                      </div>
-                    </div>
-                    <br/>
                 </div>
-                <div class="col-xs-12">
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <?php echo $form['mdp2']->renderError() ?>
-                      </div>
-                    </div>
-                      <div class="row">
-                      <div class="col-xs-4 text-right">
-                        <?php echo $form['mdp2']->renderLabel() ?>
-                      </div>
-                      <div class="col-xs-4 col-xs-offset-2 text-left">
-                        <?php echo $form['mdp2']->render(array('class' => "form-control")) ?>
-                      </div>
-                    </div>
-                    <br/>
+
+                <?php echo $form['mdp2']->renderError() ?>
+                <div class="form-group">
+                  <?php echo $form['mdp2']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                  <div class="col-sm-4">
+                    <?php echo $form['mdp2']->render() ?>
+                  </div>
                 </div>
-                <div class="col-xs-12">
-                  <p class="well"><strong>Conseil :</strong> Utiliser un <strong>email</strong> connu par vos collaborateurs habilités à télé-déclarer sur vos différents établissements.</p>
+
+                <p class="well"><strong>Conseil :</strong> Utiliser un <strong>email</strong> connu par vos collaborateurs habilités à télé-déclarer sur vos différents établissements.</p>
+
+                <p class="titre_section">&nbsp;&nbsp;<?php echo $libelle_mail; ?></p>
+
+                <?php echo $form['email']->renderError() ?>
+                <div class="form-group">
+                  <?php echo $form['email']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                  <div class="col-sm-4">
+                    <?php echo $form['email']->render() ?>
+                  </div>
                 </div>
-                <div class="col-xs-12">
-                  <p class="titre_section">&nbsp;&nbsp;<?php echo $libelle_mail; ?></p>
-                </div>
-                <div class="col-xs-12">
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <?php echo $form['email']->renderError() ?>
-                      </div>
-                    </div>
-                      <div class="row">
-                      <div class="col-xs-4 text-right">
-                        <?php echo $form['email']->renderLabel() ?>
-                      </div>
-                      <div class="col-xs-4 col-xs-offset-2 text-left">
-                          <?php echo $form['email']->render(array('class' => "form-control")) ?>
-                      </div>
-                    </div>
-                    <br/>
-                </div>
+
                 <?php if ($form->getTypeCompte() == SocieteClient::TYPE_COURTIER): ?>
-                  <div class="col-xs-12">
-                      <div class="row">
-                        <div class="col-xs-12">
-                        <?php echo $form['carte_pro']->renderError() ?>
-                      </div>
+                  <?php echo $form['carte_pro']->renderError() ?>
+                  <div class="form-group">
+                    <?php echo $form['carte_pro']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                    <div class="col-sm-4">
+                      <?php echo $form['carte_pro']->render() ?>
                     </div>
-                      <div class="row">
-                      <div class="col-xs-4 text-right">
-                        <?php echo $form['carte_pro']->renderLabel() ?>
-                      </div>
-                      <div class="col-xs-4 col-xs-offset-2 text-left">
-                        <?php echo $form['carte_pro']->render(array('class' => "form-control")) ?>
-                      </div>
-                    </div>
-                    <br/>
                   </div>
                 <?php endif; ?>
+
                 <?php if ($form->getTypeCompte() == SocieteClient::TYPE_OPERATEUR): ?>
-                  <div class="col-xs-12">
-                    <p class="well"><strong>Aidez-nous</strong> à améliorer les informations vous concernant en remplissant ou modifiant les éléments suivants&nbsp;:</p>
+                  <p class="well"><strong>Aidez-nous</strong> à améliorer les informations vous concernant en remplissant ou modifiant les éléments suivants&nbsp;:</p>
+                  <?php echo $form['siret']->renderError() ?>
+                  <div class="form-group">
+                    <?php echo $form['siret']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                    <div class="col-sm-4">
+                      <?php echo $form['siret']->render() ?>
+                    </div>
                   </div>
-                  <div class="col-xs-12">
-                      <div class="row">
-                        <div class="col-xs-12">
-                          <?php echo $form['siret']->renderError() ?>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-xs-4 text-right">
-                          <?php echo $form['siret']->renderLabel() ?>
-                        </div>
-                        <div class="col-xs-4 col-xs-offset-2 text-left">
-                          <?php echo $form['siret']->render(array('class' => "form-control")) ?>
-                        </div>
-                      </div>
-                      <br/>
+                  <?php echo $form['cvi']->renderError() ?>
+                  <div class="form-group">
+                    <?php echo $form['cvi']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                    <div class="col-sm-4">
+                      <?php echo $form['cvi']->render() ?>
                     </div>
-                    <div class="col-xs-12">
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <?php echo $form['cvi']->renderError() ?>
-                          </div>
-                        </div>
-                          <div class="row">
-                          <div class="col-xs-4 text-right">
-                            <?php echo $form['cvi']->renderLabel() ?>
-                          </div>
-                          <div class="col-xs-4 col-xs-offset-2 text-left">
-                            <?php echo $form['cvi']->render(array('class' => "form-control")) ?>
-                          </div>
-                        </div>
-                        <br/>
+                  </div>
+                  <?php echo $form['ppm']->renderError() ?>
+                  <div class="form-group">
+                    <?php echo $form['ppm']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                    <div class="col-sm-4">
+                      <?php echo $form['ppm']->render() ?>
                     </div>
-                    <div class="col-xs-12">
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <?php echo $form['ppm']->renderError() ?>
-                          </div>
-                        </div>
-                          <div class="row">
-                          <div class="col-xs-4 text-right">
-                            <?php echo $form['ppm']->renderLabel() ?>
-                          </div>
-                          <div class="col-xs-4 col-xs-offset-2 text-left">
-                            <?php echo $form['ppm']->render(array('class' => "form-control")) ?>
-                          </div>
-                        </div>
-                        <br/>
+                  </div>
+                  <?php echo $form['telephone_bureau']->renderError() ?>
+                  <div class="form-group">
+                    <?php echo $form['telephone_bureau']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                    <div class="col-sm-4">
+                      <?php echo $form['telephone_bureau']->render() ?>
                     </div>
-                    <div class="col-xs-12">
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <?php echo $form['telephone_bureau']->renderError() ?>
-                          </div>
-                        </div>
-                          <div class="row">
-                          <div class="col-xs-4 text-right">
-                            <?php echo $form['telephone_bureau']->renderLabel() ?>
-                          </div>
-                          <div class="col-xs-4 col-xs-offset-2 text-left">
-                            <?php echo $form['telephone_bureau']->render(array('class' => "form-control")) ?>
-                          </div>
-                        </div>
-                        <br/>
+                  </div>
+                  <?php echo $form['telephone_mobile']->renderError() ?>
+                  <div class="form-group">
+                    <?php echo $form['telephone_mobile']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                    <div class="col-sm-4">
+                      <?php echo $form['telephone_mobile']->render() ?>
                     </div>
-                    <div class="col-xs-12">
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <?php echo $form['telephone_mobile']->renderError() ?>
-                          </div>
-                        </div>
-                          <div class="row">
-                          <div class="col-xs-4 text-right">
-                            <?php echo $form['telephone_mobile']->renderLabel() ?>
-                          </div>
-                          <div class="col-xs-4 col-xs-offset-2 text-left">
-                            <?php echo $form['telephone_mobile']->render(array('class' => "form-control")) ?>
-                          </div>
-                        </div>
-                        <br/>
-                    </div>
+                  </div>
                 <?php endif; ?>
-          <div class="col-xs-12 text-right">
-            <button class="btn btn-success" type="submit">Valider</button>
+
+              <div class="text-right">
+                <button class="btn btn-primary" type="submit">Valider</button>
+              </div>
+            </div>
           </div>
+        </div>
       </div>
-    </div>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-    </form>
-    </div>
+</form>

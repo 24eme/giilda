@@ -17,13 +17,13 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
         $this->getValidator('mdp1')->setOption('required', true);
         $this->getValidator('mdp2')->setOption('required', true);
         if ($this->typeCompte == SocieteClient::TYPE_COURTIER) {
-            $this->setWidget('carte_pro', new sfWidgetFormInputText());
+            $this->setWidget('carte_pro', new bsWidgetFormInput());
             $this->getWidget('carte_pro')->setLabel("Numéro de carte professionnelle :");
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
 
         if ($this->typeCompte == SocieteClient::TYPE_OPERATEUR) {
-            $this->setWidget('siret', new sfWidgetFormInputText());
+            $this->setWidget('siret', new bsWidgetFormInput());
             $this->getWidget('siret')->setLabel("Numéro de SIRET :");
             $this->setValidator('siret', new sfValidatorRegex(array('required' => false,
                 'pattern' => "/^[0-9]{14}$/",
@@ -33,7 +33,7 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
                 'min_length' => 'Le numéro de SIRET doit être constitué de 14 chiffres',
                 'max_length' => 'Le numéro de SIRET doit être constitué de 14 chiffres')));
 
-            $this->setWidget('cvi', new sfWidgetFormInputText());
+            $this->setWidget('cvi', new bsWidgetFormInput());
             $this->getWidget('cvi')->setLabel("Numéro CVI/EVV :");
             $this->setValidator('cvi', new sfValidatorRegex(array('required' => false,
                 'pattern' => "/^[0-9A-Za-z]{10}$/",
@@ -42,7 +42,7 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
                 'invalid' => "Le numéro CVI/EVV doit être constitué de 10 caractères alphanumériques",
                 'min_length' => "Le numéro CVI/EVV doit être constitué de 10 caractères alphanumériques",
                 'max_length' => "Le numéro CVI/EVV doit être constitué de 10 caractères alphanumériques")));
-            $this->setWidget('ppm', new sfWidgetFormInputText());
+            $this->setWidget('ppm', new bsWidgetFormInput());
             $this->getWidget('ppm')->setLabel("Numéro PPM :");
             $this->setValidator('ppm', new sfValidatorRegex(array('required' => false,
                 'pattern' => "/^[A-Za-z][0-9A-Za-z]{8}$/",

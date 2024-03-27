@@ -12,7 +12,7 @@
           <?php echo $form['login']->renderError() ?>
           <div class="form-group">
             <?php echo $form['login']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
               <?php echo $form['login']->render(['autofocus' => 'autofocus']) ?>
             </div>
           </div>
