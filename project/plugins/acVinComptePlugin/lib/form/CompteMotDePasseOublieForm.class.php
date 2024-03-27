@@ -4,13 +4,13 @@ class CompteMotDePasseOublieForm extends BaseForm {
 
     public function setup() {
         $this->setWidgets(array(
-            'login' => new sfWidgetFormInputText(array('label' => 'Identifiant :'))
+            'login' => new bsWidgetFormInput(array('label' => 'Identifiant :'))
         ));
 
         $this->setValidators(array(
             'login' => new sfValidatorString(array('required' => true)),
         ));
-        
+
         $this->validatorSchema['login']->setMessage('required', 'Champ obligatoire');
 
         $this->validatorSchema->setPostValidator(new ValidatorCompteMotDePasseOublie());
