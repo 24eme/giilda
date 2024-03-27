@@ -22,13 +22,9 @@ use_helper('Float');
                 <h2>Prélèvement SEPA</h2>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                      <h4 class="titre_principal">Coordonnées bancaires</h4>
+                      <h4 class="titre_principal">Vos coordonnées bancaires</h4>
                     </div>
                     <div class="panel-body">
-
-                    <div class="col-xs-12">
-                      <h4>Vos coordonnées bancaires : </h4>
-                    </div>
                     <?php if ($mandatSepa): ?>
                       <div class="col-xs-8">
                         <div class="row">
@@ -72,16 +68,13 @@ use_helper('Float');
                       <?php include_partial('mandatsepa/popupIncitationSignatureMandat', array('mandatSepa' => $mandatSepa)); ?>
                       <?php endif; ?>
                     <?php else: ?>
-                      <div class="col-xs-8">
-                        <div class="row">
-                          <div class="col-xs-6 text-right"></div>
-                          <div class="col-xs-6 text-left">
-                            <p>Vous n'avez pas saisi de coordonnées bancaires</p>
-                          </div>
+                      <div class="row">
+                        <div class="col-xs-6 col-xs-offset-3 text-center">
+                          <p>Vous n'avez pas encore saisi de coordonnées bancaires</p>
                         </div>
-                      </div>
-                      <div class="col-xs-12">
-                            <a href="<?php echo url_for('compte_teledeclarant_coordonnees_bancaires') ?>" class=" btn btn-warning modifier" style="cursor: pointer; float: right;">Saisir vos coordonnées bancaires</a>
+                        <div class="col-xs-12">
+                              <a href="<?php echo url_for('compte_teledeclarant_coordonnees_bancaires') ?>" class=" btn btn-warning modifier" style="cursor: pointer; float: right;">Saisir vos coordonnées bancaires</a>
+                        </div>
                       </div>
                     <?php endif; ?>
                     </div>
