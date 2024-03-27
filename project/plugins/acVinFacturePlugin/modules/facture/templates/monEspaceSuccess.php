@@ -26,46 +26,46 @@ use_helper('Float');
                     </div>
                     <div class="panel-body">
                     <?php if ($mandatSepa): ?>
-                      <div class="col-xs-8">
                         <div class="row">
-                          <div class="col-xs-6 text-right">
-                              <label>IBAN :</label>
-                          </div>
-                          <div class="col-xs-6 text-left">
-                              <?php echo $mandatSepa->debiteur->iban; ?>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-xs-6 text-right">
-                              <label>BIC :</label>
-                          </div>
-                          <div class="col-xs-6 text-left">
-                              <?php echo $mandatSepa->debiteur->bic; ?>
-                          </div>
-                        </div>
-                        <div class="row">&nbsp;</div>
-
-                        <?php if (MandatSepaConfiguration::getInstance()->hasPDF()): ?>
-                        <div class="row">
-                          <div class="col-xs-6 text-right">
-                              <label>Mandat de prélèvement SEPA :</label>
-                          </div>
-                          <div class="col-xs-6 text-left">
-                              <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;Télécharger le document</a>
-                          </div>
-                        </div>
-                        <?php endif ?>
-                        <div class="row">
-                          <div class="col-xs-6 text-right">
+                          <div class="col-xs-2 text-right">
                               <label>Statut :</label>
                           </div>
                           <div class="col-xs-6 text-left<?php if(!$mandatSepa->is_signe): ?> text-danger<?php endif; ?>">
                               <?php echo $mandatSepa->getStatut(); ?>
                           </div>
                         </div>
-                      </div>
+
+                        <div class="row">
+                          <div class="col-xs-2 text-right">
+                              <label>IBAN :</label>
+                          </div>
+                          <div class="col-xs-6 text-left">
+                              <?php echo chunk_split($mandatSepa->debiteur->iban, 4, ' '); ?>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-xs-2 text-right">
+                              <label>BIC :</label>
+                          </div>
+                          <div class="col-xs-6 text-left">
+                              <?php echo $mandatSepa->debiteur->bic; ?>
+                          </div>
+                        </div>
+
+                        <?php if (MandatSepaConfiguration::getInstance()->hasPDF()): ?>
+                          <div class="row">
+                            <div class="col-xs-3 text-right">
+                                <label>Mandat de prélèvement SEPA :</label>
+                            </div>
+                            <div class="col-xs-6 text-left">
+                                <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;Télécharger le document</a>
+                            </div>
+                          </div>
+                        <?php endif ?>
+
                       <?php if (!$mandatSepa->is_telecharge && false): ?>
-                      <?php include_partial('mandatsepa/popupIncitationSignatureMandat', array('mandatSepa' => $mandatSepa)); ?>
+                        <?php include_partial('mandatsepa/popupIncitationSignatureMandat', array('mandatSepa' => $mandatSepa)); ?>
                       <?php endif; ?>
                     <?php else: ?>
                       <div class="row">
