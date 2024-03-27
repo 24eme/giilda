@@ -33,23 +33,6 @@ class acVinCompteRouting {
      */
     static public function listenToRoutingLoadConfigurationEvent(sfEvent $event) {
         $r = $event->getSubject();
-        //$r->prependRoute('ac_vin_login', new sfRoute('/', array('module' => 'acVinCompte', 'action' => 'login')));
-        /*$r->prependRoute('ac_vin_logout', new sfRoute('/logout', array('module' => 'acVinCompte', 'action' => 'logout')));
-        $r->prependRoute('ac_vin_login', new sfRoute('/login', array('module' => 'acVinCompte', 'action' => 'login')));
-        $r->prependRoute('ac_vin_forbidden', new sfRoute('/forbidden', array('module' => 'acVinCompte', 'action' => 'forbidden')));*/
-
-        $r->prependRoute('compte_teledeclarant_code_creation', new sfRoute('/teledeclarant/code_creation', array('module' => 'compte_teledeclarant', 'action' => 'first')));
-        $r->prependRoute('compte_teledeclarant_cgu', new sfRoute('/teledeclarant/cgu', array('module' => 'compte_teledeclarant', 'action' => 'cgu')));
-        $r->prependRoute('compte_teledeclarant_creation', new sfRoute('/teledeclarant/creation', array('module' => 'compte_teledeclarant', 'action' => 'creation')));
-        $r->prependRoute('compte_teledeclarant_modification_id', new sfRoute('/teledeclarant/mon_compte/:identifiant', array('module' => 'compte_teledeclarant', 'action' => 'modification')));
-        $r->prependRoute('compte_teledeclarant_modification', new sfRoute('/teledeclarant/mon_compte', array('module' => 'compte_teledeclarant', 'action' => 'modification')));
-        $r->prependRoute('compte_teledeclarant_coordonnees_bancaires', new sfRoute('/teledeclarant/mon_compte/coordonnees_bancaires', array('module' => 'compte_teledeclarant', 'action' => 'coordonneesBancaires')));
-        $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie_login', new sfRoute('/mot_de_passe_oublie/login/:login/:mdp', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublieLogin')));
-        $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie', new sfRoute('/mot_de_passe_oublie', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublie')));
-        $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie_confirm', new sfRoute('/mot_de_passe_oublie/confirm', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublieConfirm')));
-        $r->prependRoute('compte_teledeclarant_modification_oublie', new sfRoute('/teledeclarant/mot_de_passe_oublie', array('module' => 'compte_teledeclarant', 'action' => 'modificationOublie')));
-        $r->prependRoute('reglementation_generale_des_transactions',  new sfRoute('/contrats/reglementation_generale_des_transactions', array('module' => 'compte_teledeclarant', 'action' => 'reglementationGenerale')));
-
 
         $r->prependRoute('compte_tags', new sfRoute('/compte/tags', array('module' => 'compte', 'action' => 'tags')));
 
@@ -112,6 +95,22 @@ class acVinCompteRouting {
             array('model' => 'Compte',
             'type' => 'object')));
 
+    }
+
+    static public function listenToRoutingTeledeclarantLoadConfigurationEvent(sfEvent $event) {
+        $r = $event->getSubject();
+
+        $r->prependRoute('compte_teledeclarant_code_creation', new sfRoute('/teledeclarant/code_creation', array('module' => 'compte_teledeclarant', 'action' => 'first')));
+        $r->prependRoute('compte_teledeclarant_cgu', new sfRoute('/teledeclarant/cgu', array('module' => 'compte_teledeclarant', 'action' => 'cgu')));
+        $r->prependRoute('compte_teledeclarant_creation', new sfRoute('/teledeclarant/creation', array('module' => 'compte_teledeclarant', 'action' => 'creation')));
+        $r->prependRoute('compte_teledeclarant_modification_id', new sfRoute('/teledeclarant/mon_compte/:identifiant', array('module' => 'compte_teledeclarant', 'action' => 'modification')));
+        $r->prependRoute('compte_teledeclarant_modification', new sfRoute('/teledeclarant/mon_compte', array('module' => 'compte_teledeclarant', 'action' => 'modification')));
+        $r->prependRoute('compte_teledeclarant_coordonnees_bancaires', new sfRoute('/teledeclarant/mon_compte/coordonnees_bancaires', array('module' => 'compte_teledeclarant', 'action' => 'coordonneesBancaires')));
+        $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie_login', new sfRoute('/mot_de_passe_oublie/login/:login/:mdp', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublieLogin')));
+        $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie', new sfRoute('/mot_de_passe_oublie', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublie')));
+        $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie_confirm', new sfRoute('/mot_de_passe_oublie/confirm', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublieConfirm')));
+        $r->prependRoute('compte_teledeclarant_modification_oublie', new sfRoute('/teledeclarant/mot_de_passe_oublie', array('module' => 'compte_teledeclarant', 'action' => 'modificationOublie')));
+        $r->prependRoute('reglementation_generale_des_transactions',  new sfRoute('/contrats/reglementation_generale_des_transactions', array('module' => 'compte_teledeclarant', 'action' => 'reglementationGenerale')));
         $r->prependRoute('compte_viticonnect_api',
             new sfRoute('/viticonnect/api/:login/:epoch/:md5',
                 array('module' => 'compte_teledeclarant', 'action' => 'viticonnectApi')
