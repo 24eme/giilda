@@ -1,6 +1,6 @@
 # GIILDA : Groupement IVSO IVBD (et aussi BIVC et CIVA) de Logiciels dediés aux Déclarations Administratives 
 
-Projet de dématérialisation informatique des activités d'une interprofession viticole
+Projet de dématérialisation informatique des activités d'une interprofession viticole.
 
 ## Projets déployés
 
