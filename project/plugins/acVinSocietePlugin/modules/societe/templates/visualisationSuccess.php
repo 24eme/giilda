@@ -84,26 +84,26 @@
                 <?php if ($mandatSepa): ?>
                   <div class="row">
                     <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">RUM&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->identifiant_rum; ?></div>
-                    <?php if (MandatSepaConfiguration::getInstance()->hasPDF()): ?>
+                    <div style="margin-bottom: 5px;" class="col-xs-6"><?php echo $mandatSepa->debiteur->identifiant_rum; ?></div>
+                    <?php if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration()): ?>
                       <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Mandat généré&nbsp;</div>
-                      <div style="margin-bottom: 5px;" class="col-xs-3">
+                      <div style="margin-bottom: 5px;" class="col-xs-2">
                         <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;PDF</a>
                       </div>
                     <?php endif ?>
                   </div>
                   <div class="row" style="margin-top: 5px;">
                     <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">IBAN&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->iban; ?></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-6"><?php echo chunk_split($mandatSepa->debiteur->iban, 4, ' '); ?></div>
                     <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Mandat signé&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-3"><input type="checkbox" data-on-text="<span class='glyphicon glyphicon-ok-sign'></span>" data-off-text="<span class='glyphicon'></span>" class="bsswitch ajax" data-size="mini"<?php if ($mandatSepa->is_signe): ?> checked="checked" disabled<?php endif; ?> onchange="document.location='<?php echo url_for('societe_mandat_sepa_switch_signe', array('identifiant' => $societe->identifiant)); ?>'" /></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-2"><input type="checkbox" data-on-text="<span class='glyphicon glyphicon-ok-sign'></span>" data-off-text="<span class='glyphicon'></span>" class="bsswitch ajax" data-size="mini"<?php if ($mandatSepa->is_signe): ?> checked="checked" disabled<?php endif; ?> onchange="document.location='<?php echo url_for('societe_mandat_sepa_switch_signe', array('identifiant' => $societe->identifiant)); ?>'" /></div>
                   </div>
                   <div class="row" style="margin-top: 5px;">
                     <div style="margin-bottom: 5px;" class="col-xs-1 text-muted">BIC&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->bic; ?></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-6"><?php echo $mandatSepa->debiteur->bic; ?></div>
                     <?php if ($mandatSepa->is_signe): ?>
                     <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Prélèvement actif&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-3"><input type="checkbox" data-on-text="<span class='glyphicon glyphicon-ok-sign'></span>" data-off-text="<span class='glyphicon'></span>" class="bsswitch ajax" data-size="mini"<?php if($mandatSepa->is_actif): ?> checked="checked"<?php endif; ?> onchange="document.location='<?php echo url_for('societe_mandat_sepa_switch_actif', array('identifiant' => $societe->identifiant)); ?>'" /></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-2"><input type="checkbox" data-on-text="<span class='glyphicon glyphicon-ok-sign'></span>" data-off-text="<span class='glyphicon'></span>" class="bsswitch ajax" data-size="mini"<?php if($mandatSepa->is_actif): ?> checked="checked"<?php endif; ?> onchange="document.location='<?php echo url_for('societe_mandat_sepa_switch_actif', array('identifiant' => $societe->identifiant)); ?>'" /></div>
                     <?php endif; ?>
                   </div>
                 <?php else: ?>

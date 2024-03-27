@@ -4,7 +4,7 @@ class mandatsepaActions extends sfActions
 {
 
 	public function executePdf(sfWebRequest $request) {
-        if (MandatSepaConfiguration::getInstance()->hasPDF() === false) {
+        if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration() === false) {
             return $this->redirect403();
         }
 		$mandatSepa = $this->getRoute()->getMandatSepa();
