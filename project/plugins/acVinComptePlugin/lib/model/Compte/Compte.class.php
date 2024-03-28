@@ -651,6 +651,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function updateLdap($verbose = 0) {
+        if($this->identifiant == $this->getSociete()->getMasterCompte()->login) {
+            return;
+        }
+
         $ldap = new CompteLdap();
 
         if ($this->isActif()) {
