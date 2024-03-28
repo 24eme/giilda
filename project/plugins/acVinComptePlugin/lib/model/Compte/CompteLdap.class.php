@@ -63,10 +63,12 @@ class CompteLdap extends acVinLdap
         if ($compte->isEtablissementContact()) {
              $info['businessCategory'] = $compte->getEtablissement()->famille;
         }
-        $info['o']                = ($compte->getSociete()) ? $compte->getSociete()->raison_sociale : $compte->nom_a_afficher;
 
         $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';
         $info['sn'] = ($compte->getNom()) ?: $compte->nom_a_afficher;
+        if (!$info['o']) {
+            $info['o'] = $info['sn'];
+        }
 
         if ($compte->getPrenom()) {
             $info['givenName']        = $compte->getPrenom();

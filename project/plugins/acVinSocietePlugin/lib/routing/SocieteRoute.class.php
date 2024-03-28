@@ -5,8 +5,18 @@ class SocieteRoute extends sfObjectRoute implements InterfaceSocieteRoute, Inter
 
     protected function getObjectForParameters($parameters = null) {
       $this->societe = SocieteClient::getInstance()->find($parameters['identifiant']);
-      if (sfContext::getInstance()->getUser()->hasTeledeclaration() && ! in_array(sfContext::getInstance()->getUser()->getCompte()->id_societe, $this->societe->getSocietesLieesIds())) {
-          throw new sfError404Exception("Vous n'avez pas le droit d'accéder à cette page");
+      if(!$this->societe) {
+        throw new sfError404Exception("Société non trouvé");
+      }
+      $myUser = sfContext::getInstance()->getUser();
+      if ($myUser->hasTeledeclaration() && !$myUser->isAdmin() &&
+              $myUser->getCompte()->identifiant != $this->societe->getMasterCompte()->identifiant) {
+
+            throw new sfError403Exception("Vous n'avez pas le droit d'accéder à cette page");
+      }
+      if(!$myUser->isAdmin() && $myUser->getCompte()->identifiant != $this->getSociete()->getMasterCompte()->identifiant && $this->getSociete()->type_societe != SocieteClient::TYPE_OPERATEUR) {
+
+          throw new sfError403Exception("Vous n'avez pas le droit d'accéder à cette page");
       }
       $module = sfContext::getInstance()->getRequest()->getParameterHolder()->get('module');
       sfContext::getInstance()->getResponse()->setTitle(strtoupper($module).' - '.$this->societe->raison_sociale);

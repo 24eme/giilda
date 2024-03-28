@@ -10,10 +10,6 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
-            new sfCommandOption('campagne', null, sfCommandOption::PARAMETER_OPTIONAL, 'Campagne', null),
-            new sfCommandOption('reinitialisation_tags_produit', null, sfCommandOption::PARAMETER_REQUIRED, 'Reset tags', false),
-            new sfCommandOption('reinitialisation_tags_export', null, sfCommandOption::PARAMETER_REQUIRED, 'Reset tags', false),
-            new sfCommandOption('reinitialisation_tags_domaines', null, sfCommandOption::PARAMETER_REQUIRED, 'Reset tags', false),
             new sfCommandOption('debug', null, sfCommandOption::PARAMETER_OPTIONAL, 'use only one code creation', '0'),
         ));
 
@@ -30,12 +26,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
 
         $this->debug = array_key_exists('debug', $options) && $options['debug'];
 
-
-        if (!isset($options['campagne']) || !$options['campagne']) {
-            $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
-        } else {
-            $campagne = $options['campagne'];
-        }
+        $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
 
         $campagnes = [ConfigurationClient::getInstance()->getCampagneVinicole()->getPrevious($campagne), $campagne];
 
@@ -132,7 +123,6 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
             $compte->tags->remove('produit');
             $compte->tags->remove('domaines');
             $compte->tags->remove('documents');
-            $compte->tags->remove('droits');
 
             if (!count($tags)) {
                 continue;

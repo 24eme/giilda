@@ -1,5 +1,7 @@
 all:
   configuration:
     societe:
-      identifiant_compte_incremental: true
-      has_numero_archive: false
+      disable_save: false
+      droits: []
+      visualisation_teledeclaration: false
+      enable_groupes: false

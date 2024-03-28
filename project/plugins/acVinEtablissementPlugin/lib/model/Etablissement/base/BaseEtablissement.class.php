@@ -1,7 +1,7 @@
 <?php
 /**
  * BaseEtablissement
- * 
+ *
  * Base model for Etablissement
  *
  * @property string $_id
@@ -11,11 +11,12 @@
  * @property string $interpro
  * @property string $identifiant
  * @property string $id_societe
- * @property string $nom
  * @property string $statut
  * @property string $raisins_mouts
  * @property string $exclusion_drm
  * @property string $relance_ds
+ * @property string $teledeclaration_email
+ * @property string $nature_inao
  * @property acCouchdbJson $recette_locale
  * @property string $region
  * @property string $type_dr
@@ -23,26 +24,53 @@
  * @property string $site_fiche
  * @property string $compte
  * @property string $num_interne
- * @property string $siret
  * @property string $raison_sociale
- * @property string $cni
+ * @property string $nom
  * @property string $cvi
+ * @property string $ppm
  * @property string $no_accises
  * @property string $carte_pro
- * @property string $no_tva_intracommunautaire
  * @property string $famille
  * @property string $sous_famille
+ * @property string $adresse
+ * @property string $adresse_complementaire
+ * @property string $code_postal
+ * @property string $commune
+ * @property string $pays
+ * @property string $insee
+ * @property string $compte_type
+ * @property string $cedex
  * @property string $email
- * @property string $telephone
+ * @property string $telephone_perso
+ * @property string $telephone_bureau
+ * @property string $telephone_mobile
  * @property string $fax
+ * @property string $site_internet
+ * @property string $telephone
  * @property string $commentaire
+ * @property string $crd_regime
+ * @property string $adresse_compta
+ * @property string $siret
+ * @property string $caution
+ * @property string $intitule
+ * @property string $declaration_commune
+ * @property string $declaration_insee
+ * @property string $raison_sociale_cautionneur
+ * @property string $date_modification
+ * @property string $acheteur_raisin
+ * @property string $ds_decembre
+ * @property string $no_ds_negociant
+ * @property acCouchdbJson $exploitant
  * @property acCouchdbJson $siege
  * @property acCouchdbJson $comptabilite
+ * @property acCouchdbJson $lieux_stockage
+ * @property acCouchdbJson $chais
+ * @property acCouchdbJson $compte_societe_saved
 
- * @method string get_id()
- * @method string set_id()
- * @method string get_rev()
- * @method string set_rev()
+ * @method string getId()
+ * @method string setId()
+ * @method string getRev()
+ * @method string setRev()
  * @method string getType()
  * @method string setType()
  * @method string getCooperative()
@@ -53,8 +81,6 @@
  * @method string setIdentifiant()
  * @method string getIdSociete()
  * @method string setIdSociete()
- * @method string getNom()
- * @method string setNom()
  * @method string getStatut()
  * @method string setStatut()
  * @method string getRaisinsMouts()
@@ -63,6 +89,10 @@
  * @method string setExclusionDrm()
  * @method string getRelanceDs()
  * @method string setRelanceDs()
+ * @method string getTeledeclarationEmail()
+ * @method string setTeledeclarationEmail()
+ * @method string getNatureInao()
+ * @method string setNatureInao()
  * @method acCouchdbJson getRecetteLocale()
  * @method acCouchdbJson setRecetteLocale()
  * @method string getRegion()
@@ -77,43 +107,97 @@
  * @method string setCompte()
  * @method string getNumInterne()
  * @method string setNumInterne()
- * @method string getSiret()
- * @method string setSiret()
  * @method string getRaisonSociale()
  * @method string setRaisonSociale()
- * @method string getCni()
- * @method string setCni()
+ * @method string getNom()
+ * @method string setNom()
  * @method string getCvi()
  * @method string setCvi()
+ * @method string getPpm()
+ * @method string setPpm()
  * @method string getNoAccises()
  * @method string setNoAccises()
  * @method string getCartePro()
  * @method string setCartePro()
- * @method string getNoTvaIntracommunautaire()
- * @method string setNoTvaIntracommunautaire()
  * @method string getFamille()
  * @method string setFamille()
  * @method string getSousFamille()
  * @method string setSousFamille()
+ * @method string getAdresse()
+ * @method string setAdresse()
+ * @method string getAdresseComplementaire()
+ * @method string setAdresseComplementaire()
+ * @method string getCodePostal()
+ * @method string setCodePostal()
+ * @method string getCommune()
+ * @method string setCommune()
+ * @method string getPays()
+ * @method string setPays()
+ * @method string getInsee()
+ * @method string setInsee()
+ * @method string getCompteType()
+ * @method string setCompteType()
+ * @method string getCedex()
+ * @method string setCedex()
  * @method string getEmail()
  * @method string setEmail()
- * @method string getTelephone()
- * @method string setTelephone()
+ * @method string getTelephonePerso()
+ * @method string setTelephonePerso()
+ * @method string getTelephoneBureau()
+ * @method string setTelephoneBureau()
+ * @method string getTelephoneMobile()
+ * @method string setTelephoneMobile()
  * @method string getFax()
  * @method string setFax()
+ * @method string getSiteInternet()
+ * @method string setSiteInternet()
+ * @method string getTelephone()
+ * @method string setTelephone()
  * @method string getCommentaire()
  * @method string setCommentaire()
+ * @method string getCrdRegime()
+ * @method string setCrdRegime()
+ * @method string getAdresseCompta()
+ * @method string setAdresseCompta()
+ * @method string getSiret()
+ * @method string setSiret()
+ * @method string getCaution()
+ * @method string setCaution()
+ * @method string getIntitule()
+ * @method string setIntitule()
+ * @method string getDeclarationCommune()
+ * @method string setDeclarationCommune()
+ * @method string getDeclarationInsee()
+ * @method string setDeclarationInsee()
+ * @method string getRaisonSocialeCautionneur()
+ * @method string setRaisonSocialeCautionneur()
+ * @method string getDateModification()
+ * @method string setDateModification()
+ * @method string getAcheteurRaisin()
+ * @method string setAcheteurRaisin()
+ * @method string getDsDecembre()
+ * @method string setDsDecembre()
+ * @method string getNoDsNegociant()
+ * @method string setNoDsNegociant()
+ * @method acCouchdbJson getExploitant()
+ * @method acCouchdbJson setExploitant()
  * @method acCouchdbJson getSiege()
  * @method acCouchdbJson setSiege()
  * @method acCouchdbJson getComptabilite()
  * @method acCouchdbJson setComptabilite()
- 
+ * @method acCouchdbJson getLieuxStockage()
+ * @method acCouchdbJson setLieuxStockage()
+ * @method acCouchdbJson getChais()
+ * @method acCouchdbJson setChais()
+ * @method acCouchdbJson getCompteSocieteSaved()
+ * @method acCouchdbJson setCompteSocieteSaved()
+
  */
- 
+
 abstract class BaseEtablissement extends CompteGenerique {
 
     public function getDocumentDefinitionModel() {
         return 'Etablissement';
     }
-    
+
 }

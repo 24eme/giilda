@@ -7,3 +7,13 @@ mandatsepa_pdf:
     type:     object
   requirements:
     sf_method: [get]
+
+mandatsepa_modification:
+  url: /mandatsepa/:identifiant/modification
+  param: { module: mandatsepa, action: modification }
+  class: MandatSepaRoute
+  options:
+    model: MandatSepa
+    type:  object
+  requirements:
+    sf_method: [get, post]

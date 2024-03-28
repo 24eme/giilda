@@ -2,7 +2,7 @@
 
 /* This file is part of the acVinComptePlugin package.
  * Copyright (c) 2011 Actualys
- * Authors :	
+ * Authors :
  * Tangui Morlier <tangui@tangui.eu.org>
  * Charlotte De Vichet <c.devichet@gmail.com>
  * Vincent Laurent <vince.laurent@gmail.com>
@@ -14,7 +14,7 @@
 
 /**
  * acVinComptePlugin configuration.
- * 
+ *
  * @package    acVinComptePlugin
  * @subpackage lib
  * @author     Tangui Morlier <tangui@tangui.eu.org>
@@ -31,5 +31,9 @@ class acVinComptePluginConfiguration extends sfPluginConfiguration
     public function initialize()
     {
         $this->dispatcher->connect('routing.load_configuration', array('acVinCompteRouting', 'listenToRoutingLoadConfigurationEvent'));
+
+        if(!is_array(sfConfig::get('sf_enabled_modules')) || in_array('compte_teledeclarant', sfConfig::get('sf_enabled_modules'))) {
+            $this->dispatcher->connect('routing.load_configuration', array('acVinCompteRouting', 'listenToRoutingTeledeclarantLoadConfigurationEvent'));
+        }
     }
 }

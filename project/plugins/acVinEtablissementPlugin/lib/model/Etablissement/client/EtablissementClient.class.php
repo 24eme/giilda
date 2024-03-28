@@ -11,13 +11,29 @@ class EtablissementClient extends acCouchdbClient {
     const RECETTE_LOCALE = 'RECETTE_LOCALE';
     const TYPE_DR_DRM = 'DRM';
     const TYPE_DR_DRA = 'DRA';
+
     const TYPE_LIAISON_BAILLEUR = 'BAILLEUR';
     const TYPE_LIAISON_METAYER = 'METAYER';
-    const TYPE_LIAISON_ADHERENT = 'ADHERENT'; //pour les cooperateurs
-    const TYPE_LIAISON_CONTRAT_INTERNE = 'CONTRAT_INTERNE';
+
+    const TYPE_LIAISON_FERMIER = 'FERMIER';
+
+    const TYPE_LIAISON_COOPERATIVE = 'COOPERATIVE'; // a pour coopérative
+    const TYPE_LIAISON_COOPERATEUR = 'COOPERATEUR'; // a pour coopérateur
+
+    const TYPE_LIAISON_NEGOCIANT = 'NEGOCIANT'; //à pour les negociants
+    const TYPE_LIAISON_VENDEUR_VRAC = 'VENDEUR_VRAC';//à pour les vendeur de vin en vrac
+
+    const TYPE_LIAISON_NEGOCIANT_VINIFICATEUR = 'NEGOCIANT_VINIFICATEUR'; //à pour les négociant vinificateur
+    const TYPE_LIAISON_APPORTEUR_RAISIN = 'APPORTEUR_RAISIN'; //à pour apporteur de raisins
+
+    const TYPE_LIAISON_HEBERGE_TIERS = 'HEBERGE_TIERS'; //Hébergé chez un tiers
+    const TYPE_LIAISON_HEBERGE = 'HEBERGE'; //Heberge
+
+    const TYPE_LIAISON_LABO = "LABO";
+    const TYPE_LIAISON_ANALYSE_DE = "ANALYSE_DE";
+
     const STATUT_ACTIF = 'ACTIF'; #'actif';
     const STATUT_SUSPENDU = 'SUSPENDU'; #'suspendu';
-    const STATUT_SUPPRIME = "SUPPRIME";
     const OUI = 'OUI';
     const NON = 'NON';
     const RELANCE_DS_OUI = self::OUI;
@@ -42,8 +58,21 @@ class EtablissementClient extends acCouchdbClient {
     const NATURE_INAO_SOCIETE_COMMERCIALE = 'Société commerciale (négociant)';
     const NATURE_INAO_AUTRE = 'Autre';
 
+    const CHAI_ATTRIBUT_VINIFICATION = "VINIFICATION";
+    const CHAI_ATTRIBUT_CONDITIONNEMENT = "CONDITIONNEMENT";
+    const CHAI_ATTRIBUT_STOCKAGE = "STOCKAGE";
+    const CHAI_ATTRIBUT_STOCKAGE_VRAC = "STOCKAGE_VRAC";
+    const CHAI_ATTRIBUT_STOCKAGE_VIN_CONDITIONNE = "STOCKAGE_VIN_CONDITIONNE";
+    const CHAI_ATTRIBUT_DGC = "DGC";
+    const CHAI_ATTRIBUT_APPORT = "APPORT";
+
+    const CHAI_ATTRIBUT_PRESSURAGE = "PRESSURAGE";
+    const CHAI_ATTRIBUT_PRESTATAIRE = 'PRESTATAIRE';
+    const CHAI_ATTRIBUT_ELEVAGE = 'ELEVAGE';
+
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
         self::STATUT_SUSPENDU => 'SUSPENDU');
+
     public static $regimes_crds_libelles_longs = array(
         self::REGIME_CRD_PERSONNALISE => 'Personnalisé (P)',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Banalisées acquittées (DA)',
@@ -68,6 +97,7 @@ class EtablissementClient extends acCouchdbClient {
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Banalisées acquittées',
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Banalisées suspendues'
     );
+
     public static $natures_inao_libelles = array(
         "01" => self::NATURE_INAO_PRODUCTEUR_INDIVIDUEL,
         "04" => self::NATURE_INAO_COOPERATIVE,
@@ -76,10 +106,32 @@ class EtablissementClient extends acCouchdbClient {
         "07" => self::NATURE_INAO_SICA,
         "08" => self::NATURE_INAO_SOCIETE_COMMERCIALE,
         "09" => self::NATURE_INAO_AUTRE);
-
     public static $caution_libelles = array(self::CAUTION_DISPENSE => 'Dispensé',
         self::CAUTION_CAUTION => 'Caution');
 
+    public static $chaisAttributsLibelles = array(self::CHAI_ATTRIBUT_VINIFICATION => 'Chai de vinification',
+                                                  self::CHAI_ATTRIBUT_STOCKAGE_VRAC => 'Stockage Vin en Vrac',
+                                                  self::CHAI_ATTRIBUT_STOCKAGE_VIN_CONDITIONNE => 'Stockage Vin Conditionné',
+                                                  self::CHAI_ATTRIBUT_DGC => 'Dénomination Géographique complémentaire',
+                                                  self::CHAI_ATTRIBUT_APPORT => 'Apport',
+                                                  self::CHAI_ATTRIBUT_CONDITIONNEMENT => 'Centre de conditionnement',
+                                                  self::CHAI_ATTRIBUT_PRESTATAIRE => 'Prestataire de service',
+                                                  self::CHAI_ATTRIBUT_ELEVAGE => 'Elevage et vieillissement');
+
+    public static $chaisAttributsInImport = array("Vinification" => EtablissementClient::CHAI_ATTRIBUT_VINIFICATION,
+                                                  "VV Stockage" => EtablissementClient::CHAI_ATTRIBUT_STOCKAGE_VRAC,
+                                                  "VC Stockage" => EtablissementClient::CHAI_ATTRIBUT_STOCKAGE_VIN_CONDITIONNE,
+                                                  "DGC" => EtablissementClient::CHAI_ATTRIBUT_DGC,
+                                                  "Apport" => EtablissementClient::CHAI_ATTRIBUT_APPORT,
+                                                  "Conditionnement" => EtablissementClient::CHAI_ATTRIBUT_CONDITIONNEMENT,
+                                                  "Prestataire" => EtablissementClient::CHAI_ATTRIBUT_PRESTATAIRE,
+                                                  "Elevage" => EtablissementClient::CHAI_ATTRIBUT_ELEVAGE,
+                                                    );
+
+    public static $chaisAttributByLiaisonType = array(
+                                                    self::TYPE_LIAISON_COOPERATIVE => 'Apport',
+                                                    self::TYPE_LIAISON_NEGOCIANT => 'Apport',
+                                                );
     public static function getInstance() {
         return acCouchdbManager::getClient("Etablissement");
     }
@@ -93,11 +145,11 @@ class EtablissementClient extends acCouchdbClient {
         $etbs = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         $last_num = 0;
         foreach ($etbs as $id) {
-            if (!preg_match('/ETABLISSEMENT-[0-9]{6}([0-9]{2})/', $id, $matches)) {
+            if (!preg_match('/ETABLISSEMENT-'.SocieteClient::getInstance()->getSocieteFormatIdentifiantRegexp().'([0-9]{2})/', $id, $matches)) {
                 continue;
             }
 
-            $num = $matches[1];
+            $num = $matches[3];
             if ($num > $last_num) {
                 $last_num = $num;
             }
@@ -180,17 +232,32 @@ class EtablissementClient extends acCouchdbClient {
         return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
-    public function findByAccises($no_accises) {
-        return $this->findByCvi($no_accises);
-    }
 
-    public function findByCvi($cvi) {
-        $rows = EtablissementFindByCviView::getInstance()->findByCvi(str_replace(' ', '', $cvi));
-        if (!count($rows)) {
-            return null;
+    /**
+     * Rechercher un établissment par id, identifiant, cvi, no accices, ppm
+     *
+     * @param string $anyIdentifiant Id, identifiant, cvi, no accices, ppm
+     * @param bool $withSuspendu Inclure les établissements suspendu
+     *
+     * @return Etablissement
+     */
+    public function findAny($anyIdentifiant, $withSuspendu = false) {
+        $etablissement = $this->find($this->getId($anyIdentifiant));
+
+        if($etablissement) {
+
+            return $etablissement;
         }
 
-        return $this->find($rows[0]->id);
+        return $this->findByCvi($anyIdentifiant, $withSuspendu);
+    }
+
+    public function findByAccises($no_accises, $with_suspendu = false) {
+        return $this->findByCvi($no_accises, $with_suspendu);
+    }
+
+    public function findByCvi($cvi, $with_suspendu = false, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      return $this->findByCviOrAcciseOrPPM($cvi, $with_suspendu, $hydrate);
     }
 
     public function findAllByCvi($cvi) {
@@ -203,6 +270,51 @@ class EtablissementClient extends acCouchdbClient {
             $etbs[$row->id] = $this->find($row->id);
         }
         return $etbs;
+    }
+
+    public function findByPPM($ppm, $with_suspendu = false) {
+      return $this->findByCviOrAcciseOrPPM($ppm, $with_suspendu);
+    }
+
+    public function findByAccise($accise, $with_suspendu = false) {
+      return $this->findByCviOrAcciseOrPPM($accise, $with_suspendu);
+    }
+
+    public function findByCviOrAcciseOrPPM($accise, $with_suspendu = false, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      return $this->findByCviOrAcciseOrPPMOrSirenOrTVA($accise, $with_suspendu, $hydrate);
+    }
+    public function findByCviOrAcciseOrPPMOrSiren($accise, $with_suspendu = false, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      return $this->findByCviOrAcciseOrPPMOrSirenOrTVA($accise, $with_suspendu, $hydrate);
+    }
+    public function findByCviOrAcciseOrPPMOrSirenOrTVA($cvi_or_accise_or_ppm, $with_suspendu = false, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){
+
+      $cvi_or_accise_or_ppm = str_replace(' ', '', $cvi_or_accise_or_ppm);
+
+      if (!$cvi_or_accise_or_ppm) {
+          return null;
+      }
+
+      $rows = EtablissementFindByCviView::getInstance()->findByCvi($cvi_or_accise_or_ppm);
+      $c = count($rows);
+      if ($c && $c < 20) {
+        foreach ($rows as $r) {
+          $e = $this->find($r->id, acCouchdbClient::HYDRATE_JSON);
+          if (!$with_suspendu && $e->statut == EtablissementClient::STATUT_SUSPENDU) {
+              continue;
+          }
+          $e = $this->find($r->id, $hydrate);
+          if ($e) {
+              return $e;
+          }
+        }
+      }
+
+      $s = SocieteClient::getInstance()->findBySiretOrTVA($cvi_or_accise_or_ppm);
+      if ($s) {
+          return $s->getEtablissementPrincipal();
+      }
+
+      return null;
     }
 
     public function findByNoAccise($accise,$withSuspendu = true) {
@@ -271,6 +383,27 @@ class EtablissementClient extends acCouchdbClient {
         throw new sfException("La famille $f doit être soit producteur soit negociant soit courtier");
     }
 
+    public function matchSousFamille($sf) {
+        $sf = KeyInflector::slugify($sf);
+        $matches = array("(particuliere|cooperative)" => EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE,
+            "regional" => EtablissementFamilles::SOUS_FAMILLE_REGIONAL,
+            "exterieur" => EtablissementFamilles::SOUS_FAMILLE_EXTERIEUR,
+            "etranger" => EtablissementFamilles::SOUS_FAMILLE_ETRANGER,
+            "union" => EtablissementFamilles::SOUS_FAMILLE_UNION,
+            "vinificateur" => EtablissementFamilles::SOUS_FAMILLE_VINIFICATEUR);
+        foreach ($matches as $match => $s) {
+            if (preg_match('/' . $match . '/i', $sf)) {
+                return $s;
+            }
+        }
+
+        if (!$sf) {
+            return EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
+        }
+
+        throw new sfException('Sous Famille "' . $sf . '" inconnue');
+    }
+
     public static function getStatuts() {
         return array(self::STATUT_ACTIF => self::STATUT_ACTIF,
             self::STATUT_SUSPENDU => self::STATUT_SUSPENDU);
@@ -280,12 +413,8 @@ class EtablissementClient extends acCouchdbClient {
         return array(self::RECETTE_LOCALE => 'Recette locale');
     }
 
-    public static function getRegionsWithoutHorsInterLoire() {
-        return array(self::REGION_CVO => self::REGION_CVO);
-    }
-
     public static function getRegions() {
-        return array_merge(self::getRegionsWithoutHorsInterLoire(), array(self::REGION_HORS_CVO => self::REGION_HORS_CVO));
+        return [self::REGION_CVO => self::REGION_CVO, self::REGION_HORS_CVO => self::REGION_HORS_CVO];
     }
 
     public static function getNaturesInao() {
@@ -305,15 +434,65 @@ class EtablissementClient extends acCouchdbClient {
             self::TYPE_DR_DRA => self::TYPE_DR_DRA);
     }
 
-    public static function listTypeLiaisons() {
-        return array_keys(self::getTypesLiaisons());
+    public static function getTypesLiaisons() {
+        return array(
+
+            self::TYPE_LIAISON_BAILLEUR => 'A pour bailleur',
+            self::TYPE_LIAISON_METAYER => 'A pour métayer',
+
+            self::TYPE_LIAISON_FERMIER => 'A pour fermier',
+
+            self::TYPE_LIAISON_COOPERATIVE => 'A pour coopérative',
+            self::TYPE_LIAISON_COOPERATEUR => 'A pour coopérateur',
+
+            self::TYPE_LIAISON_NEGOCIANT => 'A pour négociant (vin en vrac)',
+            self::TYPE_LIAISON_VENDEUR_VRAC => 'A pour vendeur de vin en vrac',
+
+            self::TYPE_LIAISON_NEGOCIANT_VINIFICATEUR => 'A pour négociant vinificateur',
+            self::TYPE_LIAISON_APPORTEUR_RAISIN => 'A pour apporteur de raisins',
+
+            self::TYPE_LIAISON_HEBERGE_TIERS => 'Hébergé chez un tiers',
+            self::TYPE_LIAISON_HEBERGE => 'Héberge',
+
+            self::TYPE_LIAISON_LABO => 'A pour labo',
+            self::TYPE_LIAISON_ANALYSE_DE => "Analyse les vins de",
+
+
+        );
     }
 
-    public static function getTypesLiaisons() {
-        return array(self::TYPE_LIAISON_BAILLEUR => 'A pour bailleur',
-            self::TYPE_LIAISON_METAYER => 'A pour métayer',
-            self::TYPE_LIAISON_ADHERENT => 'Adhérent de (coop.)',
-            self::TYPE_LIAISON_CONTRAT_INTERNE => 'Contrat interne');
+    public static function getTypesLiaisonsOrganisation() {
+
+        return array(
+            self::TYPE_LIAISON_BAILLEUR => self::TYPE_LIAISON_METAYER,
+            self::TYPE_LIAISON_COOPERATEUR => self::TYPE_LIAISON_COOPERATIVE,
+            self::TYPE_LIAISON_VENDEUR_VRAC => self::TYPE_LIAISON_NEGOCIANT,
+            self::TYPE_LIAISON_APPORTEUR_RAISIN => self::TYPE_LIAISON_NEGOCIANT_VINIFICATEUR,
+            self::TYPE_LIAISON_HEBERGE => self::TYPE_LIAISON_HEBERGE_TIERS,
+            self::TYPE_LIAISON_LABO => self::TYPE_LIAISON_ANALYSE_DE,
+        );
+    }
+
+    public static function isTypeLiaisonCanHaveChai($typeLiaison) {
+
+        return array_key_exists($typeLiaison, array_flip(self::getTypesLiaisonsOrganisation()));
+    }
+
+    public static function getTypeLiaisonOpposee($typeLiaison) {
+        $typeLiaisonsOrganisation = self::getTypesLiaisonsOrganisation();
+        $typeLiaisonsOrganisationInverse = array_flip($typeLiaisonsOrganisation);
+
+        if (isset($typeLiaisonsOrganisation[$typeLiaison])) {
+
+            return $typeLiaisonsOrganisation[$typeLiaison];
+        }
+
+        if (isset($typeLiaisonsOrganisationInverse[$typeLiaison])) {
+
+            return $typeLiaisonsOrganisationInverse[$typeLiaison];
+        }
+
+        return null;
     }
 
     public static function getPrefixForRegion($region) {
@@ -328,13 +507,12 @@ class EtablissementClient extends acCouchdbClient {
 
         if ($etb->famille == EtablissementFamilles::FAMILLE_COURTIER) {
             $region = self::REGION_HORS_CVO;
+
+            $result->nom = $contacts[$region]['nom'];
+            $result->email = $contacts[$region]['email'];
+            $result->telephone = $contacts[$region]['telephone'];
+            return $result;
         }
-
-        if(!isset($contacts[$region])) {
-
-            return null;
-        }
-
         $result->nom = $contacts[$region]['nom'];
         $result->email = $contacts[$region]['email'];
         $result->telephone = $contacts[$region]['telephone'];
@@ -355,4 +533,7 @@ class EtablissementClient extends acCouchdbClient {
         return self::REGION_CVO;
     }
 
+    public static function cleanCivilite($nom) {
+        return preg_replace("/^(M|MME|EARL|SCEA|SARL|SDF|GAEC|MLLE|SA|SAS|Mme|M\.|STEF|MEMR|MM|IND|EURL|SCA|EI|SCI|MMES|SASU|SC|SCV|Melle|ASSO|GFA)[,]? /", "", $nom);
+    }
 }
