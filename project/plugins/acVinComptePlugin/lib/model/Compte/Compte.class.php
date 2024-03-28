@@ -758,11 +758,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function hasDroit($droit) {
-        if(!$this->exist('droits')) {
-
-            return false;
+        $droits = $this->droits;
+        if($droits instanceof acCouchdbJson) {
+            $droits = $droits->toArray(true, false);
         }
-        $droits = $this->get('droits')->toArray(0, 1);
         foreach($droits as $key => $d) {
             $droitTab = explode(":", $d);
             $droits[$key] = $droitTab[0];
