@@ -72,7 +72,7 @@ Societe:
             commune: {  }
             pays: {  }
             insee: { }
-      cooperative: { }
+      cooperative: { required: false } #Deprecie
       enseignes:
         type: array_collection
         definition:

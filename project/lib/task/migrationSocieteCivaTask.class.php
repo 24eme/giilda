@@ -84,6 +84,7 @@ EOF;
     unset($societe->telephone);
     unset($societe->campagne_archive);
     unset($societe->numero_archive);
+    unset($societe->cooperative);
     $object2save[$societe->_id] = $societe;
 
     if(SocieteClient::getInstance()->find($societe->_id, acCouchdbClient::HYDRATE_JSON)) {
