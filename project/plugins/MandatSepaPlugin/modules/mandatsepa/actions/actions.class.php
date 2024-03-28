@@ -26,6 +26,10 @@ class mandatsepaActions extends sfActions
         $this->societe = SocieteClient::getInstance()->find($request->getParameter('identifiant'));
 
         if (! $this->getUser()->isAdmin()) {
+            if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration() === false) {
+                return $this->redirect403();
+            }
+
             if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration() === true && $this->getUser()->getCompte()->getSociete()->getIdentifiant() !== $request->getParameter('identifiant')) {
                 return $this->redirect403();
             }
