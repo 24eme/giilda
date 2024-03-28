@@ -27,11 +27,11 @@ class mandatsepaActions extends sfActions
 
         if (! $this->getUser()->isAdmin()) {
             if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration() === false) {
-                return $this->redirect403();
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
 
             if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration() === true && $this->getUser()->getCompte()->getSociete()->getIdentifiant() !== $request->getParameter('identifiant')) {
-                return $this->redirect403();
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         }
 
