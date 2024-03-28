@@ -75,10 +75,14 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function getMasterCompte() {
-        if ($this->compte) {
-            return $this->getSociete()->getCompte($this->compte);
-        }
-        return $this->getSociete()->getCompte($this->getSociete()->compte_societe);
+      if ($this->compte) {
+          $c = CompteClient::getInstance()->find($this->compte);
+          if($c){
+            return $c;
+          }
+          return $this->getSociete()->getCompte($this->compte);
+      }
+      return $this->getSociete()->getCompte($this->getSociete()->compte_societe);
     }
 
     public function getContact() {
@@ -98,26 +102,19 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function isSameAdresseThanSociete() {
-
         return $this->isSameAdresseThan($this->getSociete()->getMasterCompte());
     }
 
     public function isSameContactThanSociete() {
-
         return $this->isSameContactThan($this->getSociete()->getMasterCompte());
     }
 
-    public function isSameCompteThanSociete() {
-
-        return ($this->compte == $this->getSociete()->compte_societe);
+    public function isSameDroitsThanSociete() {
+        return Compte::isSameDroitsComptes($this->getMasterCompte(), $this->getSociete()->getMasterCompte());
     }
 
-    public function getNumCompteEtablissement() {
-        if (!$this->compte)
-            return null;
-        if ($this->compte != $this->getSociete()->compte_societe)
-            return $this->compte;
-        return null;
+    public function isSameExtrasThanSociete() {
+        return Compte::isSameExtrasComptes($this->getMasterCompte(), $this->getSociete()->getMasterCompte());
     }
 
     public function getNoTvaIntraCommunautaire() {
@@ -136,22 +133,135 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return ($this->nom) ? $this->nom : $this->raison_sociale;
     }
 
-    public function addLiaison($type, $etablissement) {
-        if (!in_array($type, EtablissementClient::listTypeLiaisons()))
+    public function existLiaison($type, $etablissementId) {
+
+        return $this->liaisons_operateurs->exist($type . '_' . $etablissementId);
+    }
+
+    public function getLiaisonByTypeAndEtablissementId($type, $etablissementId) {
+        return $this->liaisons_operateurs->get($type . '_' . $etablissementId);
+    }
+
+    public function addLiaison($type, $etablissement,$saveOther = true, $chai = null, $attributsChai = array()) {
+
+        if(!$etablissement instanceof Etablissement) {
+            $etablissement = EtablissementClient::getInstance()->find($etablissement);
+        }
+
+        if (!in_array($type, array_keys(EtablissementClient::getTypesLiaisons()))) {
             throw new sfException("liaison type \"$type\" unknown");
+        }
+
         $liaison = $this->liaisons_operateurs->add($type . '_' . $etablissement->_id);
+
         $liaison->type_liaison = $type;
         $liaison->id_etablissement = $etablissement->_id;
         $liaison->libelle_etablissement = $etablissement->nom;
+
+        $libellesTypeRelation = EtablissementClient::getTypesLiaisons();
+        $compte = $this->getMasterCompte();
+        $compte->addTag('relations',$libellesTypeRelation[$type]);
+        $compte->save();
+
+        if($etablissement->exist('ppm') && $etablissement->ppm){
+          $liaison->ppm = $etablissement->ppm;
+        }
+        if($etablissement->exist('cvi') && $etablissement->cvi){
+          $liaison->cvi = $etablissement->cvi;
+        }
+
+        if(EtablissementClient::isTypeLiaisonCanHaveChai($liaison->type_liaison) && $chai) {
+            $liaison->hash_chai = $chai->getHash();
+            $liaison->add("attributs_chai", $attributsChai);
+        }
+
+        if ($saveOther) {
+            $this->updateLiaisonOpposee($liaison);
+        }
+
         return $liaison;
     }
 
+    protected function updateLiaisonOpposee($liaison) {
+        $etablissement = $liaison->getEtablissement();
+        $typeLiaisonOpposee = EtablissementClient::getTypeLiaisonOpposee($liaison->type_liaison);
+
+        if ($this->isSuspendu()) {
+            if ($etablissement->existLiaison($typeLiaisonOpposee, $this->_id)) {
+                $etablissement->removeLiaison($etablissement->getLiaisonByTypeAndEtablissementId($typeLiaisonOpposee, $this->_id)->getkey(), false);
+                $etablissement->save();
+            }
+            return;
+        }
+        if ($etablissement->existLiaison($typeLiaisonOpposee, $this->_id)) {
+            return ;
+        }
+
+        $chaiOppose = null;
+        $attributsChaiOpposes = array();
+
+        if(EtablissementClient::isTypeLiaisonCanHaveChai($typeLiaisonOpposee) && $liaison->getChai()) {
+            $chaiOppose = $liaison->getChai();
+            $attributsChaiOpposes = $attributsChai;
+        }
+
+        if($typeLiaisonOpposee) {
+            $etablissement->addLiaison($typeLiaisonOpposee, $this, false, $chaiOppose, $attributsChaiOpposes);
+            $etablissement->save();
+        }
+    }
+
+    public function updateLiaisonsOpposees() {
+        foreach($this->liaisons_operateurs as $k => $l) {
+            $this->updateLiaisonOpposee($l);
+        }
+    }
+
+    public function removeLiaison($key, $removeOther = true) {
+        if(!$this->liaisons_operateurs->exist($key)) {
+
+            return;
+        }
+
+        $liaison = $this->liaisons_operateurs->get($key);
+
+        $typeLiaisonOpposee = EtablissementClient::getTypeLiaisonOpposee($liaison->type_liaison);
+
+        if($removeOther && $typeLiaisonOpposee) {
+            $etablissement = $liaison->getEtablissement();
+            $etablissement->removeLiaison($typeLiaisonOpposee."_".$this->_id, false);
+            $etablissement->save();
+        }
+
+        $compte = $this->getMasterCompte();
+        $compte->removeTags('manuel', array($liaison->type_liaison));
+        $compte->save();
+        $this->liaisons_operateurs->remove($key);
+
+    }
+
+    public function hasLiaisonsChai(){
+        foreach ($this->liaisons_operateurs as $liaison) {
+            if($liaison->getChai()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function isNegociant() {
-        return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT || $this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_PUR);
+        return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT);
+    }
+    public function isCooperative() {
+        return ($this->famille == EtablissementFamilles::FAMILLE_COOPERATIVE);
     }
 
     public function isViticulteur() {
-        return ($this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR || $this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR_VINIFICATEUR);
+        return ($this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR);
+    }
+
+    public function isNegociantVinificateur() {
+        return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_VINIFICATEUR);
     }
 
     public function isCaveCooperative() {
@@ -181,6 +291,15 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return null;
     }
 
+    public function getDroits()
+    {
+        if (class_exists(EtablissementDroits::class)) {
+            return EtablissementDroits::getDroits($this);
+        }
+
+        throw new sfException("La classe ".EtablissementDroits::class." n'existe pas");
+    }
+
     public function getDroit() {
         if (is_null($this->droit)) {
 
@@ -205,91 +324,55 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
     }
 
-    public function isSynchroAutoActive() {
-        return sfConfig::get('app_compte_synchro', true);
-    }
-
     public function save() {
-        $societe = $this->getSociete();
-        $this->add('date_modification', date('Y-m-d'));
+        if(SocieteConfiguration::getInstance()->isDisableSave()) {
 
-        $needSocieteSave = false;
-        if(SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
-            if($this->isSynchroAutoActive() && !$this->getCompte()){
-                $this->setCompte($this->getSociete()->getMasterCompte()->_id);
-            }
-    		if($this->isSynchroAutoActive() && (!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete())){
-    		    if ($this->isSameCompteThanSociete()) {
-    		        $compte = $societe->createCompteFromEtablissement($this);
-    		        $compte->addOrigine($this->_id);
-                    $needSocieteSave = true;
-    		    } else {
-    		        $compte = $this->getMasterCompte();
-    		    }
-
-    		    $this->pushContactAndAdresseTo($compte);
-
-    		    $compte->id_societe = $this->getSociete()->_id;
-    		    $compte->nom = $this->nom;
-
-    		    $this->compte = $compte->_id;
-    		} else if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()){
-    		    $compteEtablissement = $this->getMasterCompte();
-    		    $compteSociete = $this->getSociete()->getMasterCompte();
-
-    		    $this->compte = $compteSociete->_id;
-    		    $societe->removeContact($compteEtablissement->_id);
-                $needSocieteSave = true;
-    		}
-	    } else {
-            $compte = $societe->findOrCreateCompteFromEtablissement($this);
-            $compte->addOrigine($this->_id);
-            $this->pushContactAndAdresseTo($compte);
-            $compte->id_societe = $this->getSociete()->_id;
-            $compte->nom = $this->nom;
-            $compte->statut = $this->statut;
-            $this->compte = $compte->_id;
+            throw new Exception("L'enregistrement des sociétés, des établissements et des comptes sont désactivés");
         }
 
-        if($this->isSameCompteThanSociete() && !SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+        $societe = $this->getSociete();
+
+        $compte = $societe->findOrCreateCompteFromEtablissement($this);
+
+        $compte->addOrigine($this->_id);
+
+        $this->pushContactAndAdresseTo($compte);
+
+        $compte->id_societe = $this->getSociete()->_id;
+        $compte->nom = $this->nom;
+        $compte->statut = $this->statut;
+        $compte->commentaire = $this->commentaire;
+
+        $this->compte = $compte->_id;
+
+
+        if($this->isSameAdresseThanSociete()) {
             $this->pullAdresseFrom($this->getSociete()->getMasterCompte());
+        }
+        if($this->isSameContactThanSociete()) {
             $this->pullContactFrom($this->getSociete()->getMasterCompte());
         }
-
-        $this->raison_sociale = $societe->raison_sociale;
         $this->initFamille();
+        $this->raison_sociale = $societe->raison_sociale;
+        $this->siret = $societe->siret;
         $this->interpro = "INTERPRO-declaration";
-        if(VracConfiguration::getInstance()->getRegionDepartement() !== false && $this->region != EtablissementClient::REGION_HORS_CVO) {
+        if(class_exists("VracConfiguration") && VracConfiguration::getInstance()->getRegionDepartement() !== false) {
             $this->region = EtablissementClient::getInstance()->calculRegion($this);
         }
 
-        if($this->isNew()) {
-            $societe->addEtablissement($this);
-        }
-
+        $needSocieteSave = false;
         if($this->isNew()) {
           $needSocieteSave = true;
           $societe->addEtablissement($this);
         }
-
         parent::save();
 
         $this->getMasterCompte()->setStatut($this->getStatut());
 
-        if ($this->isSynchroAutoActive()) {
-            if($needSocieteSave) {
-                $societe->save();
-            }
-
-            if($needSocieteSave && $this->isSameCompteThanSociete()) {
-
-                $this->save();
-            }
+        if($needSocieteSave) {
+            $societe->save();
         }
-
-        if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()) {
-    		$compte->save();
-	    }
+        $compte->save();
     }
 
     public function delete() {
@@ -360,14 +443,13 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
         return $a;
     }
+    public function getEmails(){
+        return explode(';',$this->email);
+    }
 
-    public function getSiret() {
-        if($this->exist('siret')) {
-
-            return $this->_get('siret');
-        }
-
-        return $this->getSociete()->siret;
+    public function getUniqueEmail() {
+    	$emails = $this->getEmails();
+    	return (isset($emails[0]))? $emails[0] : null;
     }
 
     public function findEmail() {
@@ -389,9 +471,14 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return $this->getSociete()->getMasterCompte()->isTeledeclarationActive();
     }
 
+    // Deprecated use getTeledeclarationEmail instead
     public function getEmailTeledeclaration() {
-        if ($this->exist('teledeclaration_email') && $this->teledeclaration_email) {
-            return $this->teledeclaration_email;
+        return $this->getTeledeclarationEmail();
+    }
+
+    public function getTeledeclarationEmail() {
+        if ($this->exist('teledeclaration_email') && $this->_get('teledeclaration_email')) {
+            return $this->_get('teledeclaration_email');
         }
     	if ($compteSociete = $this->getMasterCompte()) {
 	        if ($compteSociete->exist('societe_information') && $compteSociete->societe_information->exist('email') && $compteSociete->societe_information->email) {
@@ -414,6 +501,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
 
+    public function getCommentaires() {
+        $lines = explode("\n", str_replace(' - ', "\n", $this->getCommentaire()));
+        return array_filter($lines, fn($value) => (rtrim($value)));
+    }
+
     public function addCommentaire($s) {
         $c = $this->get('commentaire');
         if ($c) {
@@ -423,20 +515,20 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function getCrdRegimeArray(){
-      if(!$this->hasRegimeCrd()){
-        return null;
-      }
-      return explode(",",$this->crd_regime);
+        if(!$this->hasRegimeCrd()){
+            return null;
+        }
+        return explode(",",$this->crd_regime);
     }
 
     public function hasRegimeCollectifAcquitte(){
-      return in_array(EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE, $this->getCrdRegimeArray());
+        return in_array(EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE, $this->getCrdRegimeArray());
     }
     public function hasRegimeCollectifSuspendu(){
-      return in_array(EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU, $this->getCrdRegimeArray());
+        return in_array(EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU, $this->getCrdRegimeArray());
     }
     public function hasRegimePersonnalise(){
-      return in_array(EtablissementClient::REGIME_CRD_PERSONNALISE, $this->getCrdRegimeArray());
+        return in_array(EtablissementClient::REGIME_CRD_PERSONNALISE, $this->getCrdRegimeArray());
     }
 
     public function getNatureLibelle() {
@@ -458,20 +550,193 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
     }
 
-    public function haveLiaison($etablissement){
-        foreach ($this->liaisons_operateurs as $key => $value) {
-            if($value->id_etablissement == $etablissement->_id ){
-                return true;
-            }
-        }
-        return false;
+    public function hasFamille($famille) {
+
+        return $this->famille == $famille;
     }
 
-    public function getEtablissementsLies(){
-        $result=array();
-        foreach($this->liaisons_operateurs as $id => $tab){
-            $result[$tab['id_etablissement']]=$tab['libelle_etablissement'];
-        }
-        return $result;
+    public function getSiret() {
+    	if (!$this->_get('siret')) {
+    		$this->siret = $this->getSociete()->getSiret();
+    	}
+    	return Anonymization::hideIfNeeded($this->_get('siret'));
     }
+
+    /**** FONCTIONS A RETIRER APRES LE MERGE ****/
+
+
+      public function isSameCompteThanSociete() {
+
+        return ($this->compte == $this->getSociete()->compte_societe);
+    }
+
+    /**** FIN FONCTIONS A RETIRER APRES LE MERGE ****/
+
+    public function getNumeroCourt() {
+
+        return str_replace(str_replace('SOCIETE-', '', $this->id_societe), '', $this->identifiant);
+    }
+
+    public function setStatut($s) {
+        $r = $this->_set('statut', $s);
+        $this->updateLiaisonsOpposees();
+        return $r;
+    }
+
+    public function getStatutLibelle(){
+      return CompteClient::$statutsLibelles[$this->getStatut()];
+    }
+
+    public function getRaisonSociale() {
+        return Anonymization::hideIfNeeded($this->_get('raison_sociale'));
+    }
+
+    public function getNom() {
+        return Anonymization::hideIfNeeded($this->_get('nom'));
+    }
+
+    public function getAdresse() {
+        return Anonymization::hideIfNeeded($this->_get('adresse'));
+    }
+    public function getAdresseComplementaire() {
+        return Anonymization::hideIfNeeded($this->_get('adresse_complementaire'));
+    }
+
+    public function getMeAndLiaisonOfType($type) {
+        return array_merge(array($this), $this->getLiaisonObjectOfType($type));
+    }
+
+    public function  getLiaisonObjectOfType($type) {
+        $etablissements = array();
+        foreach ($this->getLiaisonOfType($type) as $o) {
+            $e = EtablissementClient::getInstance()->find($o->id_etablissement);
+            if ($e && ($e->cvi || $e->ppm)) {
+                $etablissements[] = $e;
+            }
+        }
+        return $etablissements;
+    }
+
+    public function  getLiaisonOfType($type) {
+        $liaisons = array();
+        if ($this->exist('liaisons_operateurs')) {
+            foreach ($this->liaisons_operateurs as $k => $o) {
+                if ($o->type_liaison == $type) {
+                    $liaisons[] = $o;
+                }
+            }
+        }
+        return $liaisons;
+    }
+
+    public function getLaboLibelle() {
+        $labos = $this->getLiaisonOfType(EtablissementClient::TYPE_LIAISON_LABO);
+        if (!count($labos)) {
+            return null;
+        }
+        return $labos[0]->libelle_etablissement;
+    }
+
+    public function getLiaisonsOperateursSorted() {
+        $liaisonsOperateurs = $this->liaisons_operateurs->toArray();
+
+        uasort($liaisonsOperateurs, function($a, $b) {
+            return $a->libelle_etablissement > $b->libelle_etablissement;
+        });
+
+        return $liaisonsOperateurs;
+    }
+
+    public function hasLieuxStockage() {
+
+        return $this->exist('lieux_stockage') && count($this->lieux_stockage) > 0;
+    }
+
+    public function removeLieuxStockage($identifiant = null) {
+        $lieuxToRemove = array();
+        if(!$this->exist('lieux_stockage')) {
+            return;
+        }
+        foreach($this->_get('lieux_stockage') as $lieuStockage) {
+            if($identifiant && !preg_match("/".$identifiant."/", $lieuStockage->getKey())) {
+                continue;
+            }
+            $lieuxToRemove[$lieuStockage->getKey()] = $lieuStockage->getKey();
+        }
+
+        foreach($lieuxToRemove as $key) {
+            $this->add('lieux_stockage')->remove($key);
+        }
+    }
+
+    public function getLieuxStockage($ajoutLieuxStockage = false, $identifiant = null)
+    {
+        if($ajoutLieuxStockage && $this->isAjoutLieuxDeStockage() &&
+                (!$this->exist('lieux_stockage') || (!count($this->getLieuxStockage(false, $identifiant))))){
+            $lieu_stockage = $this->storeLieuStockage($this->adresse,
+                                                    $this->commune,
+                                                   $this->code_postal);
+            $this->lieux_stockage->add($lieu_stockage->numero, $lieu_stockage);
+
+            return $this->_get('lieux_stockage');
+        }
+        if(!$this->exist('lieux_stockage')){
+
+            return array();
+        }
+
+        if(is_null($identifiant)) {
+
+            return $this->_get('lieux_stockage');
+        }
+        $lieuxStockage = array();
+        foreach($this->_get('lieux_stockage') as $lieuStockage) {
+            if(!preg_match("/".$identifiant."/", $lieuStockage->getKey())) {
+                continue;
+            }
+            $lieuxStockage[$lieuStockage->getKey()] = $lieuStockage;
+        }
+
+        return $lieuxStockage;
+    }
+
+    public function getLieuStockagePrincipal($ajoutLieuxStockage = false, $identifiant = null) {
+        foreach($this->getLieuxStockage($ajoutLieuxStockage, $identifiant) as $lieu_stockage) {
+
+            return $lieu_stockage;
+        }
+
+        return null;
+    }
+
+    public function isAjoutLieuxDeStockage(){
+
+        return ($this->getFamille() != EtablissementFamilles::FAMILLE_PRODUCTEUR_VINIFICATEUR);
+    }
+
+    public function storeLieuStockage($adresse,$commune,$code_postal)
+    {
+        $newId = 0;
+        $identifiant = $this->getIdentifiant();
+        if(!$this->exist('lieux_stockage')){
+            $this->add('lieux_stockage');
+        }
+        $lieux_stockage = $this->getLieuxStockage(false, $identifiant);
+        foreach ($lieux_stockage as $key => $value) {
+            $current_id = intval(str_replace($identifiant, '', $key));
+            if($current_id > $newId){
+                $newId = $current_id;
+            }
+        }
+        $newId = $identifiant.sprintf('%03d',$newId+1);
+        $lieu_stockage = new stdClass();
+        $lieu_stockage->numero = $newId;
+        $lieu_stockage->nom = $this->nom;
+        $lieu_stockage->adresse = $adresse;
+        $lieu_stockage->commune = $commune;
+        $lieu_stockage->code_postal = $code_postal;
+        $this->_get('lieux_stockage')->add($newId, $lieu_stockage);
+        return $lieu_stockage;
+    }
+
 }

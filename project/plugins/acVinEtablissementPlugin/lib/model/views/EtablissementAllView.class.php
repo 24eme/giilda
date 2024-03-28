@@ -30,6 +30,10 @@ class EtablissementAllView extends acCouchdbView
         return acCouchdbManager::getView('etablissement', 'all', 'Etablissement');
     }
 
+	public function getAll() {
+        return $this->client->reduce(false)->getView($this->design, $this->view)->rows;
+    }
+
     public function findByInterpro($interpro) {
 
         return $this->client->startkey(array($interpro))
@@ -82,39 +86,45 @@ class EtablissementAllView extends acCouchdbView
 
     public function findByInterproStatutAndFamille($interpro, $statut, $famille, $filter = null, $limit = null) {
       try{
-	return $this->findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $filter, $limit);
+			return $this->findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $filter, $limit);
       }catch(Exception $e) {
-	return $this->findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter, $limit);
+				return array_merge($this->findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter, $limit),
+										 			 $this->findByInterproStatutAndFamilleVIEW(null, $statut, $famille, $filter, $limit),
+									 	       $this->findByInterproStatutAndFamilleVIEW("INTERPRO-declaration", $statut, $famille, $filter, $limit));
       }
     }
 
-    public function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = 100) {
-      $q = explode(' ', $query);
-      for($i = 0 ; $i < count($q); $i++) {
-	$q[$i] = '*'.$q[$i].'*';
-      }
-      if ($statut) {
-	$q[] = 'doc.statut:'.$statut;
-      }
+    private function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = 100) {
 
-			if ($famille) {
-				$q[] = 'doc.famille:'.$famille;
-      }
+			$requestDoc = (sfConfig::get('app_elasticversion','2.4.6') >= "2.0.0")? "doc." : '';
+			$q = explode(' ', $query);
+			      for($i = 0 ; $i < count($q); $i++) {
+				$q[$i] = '*'.$q[$i].'*';
+			      }
+			      if ($statut) {
+				$q[] = $requestDoc.'statut:'.$statut;
+			      }
 
-      $query = implode(' ', $q);
+			      if ($famille == EtablissementFamilles::FAMILLE_COOPERATIVE) {
+				$q[] = 'cooperative:1';
+			      }else if ($famille) {
+				$q[] = $requestDoc.'famille:'.$famille;
+			      }
 
-      $index = acElasticaManager::getType('ETABLISSEMENT');
-      $elasticaQueryString = new acElasticaQueryQueryString();
-      $elasticaQueryString->setDefaultOperator('AND');
-      $elasticaQueryString->setQuery($query);
+			      $query = implode(' ', $q);
+						$indexEtablissement = ($requestDoc)? 'ETABLISSEMENT' : 'Etablissement';
+			      $index = acElasticaManager::getType($indexEtablissement);
+			      $elasticaQueryString = new acElasticaQueryQueryString();
+			      $elasticaQueryString->setDefaultOperator('AND');
+			      $elasticaQueryString->setQuery($query);
 
-      // Create the actual search object with some data.
-      $q = new acElasticaQuery();
-      $q->setQuery($elasticaQueryString);
-      $q->setLimit($limit);
+			      // Create the actual search object with some data.
+			      $q = new acElasticaQuery();
+			      $q->setQuery($elasticaQueryString);
+			      $q->setLimit($limit);
 
-      //Search on the index.
-      $res = $index->search($q);
+			      //Search on the index.
+			      $res = $index->search($q);
 
       $viewres = $this->elasticRes2View($res);
       return $viewres;
@@ -126,8 +136,17 @@ class EtablissementAllView extends acCouchdbView
 	$r = $er->getData();
 	$e = new stdClass();
 	$e->id = $er->getId();
-	$e->key = array($r['doc']['interpro'], $r['doc']['statut'], $r['doc']['famille'], $r['doc']['id_societe'], $er->getId(), $r['doc']['nom'], $r['doc']['identifiant'], $r['doc']['cvi'], $r['doc']['region']);
-	$e->value = array($r['doc']['nom'],$r['doc']['siege']['adresse'], $r['doc']['siege']['commune'], $r['doc']['siege']['code_postal'], $r['doc']['no_accises']);
+		if(sfConfig::get('app_elasticversion','2.4.6') >= "2.0.0"){
+			$r = $r['doc'];
+		}
+		$no_accises_siret = $r['no_accises'];
+		if($no_accises_siret && $r['siret']) {
+			$no_accises_siret .= " / ";
+		}
+		$no_accises_siret .= $r['siret'];
+		$e->key = array($r['interpro'], $r['statut'], $r['famille'], $r['id_societe'], $er->getId(), $r['nom'], $r['identifiant'], $r['cvi'], $r['region']);
+		$e->value = array($r['nom'],$r['siege']['adresse'], $r['siege']['commune'], $r['siege']['code_postal'], $no_accises_siret);
+
 	$res[] = $e;
       }
       return $res;
@@ -136,7 +155,7 @@ class EtablissementAllView extends acCouchdbView
     public function findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter = null, $limit = null) {
       $keys = array($interpro, $statut);
       if ($famille) {
-	$keys[] = $famille;
+				$keys[] = $famille;
       }
       $view = $this->client->reduce(false)->startkey($keys);
       $keys[] = array();
@@ -160,10 +179,10 @@ class EtablissementAllView extends acCouchdbView
     }
 
 		public static function makeLibelle($row) {
-			$libelle = '';
+            $libelle = '🏠 ';
 
 			if ($nom = $row->key[self::KEY_NOM]) {
-				$libelle .= $nom;
+				$libelle .= Anonymization::hideIfNeeded($nom);
 			}
 
 			$libelle .= ' ('.$row->key[self::KEY_IDENTIFIANT];

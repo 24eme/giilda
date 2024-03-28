@@ -10,7 +10,7 @@ class EtablissementFamilles
     const FAMILLE_COURTIER = "COURTIER";
     const FAMILLE_REPRESENTANT = "REPRESENTANT";
 
-    protected static $familles = array(
+    public static $familles = array(
     	self::FAMILLE_PRODUCTEUR => "Producteur",
         self::FAMILLE_PRODUCTEUR_VINIFICATEUR => "Producteur Vinificateur",
     	self::FAMILLE_NEGOCIANT => "Négociant",
@@ -31,17 +31,6 @@ class EtablissementFamilles
     	return self::$familles;
     }
 
-    public static function getFamillesByTypeSociete($typeSociete) {
-        $famillesKey = (isset(self::$type_societe_famille[$typeSociete])) ? self::$type_societe_famille[$typeSociete] : array();
-        $familles = array();
-
-        foreach ($famillesKey as $familleKey) {
-            $familles[$familleKey] = self::$familles[$familleKey];
-        }
-
-        return $familles;
-    }
-
     public static function getFamilleLibelle($famille = null)
     {
         $familles = self::getFamilles();
@@ -51,4 +40,5 @@ class EtablissementFamilles
     	}
     	return $familles[$famille];
     }
+
 }

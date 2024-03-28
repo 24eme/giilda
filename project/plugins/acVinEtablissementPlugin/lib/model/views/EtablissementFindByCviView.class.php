@@ -22,8 +22,8 @@ class EtablissementFindByCviView extends acCouchdbView
                     		->getView($this->design, $this->view)->rows;
     }
 
-		public function findByAccise($accise) {
+    public function findByAccise($accise) {
 
-			return $this->findByCvi($accise);
-		}
+		return $this->findByCvi($accise);
+	}
 }

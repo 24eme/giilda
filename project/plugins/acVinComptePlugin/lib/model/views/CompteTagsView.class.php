@@ -11,6 +11,10 @@
  */
 class CompteTagsView extends acCouchdbView {
 
+    const KEY_TYPE_TAG = 0;
+    const KEY_TAG = 1;
+    const KEY_LIBELLEWITHADRESSE_COMPTE = 2;
+    
     public static function getInstance() {
         return acCouchdbManager::getView('compte', 'tags', 'Compte');
     }

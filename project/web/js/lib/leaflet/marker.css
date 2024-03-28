@@ -1,0 +1,100 @@
+/*
+Author: L. Voogdt
+License: MIT
+Version: 1.0
+*/
+
+.marker {
+  position:absolute;
+  display: inline;
+  text-align: center;
+}
+
+.marker.marker-xs {
+  width: 29px;
+  height: 29px;
+}
+
+.marker.marker-sm {
+  width: 35px;
+  height: 35px;
+}
+
+.marker.marker-lg {
+  width: 47px;
+  height: 47px;
+}
+
+.marker .marker-inner-bg {
+  background: #ffffff; 
+  width: 50%; 
+  height: 50%; 
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  left: 25%;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 27px;
+}
+
+.marker .marker-inner {
+  font-size: 41px;
+  color: #aa0000;
+  display: inline;
+  text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  left: 0;
+}
+
+.marker.marker-xs .marker-inner {
+  font-size: 29px;
+}
+
+.marker.marker-sm .marker-inner {
+  font-size: 35px;
+}
+
+.marker.marker-lg .marker-inner {
+  font-size: 47px;
+}
+
+.marker .marker-inner-icon {
+  font-size: 10px;
+  color: black;
+  position: absolute;
+  left: 16px;
+  top: 8px;
+  color: #000;
+}
+
+#refreshButton {
+  position: absolute;
+  top: 125px;
+  left: 12px;
+  z-index: 999;
+}
+
+.leaflet-control-container .leaflet-control-gps .gps-button {
+  width: 27px;
+  height: 27px;
+}
+.leaflet-control-container .leaflet-control-gps .gps-button.active {
+  background-position: 1px -51px;
+}
+
+.info table {
+    margin-bottom: 0;
+}
+
+.info {
+    padding: 4px;
+    background: white;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    width: 300px;
+}
+
+#btn-close-info {
+    z-index: 100;
+}

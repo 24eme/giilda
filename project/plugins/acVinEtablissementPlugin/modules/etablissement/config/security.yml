@@ -2,3 +2,6 @@ all:
   is_secure: true
   credentials: contacts
 
+visualisation:
+  is_secure: true
+  credentials:  []
