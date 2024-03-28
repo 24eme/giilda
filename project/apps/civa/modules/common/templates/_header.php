@@ -6,6 +6,9 @@
     <?php if(!$compte && $sf_request->getAttribute('sf_route') && $sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceSocieteRoute): $compte = $sf_request->getAttribute('sf_route')->getSociete()->getMasterCompte()->login; endif; ?>
 
     <?php echo file_get_contents(sfConfig::get('app_url_header')."?compte=".$compte."&isAdmin=".$isAdmin."&compteOrigine=".$compteOrigine); ?>
+    <?php if(sfConfig::get('sf_debug')): ?>
+        <a style="position: absolute; right: 10px; top: -15px; font-size: 10px; color: #ff0000;" href="<?php echo sfConfig::get('app_url_header')."?compte=".$compte."&isAdmin=".$isAdmin."&compteOrigine=".$compteOrigine ?>">[voir l'url du header]</a></pre>
+    <?php endif; ?>
 
     <div id="main">
         <div style="position:relative;" id="nav">
