@@ -66,7 +66,7 @@ class CompteLdap extends acVinLdap
 
         $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';
         $info['sn'] = ($compte->getNom()) ?: $compte->nom_a_afficher;
-        if (!$info['o']) {
+        if (!isset($info['o']) || !$info['o']) {
             $info['o'] = $info['sn'];
         }
 
