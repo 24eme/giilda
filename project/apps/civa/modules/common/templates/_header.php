@@ -1,13 +1,13 @@
 <?php if(sfConfig::get('app_url_header')): ?>
     <?php $isAdmin = ($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN) || $sf_user->isUsurpationCompte()); ?>
-    <?php $compteOrigine = $sf_user->getCompteOrigin()->login; ?>
+    <?php $compteOrigine = $sf_user->getCompteOrigin()->identifiant; ?>
     <?php $compte = null; ?>
-    <?php if($sf_request->getAttribute('sf_route') && $sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceEtablissementRoute && $sf_request->getAttribute('sf_route')->getEtablissement()): $compte = $sf_request->getAttribute('sf_route')->getEtablissement()->getMasterCompte()->identifiant;  endif; ?>
+    <?php if($sf_request->getAttribute('sf_route') && $sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceEtablissementRoute && $sf_request->getAttribute('sf_route')->getEtablissement()): $compte = $sf_request->getAttribute('sf_route')->getEtablissement()->getSociete()->getMasterCompte()->identifiant;  endif; ?>
     <?php if(!$compte && $sf_request->getAttribute('sf_route') && $sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceSocieteRoute): $compte = $sf_request->getAttribute('sf_route')->getSociete()->getMasterCompte()->identifiant; endif; ?>
-
-    <?php echo file_get_contents(sfConfig::get('app_url_header')."?compte=".$compte."&isAdmin=".$isAdmin."&compteOrigine=".$compteOrigine); ?>
+    <?php $lienHeader = sfConfig::get('app_url_header')."?compte=".$compte."&isAdmin=".$isAdmin."&compteOrigine=".$compteOrigine.'&isAuthenticated='.$sf_user->isAuthenticated(); ?>
+    <?php echo file_get_contents($lienHeader); ?>
     <?php if(sfConfig::get('sf_debug')): ?>
-        <a style="position: absolute; right: 10px; top: -15px; font-size: 10px; color: #ff0000;" href="<?php echo sfConfig::get('app_url_header')."?compte=".$compte."&isAdmin=".$isAdmin."&compteOrigine=".$compteOrigine ?>">[voir l'url du header]</a></pre>
+        <a href="<?php echo $lienHeader ?>">[voir l'url du header]</a></pre>
     <?php endif; ?>
 
     <div id="main">
