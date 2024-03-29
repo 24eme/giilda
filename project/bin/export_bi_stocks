@@ -26,10 +26,9 @@ rm $TMP/export_bi_drm_stock_last_modificatrices.csv > /dev/null 2>&1
 touch $TMP/export_bi_drm_stock_last_modificatrices.csv
 
 cat $TMP/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv | while read line; do
-   DOCID=`echo $line | cut -d ";" -f 1`;
-   CMD=`cat $TMP/export_bi_drm_ids.csv | grep $DOCID`;
-   if [ ! -z $CMD ]
-   then
+   DOCID=$( echo $line | cut -d ";" -f 1 )
+   HAS_DOC=$( cat $TMP/export_bi_drm_ids.csv | grep $DOCID );
+   if test "$HAS_DOC" ; then
      echo $line >> $TMP/export_bi_drm_stock_last_modificatrices.csv
    fi
 done
