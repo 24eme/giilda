@@ -207,7 +207,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             }
         }
         if ($this->exist('region') && $this->region) {
-            $this->addTag('automatique', 'region_'.$this->region);
+            $this->addTag('automatique', $this->region);
         }
 
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
@@ -251,7 +251,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             if($societe->exist('region') && $societe->region) {
                 $this->add('region', $societe->region);
             } else {
-                $this->add('region', implode('|', $regions));
+                $this->add('region', implode('|', array_unique($regions)));
             }
         }else{
             $this->etablissement_informations->cvi = null;
