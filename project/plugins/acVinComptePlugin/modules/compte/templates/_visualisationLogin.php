@@ -4,7 +4,7 @@
 <div style="margin-bottom: 5px;" class="col-xs-3">
 <?php echo $compte->getLogin(); ?>
 <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN) && $compte && !$sf_user->isUsurpationCompte() && $compte->getLogin()) : ?>
-            <a style="text-decoration: none; color:gray;" href="<?php echo url_for('auth_usurpation', array('identifiant' => $compte->identifiant)) ?>" title="Connexion mode déclarant"><span class="glyphicon glyphicon-cloud-upload"></span></a>
+            <a style="text-decoration: none; color:gray;" href="<?php echo url_for('auth_usurpation', array('identifiant' => $compte->login)) ?>" title="Connexion mode déclarant"><span class="glyphicon glyphicon-cloud-upload"></span></a>
 <?php endif; ?>
 </div>
 <?php if (preg_match('/{TEXT}(.*)/', $compte->mot_de_passe, $m)) : ?>
