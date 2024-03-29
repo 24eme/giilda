@@ -4,6 +4,7 @@
     <?php $compte = null; ?>
     <?php if($sf_request->getAttribute('sf_route') && $sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceEtablissementRoute && $sf_request->getAttribute('sf_route')->getEtablissement()): $compte = $sf_request->getAttribute('sf_route')->getEtablissement()->getSociete()->getMasterCompte()->identifiant;  endif; ?>
     <?php if(!$compte && $sf_request->getAttribute('sf_route') && $sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceSocieteRoute): $compte = $sf_request->getAttribute('sf_route')->getSociete()->getMasterCompte()->identifiant; endif; ?>
+    <?php if(!$compte && $sf_user->getCompte()): $compte = $sf_user->getCompte()->identifiant; endif; ?>
     <?php $lienHeader = sfConfig::get('app_url_header')."?compte=".$compte."&isAdmin=".$isAdmin."&compteOrigine=".$compteOrigine.'&isAuthenticated='.$sf_user->isAuthenticated(); ?>
     <?php echo file_get_contents($lienHeader); ?>
     <?php if(sfConfig::get('sf_debug')): ?>
