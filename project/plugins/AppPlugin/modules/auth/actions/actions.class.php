@@ -48,7 +48,7 @@ class authActions extends sfActions {
 
     public function executeUsurpation(sfWebRequest $request) {
         $compte = CompteClient::getInstance()->find("COMPTE-".$request->getParameter('identifiant'));
-        $login = $compte->getSociete()->login;
+        $login = $compte->getSociete()->getMasterCompte()->login;
         if($compte->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
             $login = $compte->login;
         }
