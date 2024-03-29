@@ -19,7 +19,7 @@
         <?php if(count($compte->getEmails())): ?>
             <div class="row">
                 <div class="col-xs-3 text-muted">
-                    Email<?php if ($compte->isSocieteContact()): ?>&nbsp;compt.<?php endif ?>&nbsp;:
+                    Email&nbsp;:
                 </div>
                 <div class="col-xs-9">
                     <?php foreach ($compte->getEmails() as $email): ?>
