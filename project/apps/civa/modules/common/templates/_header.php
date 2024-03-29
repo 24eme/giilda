@@ -21,8 +21,8 @@
                 <?php if ($isAdmin && preg_match('/(drm|facture)/', $sf_request->getParameter('module'))) : ?>
                     <?php if ($sf_user->isUsurpationCompte()): ?>
                          <a style="font-size: 20px; position: absolute; right: 15px; top: 10px;" tabindex="-1" href="<?php echo url_for('auth_deconnexion_usurpation') ?>"><span class="glyphicon glyphicon-cloud-download"></span></a>
-                    <?php elseif($compte->getSociete() && $compte->getSociete()->getEtablissementPrincipal()): ?>
-                        <a style="font-size: 20px; position: absolute; right: 15px; top: 10px;" tabindex="-1" href="<?php echo url_for('drm_debrayage', array('identifiant' => $compte->getSociete()->identifiant)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a>
+                    <?php elseif($sf_request->getAttribute('sf_route') && $sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceEtablissementRoute && $sf_request->getAttribute('sf_route')->getEtablissement()): ?>
+                        <a style="font-size: 20px; position: absolute; right: 15px; top: 10px;" tabindex="-1" href="<?php echo url_for('drm_debrayage', array('identifiant' => $sf_request->getAttribute('sf_route')->getEtablissement()->identifiant)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a>
                     <?php endif; ?>
                 <?php endif; ?>
             <?php else: ?>
