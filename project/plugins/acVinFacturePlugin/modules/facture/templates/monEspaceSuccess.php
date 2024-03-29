@@ -16,7 +16,6 @@ use_helper('Float');
     <?php endif; ?>
     <div class="col-xs-12">
         <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures, 'interpro' => $interproFacturable)); ?>
-        <?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
           <?php if (MandatSepaConfiguration::getInstance()->isActive()): ?>
             <hr />
                 <h2>Prélèvement SEPA</h2>
@@ -62,11 +61,10 @@ use_helper('Float');
                                 <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;Télécharger le document</a>
                             </div>
                           </div>
+                          <?php if (!$mandatSepa->is_telecharge && false): ?>
+                            <?php include_partial('mandatsepa/popupIncitationSignatureMandat', array('mandatSepa' => $mandatSepa)); ?>
+                          <?php endif; ?>
                         <?php endif ?>
-
-                      <?php if (!$mandatSepa->is_telecharge && false): ?>
-                        <?php include_partial('mandatsepa/popupIncitationSignatureMandat', array('mandatSepa' => $mandatSepa)); ?>
-                      <?php endif; ?>
                     <?php else: ?>
                       <div class="row">
                         <div class="col-xs-6 col-xs-offset-3 text-center">
@@ -79,8 +77,10 @@ use_helper('Float');
                     <?php endif; ?>
                     </div>
               </div>
+              <hr />
           <?php endif; ?>
-         <hr />
+
+        <?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
         <?php
         try {
             $no_region = ! count($societe->getRegionsViticoles());
