@@ -61,4 +61,4 @@ all:
   request:
     class: sfWebRequest
     param:
-#      relative_url_root: /drm/
+      relative_url_root: /drm/
