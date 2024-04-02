@@ -55,7 +55,7 @@ class FactureClient extends acCouchdbClient {
 
         if(!$doc && $compte = CompteClient::getInstance()->find(explode("-", $id)[1])) {
 
-            return parent::find(str_replace(explode("-", $id)[1], $compte->getSociete()->identifiant, $id), $hydrate, $force_return_ls)->_id;
+            return parent::find(str_replace(explode("-", $id)[1], $compte->getSociete()->identifiant, $id), $hydrate, $force_return_ls);
         }
 
         return $doc;
