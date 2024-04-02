@@ -53,7 +53,7 @@ class FactureClient extends acCouchdbClient {
     public function find($id, $hydrate = self::HYDRATE_DOCUMENT, $force_return_ls = false) {
         $doc = parent::find($id, $hydrate, $force_return_ls);
 
-        if(!$doc && $compte = CompteClient::getInstance()->find(explode("-", $id)[1])) {
+        if(!$doc && $compte = CompteClient::getInstance()->findByLogin(explode("-", $id)[1])) {
 
             return parent::find(str_replace(explode("-", $id)[1], $compte->getSociete()->identifiant, $id), $hydrate, $force_return_ls);
         }
