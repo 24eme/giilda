@@ -12,7 +12,7 @@ class EtablissementRoute extends sfObjectRoute implements InterfaceEtablissement
         }
         $myUser = sfContext::getInstance()->getUser();
         $compteUser = $myUser->getCompte();
-        if ($myUser->hasTeledeclaration() && !$myUser->isAdmin() && $compteUser->identifiant != $this->getEtablissement()->getSociete()->getMasterCompte()->identifiant) {
+        if ($myUser->hasTeledeclaration() && !$myUser->isAdmin() && $this->getEtablissement()->getSociete()->isContact($compteUser) === false) {
 
             throw new sfError403Exception("Vous n'avez pas le droit d'accéder à cette page");
         }

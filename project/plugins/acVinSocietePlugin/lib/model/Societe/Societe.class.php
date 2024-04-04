@@ -339,6 +339,11 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $this->getMasterCompte();
     }
 
+    public function isContact($compte)
+    {
+        return array_key_exists("COMPTE-".$compte->identifiant, $this->contacts->toArray());
+    }
+
     public function isManyEtbPrincipalActif() {
         $cptActif = 0;
         foreach ($this->getEtablissementsObj() as $etb) {
