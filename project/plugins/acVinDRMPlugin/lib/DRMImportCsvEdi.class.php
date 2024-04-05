@@ -706,7 +706,13 @@ private function checkCSVIntegrity() {
     if (!preg_match('/^FR0[0-9A-Z]{10}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
       //$this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
     }
-    if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && ($this->societe->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && (!$csvRow[self::CSV_NUMACCISE] || $this->etablissement->no_accises != $csvRow[self::CSV_NUMACCISE]))) {
+    if(
+        $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])
+        && (
+            $this->societe->getMasterCompte()->getLogin() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])
+            && (!$csvRow[self::CSV_NUMACCISE] || $this->etablissement->no_accises != $csvRow[self::CSV_NUMACCISE])
+        )
+    ) {
       $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
     }
     if($this->drm->getPeriode() != KeyInflector::slugify($csvRow[self::CSV_PERIODE])){
