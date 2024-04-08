@@ -100,7 +100,6 @@ class SocieteClient extends acCouchdbClient {
         $societe->interpro = 'INTERPRO-declaration';
         $societe->identifiant = sprintf($this->getSocieteFormatIdentifiant(), $identifiant);
         $societe->statut = SocieteClient::STATUT_ACTIF;
-        $societe->cooperative = 0;
         $societe->setPays('FR');
         $societe->add("date_creation", date('Y-m-d'));
         $societe->constructId();
