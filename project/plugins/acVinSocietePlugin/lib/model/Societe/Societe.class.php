@@ -339,9 +339,25 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $this->getMasterCompte();
     }
 
-    public function isContact($compte)
+    public function isContact($compte, $withSocietesLiees = true)
     {
-        return array_key_exists("COMPTE-".$compte->identifiant, $this->contacts->toArray());
+        if (array_key_exists("COMPTE-".$compte->identifiant, $this->contacts->toArray())) {
+            return true;
+        }
+
+        if (! $withSocietesLiees || ! $this->exist('societes_liees')) {
+            return false;
+        }
+
+        foreach ($this->societes_liees as $idSociete) {
+            $societeLiee = SocieteClient::getInstance()->find($idSociete);
+
+            if ($societeLiee->isContact($compte, false)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function isManyEtbPrincipalActif() {
