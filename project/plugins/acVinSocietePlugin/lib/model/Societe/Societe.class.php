@@ -352,7 +352,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         foreach ($this->societes_liees as $idSociete) {
             $societeLiee = SocieteClient::getInstance()->find($idSociete);
 
-            if ($societe->isContact($compte, false)) {
+            if ($societeLiee->isContact($compte, false)) {
                 return true;
             }
         }
