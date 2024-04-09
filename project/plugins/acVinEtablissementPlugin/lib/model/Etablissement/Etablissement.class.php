@@ -369,10 +369,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         $this->getMasterCompte()->setStatut($this->getStatut());
 
+        $compte->save();
+        
         if($needSocieteSave) {
             $societe->save();
         }
-        $compte->save();
     }
 
     public function delete() {
