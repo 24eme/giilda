@@ -197,6 +197,13 @@ function drm2CrdCiel($drm) {
                                 $crds[$type.$crd->genre][$subkey]->sorties_manquants += $crd->sorties_manquants;
                                 $crds[$type.$crd->genre][$subkey]->sorties_autres += $crd->sorties_autres;
                                 $crds[$type.$crd->genre][$subkey]->stock_fin += $crd->stock_fin;
+                                if ($crd->exist('observations')) {
+                                    if (!$crds[$type.$crd->genre][$subkey]->exist('observations')) {
+                                        $crds[$type.$crd->genre][$subkey]->add('observations', $crd->observations);
+                                    }else{
+                                        $crds[$type.$crd->genre][$subkey]->observations .= ' - '.$crd->observations;
+                                    }
+                                }
 			}
 		}
 	}
