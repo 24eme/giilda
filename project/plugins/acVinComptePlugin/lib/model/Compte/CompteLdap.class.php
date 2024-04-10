@@ -121,23 +121,25 @@ class CompteLdap extends acVinLdap
         }
 
         $etablissement = $compte->getEtablissement();
-
+        if(!$etablissement && $compte->getSociete()) {
+            $etablissement = $compte->getSociete()->getEtablissementPrincipal();
+        }
         $gecos = null;
 
         if(!$etablissement) {
-            $gecos = sprintf("%s,%s,%s,%s", $compte->identifiant, null, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+            $gecos = sprintf("%s,%s,%s,%s,%s:%s", $compte->identifiant, null, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $compte->_id);
         }
 
         //Hack pour la compatibilité GAMMAlsace du CIVA
         if (!$gecos && class_exists('civaConfiguration')) {
             $gamma = acCouchdbManager::getClient()->find(str_replace('ETABLISSEMENT', 'GAMMA', $etablissement->_id), acCouchdbClient::HYDRATE_JSON);
             if ($gamma) {
-                $gecos =  sprintf("%s,%s,%s,%s", $gamma->identifiant_inscription, $gamma->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+                $gecos =  sprintf("%s,%s,%s,%s,%s:%s", $gamma->identifiant_inscription, $gamma->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $gamma->_id);
             }
         }
 
         if (!$gecos) {
-            $gecos =  sprintf("%s,%s,%s,%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+            $gecos =  sprintf("%s,%s,%s,%s,%s:%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $etablissement->_id);
         }
 
         return self::replace_invalid_syntax($gecos);
