@@ -61,7 +61,7 @@ class CompteLdap extends acVinLdap
         $info['loginShell']       = '/bin/bash';
         $info['uidNumber']        = (int)self::getIdentifiant($compte);
         $info['gidNumber']        = '1000';
-        $info['homeDirectory']    = '/home/'.self::getIdentifiant($compte);
+        $info['homeDirectory']    = '/home/'.$compte->id;
         $info['gecos']            = self::getGecos($compte);
         if ($compte->isEtablissementContact()) {
              $info['businessCategory'] = $compte->getEtablissement()->famille;
