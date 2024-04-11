@@ -798,7 +798,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     // fin
 
     public function getMandatSepa($interpro = null) {
-        return MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant(), $interpro);
+        return MandatSepaClient::getInstance($interpro)->findLastBySociete($this->getIdentifiant(), $interpro);
     }
 
     public function hasMandatSepa($interpro = null) {
@@ -806,7 +806,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     }
 
     public function hasMandatSepaActif($interpro = null) {
-        if (!MandatSepaConfiguration::getInstance()->isActive()) {
+        if (!MandatSepaConfiguration::getInstance($interpro)->isActive()) {
             return false;
         }
         $mandat = $this->getMandatSepa($interpro);
