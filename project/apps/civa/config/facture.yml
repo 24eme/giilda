@@ -6,6 +6,7 @@ all:
       prefix_sage: "VEN"
       tva_compte: "44578"
       defaut_compte: "75620"
+      teledeclaration: true
       stockage_code_produit: "identifiant_analytique"
       pdf_produit: false
       pdf_nom_ref_client: "N° ADHÉRENT"
@@ -20,3 +21,4 @@ all:
       export_shell: "%sf_root_dir%/bin/exportSage.sh"
       seuil_minimum: 20
       pdf_ligne_details: false
+      sousgen_facture_with_prlv_auto: false

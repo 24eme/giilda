@@ -7,10 +7,11 @@ Societe:
       type: { }
       identifiant: { }
       type_societe: { }
-      raison_sociale: { searchable: true }
-      raison_sociale_abregee: { searchable: true }
+      raison_sociale: { }
+      raison_sociale_abregee: { }
       statut: { }
       code_comptable_client: { }
+      societe_maison_mere: { required: false }
       interpros_metas:
         required: false
         type: collection
@@ -32,7 +33,7 @@ Societe:
                 fields:
                   '*': { }
       code_comptable_fournisseur: { }
-      num_interne: { required: false }
+      region: { required: false }
       teledeclaration_email: { required: false }
       paiement_douane_moyen: { required: false }
       paiement_douane_frequence: { required: false }
@@ -43,25 +44,35 @@ Societe:
           fields:
             '*': { }
       code_naf: { }
+      num_interne: { required: false }
       siret: { }
       interpro: { }
-      date_modification: { type: date, required: false }
-      date_creation: { type: date, required: false}
+      date_modification: { required: false }
+      date_creation: { required: false}
       no_tva_intracommunautaire: { }
+
+      # champs copié de compte
       email: {  }
-      telephone: {  }
+      telephone_perso: {  }
+      telephone_bureau: {  }
+      telephone_mobile: {  }
       fax: {  }
+      telephone: { required: false }
+      site_internet: { }
+
+
       commentaire: { }
       siege:
         type: collection
         definition:
           fields:
-            adresse: { searchable: true }
-            adresse_complementaire: { searchable: true }
+            adresse: {  }
+            adresse_complementaire: { }
             code_postal: {  }
-            commune: { searchable: true }
-            pays: { searchable: true }
-      cooperative: { }
+            commune: {  }
+            pays: {  }
+            insee: { }
+      cooperative: { required: false } #Deprecie
       enseignes:
         type: array_collection
         definition:
@@ -82,6 +93,15 @@ Societe:
                 fields:
                   nom: {}
                   ordre: {}
+      sepa:
+        required: false
+        type: collection
+        definition:
+          fields:
+            nom_bancaire: {  }
+            iban: {  }
+            bic: {  }
+            date_activation: {  }
       societes_liees:
         type: array_collection
         required: false
@@ -98,3 +118,9 @@ Societe:
                 fields:
                   nom: {}
                   ordre: {}
+      legal_signature:
+        required: false
+        type: collection
+        definition:
+          fields:
+            '*': {}

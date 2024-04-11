@@ -155,7 +155,7 @@ class FactureConfiguration {
 
     public function getExportSV12() {
 
-        return $this->configuration['export_sv12'];
+        return isset($this->configuration['export_sv12']) && $this->configuration['export_sv12'];
     }
 
     public function getTeledeclaration() {
@@ -271,4 +271,8 @@ class FactureConfiguration {
   		return isset($this->configuration['facturation_metas_actif']) ? $this->configuration['facturation_metas_actif'] : false;
   	}
 
+    public function wantFacturePrlvAuto()
+    {
+        return isset($this->configuration['sousgen_facture_with_prlv_auto']) && $this->configuration['facture_with_prlv_auto'];
+    }
 }

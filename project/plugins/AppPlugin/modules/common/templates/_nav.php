@@ -92,7 +92,7 @@
    if ($sf_user->hasCredential('contacts')) :
        include_component('common', 'navItem', array(
             'libelle' => 'Contacts',
-            'prefix' => 'societe',
+            'prefix' => '(societe|etablissement|compte)',
             'route' => 'societe',
             'route_etablissement' => ($etablissement) ? 'etablissement_visualisation' : 'societe_visualisation',
             'etablissement' => ($etablissement) ? $etablissement : $societe,

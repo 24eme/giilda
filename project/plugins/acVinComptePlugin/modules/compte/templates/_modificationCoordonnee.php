@@ -1,8 +1,10 @@
 <?php
 $isCompteSociete = isset($isCompteSociete) && $isCompteSociete;
 $colClass = ($isCompteSociete) ? 'col-xs-8' : 'col-xs-4';
-$isSameAdresseThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameAdresseThanSociete();
-$isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameContactThanSociete();
+$isSameAdresseThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameAdresseThanSociete() && !$compteForm->hasErrors();
+$isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameContactThanSociete() && !$compteForm->hasErrors();
+$isSameExtrasThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameExtrasThanSociete();
+$isSameDroitsThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameDroitsThanSociete();
 
 ?>
 <div id="coordonnees_modification">
@@ -65,22 +67,14 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
                 <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameContactThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
             </span>
         </div>
-        <div class="panel-body  <?php echo ($isSameContactThanSociete) ? ' collapse ' : ''; ?>">
-            <div class="form-group">
+        <div class="panel-body <?php echo ($isSameContactThanSociete) ? ' collapse ' : ''; ?>">
+            <div class="form-group <?php if($compteForm['email']->hasError()): ?> has-error<?php endif; ?>">
 
                 <?php echo $compteForm['email']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
 
                 <div class="col-xs-8"><?php echo $compteForm['email']->render(); ?></div>
 
                 <?php echo $compteForm['email']->renderError(); ?>
-            </div>
-            <div class="form-group">
-
-                <?php echo $compteForm['teledeclaration_email']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
-
-                <div class="col-xs-8"><?php echo $compteForm['teledeclaration_email']->render(); ?></div>
-
-                <?php echo $compteForm['teledeclaration_email']->renderError(); ?>
             </div>
             <div class="form-group">
 
@@ -120,49 +114,48 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
 
         </div>
     </div>
-<?php if (SocieteConfiguration::getInstance()->getExtras()): ?>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">Champs extras</h4><span class="pull-right" style="margin-top: -20px; font-size: 15px;" >
-                <span>Edition</span>&nbsp;
-            </span>
-        </div>
-        <div class="panel-body">
-        <?php foreach(SocieteConfiguration::getInstance()->getExtras() as $k => $e): ?>
-              <?php if (!isset($e['auto']) || !$e['auto']): ?>
-                <?php if(isset($compteForm['extra_'.$k])): ?>
-                  <div class="form-group">
-                      <?php echo $compteForm['extra_'.$k]->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
-                      <div class="col-xs-8"><?php echo $compteForm['extra_'.$k]->render(); ?></div>
-                      <?php echo $compteForm['extra_'.$k]->renderError(); ?>
-                  </div>
-                <?php endif; ?>
-              <?php else: $compte = $compteForm->getObject()->getMasterCompte();
-                  if ($compteForm->getObject()->exist('extras') && $compteForm->getObject()->get('extras')->exist($k)): ?>
-              <div class="form-group">
-                  <label class="col-xs-4 control-label"><?php echo $e['nom']; ?></label>
-                  <div class="col-xs-8"><?php echo $compteForm->getObject()->get('extras')->get($k); ?></div>
-              </div>
-              <?php endif; endif; ?>
-        <?php endforeach; ?>
-        </div>
-    </div>
-<?php endif; ?>
 
-
-    <?php if ($isCompteSociete) : ?>
+    <?php if (SocieteConfiguration::getInstance()->getExtras()): ?>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">Droits</h4><span class="pull-right" style="margin-top: -20px; font-size: 15px;" >
-                    <span>Edition</span>&nbsp;
+                <h4 class="panel-title">Champs extras<?php if ($isSameExtrasThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même informations que la société</span><?php endif; ?></h4>
+                    <span class="pull-right <?php echo ($isCompteSociete) ? '' : ' clickable pointer '; echo ($isSameExtrasThanSociete) ? ' panel-collapsed ' : ' '; ?>" style="margin-top: -20px; font-size: 15px;">
+                        <span class="label-edit" ><?php echo ($isSameExtrasThanSociete) ? 'Editer' : 'Edition'; ?></span>&nbsp;
+                        <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameExtrasThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
+                    </span>
+            </div>
+            <div class="panel-body <?php echo ($isSameExtrasThanSociete) ? ' collapse ' : ''; ?>">
+            <?php foreach(SocieteConfiguration::getInstance()->getExtras() as $k => $e): ?>
+                  <?php if (!isset($e['auto']) || !$e['auto']): ?>
+                    <?php if(isset($compteForm['extra_'.$k])): ?>
+                      <div class="form-group">
+                          <?php echo $compteForm['extra_'.$k]->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
+                          <div class="col-xs-8"><?php echo $compteForm['extra_'.$k]->render(); ?></div>
+                          <?php echo $compteForm['extra_'.$k]->renderError(); ?>
+                      </div>
+                    <?php endif; ?>
+                  <?php endif; ?>
+            <?php endforeach; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title">Droits<?php if ($isSameDroitsThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même droits que la société</span><?php endif; ?></h4>
+                <span class="pull-right <?php echo ($isCompteSociete) ? '' : ' clickable pointer '; echo ($isSameDroitsThanSociete) ? ' panel-collapsed ' : ' '; ?>" style="margin-top: -20px; font-size: 15px;">
+                    <span class="label-edit" ><?php echo ($isSameDroitsThanSociete) ? 'Editer' : 'Edition'; ?></span>&nbsp;
+                    <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameDroitsThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
                 </span>
             </div>
-            <div class="panel-body">
+            <div class="panel-body <?php echo ($isSameDroitsThanSociete) ? ' collapse ' : ''; ?>">
                 <div class="form-group">
-                    <?php echo $compteForm['droits']->renderError(); ?>
-                    <div class="col-xs-12"><?php echo $compteForm['droits']->render(); ?></div>
+                    <div class="col-xs-12"><?php echo $compteForm['droits']->renderError(); ?></div>
+                    <?php echo $compteForm['droits']->renderLabel(null, array('class' => 'col-xs-3 control-label')); ?>
+                    <div class="col-xs-9"><?php echo $compteForm['droits']->render(); ?></div>
+                    <div class="col-xs-12" style="margin-top: 20px;"><?php echo $compteForm['alternative_logins']->renderError(); ?></div>
+                    <?php echo $compteForm['alternative_logins']->renderLabel(null, array('class' => 'col-xs-3 control-label select2')); ?>
+                    <div class="col-xs-9"><?php echo $compteForm['alternative_logins']->render(); ?></div>
                 </div>
             </div>
         </div>
-    <?php endif; ?>
-</div>
+    </div>

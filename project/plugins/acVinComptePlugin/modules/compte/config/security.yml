@@ -1,3 +1,15 @@
 all:
   is_secure: true
   credentials: contacts
+
+search:
+  credentials: [['contacts', 'stalker']]
+
+compte_search_csv:
+  credentials: [['contacts', 'stalker']]
+
+compte_recherche_avancee:
+  credentials: [['contacts', 'stalker']]
+
+visualisation:
+  credentials: []

@@ -34,11 +34,14 @@ class CompteLdap extends acVinLdap
 
     public static function getIdentifiant($compte)
     {
-        if ($compte->isSocieteContact()) {
-            return $compte->getSociete()->identifiant;
-        } else {
+        $login = $compte->login;
+
+        if(!$login) {
+
             return $compte->identifiant;
         }
+
+        return $login;
     }
 
     /**
@@ -50,7 +53,7 @@ class CompteLdap extends acVinLdap
     {
         $info = array();
         $info['uid']              = self::getIdentifiant($compte);
-        $info['cn']               = $compte->nom_a_afficher;
+        $info['cn']               = self::replace_invalid_syntax($compte->nom_a_afficher);
         $info['objectClass'][0]   = 'top';
         $info['objectClass'][1]   = 'person';
         $info['objectClass'][2]   = 'posixAccount';
@@ -58,15 +61,17 @@ class CompteLdap extends acVinLdap
         $info['loginShell']       = '/bin/bash';
         $info['uidNumber']        = (int)self::getIdentifiant($compte);
         $info['gidNumber']        = '1000';
-        $info['homeDirectory']    = '/home/'.self::getIdentifiant($compte);
+        $info['homeDirectory']    = '/home/'.$compte->_id;
         $info['gecos']            = self::getGecos($compte);
         if ($compte->isEtablissementContact()) {
              $info['businessCategory'] = $compte->getEtablissement()->famille;
         }
-        $info['o']                = ($compte->getSociete()) ? $compte->getSociete()->raison_sociale : $compte->nom_a_afficher;
 
         $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';
-        $info['sn'] = ($compte->getNom()) ?: $compte->nom_a_afficher;
+        $info['sn'] = self::replace_invalid_syntax(($compte->getNom()) ?: $compte->nom_a_afficher);
+        if (!isset($info['o']) || !$info['o']) {
+            $info['o'] = $info['sn'];
+        }
 
         if ($compte->getPrenom()) {
             $info['givenName']        = $compte->getPrenom();
@@ -116,27 +121,33 @@ class CompteLdap extends acVinLdap
         }
 
         $etablissement = $compte->getEtablissement();
-
+        if(!$etablissement && $compte->getSociete()) {
+            $etablissement = $compte->getSociete()->getEtablissementPrincipal();
+        }
         $gecos = null;
 
         if(!$etablissement) {
-            $gecos = sprintf("%s,%s,%s,%s", $compte->identifiant, null, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+            $gecos = sprintf("%s,%s,%s,%s,%s:%s", $compte->identifiant, null, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $compte->_id);
         }
 
         //Hack pour la compatibilité GAMMAlsace du CIVA
         if (!$gecos && class_exists('civaConfiguration')) {
             $gamma = acCouchdbManager::getClient()->find(str_replace('ETABLISSEMENT', 'GAMMA', $etablissement->_id), acCouchdbClient::HYDRATE_JSON);
             if ($gamma) {
-                $gecos =  sprintf("%s,%s,%s,%s", $gamma->identifiant_inscription, $gamma->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+                $gecos =  sprintf("%s,%s,%s,%s,%s:%s", $gamma->identifiant_inscription, $gamma->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $gamma->_id);
             }
         }
 
         if (!$gecos) {
-            $gecos =  sprintf("%s,%s,%s,%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+            $gecos =  sprintf("%s,%s,%s,%s,%s:%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $etablissement->_id);
         }
 
-        $gecos = str_replace(array('é', 'è', 'ê', 'ë', 'à', 'ù', 'ü', 'ï', 'ç', 'ö', 'ô'), array('e', 'e', 'e', 'e', 'a', 'u', 'u', 'i', 'c', 'o', 'o'), $gecos);
-        return $gecos;
+        return self::replace_invalid_syntax($gecos);
+    }
+
+    public static function replace_invalid_syntax($s) {
+        return str_replace(array('é', 'è', 'ê', 'ë', 'à', 'ù', 'ä', 'ü', 'ï', 'ç', 'ö', 'ô', 'â', 'î', 'ô', 'û'),
+                             array('e', 'e', 'e', 'e', 'a', 'u', 'a', 'u', 'i', 'c', 'o', 'o', 'a', 'i', 'o', 'u'), $s);
     }
 
 }

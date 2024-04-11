@@ -1,179 +1,126 @@
 <?php use_helper('Compte') ?>
-<?php use_helper('Date'); ?>
-
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
-    <li class="<?php echo (!isset($etablissement) && !isset($interlocuteur)) ? "active" : "" ?>"><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?></a></li>
-    <?php if (isset($etablissement)): ?>
-        <li class="active"><a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></a></li>
+    <?php if(!$sf_user->hasCredential('contacts')): ?>
+        <li><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>">Contacts</a></li>
+    <?php else: ?>
+        <li><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
     <?php endif; ?>
-    <?php if (isset($interlocuteur)): ?>
-        <li class="active"><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $interlocuteur->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($interlocuteur->getRawValue()) ?>"></span> <?php echo ($interlocuteur->nom_a_afficher) ? $interlocuteur->nom_a_afficher : $interlocuteur->nom; ?></a></li>
-    <?php endif; ?>
+    <li class="active"><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?>  (<?php echo $societe->identifiant ?>)</a></li>
 </ol>
 
-<section id="principal" class="societe row">
-    <div class="col-xs-12" style="<?php if (isset($etablissement) || isset($interlocuteur)): ?>opacity: 0.6<?php endif; ?>">
-        <div class="list-group">
-            <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
+<div class="row" id="page_compte">
+    <div class="col-xs-12 col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
                 <div class="row">
-                    <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?>
-                        <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>)</small>
-                        <?php if ($modification || $reduct_rights) : ?>
-
+                    <div class="col-xs-8 col-sm-9">
+                        <h4><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> Societe n° <?php echo $societe->identifiant; ?></h4>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 text-muted text-right">
+                        <?php if($modifiable): ?>
+                        <div class="btn-group">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Modifier <span class="caret"></span></a>
+                            <ul class="dropdown-menu text-left">
+                                <li<?php echo ($societe->isSuspendu()) ? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isSuspendu()) ? 'javascript:void(0)' : url_for('societe_modification', $societe); ?>">Editer</a></li>
+                                <li><a href="<?php echo url_for('societe_addSocieteLiee', $societe) ?>">Ajouter une société liée</a></li>
+                                <li<?php echo ($societe->isSuspendu())? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isSuspendu())? 'javascript:void(0)' : url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>">Archiver</a></li>
+                                <li<?php echo ($societe->isActif()   )? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isActif())? 'javascript:void(0)' : url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>">Activer</a></li>
+                                <li><a href="<?php echo url_for('compte_switch_en_alerte', array('identifiant' => $societe->getMasterCompte()->identifiant)); ?>"><?php echo ($societe->getMasterCompte()->exist('en_alerte') && $societe->getMasterCompte()->en_alerte)? 'Retirer alerte' : 'Mettre en alerte' ?></a></li>
+                            </ul>
+                        </div>
                         <?php endif; ?>
-                    </h2>
-                    <div class="col-xs-2 text-right">
-                      <div class="btn-group">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Modifier <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                         <li<?php echo ($societe->isSuspendu())? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isSuspendu()) ? 'javascript:void(0)' : url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>">Editer</a></li>
-                         <li<?php echo ($societe->isSuspendu())? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isSuspendu()) ? 'javascript:void(0)' : url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>">Suspendre</a></li>
-                         <li<?php echo ($societe->isActif())? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isActif()) ? 'javascript:void(0)' : url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>">Activer</a></li>
-                       </ul>
-                      </div></div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-9">
-                      <?php foreach($societe->getSocietesLieesIds() as $societeLieeId): ?>
-                        <?php $societeLiee = SocieteClient::getInstance()->find($societeLieeId); ?>
-                        <?php if(!$societeLiee || $societeLiee->_id == $societe->_id): continue; endif; ?>
-                        <a href="<?php echo url_for('societe_visualisation', $societeLiee) ?>"><span class="glyphicon glyphicon-link"></span> <?php echo $societeLiee->raison_sociale ?></a>
-                      <?php endforeach; ?>
-                        <p class="lead" style="margin-bottom: 5px;">
-                            <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
-                            <?php if ($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
-                                <span class="label label-default"><?php echo $societe->statut; ?></span>
-                                <?php endif; ?>
-                            <small><?php if ($societe->date_creation) : ?><span class="label label-info">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?>
-<?php if ($societe->date_modification) : ?>
-                                    <span class="label label-info">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?></small>
-                        </p>
                     </div>
                 </div>
             </div>
-
-<?php include_partial('compte/coordonneesVisualisation', array('compte' => $societe->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
-
-
-                <?php if ($societe->getMasterCompte()->exist('droits')): ?>
-                <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
-                        <p>
-                            <strong>Login de télédéclaration :</strong> <?php echo $societe->getMasterCompte()->getLogin(); ?>
-                            <?php if (strpos($societe->getMasterCompte()->mot_de_passe, '{TEXT}') !== false) : ?>
-                                <span class="text-muted">(code de création : <?php echo str_replace('{TEXT}', '', $societe->getMasterCompte()->mot_de_passe); ?>)</span>
-                            <?php elseif (strpos($societe->getMasterCompte()->mot_de_passe, '{OUBLIE}') !== false): ?>
-                                <?php $lien = 'https://'.sfConfig::get('app_routing_context_production_host').url_for("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->getMasterCompte()->identifiant, "mdp" => str_replace("{OUBLIE}", "", $societe->getMasterCompte()->mot_de_passe))); ?>
-        				                <span class="text-muted">(Mot de passe oublié : <?php echo $lien; ?> )</span>
-                            <?php else: ?>
-                                <span class="text-muted">(code de création : Compte déjà créé)</span>
+            <div class="panel-body panel-primary-bordered-right">
+                <h2>
+                	<?php echo $societe->raison_sociale; ?>
+                	<?php if ($societe->getMasterCompte()->isSuspendu()): ?>
+					    <span class="label label-default pull-right" style="padding-top: 0;"><small style="font-weight: inherit; color: inherit;"><?php echo $societe->getMasterCompte()->getStatutLibelle(); ?></small></span>
+					<?php endif; ?>
+                    <?php if ($societe->getMasterCompte()->exist('en_alerte') && $societe->getMasterCompte()->en_alerte): ?><span class="pull-right">⛔</span><?php endif; ?>
+                </h2>
+                <hr/>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <div class="row">
+                            <?php if ($societe->identifiant): ?>
+                                <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">Identifiant&nbsp;:</div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo $societe->identifiant; ?></div>
                             <?php endif; ?>
-                        </p>
-                            <?php
-                            if ($societe->isTransaction()):
-                                if ($societe->getEtablissementPrincipal() && $societe->getEtablissementPrincipal()->getEmailTeledeclaration() && $societe->getMasterCompte()->isTeledeclarationActive()) :
-                                    ?>
-                                <p>Email de télédéclaration : <?php echo $societe->getEtablissementPrincipal()->getEmailTeledeclaration(); ?></p>
+                            <?php if ($societe->code_comptable_client): ?>
+                                <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">Comptable&nbsp;:</div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo $societe->code_comptable_client; ?></div>
                             <?php endif; ?>
-                        <?php else: ?>
-                            <?php if ($societe->getEmailTeledeclaration() && $societe->getMasterCompte()->isTeledeclarationActive()) :
-                                ?>
-                                <p>Email de télédéclaration : <?php echo $societe->getEmailTeledeclaration(); ?></p>
+                            <?php if ($societe->siret): ?>
+                                <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">SIRET&nbsp;:</div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo formatSIRET($societe->siret); ?></div>
                             <?php endif; ?>
-                    <?php endif; ?>
-                    <p><?php if ($societe->getMasterCompte()->exist('droits')): ?>
-                            <strong>Droits :</strong>
-                            <?php foreach ($societe->getMasterCompte()->getDroits() as $droit) : ?>
-                                <label class="label label-default"><?php echo SocieteConfiguration::getInstance()->getDroitLibelle($droit); ?></label>
-                            <?php endforeach; ?>
-                <?php endif; ?></p>
+                            <?php if ($societe->code_naf): ?>
+                                <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">Code naf&nbsp;:</div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo $societe->code_naf; ?></div>
+                            <?php endif; ?>
+                            <?php if ($societe->no_tva_intracommunautaire): ?>
+                                <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">TVA&nbsp;Intracom.&nbsp;:</div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo $societe->no_tva_intracommunautaire; ?></div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="col-xs-7" style="border-left: 1px solid #eee">
+                        <?php include_partial('compte/visualisationAdresse', array('compte' => $societe->getMasterCompte())); ?>
+                    </div>
                 </div>
-<?php endif; ?>
-            <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
-                <ul class="list-inline">
-                    <li><attr>N° SIRET :</attr> <?php echo $societe->siret; ?></li>
-                    <?php if ($societe->code_naf) : ?>
-                        <li><attr>Code NAF :</attr> <?php echo $societe->code_naf; ?></li>
-                    <?php endif; ?>
-                    <?php if ($societe->code_comptable_client) : ?>
-                        <li><attr>N° Compta Client :</attr> <?php echo $societe->code_comptable_client; ?></li>
-                    <?php endif; ?>
-                    <?php if ($societe->code_comptable_fournisseur) : ?>
-                        <li><attr>N° Compta Fournisseur :</attr> <?php echo $societe->code_comptable_fournisseur; ?></li>
-                    <?php endif; ?>
-                        <?php if ($societe->no_tva_intracommunautaire) : ?>
-                        <li>TVA intracom : <?php echo $societe->no_tva_intracommunautaire; ?>
-                        <?php endif; ?>
-                        <?php if ($societe->exist('type_fournisseur') && count($societe->type_fournisseur)) : ?>
-                        <li>Type de Fournisseur : <?php foreach ($societe->type_fournisseur as $type_fournisseur) : ?> <?php echo $type_fournisseur; ?>&nbsp;<?php endforeach; ?>
-                        <?php endif; ?>
-                </ul>
-
-                <?php if ($societe->commentaire) : ?>
-                    <strong>Commentaires :</strong> <?php echo $societe->commentaire; ?>
+                <hr />
+                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Télédéclaration</strong></h5>
+                <?php include_partial('compte/visualisationLogin', array('compte' => $societe->getMasterCompte())); ?>
+                <hr />
+                <?php if ($societe->commentaire && $modifiable) : ?>
+                <h5 style="margin-bottom: 15px; margin-top: 0px;"><strong>🗣 Commentaire️</strong></h5>
+                <p>🗨️ <?php echo implode('</p><p>🗨️ ', $societe->getCommentaires()->getRawValue()); ?></p>
+                <hr />
                 <?php endif; ?>
-            </div>
-
-
-
-            <?php if (MandatSepaConfiguration::getInstance()->isActive()): $mandatSepa = $societe->getMandatSepa(); ?>
-            <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
-                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Coordonnées bancaires</strong></h5>
+                <?php if (MandatSepaConfiguration::getInstance()->isActive()): ?>
+                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted">
+                    <strong>Coordonnées bancaires</strong>
+                    <a class="pull-right" href="<?php echo url_for('mandatsepa_modification', ['identifiant' => $societe->getIdentifiant()]) ?>">
+                      Édition <i class="glyphicon glyphicon-edit"></i>
+                    </a>
+                </h5>
                 <?php if ($mandatSepa): ?>
                   <div class="row">
                     <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">RUM&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->identifiant_rum; ?></div>
-                    <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-3"></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-6"><?php echo $mandatSepa->debiteur->identifiant_rum; ?></div>
+                    <?php if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration()): ?>
+                      <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Mandat généré&nbsp;</div>
+                      <div style="margin-bottom: 5px;" class="col-xs-2">
+                        <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;PDF</a>
+                      </div>
+                    <?php endif ?>
                   </div>
                   <div class="row" style="margin-top: 5px;">
                     <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">IBAN&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->iban; ?></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-6"><?php echo chunk_split($mandatSepa->debiteur->iban, 4, ' '); ?></div>
                     <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Mandat signé&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-3"><input type="checkbox" data-on-text="<span class='glyphicon glyphicon-ok-sign'></span>" data-off-text="<span class='glyphicon'></span>" class="bsswitch ajax" data-size="mini"<?php if ($mandatSepa->is_signe): ?> checked="checked"<?php endif; ?> disabled /></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-2"><input type="checkbox" data-on-text="<span class='glyphicon glyphicon-ok-sign'></span>" data-off-text="<span class='glyphicon'></span>" class="bsswitch ajax" data-size="mini"<?php if ($mandatSepa->is_signe): ?> checked="checked" disabled<?php endif; ?> onchange="document.location='<?php echo url_for('societe_mandat_sepa_switch_signe', array('identifiant' => $societe->identifiant)); ?>'" /></div>
                   </div>
                   <div class="row" style="margin-top: 5px;">
                     <div style="margin-bottom: 5px;" class="col-xs-1 text-muted">BIC&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->bic; ?></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-6"><?php echo $mandatSepa->debiteur->bic; ?></div>
                     <?php if ($mandatSepa->is_signe): ?>
                     <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Prélèvement actif&nbsp;</div>
-                    <div style="margin-bottom: 5px;" class="col-xs-3"><input type="checkbox" data-on-text="<span class='glyphicon glyphicon-ok-sign'></span>" data-off-text="<span class='glyphicon'></span>" class="bsswitch ajax" data-size="mini"<?php if($mandatSepa->is_actif): ?> checked="checked"<?php endif; ?> disabled /></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-2"><input type="checkbox" data-on-text="<span class='glyphicon glyphicon-ok-sign'></span>" data-off-text="<span class='glyphicon'></span>" class="bsswitch ajax" data-size="mini"<?php if($mandatSepa->is_actif): ?> checked="checked"<?php endif; ?> onchange="document.location='<?php echo url_for('societe_mandat_sepa_switch_actif', array('identifiant' => $societe->identifiant)); ?>'" /></div>
                     <?php endif; ?>
                   </div>
                 <?php else: ?>
-                  <li>Aucun mandat de prélèvement SEPA n'a été saisi</li>
+                  <p class="text-muted">Aucun mandat de prélèvement SEPA n'a été saisi</p>
                 <?php endif; ?>
+                <hr />
+                <?php endif; ?>
+                <?php include_partial('compte/visualisationTags', array('compte' => $societe->getMasterCompte(), 'modifiable' => $modifiable)); ?>
             </div>
-            <?php endif; ?>
-
         </div>
     </div>
-        <?php foreach ($etablissements as $etablissementId => $etb) : ?>
-        <div class="col-xs-12" style="<?php if ((isset($etablissement) && $etablissement->_id != $etablissementId) || isset($interlocuteur)): ?>opacity: 0.6<?php endif; ?>">
-    <?php include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre, 'fromSociete' => true, 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
-        </div>
-    <?php endforeach; ?>
-
-    <?php foreach ($interlocuteurs as $interlocuteurId => $compte) : ?>
-        <?php if(!$compte): continue; endif; ?>
-            <?php if ($compte->isSocieteContact() || $compte->isEtablissementContact()): ?><?php continue; ?><?php endif; ?>
-        <div class="col-xs-4" style="<?php if (isset($etablissement) || (isset($interlocuteur) && $interlocuteur->_id != $compte->_id)): ?>opacity: 0.6<?php endif; ?>">
-    <?php include_partial('compte/visualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'hideExtras' => true)); ?>
-        </div>
-<?php endforeach; ?>
-
-    <div style="margin-bottom: 20px;" class="col-xs-12 text-center">
-        <div class="row">
-            <?php if ($modification || $reduct_rights) : ?>
-                <?php if (!$reduct_rights && $societe->canHaveChais()) : ?>
-                    <div class="col-xs-6 text-right">
-                        <a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un établissement</a>
-                    </div>
-                <?php endif; ?>
-                <div class="col-xs-6 text-left">
-                    <a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('compte_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un interlocuteur</a>
-                </div>
-            <?php endif; ?>
-        </div>
+    <div class="col-xs-12 col-sm-4">
+        <?php include_component('societe', 'sidebar', array('societe' => $societe, 'activeObject' => $societe, 'modifiable' => $modifiable)); ?>
     </div>
-</section>
+</div>

@@ -706,7 +706,13 @@ private function checkCSVIntegrity() {
     if (!preg_match('/^FR0[0-9A-Z]{10}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
       //$this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
     }
-    if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && ($this->societe->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && (!$csvRow[self::CSV_NUMACCISE] || $this->etablissement->no_accises != $csvRow[self::CSV_NUMACCISE]))) {
+    if(
+        $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])
+        && (
+            $this->societe->getMasterCompte()->getLogin() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])
+            && (!$csvRow[self::CSV_NUMACCISE] || $this->etablissement->no_accises != $csvRow[self::CSV_NUMACCISE])
+        )
+    ) {
       $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
     }
     if($this->drm->getPeriode() != KeyInflector::slugify($csvRow[self::CSV_PERIODE])){
@@ -1077,7 +1083,7 @@ private function importCrdsFromCSV($just_check = false) {
         $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
     }
 
-    if(!in_array($fieldNameCrd, array('stock_debut', 'entrees_achats', 'entrees_excedents', 'entrees_retours', 'sorties_destructions', 'sorties_manquants', 'sorties_utilisations', 'stock_fin'))) {
+    if(!in_array($fieldNameCrd, array('stock_debut', 'entrees_achats', 'entrees_excedents', 'entrees_retours', 'entrees_autres', 'sorties_destructions', 'sorties_manquants', 'sorties_autres', 'sorties_utilisations', 'stock_fin'))) {
         $this->csvDoc->addErreur($this->typeCRDNotFoundError($num_ligne, $csvRow));
         continue;
     }
