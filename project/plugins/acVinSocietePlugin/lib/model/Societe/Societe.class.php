@@ -501,7 +501,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         $this->interpro = "INTERPRO-declaration";
         $compteMaster = $this->getMasterCompte();
 
-        if (!$compteMaster) {
+        if (CompteClient::isRealSyncCompte() && !$compteMaster) {
             $compteMaster = $this->createCompteSociete();
         }
 
@@ -516,7 +516,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
 
         parent::save();
-
+        if (!$compteMaster) {
+            return;
+        }
         SocieteClient::getInstance()->setSingleton($this);
         $compteMasterOrigin = clone $compteMaster;
         $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
