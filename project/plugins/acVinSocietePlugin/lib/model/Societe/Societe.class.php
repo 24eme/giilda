@@ -499,10 +499,14 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
 
         $this->interpro = "INTERPRO-declaration";
-        $compteMaster = $this->getMasterCompte();
 
-        if (CompteClient::isRealSyncCompte() && !$compteMaster) {
-            $compteMaster = $this->createCompteSociete();
+        //Gestion spéciale pour DeclarVins qui n'a pas de sync compte
+        $compteMaster = null;
+        if (CompteClient::isRealSyncCompte()) {
+            $compteMaster = $this->getMasterCompte();
+            if (!$compteMaster) {
+                $compteMaster = $this->createCompteSociete();
+            }
         }
 
         if(count($this->etablissements)){
@@ -516,6 +520,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
 
         parent::save();
+        //Gestion spéciale pour DeclarVins qui n'a pas de sync compte
         if (!$compteMaster) {
             return;
         }
