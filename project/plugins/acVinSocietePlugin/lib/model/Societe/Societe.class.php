@@ -499,10 +499,14 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
 
         $this->interpro = "INTERPRO-declaration";
-        $compteMaster = $this->getMasterCompte();
 
-        if (!$compteMaster) {
-            $compteMaster = $this->createCompteSociete();
+        //Gestion spéciale pour DeclarVins qui n'a pas de sync compte
+        $compteMaster = null;
+        if (CompteClient::isRealSyncCompte()) {
+            $compteMaster = $this->getMasterCompte();
+            if (!$compteMaster) {
+                $compteMaster = $this->createCompteSociete();
+            }
         }
 
         if(count($this->etablissements)){
@@ -516,7 +520,10 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
 
         parent::save();
-
+        //Gestion spéciale pour DeclarVins qui n'a pas de sync compte
+        if (!$compteMaster) {
+            return;
+        }
         SocieteClient::getInstance()->setSingleton($this);
         $compteMasterOrigin = clone $compteMaster;
         $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
@@ -796,7 +803,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     // fin
 
     public function getMandatSepa($interpro = null) {
-        return MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant(), $interpro);
+        return MandatSepaClient::getInstance($interpro)->findLastBySociete($this->getIdentifiant(), $interpro);
     }
 
     public function hasMandatSepa($interpro = null) {
@@ -804,7 +811,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     }
 
     public function hasMandatSepaActif($interpro = null) {
-        if (!MandatSepaConfiguration::getInstance()->isActive()) {
+        if (!MandatSepaConfiguration::getInstance($interpro)->isActive()) {
             return false;
         }
         $mandat = $this->getMandatSepa($interpro);

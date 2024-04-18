@@ -53,7 +53,7 @@ class CompteLdap extends acVinLdap
     {
         $info = array();
         $info['uid']              = self::getIdentifiant($compte);
-        $info['cn']               = $compte->nom_a_afficher;
+        $info['cn']               = self::replace_invalid_syntax($compte->nom_a_afficher);
         $info['objectClass'][0]   = 'top';
         $info['objectClass'][1]   = 'person';
         $info['objectClass'][2]   = 'posixAccount';
@@ -68,7 +68,7 @@ class CompteLdap extends acVinLdap
         }
 
         $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';
-        $info['sn'] = ($compte->getNom()) ?: $compte->nom_a_afficher;
+        $info['sn'] = self::replace_invalid_syntax(($compte->getNom()) ?: $compte->nom_a_afficher);
         if (!isset($info['o']) || !$info['o']) {
             $info['o'] = $info['sn'];
         }
@@ -142,9 +142,12 @@ class CompteLdap extends acVinLdap
             $gecos =  sprintf("%s,%s,%s,%s,%s:%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $etablissement->_id);
         }
 
-        $gecos = str_replace(array('é', 'è', 'ê', 'ë', 'à', 'ù', 'ä', 'ü', 'ï', 'ç', 'ö', 'ô', 'â', 'î', 'ô', 'û'),
-                             array('e', 'e', 'e', 'e', 'a', 'u', 'a', 'u', 'i', 'c', 'o', 'o', 'a', 'i', 'o', 'u'), $gecos);
-        return $gecos;
+        return self::replace_invalid_syntax($gecos);
+    }
+
+    public static function replace_invalid_syntax($s) {
+        return str_replace(array('é', 'è', 'ê', 'ë', 'à', 'ù', 'ä', 'ü', 'ï', 'ç', 'ö', 'ô', 'â', 'î', 'ô', 'û'),
+                             array('e', 'e', 'e', 'e', 'a', 'u', 'a', 'u', 'i', 'c', 'o', 'o', 'a', 'i', 'o', 'u'), $s);
     }
 
 }
