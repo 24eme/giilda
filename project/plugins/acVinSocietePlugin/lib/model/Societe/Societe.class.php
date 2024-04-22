@@ -191,7 +191,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         foreach ($etablissements as $id => $etbObj) {
             $etablissement = $etbObj->etablissement;
             $compte = $this->getCompte($etablissement->compte);
-            if ($compte->compte_type == CompteClient::TYPE_COMPTE_SOCIETE) {
+            if ($compte && $compte->compte_type == CompteClient::TYPE_COMPTE_SOCIETE) {
                 return $etablissement;
             }
         }
@@ -218,6 +218,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     public function getAllCompteObj() {
       if (!$this->comptes || !count($this->comptes)) {
         foreach ($this->contacts as $id => $obj) {
+          if (!$id) {
+            continue;
+          }
           $compteToAdd = CompteClient::getInstance()->find($id);
           if($compteToAdd){
             $this->addToComptes($compteToAdd);
