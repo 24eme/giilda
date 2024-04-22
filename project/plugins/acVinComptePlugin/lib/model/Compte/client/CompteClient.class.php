@@ -23,6 +23,10 @@ class CompteClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Compte");
     }
 
+    public static function isRealSyncCompte() {
+        return false;
+    }
+
     public function getId($id_or_identifiant) {
         $id = $id_or_identifiant;
         if (strpos($id_or_identifiant, '-') === false ) {
