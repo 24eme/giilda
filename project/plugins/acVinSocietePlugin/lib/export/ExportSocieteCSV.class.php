@@ -1,6 +1,6 @@
 <?php
 
-class ExportSocieteCSV implements InterfaceDeclarationExportCsv {
+class ExportSocieteCSV {
 
     protected $societe = null;
     protected $header = false;
