@@ -29,16 +29,14 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
 
         if($this->isSocieteContact()) {
-
-            return $this->identifiant;
+            return $this->getSociete()->identifiant;
         }
 
         if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
-
             return $this->identifiant;
         }
 
-        return $this->getSociete()->identifiant;
+        return $compte->identifiant;
     }
 
     public function getMasterCompte() {
