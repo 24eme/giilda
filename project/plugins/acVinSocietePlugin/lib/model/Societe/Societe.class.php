@@ -65,9 +65,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     public function getCodeComptableClient($interpro = null) {
         $cc = ($interpro)? $this->getDataFromInterproMetas($interpro, 'code_comptable_client') : $this->_get('code_comptable_client');
         if(!$cc) {
-            if ($this->getNumeroArchive()) {
-                return $this->getNumeroArchive();
-            }
             return FactureConfiguration::getInstance($interpro)->getPrefixCodeComptable().((int)$this->identifiant)."";
         }
         return $cc;
