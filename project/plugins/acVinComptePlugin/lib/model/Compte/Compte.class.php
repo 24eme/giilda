@@ -36,7 +36,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             return $this->identifiant;
         }
 
-        return $compte->identifiant;
+        return $this->identifiant;
     }
 
     public function getMasterCompte() {
