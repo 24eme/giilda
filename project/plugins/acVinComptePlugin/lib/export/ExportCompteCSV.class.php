@@ -1,6 +1,6 @@
 <?php
 
-class ExportCompteCsv implements InterfaceDeclarationExportCsv
+class ExportCompteCsv
 {
     protected $compte = null;
     protected $header = false;
