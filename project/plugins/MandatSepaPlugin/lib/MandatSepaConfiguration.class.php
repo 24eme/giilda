@@ -17,20 +17,18 @@ class MandatSepaConfiguration implements InterfaceMandatSepaPartie {
       return self::$_instance;
   }
   public function __construct($interpro = null) {
-      $this->interpro = $interpro;
-      if(!sfConfig::has('mandatsepa_configuration')) {
-          throw new sfException("La configuration pour les mandats SEPA n'a pas été définie pour cette application");
-	  }
       if ($interpro && !sfConfig::has("mandatsepa_configuration-".strtolower($interpro))) {
-	      throw new sfException("La configuration pour les mandats SEPA n'a pas été définie pour l'interpro $interpro");
+	      $interpro = null;
       }
+      if(!sfConfig::has('mandatsepa_configuration')) {
+        throw new sfException("La configuration pour les mandats SEPA n'a pas été définie pour cette application");
+      }
+      $this->interpro = $interpro;
       $this->configuration = array_merge(
           sfConfig::get("mandatsepa_configuration", array()),
           sfConfig::get("mandatsepa_configuration-".strtolower($interpro), array())
       );
-
       $this->organisme = (class_exists('Organisme'))? Organisme::getInstance() : null;
-
   }
 
   public function isActive() {
