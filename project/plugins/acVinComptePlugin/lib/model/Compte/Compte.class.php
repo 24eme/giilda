@@ -707,7 +707,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                     }
                 }
 
-                $ldapUid = CompteLdap::getIdentifiant($this);
+                $ldapUid = $this->login;
 
                 foreach ($groupldap->getMembership($ldapUid) as $groupe) {
                     $groupldap->removeMember($groupe, $ldapUid);
@@ -733,7 +733,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                 }
             }
         } else {
-            CompteClient::getInstance()->deleteLdapCompte(CompteLdap::getIdentifiant($this));
+            CompteClient::getInstance()->deleteLdapCompte($this->login);
         }
     }
 
