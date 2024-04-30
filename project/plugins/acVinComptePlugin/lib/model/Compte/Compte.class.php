@@ -605,26 +605,39 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             return $this->_get('login');
         }
 
-        if($this->mot_de_passe) {
+        if (SocieteConfiguration::getInstance()->isIdentifiantEtablissementSaisi()) {
 
-            return $this->identifiant;
-        }
+            if($this->mot_de_passe) {
 
-        if(!$this->mot_de_passe && !$this->getSociete()->getContact()->mot_de_passe) {
-            return null;
+                return $this->identifiant;
+            }
+
+            if(!$this->mot_de_passe && !$this->getSociete()->getContact()->mot_de_passe) {
+                return null;
+            }
+
+            if($this->isSocieteContact()) {
+
+                return $this->identifiant;
+            }
+
+            if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+
+                return $this->identifiant;
+            }
+
+            return $this->getSociete()->getMasterCompte()->login;
         }
 
         if($this->isSocieteContact()) {
-
-            return $this->identifiant;
+            return $this->getSociete()->identifiant;
         }
 
         if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
-
             return $this->identifiant;
         }
 
-        return $this->getSociete()->getMasterCompte()->login;
+        return preg_replace('/01$/', '', $this->identifiant);
     }
 
     public function setMotDePasseSSHA($mot_de_passe) {
