@@ -11,7 +11,7 @@ class CompteLdap extends acVinLdap
             echo "save : ";
             print_r($info);
         }
-        return $this->save(self::getIdentifiant($compte), $info);
+        return $this->save($compte->login, $info);
     }
 
     /**
