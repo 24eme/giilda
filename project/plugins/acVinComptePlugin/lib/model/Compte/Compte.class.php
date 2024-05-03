@@ -29,16 +29,14 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
 
         if($this->isSocieteContact()) {
-
-            return $this->identifiant;
+            return $this->getSociete()->identifiant;
         }
 
         if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
-
             return $this->identifiant;
         }
 
-        return $this->getSociete()->identifiant;
+        return $this->identifiant;
     }
 
     public function getMasterCompte() {
@@ -481,7 +479,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                     }
                 }
 
-                $ldapUid = CompteLdap::getIdentifiant($this);
+                $ldapUid = $this->login;
 
                 foreach ($groupldap->getMembership($ldapUid) as $groupe) {
                     $groupldap->removeMember($groupe, $ldapUid);
@@ -507,7 +505,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                 }
             }
         } else {
-            CompteClient::getInstance()->deleteLdapCompte(CompteLdap::getIdentifiant($this));
+            CompteClient::getInstance()->deleteLdapCompte($this->login);
         }
     }
 
