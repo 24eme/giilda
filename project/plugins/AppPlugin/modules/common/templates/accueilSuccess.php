@@ -29,8 +29,13 @@
 <?php if($teledeclaration): ?>
 <?php include_component('common', 'blocksTeledeclaration', array('etablissementPrincipal' => $etablissementPrincipal)); ?>
 <?php include_component('common', 'blocksTeledeclarationExtra'); ?>
-<?php else: ?>
+<?php elseif($etablissement): ?>
 <?php include_component('common', 'blocks', array('etablissement' => $etablissement)); ?>
+<?php else: ?>
+<div style="margin: 40px;">
+<h1>Bienvenue dans l'espace interprofessionnel</h1>
+<p>Le menu en entête de cette page vous permet d'accéder aux services mis à disposition pour vous par l'interprofession.</p>
+</div>
 <?php endif; ?>
 
 </div>

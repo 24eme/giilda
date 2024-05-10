@@ -11,7 +11,7 @@ class CompteLdap extends acVinLdap
             echo "save : ";
             print_r($info);
         }
-        return $this->save(self::getIdentifiant($compte), $info);
+        return $this->save($compte->login, $info);
     }
 
     /**
@@ -24,7 +24,7 @@ class CompteLdap extends acVinLdap
         if (is_string($compte)) {
             $identifiant = $compte;
         }else {
-            $identifiant = self::getIdentifiant($compte);
+            $identifiant = $compte->login;
         }
         if ($verbose) {
             echo $identifiant." deleted\n";
@@ -32,36 +32,24 @@ class CompteLdap extends acVinLdap
         return $this->delete($identifiant);
     }
 
-    public static function getIdentifiant($compte)
-    {
-        $login = $compte->login;
-
-        if(!$login) {
-
-            return $compte->identifiant;
-        }
-
-        return $login;
-    }
-
     /**
      *
      * @param _Compte $compte
      * @return array
      */
-    protected function info($compte)
+    public function info($compte)
     {
         $info = array();
-        $info['uid']              = self::getIdentifiant($compte);
+        $info['uid']              = $compte->login;
         $info['cn']               = self::replace_invalid_syntax($compte->nom_a_afficher);
         $info['objectClass'][0]   = 'top';
         $info['objectClass'][1]   = 'person';
         $info['objectClass'][2]   = 'posixAccount';
         $info['objectClass'][3]   = 'inetOrgPerson';
         $info['loginShell']       = '/bin/bash';
-        $info['uidNumber']        = (int)self::getIdentifiant($compte);
+        $info['uidNumber']        = (int)$compte->login;
         $info['gidNumber']        = '1000';
-        $info['homeDirectory']    = '/home/'.$compte->_id;
+        $info['homeDirectory']    = '/home/'.$compte->login;
         $info['gecos']            = self::getGecos($compte);
         if ($compte->isEtablissementContact()) {
              $info['businessCategory'] = $compte->getEtablissement()->famille;
