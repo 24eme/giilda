@@ -18,11 +18,14 @@ class CompteClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Compte");
     }
 
-    public function getId($identifiant) {
-        if (! (intval($identifiant))) {
-            return 'COMPTE-' . $identifiant;
+    public function getId($id_or_identifiant) {
+        if (strpos($id_or_identifiant, 'COMPTE-') === 0 ) {
+            return $id_or_identifiant;
         }
-        return 'COMPTE-' . sprintf('%08d', $identifiant);
+        if (! (intval($id_or_identifiant))) {
+            return 'COMPTE-' . $id_or_identifiant;
+        }
+        return 'COMPTE-' . sprintf('%08d', $id_or_identifiant);
     }
 
     public function getNextIdentifiantForSociete($societe) {
