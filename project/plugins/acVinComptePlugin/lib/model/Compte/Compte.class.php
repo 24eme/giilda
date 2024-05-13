@@ -670,7 +670,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $ldap = new CompteLdap();
 
-        if ($this->isActif()) {
+        if ($this->isActif() && $this->mot_de_passe) {
 	        try {
                 $ldap->saveCompte($this, $verbose);
 	        } catch(Exception $e) {
