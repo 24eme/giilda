@@ -73,7 +73,10 @@ class MandatSepa extends BaseMandatSepa {
 
   public function getBanqueNom(){
     if (!$this->debiteur->banque_nom) {
-      return '';
+        if ($this->debiteur->bic) {
+            return substr($this->debiteur->bic, 0, 4);
+        }
+        return '';
     }
     return $this->debiteur->banque_nom;
   }
