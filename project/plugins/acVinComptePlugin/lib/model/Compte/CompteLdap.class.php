@@ -109,8 +109,9 @@ class CompteLdap extends acVinLdap
         }
 
         $etablissement = $compte->getEtablissement();
-        if(!$etablissement && $compte->getSociete()) {
-            $etablissement = $compte->getSociete()->getEtablissementPrincipal();
+        $societe = $compte->getSociete();
+        if(!$etablissement && $societe) {
+            $etablissement = $societe->getEtablissementPrincipal();
         }
         $gecos = null;
 
@@ -120,8 +121,13 @@ class CompteLdap extends acVinLdap
 
         //Hack pour la compatibilité GAMMAlsace du CIVA
         if (!$gecos && class_exists('civaConfiguration')) {
-            $gamma = acCouchdbManager::getClient()->find(str_replace('ETABLISSEMENT', 'GAMMA', $etablissement->_id), acCouchdbClient::HYDRATE_JSON);
+            $negociant = $societe->getNegociant();
+            if (!$negociant) {
+                $negociant = $etablissement;
+            }
+            $gamma = acCouchdbManager::getClient()->find(str_replace('ETABLISSEMENT', 'GAMMA', $negociant->_id), acCouchdbClient::HYDRATE_JSON);
             if ($gamma) {
+                $compte = $negociant->getMasterCompte();
                 $gecos =  sprintf("%s,%s,%s,%s,%s:%s", $gamma->identifiant_inscription, $gamma->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $gamma->_id);
             }
         }
