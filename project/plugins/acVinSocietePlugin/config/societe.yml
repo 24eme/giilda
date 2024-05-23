@@ -5,3 +5,4 @@ all:
       droits: []
       visualisation_teledeclaration: false
       enable_groupes: false
+      real_sync_compte: true
