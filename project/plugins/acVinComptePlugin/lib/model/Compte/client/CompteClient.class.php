@@ -30,6 +30,9 @@ class CompteClient extends acCouchdbClient {
         if (! (intval($id_or_identifiant))) {
             return 'COMPTE-' . $id_or_identifiant;
         }
+        if (strpos($id_or_identifiant, '0') === 0) {
+            return 'COMPTE-' . $id_or_identifiant;
+        }
         return 'COMPTE-' . sprintf('%08d', $id_or_identifiant);
     }
 
