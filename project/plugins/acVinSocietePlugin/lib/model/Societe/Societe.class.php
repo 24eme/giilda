@@ -502,7 +502,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
         //Gestion spéciale pour DeclarVins qui n'a pas de sync compte
         $compteMaster = null;
-        if (CompteClient::isRealSyncCompte()) {
+        if (SocieteConfiguration::getInstance()->isRealSyncCompte()) {
             $compteMaster = $this->getMasterCompte();
             if (!$compteMaster) {
                 $compteMaster = $this->createCompteSociete();

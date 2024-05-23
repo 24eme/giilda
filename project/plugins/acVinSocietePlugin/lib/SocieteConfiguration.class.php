@@ -40,6 +40,10 @@ class SocieteConfiguration {
         return isset($this->configuration['identifiant_etablissement_saisi']) && ($this->configuration['identifiant_etablissement_saisi']);
     }
 
+    public function isRealSyncCompte() {
+        return isset($this->configuration['real_sync_compte']) && boolval($this->configuration['real_sync_compte']);
+    }
+
     public function getIdentifiantEtablissementSaisiHelp() {
         if(!isset($this->configuration['identifiant_etablissement_saisi_help'])) {
             return null;
