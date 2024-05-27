@@ -549,8 +549,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     if (!$compteOrEtablissement) {
       throw new sfException("compteOrEtablissement should not be NULL");
     }
-    if(!$compteOrEtablissement->isNew() && (CompteClient::getInstance()->find($compteOrEtablissement->_id)->_rev != $compteOrEtablissement->_rev)){
-      $compteOrEtablissement = CompteClient::getInstance()->find($compteOrEtablissement->_id);
+    if(!$compteOrEtablissement->isNew() && (acCouchdbManager::getClient()->find($compteOrEtablissement->_id)->_rev != $compteOrEtablissement->_rev)){
+      $compteOrEtablissement = acCouchdbManager::getClient()->find($compteOrEtablissement->_id);
     }
     if ($compteMaster->_id == $compteOrEtablissement->_id) {
         if ($compteOrEtablissement->nom != $this->raison_sociale) {
