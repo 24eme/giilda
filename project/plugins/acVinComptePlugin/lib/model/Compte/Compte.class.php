@@ -605,26 +605,39 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             return $this->_get('login');
         }
 
-        if($this->mot_de_passe) {
+        if (SocieteConfiguration::getInstance()->isIdentifiantEtablissementSaisi()) {
 
-            return $this->identifiant;
-        }
+            if($this->mot_de_passe) {
 
-        if(!$this->mot_de_passe && !$this->getSociete()->getContact()->mot_de_passe) {
-            return null;
+                return $this->identifiant;
+            }
+
+            if(!$this->mot_de_passe && !$this->getSociete()->getContact()->mot_de_passe) {
+                return null;
+            }
+
+            if($this->isSocieteContact()) {
+
+                return $this->identifiant;
+            }
+
+            if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+
+                return $this->identifiant;
+            }
+
+            return $this->getSociete()->getMasterCompte()->login;
         }
 
         if($this->isSocieteContact()) {
-
-            return $this->identifiant;
+            return $this->getSociete()->identifiant;
         }
 
         if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
-
             return $this->identifiant;
         }
 
-        return $this->getSociete()->getMasterCompte()->login;
+        return preg_replace('/01$/', '', $this->identifiant);
     }
 
     public function setMotDePasseSSHA($mot_de_passe) {
@@ -658,6 +671,12 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $ldap = new CompteLdap();
 
         if ($this->isActif()) {
+            if (!$this->mot_de_passe) {
+                if ($verbose) {
+                    echo "No password: no ldap\n";
+                }
+                return ;
+            }
 	        try {
                 $ldap->saveCompte($this, $verbose);
 	        } catch(Exception $e) {
@@ -694,7 +713,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                     }
                 }
 
-                $ldapUid = CompteLdap::getIdentifiant($this);
+                $ldapUid = $this->login;
 
                 foreach ($groupldap->getMembership($ldapUid) as $groupe) {
                     $groupldap->removeMember($groupe, $ldapUid);
@@ -720,7 +739,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                 }
             }
         } else {
-            CompteClient::getInstance()->deleteLdapCompte(CompteLdap::getIdentifiant($this));
+            CompteClient::getInstance()->deleteLdapCompte($this->login);
         }
     }
 

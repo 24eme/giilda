@@ -30,6 +30,8 @@ abstract class acVinLdap
     protected $dc;
     protected $pass;
 
+    protected $dry;
+
     private $connection = null;
     private $base_dn = '';
 
@@ -40,12 +42,16 @@ abstract class acVinLdap
      * Défini quelques variables et teste la connection
      *
      */
-    public function __construct()
+    public function __construct($dry_run = false)
     {
         $this->serveur = sfConfig::get('app_ldap_serveur');
         $this->dn = sfConfig::get('app_ldap_dn');
         $this->dc = sfConfig::get('app_ldap_dc');
         $this->pass = sfConfig::get('app_ldap_pass');
+        $this->dry = $dry_run;
+        if ($dry_run) {
+            return;
+        }
 
         $this->base_dn = $this->ou . ',' . $this->dc;
         $this->base_identifiant = $this->id
@@ -211,6 +217,9 @@ abstract class acVinLdap
      */
     public function __destruct()
     {
+        if ($this->dry) {
+            return;
+        }
         if ($this->connection) {
             @ldap_unbind($this->connection);
         }
