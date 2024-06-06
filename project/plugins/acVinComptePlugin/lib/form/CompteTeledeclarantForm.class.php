@@ -17,6 +17,9 @@ class CompteTeledeclarantForm extends acCouchdbForm {
         }else{
             $defaultEmail = $societe->getTeledeclarationEmail();
         }
+        if($doc->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+            $defaultEmail = $doc->email;
+        }
         if(!$defaultEmail){
             $defaultEmail = $societe->email;
         }
@@ -133,7 +136,7 @@ class CompteTeledeclarantForm extends acCouchdbForm {
             }
         }
 
-        if (!$societe->isTransaction()) {
+        if (!$societe->isTransaction() && $this->getDocument()->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
             $societe->add('teledeclaration_email', $email);
             $societe->save();
         }
