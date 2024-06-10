@@ -4,7 +4,15 @@ $produits = $drm->getProduitsReserveInterpro();
 if (count($produits) && DRMConfiguration::getInstance()->hasActiveReserveInterpro()): ?>
     <div class="row">
         <div class="col-xs-12">
-            <h3>Réserve interprofessionnelle</small></h3>
+            <h3>
+            Réserve interprofessionnelle
+              <?php if ($sf_user->isAdmin()): ?>
+              <small class="text-muted"><a href="<?php echo url_for('drm_transfert_recolte_etablissement',
+                  ['identifiant' => $drm->identifiant, 'periode_version' => $drm->periode]) ?>"
+                >(modifier)</a>
+              </small>
+              <?php endif ?>
+            </h3>
             <p><?php echo DRMConfiguration::getInstance()->getRerserveInteproMessage(); ?></p>
             <div class="col-xs-8" style="padding-left: 0px;">
              <table class="table table-bordered table-striped table-condensed">
