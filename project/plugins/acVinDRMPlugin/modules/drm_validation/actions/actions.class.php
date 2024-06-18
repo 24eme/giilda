@@ -159,4 +159,27 @@ class drm_validationActions extends drmGeneriqueActions {
         }
     }
 
+    public function executeTransfertReserveInterpro(sfWebRequest $request)
+    {
+        $this->drm = $this->getRoute()->getDRM();
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+
+        if (! $this->getUser()->isAdmin()) {
+            return $this->redirect403IfIsTeledeclaration();
+        }
+
+        if (DRMConfiguration::getInstance()->hasActiveReserveInterpro() === false) {
+            return $this->redirect('drm_validation', $this->drm);
+        }
+
+        $this->form = new DRMTransfertReserveInterproForm($this->drm);
+
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+                return $this->redirect('drm_validation', $this->drm);
+            }
+        }
+    }
 }

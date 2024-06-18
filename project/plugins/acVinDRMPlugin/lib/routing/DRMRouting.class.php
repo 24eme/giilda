@@ -316,6 +316,12 @@ class DRMRouting {
         $r->prependRoute('drm_retransmission', new DRMRoute('/drm/:identifiant/retransmission/:periode_version',
             array('module' => 'drm_xml', 'action' => 'retransmission'), array('sf_method' => array('get', 'post')),
             array('model' => 'DRM', 'type' => 'object')));
+
+        $r->prependRoute('drm_transfert_recolte_etablissement', new DRMRoute('/drm/:identifiant/edition/:periode_version/transfert',
+            ['module' => 'drm_validation', 'action' => 'transfertReserveInterpro'],
+            ['sf_method' => array('get', 'post')],
+            ['model' => 'DRM', 'type' => 'object']
+        ));
     }
 
 }
