@@ -101,10 +101,6 @@ class compte_teledeclarantActions extends sfActions {
 
                 $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Confirmation de création de votre compte", $this->getPartial('compte_teledeclarant/creationEmail', array('compte' => $this->compte)));
 
-                if ($this->form->hasUpdatedValues()) {
-                    Email::getInstance()->sendNotificationModificationsExploitation($this->compte->getSociete()->getEtablissementPrincipal(), $this->form->getUpdatedValues());
-                }
-
                 if ($this->service) {
                     return $this->redirect($this->service);
                 }
