@@ -698,7 +698,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function getSocietesLieesIds() {
         $compte = $this->getMasterCompte();
-        if (!$this->exist('societes_liees') && method_exists($compte, 'getTiersCollection')) {
+        if ($compte && !$this->exist('societes_liees') && method_exists($compte, 'getTiersCollection')) {
             $societesLiees = [];
             foreach($compte->getTiersCollection() as $tiers) {
                 if ($tiers->exist('societe') && $tiers->_get('societe')) {
