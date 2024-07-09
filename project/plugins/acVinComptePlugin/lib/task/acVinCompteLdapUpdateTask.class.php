@@ -36,6 +36,7 @@ class acVinCompteLdapUpdateTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
       new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_REQUIRED, 'Verbose mode', 0),
+      new sfCommandOption('dry', null, sfCommandOption::PARAMETER_REQUIRED, 'Dry run', false),
     ));
 
     $this->namespace        = 'compte';
@@ -57,9 +58,18 @@ EOF;
 
       $compte = CompteClient::getInstance()->find($arguments['doc_id']);
       if($compte) {
+          if ($options['dry']) {
+              $ldap = new CompteLdap(true);
+              print_r($ldap->info($compte));
+              return;
+          }
           $compte->updateLdap($options['verbose']);
       }else{
           if (preg_match('/COMPTE-([0-9]*)(01)?/', $arguments['doc_id'], $match)) {
+              if ($options['dry']) {
+                  echo "The LDAP record (uid=".$match[1].") will be deleted\n";
+                  return;
+              }
               CompteClient::getInstance()->deleteLdapCompte($match[1]);
           }else{
               throw new sfCommandException(sprintf("The Document \"%s\" does not exist", $arguments['doc_id']));

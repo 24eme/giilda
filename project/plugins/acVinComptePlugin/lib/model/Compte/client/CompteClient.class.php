@@ -19,7 +19,7 @@ class CompteClient extends acCouchdbClient {
     }
 
     public function getId($identifiant) {
-        if (SocieteConfiguration::getInstance()->isIdentifiantSaisi() || ! (intval($identifiant))) {
+        if (! (intval($identifiant))) {
             return 'COMPTE-' . $identifiant;
         }
         return 'COMPTE-' . sprintf('%08d', $identifiant);
@@ -86,6 +86,11 @@ class CompteClient extends acCouchdbClient {
         }
 
         return self::TYPE_COMPTE_INTERLOCUTEUR;
+    }
+
+    public function generateCodeCreation() {
+
+        return sprintf("{TEXT}%04d", rand(1000, 9999));
     }
 
     public function findOrCreateCompteSociete($societe) {

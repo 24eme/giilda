@@ -418,7 +418,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         } else {
             $compte->statut = CompteClient::STATUT_ACTIF;
         }
-        $compte->mot_de_passe = "{TEXT}" . sprintf("%04d", rand(0, 9999));
+        $compte->mot_de_passe = CompteClient::getInstance()->generateCodeCreation();
         $compte->addOrigine($this->_id);
         $this->addCompte($compte, -1);
         $compte->nom = $this->raison_sociale;
@@ -458,7 +458,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
         if ($this->isSynchroAutoActive()) {
             $compteMasterOrigin = clone $compteMaster;
-            $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
+            $this->pushToCompteOrEtablissementAndSave($this->createCompteSociete(), $compteMaster);
 
             foreach ($this->etablissements as $id => $obj) {
                 $this->pushToCompteOrEtablissementAndSave($compteMaster, EtablissementClient::getInstance()->find($id), $compteMasterOrigin);
@@ -499,7 +499,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
             $needSave = true;
         }
 
-        if (CompteGenerique::isSameContactThan($compteOrEtablissement, $compteMasterOrigin)) {
+        if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $this->pushContactTo($compteOrEtablissement);
             $needSave = true;
         }

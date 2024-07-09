@@ -23,12 +23,20 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getLogin() {
-        if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
 
+        if($this->exist('login')) {
+            return $this->_get('login');
+        }
+
+        if($this->isSocieteContact()) {
+            return $this->getSociete()->identifiant;
+        }
+
+        if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
             return $this->identifiant;
         }
 
-        return $this->getSociete()->identifiant;
+        return $this->identifiant;
     }
 
     public function getMasterCompte() {
@@ -163,10 +171,13 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                     $this->addTag('automatique', $type_fournisseur);
                 }
             }
-            if($societe->isOperateur()){
+            if($societe->isOperateur() && SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()){
                 foreach ($societe->getEtablissementsObj() as $etablissement) {
                     $this->addTag('automatique', $etablissement->etablissement->famille);
                 }
+            }
+            if(!SocieteConfiguration::getInstance()->isIdentifantCompteIncremental()) {
+                $this->tags->remove('documents');
             }
         }
 
@@ -305,6 +316,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function isSocieteContact() {
+        if(!$this->getSociete()) {
+            return;
+        }
+
         return ($this->getSociete()->compte_societe == $this->_id);
     }
 
@@ -464,7 +479,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                     }
                 }
 
-                $ldapUid = CompteLdap::getIdentifiant($this);
+                $ldapUid = $this->login;
 
                 foreach ($groupldap->getMembership($ldapUid) as $groupe) {
                     $groupldap->removeMember($groupe, $ldapUid);
@@ -490,7 +505,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                 }
             }
         } else {
-            CompteClient::getInstance()->deleteLdapCompte(CompteLdap::getIdentifiant($this));
+            CompteClient::getInstance()->deleteLdapCompte($this->login);
         }
     }
 
@@ -589,7 +604,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     public function generateCodeCreation()
     {
         if ($this->_get('mot_de_passe') === null) {
-            $this->_set('mot_de_passe', sprintf("{TEXT}%04d", rand(0, 9999)));
+            $this->_set('mot_de_passe', CompteClient::getInstance()->generateCodeCreation());
         }
         return $this;
     }

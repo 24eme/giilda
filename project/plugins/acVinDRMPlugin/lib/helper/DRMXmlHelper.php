@@ -191,10 +191,19 @@ function drm2CrdCiel($drm) {
                                 $crds[$type.$crd->genre][$subkey]->entrees_achats += $crd->entrees_achats;
                                 $crds[$type.$crd->genre][$subkey]->entrees_excedents += $crd->entrees_excedents;
                                 $crds[$type.$crd->genre][$subkey]->entrees_retours += $crd->entrees_retours;
+                                $crds[$type.$crd->genre][$subkey]->entrees_autres += $crd->entrees_autres;
                                 $crds[$type.$crd->genre][$subkey]->sorties_destructions += $crd->sorties_destructions;
                                 $crds[$type.$crd->genre][$subkey]->sorties_utilisations += $crd->sorties_utilisations;
                                 $crds[$type.$crd->genre][$subkey]->sorties_manquants += $crd->sorties_manquants;
+                                $crds[$type.$crd->genre][$subkey]->sorties_autres += $crd->sorties_autres;
                                 $crds[$type.$crd->genre][$subkey]->stock_fin += $crd->stock_fin;
+                                if ($crd->exist('observations')) {
+                                    if (!$crds[$type.$crd->genre][$subkey]->exist('observations')) {
+                                        $crds[$type.$crd->genre][$subkey]->add('observations', $crd->observations);
+                                    }else{
+                                        $crds[$type.$crd->genre][$subkey]->observations .= ' - '.$crd->observations;
+                                    }
+                                }
 			}
 		}
 	}
