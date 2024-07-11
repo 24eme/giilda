@@ -9,7 +9,7 @@ curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/ds/_view/stocks | sed -f
 
 
 # II - Récupération des DRMs et réduction de fichiers
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/drm/_view/stocks | sed -f bin/unicode2alpha | sed 's/;//g' | sed 's/.*"key":\[/DRM;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DRM;"' | sed -E 's/("[a-zA-Z ]+),([a-zA-Z ]+")/\1 \2/g' | sed 's/\\"//g' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' > $TMP/export_bi_drm_stock.csv
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/drm/_view/stocks | sed -f bin/unicode2alpha | sed 's/;//g' | sed 's/.*"key":\[/DRM;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DRM;"' | sed -r ':a;s/(,\"[^\"]*),([^\"]*\",)/\1.\2/g;ta' | sed 's/\\"//g' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' > $TMP/export_bi_drm_stock.csv
 cat $TMP/export_bi_drm_stock.csv | awk -F ";" ' substr($5,2,4) >= 2014  { print }' > $TMP/export_bi_drm_stock_campagne_filtered.csv
 
 # Récupération des plus hautes modificatrices
