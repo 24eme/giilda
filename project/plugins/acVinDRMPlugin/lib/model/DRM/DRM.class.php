@@ -1535,9 +1535,11 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
                     $crd->entrees_achats = null;
                     $crd->entrees_retours = null;
                     $crd->entrees_excedents = null;
+                    $crd->entrees_autres = null;
                     $crd->sorties_utilisations = null;
                     $crd->sorties_destructions = null;
                     $crd->sorties_manquants = null;
+                    $crd->sorties_autres = null;
                 }
             }
         }
