@@ -463,6 +463,16 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->mouvements->add($this->identifiant, $this->mouvements->getOrAdd($this->identifiant)->toArray() + $mvts);
     }
 
+    public function hasVolumeAFacturer() {
+        if (!$this->mouvements->exist($this->identifiant))
+            return false;
+        $volume = 0;
+        foreach ($this->mouvements->get($this->identifiant) as $key => $mvt) {
+            $volume += $mvt->volume;
+        }
+        return (round($volume,5) > 0);
+    }
+
     /**** FIN DE VERSION ****/
 
     /**** MOUVEMENTS ****/
