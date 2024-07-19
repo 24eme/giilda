@@ -452,6 +452,17 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         return array_filter($this->mouvements->get($this->identifiant)->toArray(), function($mvt) use ($interpro) { return $mvt->facture == 1 && $mvt->interpro == $interpro; });
     }
 
+    public function avoiriserMvts($mvts) {
+        foreach ($mvts as $mvt) {
+            $mvt->volume *= (-1);
+            $mvt->facture = 0;
+            if ($this->hasVersion()) {
+                $mvt->version = $this->version;
+            }
+        }
+        $this->mouvements->add($this->identifiant, $this->mouvements->getOrAdd($this->identifiant)->toArray() + $mvts);
+    }
+
     /**** FIN DE VERSION ****/
 
     /**** MOUVEMENTS ****/
