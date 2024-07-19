@@ -473,6 +473,18 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         return (round($volume,5) > 0);
     }
 
+    public function cleanContratsProduit($hash) {
+        $noeudContratToDelete = [];
+        foreach($this->contrats as $contrat) {
+            if (strpos($contrat->produit_hash, $hash) !== false) {
+                $noeudContratToDelete[$contrat->getKey()] = $contrat->getKey();
+            }
+        }
+        foreach($noeudContratToDelete as $key) {
+            $this->contrats->remove($key);
+        }
+    }
+
     /**** FIN DE VERSION ****/
 
     /**** MOUVEMENTS ****/
