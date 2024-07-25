@@ -66,18 +66,20 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 		$doc = $this->getDocumentRepriseProduits();
 		$regex = DSConfiguration::getInstance()->getProductHashRegexFilter();
 		$interpro = DSConfiguration::getInstance()->getProductDetailInterpro();
+        $exceptionProduit = DSConfiguration::getInstance()->execptionProduit();
 		if ($doc) {
 			$this->docid_origine_reprise_produits = $doc->_id;
 			foreach($doc->getProduitsCepages() as $produitCepage) {
 				$hashCepage = str_replace(['/declaration/','declaration/'], '', $produitCepage->getHash());
-				if ($regex && !preg_match($regex, $hashCepage)) {
+                $isException = ($exceptionProduit && (strpos($produitCepage->getHash(), $exceptionProduit) !== false));
+				if (!$isException && $regex && !preg_match($regex, $hashCepage)) {
 					continue;
 				}
 				foreach($produitCepage->getProduits() as $detail) {
-					if ($interpro && $detail->exist('interpro') && $detail->interpro != $interpro) {
+					if (!$isException && $interpro && $detail->exist('interpro') && $detail->interpro != $interpro) {
 						continue;
 					}
-					if (!$detail->hasCvo()) {
+					if (!$isException && !$detail->hasCvo()) {
 						continue;
 					}
 					$produit = $this->declaration->add($hashCepage);
