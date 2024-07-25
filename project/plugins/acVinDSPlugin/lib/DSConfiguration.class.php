@@ -47,4 +47,8 @@ class DSConfiguration {
         return $this->configuration['hide_historique'];
     }
 
+    public function execptionProduit() {
+        return $this->configuration['exception_produit'];
+    }
+
 }
