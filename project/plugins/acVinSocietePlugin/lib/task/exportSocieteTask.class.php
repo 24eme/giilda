@@ -53,7 +53,7 @@ EOF;
     print $societe->siret.";";
     print $societe->statut.";";
     print $societe->date_modification.";";
-    print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";";
+    print preg_replace('/[^\+0-9]/i', '', $societe->telephone_bureau ?: $societe->telephone_mobile).";";
     print preg_replace('/[^\+0-9]/i', '', $societe->fax).";";
     print $societe->email.";";
     print ';';

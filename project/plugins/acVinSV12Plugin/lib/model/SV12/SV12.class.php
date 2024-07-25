@@ -446,6 +446,45 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     }
 
+    public function getMvtsFactures($interpro) {
+        if (!$this->mouvements->exist($this->identifiant))
+            return [];
+        return array_filter($this->mouvements->get($this->identifiant)->toArray(), function($mvt) use ($interpro) { return $mvt->facture == 1 && $mvt->interpro == $interpro; });
+    }
+
+    public function avoiriserMvts($mvts) {
+        foreach ($mvts as $mvt) {
+            $mvt->volume *= (-1);
+            $mvt->facture = 0;
+            if ($this->hasVersion()) {
+                $mvt->version = $this->version;
+            }
+        }
+        $this->mouvements->add($this->identifiant, $this->mouvements->getOrAdd($this->identifiant)->toArray() + $mvts);
+    }
+
+    public function hasVolumeAFacturer() {
+        if (!$this->mouvements->exist($this->identifiant))
+            return false;
+        $volume = 0;
+        foreach ($this->mouvements->get($this->identifiant) as $key => $mvt) {
+            $volume += $mvt->volume;
+        }
+        return (round($volume,5) > 0);
+    }
+
+    public function cleanContratsProduit($hash) {
+        $noeudContratToDelete = [];
+        foreach($this->contrats as $contrat) {
+            if (strpos($contrat->produit_hash, $hash) !== false) {
+                $noeudContratToDelete[$contrat->getKey()] = $contrat->getKey();
+            }
+        }
+        foreach($noeudContratToDelete as $key) {
+            $this->contrats->remove($key);
+        }
+    }
+
     /**** FIN DE VERSION ****/
 
     /**** MOUVEMENTS ****/
