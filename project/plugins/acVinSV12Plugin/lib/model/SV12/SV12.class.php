@@ -214,7 +214,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     public function validate($options = array()) {
         if($this->isValidee()) {
 
-            throw new sfExcpetion(sprintf("Cette SV12 est déjà validée"));
+            throw new sfException(sprintf("Cette SV12 est déjà validée"));
         }
 
         $this->storeDates();
