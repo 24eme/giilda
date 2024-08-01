@@ -223,8 +223,6 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->generateMouvements();
         $this->updateTotaux();
 
-        $this->archivage_document->archiver();
-
         if($this->isAllContratsCanBeSoldable()) {
             $this->valide->statut = SV12Client::STATUT_VALIDE;
         } else {
