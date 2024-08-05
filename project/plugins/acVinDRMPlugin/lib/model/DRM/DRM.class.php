@@ -443,12 +443,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         if($this->exist("transmission_douane")) {
             //cas d'erreur de transmission
-            if ($this->transmission_douane->success === false ) {
+            if ($this->transmission_douane->xml && $this->transmission_douane->success == false ) {
                 $this->addControleMessage(DRM::CONTROLE_TRANSMISSION, $this->getTransmissionErreur());
                 $nb_controles++;
             }
             //cas d'incoherence
-            if ($this->get("transmission_douane")->coherente === false) {
+            if ($this->get("transmission_douane")->coherente == false && !is_null($this->get("transmission_douane")->coherente)) {
                 $this->addControleMessage(DRM::CONTROLE_COHERENCE, "Non conforme douane");
                 $nb_controles++;
             }
