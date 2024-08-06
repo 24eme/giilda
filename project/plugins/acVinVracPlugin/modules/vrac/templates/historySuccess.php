@@ -16,7 +16,7 @@ use_helper('Float');
     <div class="row">
 
       <div class="col-xs-12">
-        <form class="filtres_historique" id="filtres_historique" action="<?php echo url_for('vrac_history',array('identifiant' => $identifiant)); ?>" method="POST">
+        <form class="filtres_historique" id="filtres_historique" action="<?php echo url_for('vrac_history',array('identifiant' => $identifiant)); ?>" method="GET">
         <?php echo $form->renderHiddenFields();
 		          echo $form->renderGlobalErrors(); ?>
 
