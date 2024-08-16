@@ -39,62 +39,68 @@ EOF;
     $comptes_info = [];
 
     $societe = SocieteClient::getInstance()->find($arguments['societe_id']);
-    $c_id = $societe->_get('compte_societe');
-    $comptes_todelete[] = $c_id;
-    $c = CompteClient::getInstance()->find($c_id);
-    if ($c) {
-        $this->saveCompte($comptes_info, $societe->_id, $c);
-    }
-
-    $comptes_societe_etablissements = [$societe->compte_societe];
-    $etablissements = [];
-    foreach($societe->getEtablissementsObject(true, true) as $e) {
-        $this->saveCompte($comptes_info, $e->_id, $e->getMasterCompte());
-        $etablissements[] = $e;
-        $comptes_societe_etablissements[] = $e->compte;
-        $comptes_todelete[] = $e->compte;
-    }
-
-    $comptes_societe_etablissements;
-    $comptes_new = [];
+    $c = $societe->getMasterCompte();
+    $this->saveCompte($comptes_info, $societe->_id, $c);
 
     $compte_interlocuteurs = [];
     foreach($societe->getComptesInterlocuteurs() as $c )  {
         $compte_interlocuteurs[$c->_id] = $c;
+        $this->saveCompte($comptes_info, $c->_id, $c);
     }
+
+
+    foreach($societe->getEtablissementsObject(true, true) as $e) {
+        $this->saveCompte($comptes_info, $e->_id, $e->getMasterCompte());
+        $etablissements[] = $e;
+        $c = $e->getMasterCompte();
+        $this->saveCompte($comptes_info, $e->_id, $c);
+        $c->delete();
+    }
+
+    foreach($societe->getComptesInterlocuteurs() as $c )  {
+        try {
+            $c->delete();
+        }catch(couchException $e) {}
+    }
+
+    $c = $societe->getMasterCompte();
+    try {
+        $c->delete();
+    }catch(couchException $e) {}
+    $societe->setMaintenance();
+    $societe->compte_societe = null;
+    $societe->remove('contacts');
+    $societe->add('contacts');
     $societe->save();
-    $societe = SocieteClient::getInstance()->find($societe->_id);
-
-    $i = 0;
-    foreach($compte_interlocuteurs as $id => $c) {
-        print_r(['change l\'id de '.$id]);
-        $old_id = $c->_id;
-        $c = clone $c;
-        $c->identifiant = sprintf('%s%02d', $societe->identifiant, 10 + $i++);
-        $c->_id = 'COMPTE-'.$c->identifiant;
-        $c->save();
-        $comptes_todelete[] = $old_id;
-        $comptes_new[$c->_id] = $c;
-    }
-
-    foreach($comptes_todelete as $id) {
-        $c = CompteClient::getInstance()->find($id);
-        if ($c) $c->delete();
-    }
 
     foreach($etablissements as $e) {
         $e = EtablissementClient::getInstance()->find($e->_id);
-        $this->restoreCompteToObj($comptes_info, $e->_id, $e);
+        $e->setMaintenance();
+        $e->set('compte', null);
         $e->save();
-        $c = $e->getMasterCompte();
-        $this->restoreCompte($comptes_info, $e->_id, $c);
-        $comptes_new[$c->_id] = $c;
+    }
+
+    $i = 10;
+    foreach($compte_interlocuteurs as $id => $c) {
+        $cnew = CompteClient::getInstance()->createCompteInterlocuteurFromSociete($societe);
+        $cnew->identifiant = sprintf('%s%02d', $societe->identifiant, 10 + $i++);
+        $cnew->_id = 'COMPTE-'.$c->identifiant;
+        $cnew->setMaintenance();
+        $this->restoreCompte($comptes_info, $id, $cnew);
+        print_r([$cnew]);
+        $cnew->save();
     }
 
     $societe = SocieteClient::getInstance()->find($societe->_id);
-    $this->restoreCompte($comptes_info, $societe->_id, $societe->getMasterCompte());
-    $this->restoreCompteToObj($comptes_info, $societe->_id, $societe->getMasterCompte());
+    $societe->setMaintenance();
+    $this->restoreCompteToObj($comptes_info, $societe->_id, $societe);
     $societe->save();
+    $this->restoreCompte($comptes_info, $societe->_id, $societe->getMasterCompte());
+
+    foreach($etablissements as $e) {
+        $e = EtablissementClient::getInstance()->find($e->_id);
+        $this->restoreCompte($comptes_info, $e->_id, $e->getMasterCompte());
+    }
 
   }
 
@@ -104,17 +110,11 @@ EOF;
       unset($comptes[$id]['_rev']);
       unset($comptes[$id]['identifiant']);
       unset($comptes[$id]['compte_type']);
-      unset($comptes[$id]['compte_type']);
       unset($comptes[$id]['id_societe']);
       unset($comptes[$id]['origines']);
-      unset($comptes[$id]['societe_informations']);
       unset($comptes[$id]['type']);
-      unset($comptes[$id]['adresse']);
-      unset($comptes[$id]['adresse_complementaire']);
-      unset($comptes[$id]['commune']);
-      unset($comptes[$id]['code_postal']);
-      unset($comptes[$id]['telephone']);
-      unset($comptes[$id]['email']);
+      unset($comptes[$id]['societe_informations']);
+      unset($comptes[$id]['etablissement_informations']);
   }
 
   private function restoreCompteToObj(&$comptes, $id, $obj) {
@@ -130,12 +130,15 @@ EOF;
       if (!$compte) {
           return;
       }
-      print_r(['rewrite', $compte->_id]);
       $compte = CompteClient::getInstance()->find($compte->_id);
       if ($compte) {
           foreach($comptes[$id] as $k => $v) {
-              $compte->add($k, $v);
+              if ($v) {
+                  print_r(['copy', $compte->_id, $k, $v]);
+                  $compte->add($k, $v);
+              }
           }
+          $compte->setMaintenance();
           $compte->save();
       }
   }

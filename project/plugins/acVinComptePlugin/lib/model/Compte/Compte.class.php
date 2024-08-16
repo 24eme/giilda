@@ -460,7 +460,15 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         return ($this->exist('en_alerte') && $this->en_alerte);
     }
 
+    private $maintenance = null;
+    public function setMaintenance() {
+        $this->maintenance = true;
+    }
+
     protected function doSave() {
+        if ($this->maintenance) {
+            return;
+        }
         $this->add('date_modification', date('Y-m-d'));
     }
 
@@ -780,6 +788,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $droits = $this->droits;
         if($droits instanceof acCouchdbJson) {
             $droits = $droits->toArray(true, false);
+        }
+        if (!is_array($droits)) {
+            print_r(['droits' => $droits]);
         }
         foreach($droits as $key => $d) {
             $droitTab = explode(":", $d);

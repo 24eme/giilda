@@ -161,6 +161,9 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         $libellesTypeRelation = EtablissementClient::getTypesLiaisons();
         $compte = $this->getMasterCompte();
         $compte->addTag('relations',$libellesTypeRelation[$type]);
+        if ($this->maintenance) {
+            $compte->setMaintenance();
+        }
         $compte->save();
 
         if($etablissement->exist('ppm') && $etablissement->ppm){
@@ -184,6 +187,10 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     protected function updateLiaisonOpposee($liaison) {
         $etablissement = $liaison->getEtablissement();
+        if ($this->maintenance) {
+            $etablissement->setMaintenance();
+        }
+
         $typeLiaisonOpposee = EtablissementClient::getTypeLiaisonOpposee($liaison->type_liaison);
 
         if ($this->isSuspendu()) {
@@ -229,12 +236,18 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         if($removeOther && $typeLiaisonOpposee) {
             $etablissement = $liaison->getEtablissement();
+            if ($this->maintenance) {
+                $etablissement->setMaintenance();
+            }
             $etablissement->removeLiaison($typeLiaisonOpposee."_".$this->_id, false);
             $etablissement->save();
         }
 
         $compte = $this->getMasterCompte();
         $compte->removeTags('manuel', array($liaison->type_liaison));
+        if ($this->maintenance) {
+            $compte->setMaintenance();
+        }
         $compte->save();
         $this->liaisons_operateurs->remove($key);
 
@@ -324,6 +337,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
     }
 
+    private $maintenance = null;
+    public function setMaintenance() {
+        $this->maintenance = true;
+    }
+
     public function save() {
         if(SocieteConfiguration::getInstance()->isDisableSave()) {
 
@@ -368,10 +386,15 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         parent::save();
 
         $this->getMasterCompte()->setStatut($this->getStatut());
-
+        if ($this->maintenance) {
+            $compte->setMaintenance();
+        }
         $compte->save();
-        
+
         if($needSocieteSave) {
+            if ($this->maintenance) {
+                $societe->setMaintenance();
+            }
             $societe->save();
         }
     }

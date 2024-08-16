@@ -238,6 +238,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         if(!in_array($this->_id, $societe->societes_liees->toArray())) {
             $societe->societes_liees->add(null, $this->_id);
         }
+        if ($this->maintenance) {
+            $societe->setMaintenance();
+        }
         $societe->save();
     }
 
@@ -488,7 +491,15 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $this->_get('date_modification');
     }
 
+    private $maintenance = null;
+    public function setMaintenance() {
+        $this->maintenance = true;
+    }
+
     protected function doSave() {
+        if ($this->maintenance) {
+            return;
+        }
         $this->add('date_modification', date('Y-m-d'));
     }
 
@@ -525,6 +536,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
             return;
         }
         SocieteClient::getInstance()->setSingleton($this);
+        if ($this->maintenance) {
+            $compteMaster->setMaintenance();
+        }
         $compteMasterOrigin = clone $compteMaster;
         $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
 
@@ -559,24 +573,27 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         $needSave = true;
     }
 
-    if($compteOrEtablissement->exist('raison_sociale') && $compteOrEtablissement->raison_sociale != $this->raison_sociale){
+    if($compteOrEtablissement && $compteOrEtablissement->exist('raison_sociale') && $compteOrEtablissement->raison_sociale != $this->raison_sociale){
       $compteOrEtablissement->raison_sociale  = $this->raison_sociale;
       $needSave = true;
     }
 
-    if ($compteOrEtablissement->exist('siret') && $compteOrEtablissement->siret != $this->siret) {
+    if ($compteOrEtablissement && $compteOrEtablissement->exist('siret') && $compteOrEtablissement->siret != $this->siret) {
       $needSave = true;
     }
 
-    if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
+    if ($compteOrEtablissement && CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
         $ret = $this->pushAdresseTo($compteOrEtablissement);
         $needSave = $needSave || $ret;
     }
-    if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMasterOrigin)) {
+    if ($compteOrEtablissement && CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMasterOrigin)) {
         $ret = $this->pushContactTo($compteOrEtablissement);
         $needSave = $needSave || $ret;
     }
     if ($needSave) {
+        if ($this->maintenance) {
+            $compteOrEtablissement->setMaintenance();
+        }
         $compteOrEtablissement->save();
     }
 }
@@ -769,6 +786,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
               continue;
           }
           $contact->setStatut($newStatus);
+          if ($this->maintenance) {
+              $contact->setMaintenance();
+          }
           $contact->save();
       }
       foreach($toberemoved as $keyCompte) {
@@ -786,6 +806,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
       $this->setStatut($newStatus);
       $this->save();
       foreach($etablissementtobesaved as $etablissement) {
+          if ($this->maintenance) {
+              $etablissement->setMaintenance();
+          }
           $etablissement->save();
       }
     }
