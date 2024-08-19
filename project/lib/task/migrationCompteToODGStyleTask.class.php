@@ -53,6 +53,9 @@ EOF;
         $this->saveCompte($comptes_info, $e->_id, $e->getMasterCompte());
         $etablissements[] = $e;
         $c = $e->getMasterCompte();
+        if (!$c) {
+            continue;
+        }
         $this->saveCompte($comptes_info, $e->_id, $c);
         $c->delete();
     }
@@ -65,7 +68,9 @@ EOF;
 
     $c = $societe->getMasterCompte();
     try {
-        $c->delete();
+        if ($c) {
+            $c->delete();
+        }
     }catch(couchException $e) {}
     $societe->setMaintenance();
     $societe->compte_societe = null;
@@ -101,6 +106,9 @@ EOF;
   }
 
   private function saveCompte(&$comptes, $id, $compte) {
+      if (!$compte) {
+          return;
+      }
       $comptes[$id] = $compte->toArray();
       unset($comptes[$id]['_id']);
       unset($comptes[$id]['_rev']);
@@ -114,6 +122,9 @@ EOF;
   }
 
   private function restoreCompteToObj(&$comptes, $id, $obj) {
+      if (!isset($comptes[$id])) {
+          return;
+      }
       $compte = $comptes[$id];
       foreach(['telephone_bureau', 'telephone_mobile', 'telephone_perso', 'adresse', 'adresse_complementaire', 'civilite', 'code_postal', 'fax', 'telephone', 'region'] as $type) {
           if (isset($compte[$type]) && $compte[$type] && $obj->exist($type) && !$obj->get($type)) {
@@ -123,6 +134,9 @@ EOF;
   }
 
   private function restoreCompte(&$comptes, $id, $compte) {
+      if (!isset($comptes[$id])) {
+          return;
+      }
       if (!$compte) {
           return;
       }
