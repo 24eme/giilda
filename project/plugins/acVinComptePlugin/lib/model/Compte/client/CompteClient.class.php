@@ -332,6 +332,6 @@ class CompteClient extends acCouchdbClient {
                 $groupldap->removeMember($group, $ldapUid);
             }
         }
-        $ldap->deleteCompte($identifiant, $verbose);
+        $ldap->deleteCompte($identifiant);
     }
 }
