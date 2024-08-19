@@ -144,7 +144,7 @@ class factureActions extends sfActions {
         $this->interproFacturable = $this->getInterproFacturable($request);
         $this->factures = FactureSocieteView::getInstance()->findBySociete($this->societe, $this->interproFacturable);
         $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe, $this->interproFacturable);
-
+        $this->mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
         $this->compte = $this->societe->getMasterCompte();
     }
 

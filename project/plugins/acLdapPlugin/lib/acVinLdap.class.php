@@ -67,10 +67,10 @@ abstract class acVinLdap
      */
     public function connect()
     {
-        $con = ldap_connect($this->serveur);
+        $con = @ldap_connect($this->serveur);
         ldap_set_option($con, LDAP_OPT_PROTOCOL_VERSION, 3);
 
-        return ($con && ldap_bind($con, $this->dn, $this->pass)) ? $con : false;
+        return ($con && @ldap_bind($con, $this->dn, $this->pass)) ? $con : false;
     }
 
     /**
@@ -220,6 +220,8 @@ abstract class acVinLdap
         if ($this->dry) {
             return;
         }
-        ldap_unbind($this->connection);
+        if ($this->connection) {
+            @ldap_unbind($this->connection);
+        }
     }
 }

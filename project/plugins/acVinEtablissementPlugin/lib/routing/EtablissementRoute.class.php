@@ -3,29 +3,46 @@
 class EtablissementRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
 
     protected $etablissement = null;
+    protected $campagne = null;
 
     protected function getObjectForParameters($parameters = null) {
         $this->etablissement = EtablissementClient::getInstance()->find($parameters['identifiant']);
-        $myUser = sfContext::getInstance()->getUser();
-        if ($myUser->hasTeledeclaration() && !in_array($this->getEtablissement()->id_societe, $myUser->getCompte()->getSociete()->getSocietesLieesIds())) {
-            throw new sfError404Exception("Vous n'avez pas le droit d'accéder à cette page");
+        if (!$this->etablissement) {
+            throw new sfError404Exception("L'établissement ETABLISSEMENT-".$parameters['identifiant']." n'a pas été trouvé.");
         }
+        $myUser = sfContext::getInstance()->getUser();
+        $compteUser = $myUser->getCompte();
+        if ($myUser->hasTeledeclaration() && !$myUser->isAdmin() && $this->getEtablissement()->getSociete()->isContact($compteUser) === false) {
+
+            throw new sfError403Exception("Vous n'avez pas le droit d'accéder à cette page");
+        }
+
         $module = sfContext::getInstance()->getRequest()->getParameterHolder()->get('module');
+
+        if($campagne = sfContext::getInstance()->getRequest()->getParameterHolder()->get('campagne',null)){
+          $this->campagne = $campagne;
+        }
         sfContext::getInstance()->getResponse()->setTitle(strtoupper($module).' - '.$this->etablissement->nom);
         return $this->etablissement;
     }
 
-    protected function doConvertObjectToArray($object = null) {
-
+    protected function doConvertObjectToArray($object) {
+        if (!$object) {
+            throw new sfException("object from parameter should not be null");
+        }
         return array("identifiant" => $object->getIdentifiant());
     }
 
     public function getEtablissement() {
 
-	if (!$this->etablissement) {
-           $this->etablissement = $this->getObject();
+	    if (!$this->etablissement) {
+            $this->getObject();
       	}
 
-	return $this->etablissement;
+	    return $this->etablissement;
+    }
+
+    public function getCampagne(){
+      return $this->campagne;
     }
 }

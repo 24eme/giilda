@@ -28,10 +28,17 @@ use_helper('PointsAides');
     </thead>
     <tbody>
         <?php
+        $MAX_NB_CONTRATS = 250;
+        //On sépare les contrats visés des non visées pour pouvoir mettre les 2d en premier
         $contrats = array();
         $contrats_vises = array();
 
+        $nb = 0;
         foreach ($vracs->rows as $contrat) {
+          $nb++;
+          if ($nb > $MAX_NB_CONTRATS) {
+            break;
+          }
           if(isset($contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT]) && $contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT] == 'ATTENTE_SIGNATURE'){
             $contrats[] = $contrat;
           }else{
@@ -39,6 +46,11 @@ use_helper('PointsAides');
           }
         }
         $contrats = array_merge($contrats, $contrats_vises);
+?>
+<?php if ($nb >= $MAX_NB_CONTRATS): ?>
+    <tr><td colspan=7><center><i>Seul les <?php echo $nb - 1; ?> premiers contrats sont affichés. Pour tous les avoir, utilisez l'export</i></center></td></tr>
+<?php endif; ?>
+<?php
         foreach ($contrats as $value) {
             // $elt = $value->getRawValue()->value;
                 $v = VracClient::getInstance()->find($value->id, acCouchdbClient::HYDRATE_JSON);

@@ -63,6 +63,10 @@ class commonActions extends sfActions {
     }
 
     protected function redirectWithCredentials($idCompte){
+            if(sfConfig::get('app_url_common_homepage_teledeclaration')) {
+                return $this->redirect(str_replace(':identifiant', $idCompte, sfConfig::get('app_url_common_homepage_teledeclaration')));
+            }
+
             if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM) && $this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
             return $this->redirect("common_accueil_etablissement" ,array('identifiant' => $idCompte));
             }

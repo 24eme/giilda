@@ -268,7 +268,7 @@ class VracClient extends acCouchdbClient {
     }
 
     public function retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $limit = self::RESULTAT_LIMIT) {
-        if (!preg_match('/[0-9]*-[0-9]*/', $campagne)){
+        if ($campagne && !preg_match('/[0-9]*-[0-9]*/', $campagne)){
           throw new sfException("wrong campagne format ($campagne)");
         }
         if(!$societe){
@@ -278,8 +278,11 @@ class VracClient extends acCouchdbClient {
         $bySoussigne = array();
         foreach ($allEtablissements as $etablissementObj) {
             $etbId = $etablissementObj->etablissement->identifiant;
-            $bySoussigneQuery = $this->startkey(array($etbId,$campagne,  array()))
-                            ->endkey(array($etbId,$campagne))->descending(true);
+            if ($campagne) {
+                $bySoussigneQuery = $this->startkey(array($etbId,$campagne,  array()))->endkey(array($etbId,$campagne))->descending(true);
+            }else{
+                $bySoussigneQuery = $this->startkey(array($etbId, array()))->endkey(array($etbId))->descending(true);
+            }
 
             $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
             $bySoussigne = array_merge($bySoussigne, $local_result->rows);

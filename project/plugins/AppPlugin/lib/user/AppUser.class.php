@@ -8,6 +8,8 @@ class AppUser extends sfBasicSecurityUser {
     const NAMESPACE_COMPTE = "COMPTE";
     const NAMESPACE_COMPTE_ORIGIN = "COMPTE_ORIGIN";
     const CREDENTIAL_ADMIN = "admin";
+    const CREDENTIAL_STALKER = 'stalker';
+    const CREDENTIAL_CONTACT = "contacts";
 
     public function signInOrigin($login_or_compte) {
 
@@ -138,4 +140,12 @@ class AppUser extends sfBasicSecurityUser {
         return $this->hasCredential(Roles::ROLEDRM) && $this->hasCredential(Roles::DRM);
     }
 
+    public function isAdmin()
+    {
+        return $this->hasCredential(self::CREDENTIAL_ADMIN);
+    }
+
+    public function isStalker() {
+        return $this->hasCredential(self::CREDENTIAL_STALKER);
+    }
 }

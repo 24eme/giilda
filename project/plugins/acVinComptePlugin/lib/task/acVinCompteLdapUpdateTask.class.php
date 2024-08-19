@@ -2,7 +2,7 @@
 
 /* This file is part of the acVinComptePlugin package.
  * Copyright (c) 2011 Actualys
- * Authors :	
+ * Authors :
  * Tangui Morlier <tangui@tangui.eu.org>
  * Charlotte De Vichet <c.devichet@gmail.com>
  * Vincent Laurent <vince.laurent@gmail.com>
@@ -14,7 +14,7 @@
 
 /**
  * acVinComptePlugin task.
- * 
+ *
  * @package    acVinComptePlugin
  * @subpackage lib
  * @author     Tangui Morlier <tangui@tangui.eu.org>
@@ -56,24 +56,29 @@ EOF;
       $databaseManager = new sfDatabaseManager($this->configuration);
       $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-      $compte = CompteClient::getInstance()->find($arguments['doc_id']);
-      if($compte) {
-          if ($options['dry']) {
-              $ldap = new CompteLdap(true);
-              print_r($ldap->info($compte));
-              return;
-          }
-          $compte->updateLdap($options['verbose']);
-      }else{
-          if (preg_match('/COMPTE-([0-9]*)(01)?/', $arguments['doc_id'], $match)) {
-              if ($options['dry']) {
-                  echo "The LDAP record (uid=".$match[1].") will be deleted\n";
-                  return;
-              }
-              CompteClient::getInstance()->deleteLdapCompte($match[1]);
-          }else{
-              throw new sfCommandException(sprintf("The Document \"%s\" does not exist", $arguments['doc_id']));
-          }
+    if (!preg_match('/^COMPTE-/',  $arguments['doc_id'])) {
+      throw new sfCommandException(sprintf("The Document \"%s\" is not a COMPTE", $arguments['doc_id']));
+    }
+
+    $compte = CompteClient::getInstance()->find($arguments['doc_id']);
+    if(!$compte) {
+      $uid = preg_replace('/COMPTE-/', '', $arguments['doc_id']);
+      if (SocieteConfiguration::getInstance()->isIdentifiantEtablissementSaisi() && preg_match('/COMPTE-([0-9]*)(01)?/', $arguments['doc_id'], $match)) {
+          $uid = $match[1];
       }
+      if ($options['dry']) {
+          echo "The LDAP record (uid=".$uid.") will be deleted\n";
+          return;
+      }
+      $ldap = new CompteLdap();
+      $ldap->deleteCompte($uid, $options['verbose']);
+      return ;
+    }
+    if ($options['dry']) {
+        $ldap = new CompteLdap(true);
+        print_r($ldap->info($compte));
+        return;
+    }
+    $compte->updateLdap($options['verbose']);
   }
 }

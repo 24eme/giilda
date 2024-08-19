@@ -19,9 +19,6 @@ class SocieteModificationForm extends CompteGeneriqueForm {
         $this->setWidget('raison_sociale', new bsWidgetFormInput());
         $this->setWidget('code_comptable_client', new bsWidgetFormInput());
 
-        $this->setWidget('type_societe', new bsWidgetFormChoice(array('choices' => $this->getSocieteTypes(), 'expanded' => false)));
-        $this->setValidator('type_societe', new sfValidatorChoice(array('required' => true, 'choices' => $this->getSocieteTypesValid())));
-
         $this->setWidget('siret', new bsWidgetFormInput());
         $this->setWidget('code_naf', new bsWidgetFormInput());
         $this->setWidget('no_tva_intracommunautaire', new bsWidgetFormInput());
@@ -41,12 +38,17 @@ class SocieteModificationForm extends CompteGeneriqueForm {
         $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
         $this->setValidator('code_comptable_client', new sfValidatorString(array('required' => false)));
 
-        $this->setValidator('siret', new sfValidatorString(array('required' => false)));
+
+        $this->setValidator('siret', new sfValidatorRegex(array("required" => false, "pattern" => "/^[0-9]{14}$/"), array("invalid" => "Le siret doit être un nombre à 14 chiffres")));
         $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
         $this->setValidator('no_tva_intracommunautaire', new sfValidatorString(array('required' => false)));
 
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
 
+        $this->setWidget('societe_maison_mere', new WidgetSociete(['interpro_id' => $this->getObject()->interpro]));
+        $this->widgetSchema->setLabel('societe_maison_mere', 'Maison mère de la société');
+        $this->widgetSchema->setHelp('societe_maison_mere', 'dans le cas où la société maison mère est une autre société');
+        $this->setValidator('societe_maison_mere', new ValidatorSociete(array('required' => false)));
 
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
     }

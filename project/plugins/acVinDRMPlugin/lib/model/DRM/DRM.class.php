@@ -443,12 +443,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         if($this->exist("transmission_douane")) {
             //cas d'erreur de transmission
-            if ($this->transmission_douane->success === false ) {
+            if ($this->transmission_douane->xml && $this->transmission_douane->success == false ) {
                 $this->addControleMessage(DRM::CONTROLE_TRANSMISSION, $this->getTransmissionErreur());
                 $nb_controles++;
             }
             //cas d'incoherence
-            if ($this->get("transmission_douane")->coherente === false) {
+            if ($this->get("transmission_douane")->coherente == false && !is_null($this->get("transmission_douane")->coherente)) {
                 $this->addControleMessage(DRM::CONTROLE_COHERENCE, "Non conforme douane");
                 $nb_controles++;
             }
@@ -1535,9 +1535,11 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
                     $crd->entrees_achats = null;
                     $crd->entrees_retours = null;
                     $crd->entrees_excedents = null;
+                    $crd->entrees_autres = null;
                     $crd->sorties_utilisations = null;
                     $crd->sorties_destructions = null;
                     $crd->sorties_manquants = null;
+                    $crd->sorties_autres = null;
                 }
             }
         }
@@ -1567,7 +1569,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
             foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
                 foreach ($crdsByRegime as $key => $crd) {
-                    $count_entree =  $crd->entrees_achats + $crd->entrees_retours + $crd->entrees_excedents + $crd->stock_fin + $crd->stock_debut;
+                    $count_entree = $crd->entrees_achats + $crd->entrees_retours + $crd->entrees_excedents + $crd->entrees_autres + $crd->stock_fin + $crd->stock_debut;
                     if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0 && !$count_entree) {
                         $toRemoves[] = $regime . '/' . $key;
                     }

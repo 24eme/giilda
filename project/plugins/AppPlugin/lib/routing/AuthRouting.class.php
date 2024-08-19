@@ -15,6 +15,7 @@ class AuthRouting {
         $r->prependRoute('auth_login_no_cas', new sfRoute('/login_no_cas', array('module' => 'auth', 'action' => 'login')));
         $r->prependRoute('auth_logout', new sfRoute('/logout', array('module' => 'auth', 'action' => 'logout')));
         $r->prependRoute('auth_deconnexion_usurpation', new sfRoute('/deconnexion_usurpation', array('module' => 'auth', 'action' => 'deconnexionUsurpation')));
+        $r->prependRoute('auth_usurpation', new sfRoute('/usurpation/:identifiant', array('module' => 'auth', 'action' => 'usurpation')));
 
     }
 }

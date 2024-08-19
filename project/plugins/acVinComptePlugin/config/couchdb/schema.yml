@@ -1,3 +1,4 @@
+
 Compte:
   definition:
     fields:
@@ -5,57 +6,83 @@ Compte:
       _rev: { }
       type: { }
       identifiant: { }
-      mot_de_passe: { }
       civilite: { }
-      prenom: { searchable: true }
-      nom: { searchable: true }
-      login: { required: false }
-      mot_de_passe: { }
-      date_creation: { type: date, required: false }
-      nom_a_afficher: { searchable: true }
-      fonction: { searchable: true }
+      prenom: { }
+      nom: { }
+      nom_a_afficher: { }
+      fonction: { }
       commentaire: { }
+      mot_de_passe: { }
+      login: { required: false }
+      date_modification: { required: false  }
+      date_creation: { required: false }
       origines:
         type: array_collection
         definition:
           fields:
              '*': { }
       id_societe: { }
-      adresse_societe: {  searchable: true }
-      adresse: { searchable: true }
-      adresse_complementaire: { searchable: true }
-      code_postal: { }
-      commune: { searchable: true }
-      insee: { }
       compte_type: { }
-      cedex: { require: false } #A supprimer
-      pays: { searchable: true }
+      adresse_societe: { required: false } # A virer de toute évidence
+
+      #champs qui seront copiés dans les sociétés et établissements
+      #adresse
+      adresse: { }
+      adresse_complementaire: { }
+      code_postal: { }
+      commune: { }
+      pays: {  }
+      insee: { }
+      cedex: { required: false } #A supprimer
+
+      #contact
       email: {  }
       telephone_perso: {  }
       telephone_bureau: {  }
       telephone_mobile: {  }
       fax: {  }
       site_internet: { }
-      nom_a_afficher: { searchable: true }
-      raison_sociale_societe: { required: false, searchable: true }
+
+      en_alerte: { required: false }
+      raison_sociale_societe: { required: false }
       type_societe: { required: false }
       teledeclaration_active: { required: false }
       gecos: { required: false }
+      lat: {  }
+      lon: {  }
+      region: { required: false }
       societe_informations:
         type: collection
         definition:
           fields:
             type: { }
-            raison_sociale: { searchable: true }
-            adresse: { searchable: true }
-            adresse_complementaire: { searchable: true }
+            raison_sociale: { }
+            adresse: {  }
+            adresse_complementaire: {  }
             code_postal: {  }
-            commune: { searchable: true }
+            commune: {  }
             email: {  }
-            telephone: {  }
+            telephone: { required: false }
             fax: {  }
+            siret: { }
+      etablissement_informations:
+        type: collection
+        definition:
+          fields:
+            cvi: { }
+            ppm: { }
       interpro: {  }
       statut: {  }
+      groupes:
+        type: array_collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  nom: { }
+                  fonction: { }
       tags:
         type: collection
         definition:
@@ -68,11 +95,16 @@ Compte:
       droits:
         type: array_collection
         required: false
-        indexable: false
         definition:
           fields:
             '*': { }
       delegation:
+        type: array_collection
+        required: false
+        definition:
+          fields:
+            '*': { }
+      alternative_logins:
         type: array_collection
         required: false
         definition:
