@@ -48,7 +48,7 @@ EOF;
         $this->saveCompte($comptes_info, $c->_id, $c);
     }
 
-
+    $etablissements = [];
     foreach($societe->getEtablissementsObject(true, true) as $e) {
         $this->saveCompte($comptes_info, $e->_id, $e->getMasterCompte());
         $etablissements[] = $e;
