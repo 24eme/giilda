@@ -527,7 +527,8 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     public function getCommentaires() {
         $lines = explode("\n", str_replace(' - ', "\n", $this->getCommentaire()));
-        return array_filter($lines, fn($value) => (rtrim($value)));
+        $fonc_filter = function($value){return rtrim($value);};
+        return array_filter($lines, $fonc_filter);
     }
 
     public function addCommentaire($s) {
