@@ -273,7 +273,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
     public function getComptesInterlocuteurs() {
         $Interlocuteurs = array();
         foreach ($this->getAllCompteObj() as $id => $compte) {
-          if($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+          if(!$compte || ($compte->compte_type != CompteClient::TYPE_COMPTE_INTERLOCUTEUR)) {
               continue;
           }
           $Interlocuteurs[$id] = $compte;
