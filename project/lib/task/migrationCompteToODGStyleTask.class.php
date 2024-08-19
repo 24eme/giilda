@@ -74,21 +74,10 @@ EOF;
     $societe->save();
 
     foreach($etablissements as $e) {
-        $e = EtablissementClient::getInstance()->find($e->_id);
-        $e->setMaintenance();
-        $e->set('compte', null);
-        $e->save();
-    }
-
-    $i = 10;
-    foreach($compte_interlocuteurs as $id => $c) {
-        $cnew = CompteClient::getInstance()->createCompteInterlocuteurFromSociete($societe);
-        $cnew->identifiant = sprintf('%s%02d', $societe->identifiant, 10 + $i++);
-        $cnew->_id = 'COMPTE-'.$c->identifiant;
-        $cnew->setMaintenance();
-        $this->restoreCompte($comptes_info, $id, $cnew);
-        print_r([$cnew]);
-        $cnew->save();
+        $ne = EtablissementClient::getInstance()->find($e->_id);
+        $ne->setMaintenance();
+        $ne->set('compte', null);
+        $ne->save();
     }
 
     $societe = SocieteClient::getInstance()->find($societe->_id);
@@ -98,8 +87,15 @@ EOF;
     $this->restoreCompte($comptes_info, $societe->_id, $societe->getMasterCompte());
 
     foreach($etablissements as $e) {
-        $e = EtablissementClient::getInstance()->find($e->_id);
-        $this->restoreCompte($comptes_info, $e->_id, $e->getMasterCompte());
+        $ne = EtablissementClient::getInstance()->find($e->_id);
+        $this->restoreCompte($comptes_info, $e->_id, $ne->getMasterCompte());
+    }
+
+    foreach($compte_interlocuteurs as $id => $c) {
+        $cnew = CompteClient::getInstance()->createCompteInterlocuteurFromSociete($societe);
+        $cnew->setMaintenance();
+        $this->restoreCompte($comptes_info, $id, $cnew);
+        $cnew->save();
     }
 
   }
@@ -119,7 +115,7 @@ EOF;
 
   private function restoreCompteToObj(&$comptes, $id, $obj) {
       $compte = $comptes[$id];
-      foreach(['telephone_bureau', 'telephone_mobile', 'telephone_perso', 'adresse', 'adresse_complementaire', 'civilite', 'code_postal', 'fax', 'telephone'] as $type) {
+      foreach(['telephone_bureau', 'telephone_mobile', 'telephone_perso', 'adresse', 'adresse_complementaire', 'civilite', 'code_postal', 'fax', 'telephone', 'region'] as $type) {
           if (isset($compte[$type]) && $compte[$type] && $obj->exist($type) && !$obj->get($type)) {
               $obj->set($type, $compte[$type]);
           }
@@ -130,11 +126,12 @@ EOF;
       if (!$compte) {
           return;
       }
-      $compte = CompteClient::getInstance()->find($compte->_id);
+      if ($compte->_rev) {
+          $compte = CompteClient::getInstance()->find($compte->_id);
+      }
       if ($compte) {
           foreach($comptes[$id] as $k => $v) {
               if ($v) {
-                  print_r(['copy', $compte->_id, $k, $v]);
                   $compte->add($k, $v);
               }
           }
