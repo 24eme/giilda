@@ -1,9 +1,10 @@
 all:
   configuration:
     societe:
-      identifiant_compte_incremental: false
-      has_numero_archive: true
+      identifiant_etablissement_saisi: true
+      identifiant_etablissement_saisi_help: "- le numéro CVI\n- ou un numéro interne de 10 chiffres précédé d'un \"C\"\n- ou les 9 chiffres du SIREN"
       droits:
+        admin: "Admin"
         teledeclaration: "Télédéclaration"
         teledeclaration_dr: "DR"
         teledeclaration_dr_acheteur: "DR Acheteur"
@@ -33,15 +34,15 @@ all:
         acheteur_raisin: { nom: "acheteur_raisin", auto: 'etablissement->acheteur_raisin'  }
         activite: { nom: "activité" }
         cooperative: { nom: "coopérative" }
-        site_internet: { nom: "site_internet" }
+        site_internet: { nom: "site_internet", auto: 'societe->site_internet|etablissement->site_internet' }
         sous_region_viticole: { nom: "sous_region_viticole" }
         adherent_organisme: { nom: "adherent_organisme" }
         declaration_commune: { nom: "declaration_commune", auto: 'etablissement->declaration_commune' }
         declaration_insee: { nom: "declaration_insee", auto: 'etablissement->declaration_insee' }
         societes_liees_identifiant: { nom: "societes_liees_identifiant", auto: 'societe->getSocietesLieesIds()' }
-        maison_mere_identifiant: { nom: "maison_mere_identifiant" }
-        maison_mere_raison_sociale: { nom: "maison_mere_raison_sociale" }
-        maison_mere_siret: { nom: "maison_mere_siret" }
+        maison_mere_identifiant: { nom: "maison_mere_identifiant", auto: 'societe->getSocieteMaisonMereIdentifiant()' }
+        maison_mere_raison_sociale: { nom: "maison_mere_raison_sociale", auto: 'societe->getSocieteMaisonMereRaisonSociale()' }
+        maison_mere_siret: { nom: "maison_mere_siret", auto: 'societe->getSocieteMaisonMereSiret()' }
         date_creation: { nom: "date_creation" }
         date_cloture: { nom: "date_cloture" }
         db2_num_tiers: { nom: "db2_num_tiers" }

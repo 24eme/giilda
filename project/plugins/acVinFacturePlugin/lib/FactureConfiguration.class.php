@@ -155,7 +155,7 @@ class FactureConfiguration {
 
     public function getExportSV12() {
 
-        return $this->configuration['export_sv12'];
+        return isset($this->configuration['export_sv12']) && $this->configuration['export_sv12'];
     }
 
     public function getTeledeclaration() {

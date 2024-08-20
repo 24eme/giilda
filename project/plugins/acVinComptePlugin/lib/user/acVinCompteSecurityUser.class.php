@@ -81,6 +81,9 @@ abstract class acVinCompteSecurityUser extends sfBasicSecurityUser
         if (!$compte) {
             throw new sfException('compte does not exist');
         }
+        if (!$compte->isActif()) {
+            throw new sfException('compte non actif');
+        }
         $this->addCredential(self::CREDENTIAL_COMPTE);
         $this->signInCompte($compte);
         $this->setAuthenticated(true);

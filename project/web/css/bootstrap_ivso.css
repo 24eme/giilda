@@ -5282,7 +5282,6 @@ a.thumbnail.active {
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  background-color: #fffbfb;
   border: 1px solid #ffffff;
 }
 .list-group-item:first-child {
@@ -5547,6 +5546,14 @@ button.list-group-item-danger.active:focus {
 .panel-heading + .list-group .list-group-item:first-child {
   border-top-width: 0;
 }
+.list-group-item.active-bordered {
+    border-left: 6px solid #0e2244 !important;
+}
+.panel-primary-bordered-right {
+    border-right: 6px solid #0e2244 !important;
+}
+
+
 .list-group + .panel-footer {
   border-top-width: 0;
 }

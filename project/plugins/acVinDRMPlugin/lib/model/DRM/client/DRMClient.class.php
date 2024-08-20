@@ -762,6 +762,10 @@ class DRMClient extends acCouchdbClient {
       if (preg_match('/fin$/', $s)) {
         return 'stock_fin';
       }
+      if (strpos($s, 'complement') === 0) {
+        return 'complement';
+      }
+      return null;
     }
     public static function convertCRDType($s) {
       $s = strtolower(KeyInflector::slugify($s));
@@ -784,6 +788,8 @@ class DRMClient extends acCouchdbClient {
             return "manquants";
         case "autres":
             return "autres";
+        case "observations":
+            return "observations";
       }
       return '';
     }

@@ -12,5 +12,6 @@ class ValidatorCompte extends acValidatorCouchdbDocument
         parent::configure($options, $messages);
         $this->setOption('type', 'Compte');
         $this->setOption('prefix', '');
-    }    
+        $this->addOption('familles', array());
+    }
 }

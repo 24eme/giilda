@@ -2,97 +2,114 @@
 
 abstract class CompteGenerique extends acCouchdbDocument {
 
-    protected $telephone_mobile = null;
-    protected $telephone_perso = null;
-    protected $site_internet = null;
-    protected $insee = null;
 
     public function getAdresse() {
-
-        return $this->siege->adresse;
+        if($this instanceof Societe){
+            return $this->siege->adresse;
+        }
+        return $this->_get('adresse');
     }
 
     public function setAdresse($s) {
-
-        return ($this->siege->adresse = $s);
+        if($this instanceof Societe){
+            return $this->siege->_set('adresse',$s);
+        }
+        return $this->_set('adresse',$s);
     }
 
     public function getCommune() {
-
-        return $this->siege->commune;
+        if($this instanceof Societe){
+            return $this->siege->commune;
+        }
+        return $this->_get('commune');
     }
 
     public function setCommune($s) {
-
-        return ($this->siege->commune = $s);
+        if($this instanceof Societe){
+            return $this->siege->_set('commune',$s);
+        }
+        return $this->_set('commune',$s);
     }
 
     public function getCodePostal() {
-
-        return $this->siege->code_postal;
+        if($this instanceof Societe){
+            return $this->siege->code_postal;
+        }
+        return $this->_get('code_postal');
     }
 
     public function setCodePostal($s) {
-
-        return ($this->siege->code_postal = $s);
+        if($this instanceof Societe){
+            return $this->siege->_set('code_postal',$s);
+        }
+        return $this->_set('code_postal',$s);
     }
 
     public function getPays() {
+        if($this instanceof Societe){
+            return $this->siege->pays;
+        }
+        return $this->_get('pays');
+    }
 
-        return $this->siege->pays;
+    public function getPaysISO() {
+        return strtoupper(substr($this->getPays(), 0, 2));
     }
 
     public function setPays($s) {
-
-        return ($this->siege->pays = $s);
-    }
-
-    public function getAdresseComplementaire() {
-
-        return $this->siege->adresse_complementaire;
+        if($this instanceof Societe){
+            return $this->siege->_set('pays',$s);
+        }
+        return $this->_set('pays',$s);
     }
 
     public function getInsee() {
-        if (is_null($this->insee)) {
-            $this->insee = $this->getMasterCompte()->insee;
+        if($this instanceof Societe){
+            return $this->siege->insee;
         }
-
-        return $this->insee;
+        return $this->_get('insee');
     }
 
     public function setInsee($s) {
+        if($this instanceof Societe){
+            return $this->siege->_set('insee',$s);
+        }
+        return $this->_set('insee',$s);
+    }
 
-        return ($this->insee = $s);
+    public function getAdresseComplementaire() {
+        if($this instanceof Societe){
+            return $this->siege->adresse_complementaire;
+        }
+        return $this->_get('adresse_complementaire');
     }
 
     public function setAdresseComplementaire($s) {
-
-        return ($this->siege->adresse_complementaire = $s);
+        if($this instanceof Societe){
+            return $this->siege->_set('adresse_complementaire',$s);
+        }
+        return $this->_set('adresse_complementaire',$s);
     }
 
     public function setEmail($email) {
-
         return $this->_set('email', $email);
     }
 
     public function setTelephonePerso($s) {
-
-        return ($this->telephone_perso = $s);
+        return $this->_set('telephone_perso', $s);
     }
 
     public function setTelephoneMobile($s) {
-
-        return ($this->telephone_mobile = $s);
+        return $this->_set('telephone_mobile', $s);
     }
 
-    public function setTelephoneBureau($tel) {
+    public function setTelephoneBureau($s) {
 
-        return $this->setTelephone($tel);
+        return $this->_set('telephone_bureau', $s);
     }
 
     public function setSiteInternet($s) {
-
-        return ($this->site_internet = $s);
+        return $this->_set('site_internet', $s);
     }
 
     public function setFax($fax) {
@@ -106,39 +123,34 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function getTelephone() {
-
+        if(!$this->exist('telephone')){
+            return null;
+        }
         return $this->_get('telephone');
     }
 
     public function setTelephone($phone) {
-
-        return $this->_set('telephone', $phone);
+        $set = $this->_set('telephone_bureau', $phone);
+        $this->remove('telephone');
+        return $set;
     }
 
     public function getTelephoneBureau() {
 
-        return $this->getTelephone();
+        return $this->_get('telephone_bureau');
     }
 
+
     public function getTelephonePerso() {
-        if (is_null($this->telephone_perso)) {
-            $this->telephone_perso = $this->getMasterCompte()->telephone_perso;
-        }
-        return $this->telephone_perso;
+        return $this->_get('telephone_perso');
     }
 
     public function getTelephoneMobile() {
-        if (is_null($this->telephone_mobile)) {
-            $this->telephone_mobile = $this->getMasterCompte()->telephone_mobile;
-        }
-        return $this->telephone_mobile;
+        return $this->_get('telephone_mobile');
     }
 
     public function getSiteInternet() {
-        if (is_null($this->site_internet)) {
-            $this->site_internet = $this->getMasterCompte()->site_internet;
-        }
-        return $this->site_internet;
+        return $this->_get('site_internet');
     }
 
     public function getFax() {

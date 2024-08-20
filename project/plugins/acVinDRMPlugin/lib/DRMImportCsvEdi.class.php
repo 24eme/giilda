@@ -706,7 +706,13 @@ private function checkCSVIntegrity() {
     if (!preg_match('/^FR0[0-9A-Z]{10}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
       //$this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
     }
-    if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && ($this->societe->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && (!$csvRow[self::CSV_NUMACCISE] || $this->etablissement->no_accises != $csvRow[self::CSV_NUMACCISE]))) {
+    if(
+        $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])
+        && (
+            $this->societe->getMasterCompte()->getLogin() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])
+            && (!$csvRow[self::CSV_NUMACCISE] || $this->etablissement->no_accises != $csvRow[self::CSV_NUMACCISE])
+        )
+    ) {
       $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
     }
     if($this->drm->getPeriode() != KeyInflector::slugify($csvRow[self::CSV_PERIODE])){
@@ -1041,7 +1047,9 @@ private function importCrdsFromCSV($just_check = false) {
 
     $quantite = KeyInflector::slugify($csvRow[self::CSV_CRD_QUANTITE]);
     $fieldNameCrd = $categorie_key;
-    if ($categorie_key != "stock_debut" && $categorie_key != "stock_fin") {
+    if ($categorie_key === 'complement') {
+      $fieldNameCrd = $type_key;
+    } elseif (in_array($categorie_key, ['stock_debut', 'stock_fin']) === false) {
       $fieldNameCrd.="_" . $type_key;
     }
     if (!isset($all_contenances[$litrageKey]))  {
@@ -1077,7 +1085,10 @@ private function importCrdsFromCSV($just_check = false) {
         $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
     }
 
-    if(!in_array($fieldNameCrd, array('stock_debut', 'entrees_achats', 'entrees_excedents', 'entrees_retours', 'entrees_autres', 'sorties_destructions', 'sorties_manquants', 'sorties_autres', 'sorties_utilisations', 'stock_fin'))) {
+    if ($categorie_key === 'complement' && in_array($fieldNameCrd, ['observations']) === false) {
+        $this->csvDoc->addErreur($this->typeCRDNotFoundError($num_ligne, $csvRow));
+        continue;
+    } elseif(!in_array($fieldNameCrd, array('stock_debut', 'entrees_achats', 'entrees_excedents', 'entrees_retours', 'entrees_autres', 'sorties_destructions', 'sorties_manquants', 'sorties_autres', 'sorties_utilisations', 'stock_fin'))) {
         $this->csvDoc->addErreur($this->typeCRDNotFoundError($num_ligne, $csvRow));
         continue;
     }
@@ -1103,6 +1114,7 @@ private function importCrdsFromCSV($just_check = false) {
       if (!$regimeNode->exist($keyNode)) {
         $regimeNode->getOrAddCrdNode($genre, $couleur, $centilitrage, $litrageLibelle);
       }
+      $regimeNode->getOrAdd($keyNode)->getOrAdd($fieldNameCrd);
       if (!preg_match('/^stock/', $fieldNameCrd) || $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} == null || ($this->drm->canSetStockDebutMois() && preg_match('/debut/', $fieldNameCrd))) {
         $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} += intval($quantite);
         $edited = true;

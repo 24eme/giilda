@@ -25,15 +25,15 @@ class EtablissementRegionView extends acCouchdbView {
     }
 
     public function findAll() {
-        return $this->client->limit(100)->getView($this->design, $this->view);
+        return $this->client->getView($this->design, $this->view);
     }
 
     public function findByFamillesAndRegionsNonSuspendus($familles, $regions, $limit = 100) {
         $etablissements = array();
         foreach ($familles as $famille) {
-            foreach ($regions as $region) {                
+            foreach ($regions as $region) {
                 $etablissements = array_merge($etablissements, $this->findByFamilleAndRegionNonSuspendu($famille, $region, $limit));
-            }            
+            }
         }
         return $etablissements;
     }
@@ -47,7 +47,7 @@ class EtablissementRegionView extends acCouchdbView {
             $query = $this->client->startkey(array($famille, EtablissementClient::STATUT_ACTIF))
                     ->endkey(array($famille, EtablissementClient::STATUT_ACTIF, array()));
         }
-        
+
         if ($limit == null) {
             return $query->getView($this->design, $this->view)->rows;
         }

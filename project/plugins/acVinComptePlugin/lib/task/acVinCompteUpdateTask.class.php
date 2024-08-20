@@ -2,7 +2,7 @@
 
 /* This file is part of the acVinComptePlugin package.
  * Copyright (c) 2011 Actualys
- * Authors :	
+ * Authors :
  * Tangui Morlier <tangui@tangui.eu.org>
  * Charlotte De Vichet <c.devichet@gmail.com>
  * Vincent Laurent <vince.laurent@gmail.com>
@@ -12,9 +12,9 @@
  * file that was distributed with this source code.
  */
 
-/**
+ /**
  * acVinComptePlugin task.
- * 
+ *
  * @package    acVinComptePlugin
  * @subpackage lib
  * @author     Tangui Morlier <tangui@tangui.eu.org>
@@ -50,9 +50,9 @@ EOF;
   {
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-    
+
     $compte = CompteClient::getInstance()->find($arguments['doc_id']);
-    $compte->save(false,false,false);
-        
+    $compte->save();
+    echo "SAVE DU COMPTE $compte->_id\n";
   }
 }

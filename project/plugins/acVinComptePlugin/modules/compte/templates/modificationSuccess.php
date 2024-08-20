@@ -3,11 +3,7 @@
     <ol class="breadcrumb">
         <li><a href="<?php echo url_for('societe'); ?>">Contacts</a></li>
         <li><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo $societe->raison_sociale; ?></a></li>
-
-        <li class="active">
-            <strong><?php echo (!$compte->isNew()) ? $compte->nom_a_afficher : 'Nouvel interlocuteur'; ?></strong>
-        </li>
-
+        <li class="active"><a href=""><?php echo (!$compte->isNew()) ? $compte->nom_a_afficher : 'Nouvel interlocuteur'; ?></a></li>
     </ol>
     <!-- #contacts -->
     <section id="contacts">
@@ -23,7 +19,7 @@
                         echo $compteForm->renderHiddenFields();
                         echo $compteForm->renderGlobalErrors();
                         ?>
-                       
+
                         <div class="form-group">
                             <?php echo $compteForm['civilite']->renderError(); ?>
                             <?php echo $compteForm['civilite']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
@@ -65,7 +61,7 @@
                         <a href="<?php echo url_for('compte_visualisation', $compte); ?>" class="btn btn-default">Annuler</a>
                     <?php endif; ?>
                 </div><div class="col-xs-6 text-right">
-                    <button class="btn btn-success">Valider</button>
+                    <button id="btn_valider" type="submit" class="btn btn-success">Valider</button>
                 </div>
 
             </form>

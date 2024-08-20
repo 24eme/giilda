@@ -55,7 +55,7 @@ EOF;
     }
 
     private function addTag($compteid,  $tag) {
-        $compte = CompteClient::getInstance()->findByIdentifiant($compteid."01");
+        $compte = CompteClient::getInstance()->findByIdentifiant($compteid);
         if (!$compte) {
             echo "WARNING: compte $compteid not found\n";
             return false;

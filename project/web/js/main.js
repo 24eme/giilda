@@ -23,6 +23,7 @@
         $(document).initAdvancedElements();
         $.initQueryHash();
         $.initTableSelection();
+        $.initCarte();
         $.initModal();
 
         $(options.selectors.ajaxModal).on("show.bs.modal", function (e) {
@@ -77,6 +78,23 @@
   			});
   		});
   	};
+
+    $.initCarte = function ()
+    {
+        $('.carte').each(function () {
+            var map = L.map($(this).get(0), {minZoom: 6, zoom: 10, }).setView([46.9217784, 2.4344831], 1);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var points = JSON.parse($(this).attr('data-point'));
+            for (point_key in points) {
+                L.marker(points[point_key]).addTo(map);
+            }
+            map.fitBounds(points, {padding: [10, 10], maxZoom: 12});
+        });
+    };
 
     $.initModal = function () {
         $('.modal.modal-page').modal({keyboard: false, backdrop: 'static'});
