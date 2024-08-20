@@ -51,7 +51,7 @@ class VracHistoryRechercheForm extends sfForm {
     }
 
     private function getCampagnes() {
-        return array_merge(VracClient::getInstance()->listCampagneBySocieteId($this->societe->identifiant));
+        return array_merge(VracClient::getInstance()->listCampagneBySocieteId($this->societe->identifiant), array('toutes' => 'Toutes'));
     }
 
     private function getEtablissements() {

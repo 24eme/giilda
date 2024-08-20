@@ -237,7 +237,7 @@ class vracActions extends sfActions {
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
         $this->campagne = $request['campagne'];
-        if (!$this->campagne || !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)) {
+        if ($this->campagne != 'toutes' && !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)) {
             throw new sfException("wrong campagne format ($this->campagne)");
         }
 
@@ -247,6 +247,11 @@ class vracActions extends sfActions {
         $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' ) ? 'tous' : strtoupper($request['statut']);
 
         $this->form = new VracHistoryRechercheForm($this->societe, $this->etablissement, $this->campagne, $this->statut);
+
+        if ($this->campagne == 'toutes') {
+            $this->campagne = null;
+        }
+
         $this->contratsByCampagneEtablissementAndStatut = new stdClass();
         $this->contratsByCampagneEtablissementAndStatut->rows = array();
         $this->contratsByCampagneEtablissementAndStatut->rows = VracClient::getInstance()->retrieveByCampagneSocieteAndStatut($this->campagne,$this->societe, $this->etablissement, $this->statut);
@@ -1035,7 +1040,7 @@ class vracActions extends sfActions {
       $this->initSocieteAndEtablissementPrincipal();
 
       $this->campagne = $request['campagne'];
-      if (!$this->campagne || !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)) {
+      if ($this->campagne && $this->campagne != 'toutes' && !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)) {
           throw new sfException("wrong campagne format ($this->campagne)");
       }
 
@@ -1044,6 +1049,9 @@ class vracActions extends sfActions {
       $this->etablissement = (!isset($request['etablissement']) || $this->isOnlyOneEtb ) ? 'tous' : $request['etablissement'];
       $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' ) ? 'tous' : strtoupper($request['statut']);
 
+      if ($this->campagne == 'toutes') {
+          $this->campagne = null;
+      }
 
       $this->vracs = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($this->societe, $this->campagne, $this->etablissement, $this->statut);
 

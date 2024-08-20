@@ -31,6 +31,7 @@ EOF;
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
         $routing = clone ProjectConfiguration::getAppRouting();
         $context = sfContext::createInstance($this->configuration);
+        $context->set('routing', $routing);
 
         $contrat = VracClient::getInstance()->find($arguments['vrac_id']);
 
