@@ -306,7 +306,7 @@ sub printCHRE {
     print "montant en devise;" if ($verbose);
     print "0,0000\n";
     print "mode règlement;" if ($verbose);
-    print "1\n";
+    print "2\n";
     print "cloturé;" if ($verbose);
     print "0\n";
     print "numéro de pièce;" if ($verbose);
