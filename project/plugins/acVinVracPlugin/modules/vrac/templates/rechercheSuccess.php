@@ -1,7 +1,7 @@
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('vrac') ?>">Contrats</a></li>
-    <li><a href="<?php echo url_for('vrac_recherche', array('identifiant' => $etablissement->identifiant)) ?>" class="active"><?php echo $etablissement->nom ?> (<?php echo $etablissement->identifiant ?>)</a></li>
-    <li><a href="" class="active">Campagne <?php echo $campagne ?></a></li>
+    <li class="visited"><a href="<?php echo url_for('vrac') ?>">Contrats</a></li>
+    <li class="visited"><a href="<?php echo url_for('vrac_recherche', array('identifiant' => $etablissement->identifiant)) ?>" class="active"><?php echo $etablissement->nom ?> (<?php echo $etablissement->identifiant ?>)</a></li>
+    <li class="active"><a href="">Campagne <?php echo $campagne ?></a></li>
 </ol>
 
 <div class="row">
