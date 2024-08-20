@@ -334,4 +334,5 @@ class CompteClient extends acCouchdbClient {
         }
         $ldap->deleteCompte($identifiant);
     }
+
 }
