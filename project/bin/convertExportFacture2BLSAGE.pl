@@ -296,7 +296,7 @@ sub printCHLI {
 sub printCHRE {
     print "#CHRE\n";
     print "Type;" if ($verbose);
-    print "2\n";
+    print "1\n";
     print "Date;" if ($verbose);
     print $field[date]."\n";
     print "libellé;" if ($verbose);
