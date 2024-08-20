@@ -327,8 +327,8 @@ sub printCIVA {
 }
 
 
-print "#FLG 001\n";
-print "#VER 18\n";
+print "#FLG 000\n";
+print "#VER 19\n";
 print "";
 while(<STDIN>) {
 	chomp;

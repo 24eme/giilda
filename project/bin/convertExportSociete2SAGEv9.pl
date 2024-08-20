@@ -44,7 +44,7 @@ while(<STDIN>) {
 	print "région : " if ($verbose);
 	print "\n";
 	print "pays (VINSI) : " if ($verbose);
-	print uc(encode_utf8(substr(decode_utf8($field[8]), 0, 35)))."\n";
+	print uc(substr(encode_utf8(decode_utf8($field[8])), 0, 35))."\n";
 	print "raccourci : " if ($verbose);
 	print "\n";
 	print "numéro devise : " if ($verbose);
