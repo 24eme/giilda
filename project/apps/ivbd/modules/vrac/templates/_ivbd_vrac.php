@@ -263,7 +263,7 @@ en 4 exemplaires dont 1 pour l'IVBD, et signé par chacune des parties. De conve
  %PARTIE 7bis%
 \circled{7}~~\textbf{bis : Résiliation du contrat :}\\
 \hspace*{0.5cm}
-En cas de non respect par l'acheteur des dates de retiraison ci-dessus mentionnées, le vendeur ne pourra invoquer l'article 1657 du code civil : « annulation\\
+En cas de non respect par l'acheteur des dates de retiraison ci-dessus mentionnées, le vendeur pourra invoquer l'article 1657 du code civil : « annulation\\
 \hspace*{0.5cm}
 de droit de la vente pour non-enlèvement des vins à la date prévue ». En cas de non-agrément motivé du produit (vin non loyal et marchand), dans le délai\\
 \hspace*{0.5cm}

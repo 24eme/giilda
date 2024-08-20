@@ -182,6 +182,8 @@ sub printCHLI {
     print "Référence article;" if ($verbose);
     print $field[compte_analytique]."\n";
     print "Désignation;" if ($verbose);
+    $field[libelle] =~ s/\(.*\)//;
+    $field[libelle] =~ s/  +/ /g;
     print encode_utf8(substr(decode_utf8($field[libelle]), 0, 69))."\n";
     print "Texte complémentaire;" if ($verbose);
     print "\n";
@@ -316,10 +318,15 @@ sub printCHRE {
 sub printCIVA {
     $nom = $numero = $field[origine_type];
     $nom =~ s/.* \(([^\)]*)\).*/$1/;
-    $numero =~ s/.*Contrat n° *(\d+) .*/$1/;
+    $nom =~ s/^(MLE\.S]*|EARL|SCEA|SARL|GAEC|SA|ETS|STE|SAS|SCA|EURL|VIGNOBLES) //;
+    $nom =~ s/ [\(-].*//;
+    unless (s/.*Contrat n° *(\d+) .*/$1/) {
+	return ;
+    }
+    $numero = $1;
     print "#CIVA\n";
     print "Nom tiers contrat;" if ($verbose);
-    print $nom."\n";
+    print encode_utf8(substr(decode_utf8($nom), 0, 23))."\n";
     print "Numéro de contrat;" if ($verbose);
     print $numero."\n";
     print "Date;" if ($verbose);
@@ -327,8 +334,8 @@ sub printCIVA {
 }
 
 
-print "#FLG 001\n";
-print "#VER 18\n";
+print "#FLG 000\n";
+print "#VER 19\n";
 print "";
 while(<STDIN>) {
 	chomp;

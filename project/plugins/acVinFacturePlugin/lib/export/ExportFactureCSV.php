@@ -29,6 +29,7 @@ class ExportFactureCSV {
         } else {
             $facture = FactureClient::getInstance()->find($doc_or_id);
         }
+
         $prefix_sage = FactureConfiguration::getInstance()->getPrefixSage();
         if (!$facture) {
             echo sprintf("WARNING;Le document n'existe pas %s\n", $doc_or_id);
