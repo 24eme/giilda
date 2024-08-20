@@ -4,8 +4,9 @@ all:
       pdf_nom_interpro: "IVSO"
       pdf_ordre_cheque: "Interprofession des Vins du Sud Ouest"
       prefix_sage: "02"
-      tva_compte: "44571502"
-      defaut_compte: "70610000"
+      compte_tva: "44571502"
+      compte_defaut: "70610000"
+      compte_general: "41100000"
       type_cvo:
         identifiant_prefix: "C"
       type_libre:

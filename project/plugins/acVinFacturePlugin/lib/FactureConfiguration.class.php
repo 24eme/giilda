@@ -74,12 +74,12 @@ class FactureConfiguration {
 
     public function getTVACompte() {
 
-        return $this->configuration['tva_compte'];
+        return $this->configuration['compte_tva'];
     }
 
     public function getDefautCompte() {
 
-        return $this->configuration['defaut_compte'];
+        return $this->configuration['compte_defaut'];
     }
 
     public function getStockageCodeProduit() {
@@ -199,12 +199,12 @@ class FactureConfiguration {
 
     public function getBanqueCompte() {
 
-        return isset($this->configuration['banque_compte']) ? $this->configuration['banque_compte'] : null;
+        return isset($this->configuration['compte_banque']) ? $this->configuration['compte_banque'] : null;
     }
 
     public function getGeneralCompte() {
 
-        return isset($this->configuration['general_compte']) ? $this->configuration['general_compte'] : null;
+        return isset($this->configuration['compte_general']) ? $this->configuration['compte_general'] : null;
     }
 
     public function getDelaiRelance1() {
