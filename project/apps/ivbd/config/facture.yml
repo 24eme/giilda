@@ -4,7 +4,9 @@ all:
       pdf_nom_interpro: "IVBD"
       pdf_ordre_cheque: "Interprofession IVBD"
       prefix_sage: "VEN"
-      tva_compte: "44570100"
+      compte_tva: "44570100"
+      compte_defaut: "75815000"
+      compte_general: "41110000"
       type_cvo:
         identifiant_prefix: "1"
       type_libre:
