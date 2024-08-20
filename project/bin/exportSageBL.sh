@@ -31,26 +31,13 @@ cat $TMP/societesWithSageData.csv | perl bin/convertExportSociete2SAGE.pl | icon
 php symfony export:facture --horstaxe=true > $TMP/factures.csv
 cat $TMP/factures.csv | perl bin/convertExportFacture2BLSAGE.pl | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' > $TMP/factures.sage
 
-echo -n > $TMP/$VINSIEXPORT
-echo  "#FLG 000" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
-echo "#VER 14" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
-echo "#DEV EUR" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
-cat $TMP/societes.sage | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
-cat $TMP/factures.sage | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
-echo "#FIN" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
+bash bin/convertExportFacture2SyntheseCsv.pl $TMP/factures.csv > $TMP/factures_synthese.csv
 
+bash bin/exportPostSageBL.sh $TMP/factures.csv
 
-if test "$SAMBA_IP" && test "$SAMBA_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_SAGESUBDIR"; then
-    cd $TMP
-    smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; put $VINSIEXPORT"
-    recode UTF8..ISO88591 societesWithSageData.csv
-    smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; put societesWithSageData.csv societes.csv"
-    recode UTF8..ISO88591 factures.csv
-    smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; put factures.csv"
-    test "$SAMBA_SAGEVERIFY" && smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; rm $SAMBA_SAGEFILE"
-    cd -
-    echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
-    echo "$VINSIEXPORT a été mis à disposition avec succès" >> $TMP/$SAGE_EMAILFILE
-else
-    cat $TMP/$VINSIEXPORT
-fi
+echo "$TMP/societes.sage|societes.sage|Export SAGE des sociétés"
+echo "$TMP/societes.sorted.csv|societes.csv|Export CSV des sociétés"
+echo "$TMP/factures.sage|factures.sage|Export SAGE des factures"
+echo "$TMP/factures.csv|factures.cvs|Export CSV des factures"
+echo "$TMP/factures_synthese.csv|factures_synthese.csv|Synthèse des factures"
+
