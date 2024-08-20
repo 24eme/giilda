@@ -335,15 +335,4 @@ class CompteClient extends acCouchdbClient {
         $ldap->deleteCompte($identifiant);
     }
 
-    public function deleteLdapCompte($identifiant){
-        $ldap = new CompteLdap();
-        if (sfConfig::get('app_ldap_autogroup', false)) {
-            $groupldap = new CompteGroupLdap();
-            $ldapUid = $identifiant;
-            foreach ($groupldap->getMembership($ldapUid) as $group) {
-                $groupldap->removeMember($group, $ldapUid);
-            }
-        }
-        $ldap->deleteCompte($identifiant, $verbose);
-    }
 }
