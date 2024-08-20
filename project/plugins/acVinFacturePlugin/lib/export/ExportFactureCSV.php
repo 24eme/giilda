@@ -44,12 +44,12 @@ class ExportFactureCSV {
             foreach ($lignes->origine_mouvements as $keyDoc => $mvt) {
                 $origine_mvt = $keyDoc;
             }
-            
+
             foreach ($lignes->details as $detail) {
                 $code_compte = ($detail->exist('code_compte') && $detail->code_compte)? $detail->code_compte : '70610000';
                 $identifiant_analytique = ($detail->exist('identifiant_analytique') && $detail->identifiant_analytique)? $detail->identifiant_analytique : $detail->identifiant_analytique; 
-                
-		$libelle = $lignes->libelle.' - '.$detail->libelle;
+
+                $libelle = "DRMS ".preg_replace('/DRM-[^-]*-20(....).*/', '\1', $lignes->getKey()).' '.$detail->libelle;                
                 echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $libelle
                 . ';'.$code_compte.';;' . $identifiant_analytique . ';;CREDIT;' . $detail->montant_ht . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_LIGNE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ';' . $detail->origine_type . ';' . "PRODUIT_TYPE" . ';' . $origine_mvt . ';' . $detail->quantite . ';' . $detail->prix_unitaire
                 . ";";
