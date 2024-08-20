@@ -8,10 +8,10 @@ all:
       paiements_actif: true
       prefix_sage: "VEN"
       prefix_sage_divers: null
-      tva_compte: "44571500"
-      defaut_compte: "70800000"
-      general_compte: "4110000"
-      banque_compte: "51211000"
+      compte_tva: "44571500"
+      compte_defaut: "70800000"
+      compte_general: "4110000"
+      compte_banque: "51211000"
       type_cvo:
         identifiant_prefix: ""
       type_libre:

@@ -74,11 +74,18 @@ class WidgetSociete extends sfWidgetFormInput
             } else {
                 foreach($societes as $key => $societe) {
                     $value = $societe->id.','.SocieteAllView::getInstance()->makeLibelle($societe->key);
+                    $compte = CompteClient::getInstance()->find(str_replace("SOCIETE-", "COMPTE-", $societe->id));
+                    $exploite_plus = $compte && $compte->exist('tags') && $compte->tags->exist('manuel') && in_array('exploite_plus', $compte->tags->manuel->toArray(0,1));
+                    $en_alerte = $compte && $compte->exist('en_alerte') && $compte->en_alerte;
+                    if($exploite_plus || $en_alerte){
+                        $value = str_replace('(', ' ⛔ (', $value);
+                    }
+
                 }
             }
         }
 
         return parent::render($name, $value, $attributes, $errors);
     }
-    
+
 }

@@ -19,7 +19,9 @@ class FactureLigne extends BaseFactureLigne {
                 if(!EtablissementClient::getInstance()->getFormatIdentifiant()) {
                         $identifiant = explode("-", $idDoc)[1];
                 }
-                $mouvements[] = Factureclient::getInstance()->getDocumentOrigine($idDoc)->findMouvement($mouvKey, $identifiant);
+                if ($doc = Factureclient::getInstance()->getDocumentOrigine($idDoc)) {
+                  $mouvements[] = $doc->findMouvement($mouvKey, $identifiant);
+                }
             }
         }
         return $mouvements;

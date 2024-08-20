@@ -123,6 +123,7 @@ all:
         "Bouteille 900 cl": 0.09
         "Bouteille 1200 cl": 0.12
         "Bouteille 1500 cl": 0.15
+        "BIB 75 cl": 0.0075
         "BIB 1,5l": 0.015
         "BIB 2,25l": 0.0225
         "BIB 3l": 0.03

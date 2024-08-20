@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('drm') ?>" class="active">DRM</a></li>
+    <li class="active"><a href="<?php echo url_for('drm') ?>" class="active">DRM</a></li>
 </ol>
 
 <div class="row">
@@ -7,9 +7,9 @@
         <?php include_component('drm', 'formEtablissementChoice', array('autofocus' => true)) ?>
     </div>
 </div>
-<?php if($nb_results) : ?>
 <div class="row col-xs-12">
     <h2>Liste des DRM ayant des points d'attention</h2>
+<?php if($nb_results) : ?>
     <table class="table table-bordered table-condensed table-striped">
 		<thead>
         	<tr>
@@ -66,5 +66,9 @@
                 <?php endif; ?>
             </ul>
         </nav>
-    </div>
+  </div>
+<?php else: ?>
+  <p class="text-muted">Pas de point d'attention en ce moment.</p>
+  <h4>Nombre total : <?php echo $nb_results; ?></h4>
+</div>
 <?php endif; ?>

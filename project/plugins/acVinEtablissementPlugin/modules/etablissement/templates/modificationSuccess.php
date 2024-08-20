@@ -10,9 +10,9 @@
             </li>
         <?php endif; ?>
             <li class="active">
-                <strong>
+                <a href="">
                     <?php echo ($etablissement->isNew()) ? 'Nouvel établissement' : 'Modification établissement'; ?>
-                </strong>
+                </a>
             </li>
     </ol>
 

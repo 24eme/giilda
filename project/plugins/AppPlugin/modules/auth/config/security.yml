@@ -7,3 +7,6 @@ home:
 deconnexionUsurpation:
   is_secure: true
   credentials: [[teledeclaration_drm, teledeclaration_vrac]]
+
+logout:
+  is_secure: false

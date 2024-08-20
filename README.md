@@ -1,15 +1,15 @@
-# GIILDA : Groupement IVSO IVBD de Logiciels dediés aux Déclarations Administratives
+# GIILDA : Groupement IVSO IVBD (et aussi BIVC et CIVA) de Logiciels dediés aux Déclarations Administratives 
 
-Projet de dématérialisation informatique des activités des interprofessions des Vins du Sud Ouest (IVSO) et de Bergerac (IVBD)
+Projet de dématérialisation informatique des activités d'une interprofession viticole.
 
 ## Projets déployés
 
 Le projet est actuellement en cours d'utilisation par  : 
 
-* IVSO (Vins du Sud Ouest) : https://declaration.ivsopro.com/
-* IVBD : https://declaration.ivbdpro.fr/
-* BIVC : https://declaration.vins-centre-loire.com/
-* CIVA : https://declaration.vinsalsace.pro/
+* IVSO (Sud Ouest) : https://declaration.ivsopro.com/
+* IVBD (Bergerac): https://declaration.ivbdpro.fr/
+* BIVC (Centre Loire): https://declaration.vins-centre-loire.com/
+* CIVA (Alsace): https://declaration.vinsalsace.pro/
 
 ## Aperçu de l'application
 

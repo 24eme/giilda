@@ -3,7 +3,7 @@
         <div class="panel panel-default">
             <div class="panel-heading"><h2 class="panel-title">Activation de votre espace de télédeclaration (Convention d'adhésion)</h2></div>
             <div class="panel-body">
-                <form action="<?php echo url_for("compte_teledeclarant_cgu") ?>" method="post">
+                <form action="<?php if($service): ?>?service=<?php echo $service ?><?php endif; ?>" method="post">
                     <p>
                         IVSO met à disposition de ses ressortissants un portail de télédéclaration pour les DRM et les contrats d’achats&nbsp;:&nbsp;«&nbsp;ivsopro.com&nbsp;».
                     </p>

@@ -22,13 +22,15 @@ La dernière colonne indique le libellé complet du produit, le processus d'impo
 
 Pour plus de détails sur l'exploitation de ces champs, voir la [section "identification du vin" de la Spécification générique DRM pour logiciels tiers](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/#description-des-lignes-cave).
 
-## Catalogue des mouvements de DRM spécifiques au portail du BIVC
+## Catalogue des mouvements CAVE de DRM spécifiques au portail du BIVC
 
-Le catalogue des mouvements de DRM admis par le portail du BIVC  [Catalogue mouvements](catalogue_mouvements.csv) est composé de trois colonnes :
+Le catalogue des mouvements CAVE de DRM admis par le portail du BIVC  [Catalogue mouvements](catalogue_mouvements.csv) est composé de trois colonnes :
 
 1. Le type de DRM : suspendu ou acquitte
 2. La catégorie du mouvement : stocks_debut, stocks_fin, entrees ou sorties
 3. Le type du mouvement : achatcrd, vrac, repli...
+
+Pour les mouvements CRD, ils sont communs à toutes les interpros. Ils sont décrits dans la [section CRD de la documentation générale](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/#description-des-lignes-de-capsules-crd)
 
 ## Exemple complet de fichier d'import de DRM
 

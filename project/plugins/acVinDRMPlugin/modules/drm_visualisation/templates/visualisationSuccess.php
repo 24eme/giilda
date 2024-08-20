@@ -29,24 +29,12 @@
             <div class="pull-right">
                 <?php if ($drm->isReouvrable()): ?>
                     <a class="btn btn-warning" href="<?php echo url_for('drm_reouvrir', $drm) ?>">Ré-ouvrir la DRM</a>
-                <?php elseif($drm->isModifiable() && $drm->isTeledeclare()): ?>
-                    <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
                 <?php elseif($drm->isModifiable()): ?>
-                    <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
+                    <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Créer une Modificatrice</a>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
         </h3>
-
-
-        <!--<div id="drm_validation_coordonnees">
-            <div class="drm_validation_societe">
-                <?php //include_partial('drm_visualisation/societe_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
-            </div>
-            <div class="drm_validation_etablissement">
-                <?php //include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
-            </div>
-        </div>-->
 
         <?php if (!$isTeledeclarationMode || (sfConfig::get('app_force_usurpation_mode') && $sf_user->isUsurpationCompte())): ?>
             <?php if ($drm_suivante && $drm_suivante->isRectificative() && !$drm_suivante->isValidee()):

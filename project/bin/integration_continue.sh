@@ -37,8 +37,8 @@ mkdir -p $XMLTESTDIR 2> /dev/null
 #git fetch > /dev/null 2>&1
 #git reset --hard origin/master
 
-BRANCH=$(cat ../.git/HEAD | sed -r 's|^ref: refs/heads/||')
-LASTCOMMIT=$(cat ../.git/packed-refs | grep "refs/heads/$BRANCH" | cut -d " " -f 1)
+BRANCH=$(git branch  | grep '^*' | cut -d " " -f 2)
+LASTCOMMIT=$(git show $BRANCH | head -n 1 | cut -d " " -f 2)
 DATE=$(date +%Y%m%d%H%M%S)
 BRANCH=$(echo $BRANCH | tr '/' '-')
 

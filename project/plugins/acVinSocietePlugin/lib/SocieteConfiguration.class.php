@@ -25,23 +25,30 @@ class SocieteConfiguration {
         return isset($this->configuration['extras']) ? $this->configuration['extras'] : array();
     }
 
-    public function isIdentifiantSaisi() {
-        throw new sfException(__FUNCTION__ . " est dépréciée. Toutes les interpro ont une génération d'identifiant automatique.");
+    public function isDisableSave() {
 
-        return isset($this->configuration['identifiant_saisi']) && ($this->configuration['identifiant_saisi']);
+        return isset($this->configuration['disable_save']) && boolval($this->configuration['disable_save']);
     }
 
-    public function getIdentifiantSaisiLibelle() {
-        throw new sfException(__FUNCTION__ . " est dépréciée. Toutes les interpro ont une génération d'identifiant automatique.");
+    public function isVisualisationTeledeclaration() {
 
-        if (!$this->isIdentifiantSaisi()) {
-            return false;
+        return isset($this->configuration['visualisation_teledeclaration']) && boolval($this->configuration['visualisation_teledeclaration']);
+    }
+
+    public function isIdentifiantEtablissementSaisi() {
+
+        return isset($this->configuration['identifiant_etablissement_saisi']) && ($this->configuration['identifiant_etablissement_saisi']);
+    }
+
+    public function isRealSyncCompte() {
+        return isset($this->configuration['real_sync_compte']) && boolval($this->configuration['real_sync_compte']);
+    }
+
+    public function getIdentifiantEtablissementSaisiHelp() {
+        if(!isset($this->configuration['identifiant_etablissement_saisi_help'])) {
+            return null;
         }
-        return $this->configuration['identifiant_saisi'];
-    }
-
-    public function isElasticDisabled() {
-        return isset($this->configuration['elastic_disabled']) && ($this->configuration['elastic_disabled']);
+        return $this->configuration['identifiant_etablissement_saisi_help'];
     }
 
     public function getDroits() {
@@ -53,24 +60,8 @@ class SocieteConfiguration {
         return $this->configuration['droits'];
     }
 
-    public function getDroitLibelle($droit) {
-        $droits = $this->getDroits();
-
-        if(isset($droits[$droit])) {
-
-            return $droits[$droit];
-        }
-
-        return $droit;
+    public function hasGroupes() {
+        return $this->configuration['enable_groupes'];
     }
 
-    public function isIdentifantCompteIncremental() {
-
-        return isset($this->configuration['identifiant_compte_incremental']) && ($this->configuration['identifiant_compte_incremental']);
-    }
-
-    public function hasNumeroArchive()
-    {
-        return $this->configuration['has_numero_archive'];
-    }
 }

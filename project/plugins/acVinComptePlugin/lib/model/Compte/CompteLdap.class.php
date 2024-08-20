@@ -11,7 +11,7 @@ class CompteLdap extends acVinLdap
             echo "save : ";
             print_r($info);
         }
-        return $this->save(self::getIdentifiant($compte), $info);
+        return $this->save($compte->login, $info);
     }
 
     /**
@@ -39,6 +39,7 @@ class CompteLdap extends acVinLdap
         } else {
             return $compte->identifiant;
         }
+        return $this->delete($identifiant);
     }
 
     /**
@@ -46,19 +47,19 @@ class CompteLdap extends acVinLdap
      * @param _Compte $compte
      * @return array
      */
-    protected function info($compte)
+    public function info($compte)
     {
         $info = array();
-        $info['uid']              = self::getIdentifiant($compte);
+        $info['uid']              = $compte->login;
         $info['cn']               = self::replace_invalid_syntax($compte->nom_a_afficher);
         $info['objectClass'][0]   = 'top';
         $info['objectClass'][1]   = 'person';
         $info['objectClass'][2]   = 'posixAccount';
         $info['objectClass'][3]   = 'inetOrgPerson';
         $info['loginShell']       = '/bin/bash';
-        $info['uidNumber']        = (int)self::getIdentifiant($compte);
+        $info['uidNumber']        = (int)$compte->login;
         $info['gidNumber']        = '1000';
-        $info['homeDirectory']    = '/home/'.$compte->_id;
+        $info['homeDirectory']    = '/home/'.$compte->login;
         $info['gecos']            = self::getGecos($compte);
         if ($compte->isEtablissementContact()) {
              $info['businessCategory'] = $compte->getEtablissement()->famille;
@@ -119,23 +120,31 @@ class CompteLdap extends acVinLdap
         }
 
         $etablissement = $compte->getEtablissement();
-
+        $societe = $compte->getSociete();
+        if(!$etablissement && $societe) {
+            $etablissement = $societe->getEtablissementPrincipal();
+        }
         $gecos = null;
 
         if(!$etablissement) {
-            $gecos = sprintf("%s,%s,%s,%s", $compte->identifiant, null, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+            $gecos = sprintf("%s,%s,%s,%s,%s:%s", $compte->identifiant, null, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $compte->_id);
         }
 
         //Hack pour la compatibilité GAMMAlsace du CIVA
         if (!$gecos && class_exists('civaConfiguration')) {
-            $gamma = acCouchdbManager::getClient()->find(str_replace('ETABLISSEMENT', 'GAMMA', $etablissement->_id), acCouchdbClient::HYDRATE_JSON);
+            $negociant = $societe->getNegociant();
+            if (!$negociant) {
+                $negociant = $etablissement;
+            }
+            $gamma = acCouchdbManager::getClient()->find(str_replace('ETABLISSEMENT', 'GAMMA', $negociant->_id), acCouchdbClient::HYDRATE_JSON);
             if ($gamma) {
-                $gecos =  sprintf("%s,%s,%s,%s", $gamma->identifiant_inscription, $gamma->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+                $compte = $negociant->getMasterCompte();
+                $gecos =  sprintf("%s,%s,%s,%s,%s:%s", $gamma->identifiant_inscription, $gamma->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $gamma->_id);
             }
         }
 
         if (!$gecos) {
-            $gecos =  sprintf("%s,%s,%s,%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher);
+            $gecos =  sprintf("%s,%s,%s,%s,%s:%s", $compte->identifiant, $etablissement->no_accises, ($compte->getNom()) ? $compte->getNom() : $compte->nom_a_afficher, $compte->nom_a_afficher, 'giilda', $etablissement->_id);
         }
 
         return self::replace_invalid_syntax($gecos);

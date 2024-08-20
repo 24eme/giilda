@@ -36,6 +36,7 @@ class AutoAdminFilter extends BasicSecurityFilter
 
     $compte->_id = "COMPTE-".$identifiant;
     $compte->identifiant = $identifiant;
+    $compte->add('login', $identifiant);
 
     $compte->add("droits", array($right, Roles::OPERATEUR));
 
