@@ -102,10 +102,16 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function isSameAdresseThanSociete() {
+        if (!$this->getSociete()->getMasterCompte()) {
+            return false;
+        }
         return $this->isSameAdresseThan($this->getSociete()->getMasterCompte());
     }
 
     public function isSameContactThanSociete() {
+        if (!$this->getSociete()->getMasterCompte()) {
+            return false;
+        }
         return $this->isSameContactThan($this->getSociete()->getMasterCompte());
     }
 
@@ -385,7 +391,10 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
         parent::save();
 
-        $this->getMasterCompte()->setStatut($this->getStatut());
+        if ($this->getMasterCompte()) {
+            $this->getMasterCompte()->setStatut($this->getStatut());
+        }
+        $compte->setStatut($this->getStatut());
         if ($this->maintenance) {
             $compte->setMaintenance();
         }
