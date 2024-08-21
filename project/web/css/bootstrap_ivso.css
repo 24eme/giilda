@@ -7015,7 +7015,6 @@ button.close {
 }
 #list-item .list-group-item {
   background-color: #fff;
-  border: 1px solid #0e2244;
 }
 #list-item .list-group-item.disabled {
   background-color: #eee;
