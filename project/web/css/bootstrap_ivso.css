@@ -5282,7 +5282,7 @@ a.thumbnail.active {
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  border: 1px solid #0e2244;
+  border: 1px solid #eeeeee;
 }
 .list-group-item:first-child {
   border-top-right-radius: 0;
