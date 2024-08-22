@@ -106,7 +106,7 @@ class GenerationPDF extends GenerationAbstract {
     if (!$this->generation)
       throw new sfException('Object generation should not be null');
 
-    $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS);
+    $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS, true);
     $this->generation->save();
 
     $pdfs = array();
@@ -150,6 +150,7 @@ class GenerationPDF extends GenerationAbstract {
       }
     }
     $this->cleanFiles($pages);
+    $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS, true);
     $this->generation->save();
     if ($this->postGeneratePDF()) {
         $this->generation->save();
