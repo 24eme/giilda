@@ -76,7 +76,7 @@ class GenerationFacturePDF extends GenerationPDF {
     }
 
     function postGeneratePDF() {
-        if (!file_exists(sfConfig::get('sf_root_dir').'/bin/postGenerationFacturePDF.sh'))
+        if (!GenerationConfiguration::getInstance()->hasPostGenerationBL()  || !file_exists(sfConfig::get('sf_root_dir').'/bin/postGenerationFacturePDF.sh') )
             return false;
         exec(sfConfig::get('sf_root_dir').'/bin/postGenerationFacturePDF.sh', $generatedFiles);
         foreach($generatedFiles as $file) {
