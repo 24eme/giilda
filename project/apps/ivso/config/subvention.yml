@@ -1,6 +1,6 @@
 all:
   configuration:
     subvention:
-      actif: true
+      actif: false
       plateforme: "IVSOPro.com"
       referent: "Service Économique d'IVSO"
