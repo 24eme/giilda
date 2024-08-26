@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-xs-12 text-center">
 
-                    <a class="btn btn-default" href="<?php echo url_for('drm_societe',array('identifiant' => $etablissementPrincipal->identifiant)); ?>" >
+                    <a class="btn btn-default" href="<?php echo url_for('drm_etablissement',array('identifiant' => $etablissement->identifiant)); ?>" >
                         <?php echo 'Accéder aux DRM' ?>
                     </a>
                     <?php echo getPointAideHtml('drm','menu_acceder') ?>
