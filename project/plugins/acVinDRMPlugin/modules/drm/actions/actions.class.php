@@ -16,7 +16,7 @@ class drmActions extends drmGeneriqueActions {
         $societe = $this->etablissement->getSociete();
 
         $this->getUser()->usurpationOn($societe->getMasterCompte()->login, $request->getReferer());
-        $this->redirect('drm_societe', array('identifiant' => $societe->getEtablissementPrincipal()->identifiant));
+        $this->redirect('drm_societe', array('identifiant' => $societe->identifiant));
     }
 
     public function executeRedirect(sfWebRequest $request) {
