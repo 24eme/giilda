@@ -118,7 +118,7 @@
        'prefix' => 'drm',
        'route' => 'drm_societe',
        'teledeclaration' => true,
-       'identifiant' => $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant,
+       'identifiant' => $sf_user->getCompte()->getSociete()->identifiant,
        'target' => '_self'
 ));
 endif; ?>

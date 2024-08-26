@@ -55,4 +55,11 @@ class GenerationConfiguration
     {
         return $this->hasSousGeneration($type) && ($type) ? $this->configuration['sousgeneration'][$type] : array();
     }
+
+    public function hasPostGenerationBL() {
+        if (!isset($this->configuration['post_generation'])) {
+            return false;
+        }
+        return ($this->configuration['post_generation'] == 'BL');
+    }
 }
