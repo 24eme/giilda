@@ -102,10 +102,16 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function isSameAdresseThanSociete() {
+        if (!$this->getSociete()->getMasterCompte()) {
+            return false;
+        }
         return $this->isSameAdresseThan($this->getSociete()->getMasterCompte());
     }
 
     public function isSameContactThanSociete() {
+        if (!$this->getSociete()->getMasterCompte()) {
+            return false;
+        }
         return $this->isSameContactThan($this->getSociete()->getMasterCompte());
     }
 
@@ -115,6 +121,14 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     public function isSameExtrasThanSociete() {
         return Compte::isSameExtrasComptes($this->getMasterCompte(), $this->getSociete()->getMasterCompte());
+    }
+
+    public function getNumCompteEtablissement() {
+        if (!$this->compte)
+            return null;
+        if ($this->compte != $this->getSociete()->compte_societe)
+            return $this->compte;
+        return null;
     }
 
     public function getNoTvaIntraCommunautaire() {
@@ -263,14 +277,14 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function isNegociant() {
-        return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT);
+        return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT || $this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_PUR);
     }
     public function isCooperative() {
         return ($this->famille == EtablissementFamilles::FAMILLE_COOPERATIVE);
     }
 
     public function isViticulteur() {
-        return ($this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR);
+        return ($this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR || $this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR_VINIFICATEUR);
     }
 
     public function isNegociantVinificateur() {
@@ -385,7 +399,10 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
         parent::save();
 
-        $this->getMasterCompte()->setStatut($this->getStatut());
+        if ($this->getMasterCompte()) {
+            $this->getMasterCompte()->setStatut($this->getStatut());
+        }
+        $compte->setStatut($this->getStatut());
         if ($this->maintenance) {
             $compte->setMaintenance();
         }
@@ -764,4 +781,20 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return $lieu_stockage;
     }
 
+    public function haveLiaison($etablissement){
+        foreach ($this->liaisons_operateurs as $key => $value) {
+            if($value->id_etablissement == $etablissement->_id ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getEtablissementsLies(){
+        $result=array();
+        foreach($this->liaisons_operateurs as $id => $tab){
+            $result[$tab['id_etablissement']]=$tab['libelle_etablissement'];
+        }
+        return $result;
+    }
 }

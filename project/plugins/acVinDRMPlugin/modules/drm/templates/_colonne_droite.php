@@ -39,7 +39,7 @@ $url_retour_espace = null;
 $text_retour_espace = 'Actions';
 if (isset($drm)) {
     $url_retour_espace = ($isTeledeclarationMode) ?
-            url_for('drm_societe', array('identifiant' => $etablissementPrincipal->identifiant)) : url_for('drm_etablissement', array('identifiant' => $drm->identifiant));
+            url_for('drm_societe', array('identifiant' => $societe->identifiant)) : url_for('drm_etablissement', array('identifiant' => $drm->identifiant));
         $text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour au calendrier";
 }
 ?>

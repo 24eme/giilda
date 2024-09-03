@@ -5282,8 +5282,14 @@ a.thumbnail.active {
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  background-color: #eadfcf;
-  border: 1px solid #ffffff;
+  background-color: #ffffff;
+  border: 1px solid #eeeeee;
+}
+.list-group-item.active-bordered {
+    border-left: 6px solid #aa4646 !important;
+}
+.panel-primary-bordered-right {
+    border-right: 6px solid #aa4646 !important;
 }
 .list-group-item:first-child {
   border-top-right-radius: 0;

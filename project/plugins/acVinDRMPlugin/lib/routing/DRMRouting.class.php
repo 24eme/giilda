@@ -189,7 +189,7 @@ class DRMRouting {
             'action' => 'legalSignature')));
 
 
-        $r->prependRoute('drm_societe', new EtablissementRoute('/drm/societe/:identifiant', array('module' => 'drm',
+        $r->prependRoute('drm_societe', new SocieteRoute('/drm/societe/:identifiant', array('module' => 'drm',
             'action' => 'societe'), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
                'type' => 'object')));
 
