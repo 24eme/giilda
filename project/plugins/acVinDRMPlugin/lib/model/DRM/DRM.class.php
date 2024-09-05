@@ -243,7 +243,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
 
             $produitTav = ($produit->getTav()) ?: null;
-            $p = $this->addProduit($produitConfig->getHash(), $produit->getParent()->getKey(), $produit->denomination_complementaire, $produitTav);
+            $p = $this->addProduit($produitConfig->getHash(), $produit->getParent()->getKey(), ($produit->getKey() != 'DEFAUT' && !$produit->denomination_complementaire) ? $produit->produit_libelle : $produit->denomination_complementaire, $produitTav);
+            if ($produit->getKey() != 'DEFAUT') {
+                $p->produit_libelle = $produit->produit_libelle;
+                $p->code_inao = $produit->code_inao;
+            }
 
             if(DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getInstance()->getPeriodePrecedente($this->periode)) {
                 $p->stocks_debut->initial = $produit->total;
@@ -264,7 +268,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach($drm->getAllCrds() as $regime => $crds) {
             foreach($crds as $crd) {
                 $stock = null;
-                if (DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+                if (DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getInstance()->getPeriodePrecedente($this->periode)) {
                     $stock = $crd->stock_fin;
                 }
 
