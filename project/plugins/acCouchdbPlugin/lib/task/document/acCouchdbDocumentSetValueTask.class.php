@@ -67,6 +67,12 @@ EOF;
     }
 
     $output = array();
+    $hash = $arguments['hash_values'][0];
+    if ($options['delete'] && $doc->exist($hash)) {
+        $output[] = $hash.":<deleted> (".$doc->get($hash).")";
+        $doc->remove($hash);
+    }
+
     foreach($values as $hash => $value) {
         try {
             $docadd = $doc;
