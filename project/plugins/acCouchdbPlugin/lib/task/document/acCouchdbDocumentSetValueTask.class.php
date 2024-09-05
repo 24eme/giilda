@@ -40,6 +40,10 @@ EOF;
     $hash = null;
     $value = null;
     foreach($arguments['hash_values'] as $i => $arg) {
+        if ($options['delete']) {
+            $values[$arg] = true;
+            continue;
+        }
         if($i % 2 == 0) {
             $hash = $arg;
         } else {
@@ -66,14 +70,12 @@ EOF;
         return;
     }
 
-    $output = array();
-    $hash = $arguments['hash_values'][0];
-    if ($options['delete'] && $doc->exist($hash)) {
-        $output[] = $hash.":<deleted> (".$doc->get($hash).")";
-        $doc->remove($hash);
-    }
-
     foreach($values as $hash => $value) {
+        if ($options['delete']) {
+            $doc->remove($hash);
+            $output[] = $hash." REMOVING";
+            continue;
+        }
         try {
             $docadd = $doc;
             $hashadd = $hash;
