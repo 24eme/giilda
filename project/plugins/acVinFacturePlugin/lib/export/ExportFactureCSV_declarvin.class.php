@@ -56,7 +56,7 @@ class ExportFactureCSV_declarvin {
                 $idProduitExport = md5($detail->libelle);
                 echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $libelle
                 . ';'.$code_compte.';;' . $identifiant_analytique . ';;' . $this->getSens($detail->montant_ht, "CREDIT") . ';' . $this->getMontant($detail->montant_ht, "CREDIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_LIGNE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ';' . $detail->origine_type . ';' . "PRODUIT_TYPE" . ';' . $origine_mvt . ';' . $detail->quantite . ';' . $detail->prix_unitaire
-                . ";".self::CODE_TVA.";".$facture->numero_piece_comptable.";".$idProduitExport.";".$facture->identifiant.";;".$facture->numero_adherent.";".($factureAvoir) ? $factureAvoir->numero_piece_comptable : null;
+                . ";".self::CODE_TVA.";".$facture->numero_piece_comptable.";".$idProduitExport.";".$facture->identifiant.";;".$facture->numero_adherent.";".($factureAvoir ? $factureAvoir->numero_piece_comptable : null);
 
                 echo "\n";
             }
