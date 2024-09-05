@@ -246,6 +246,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $p = $this->addProduit($produitConfig->getHash(), $produit->getParent()->getKey(), ($produit->getKey() != 'DEFAUT' && !$produit->denomination_complementaire) ? $produit->produit_libelle : $produit->denomination_complementaire, $produitTav);
             if ($produit->getKey() != 'DEFAUT') {
                 $p->produit_libelle = $produit->produit_libelle;
+                $p->code_inao = $produit->code_inao;
             }
 
             if(DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getInstance()->getPeriodePrecedente($this->periode)) {
