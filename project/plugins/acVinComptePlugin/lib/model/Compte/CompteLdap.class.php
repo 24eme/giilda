@@ -24,12 +24,23 @@ class CompteLdap extends acVinLdap
         if (is_string($compte)) {
             $identifiant = $compte;
         }else {
-            $identifiant = $compte->login;
+            $identifiant = self::getIdentifiant($compte);
         }
         if ($verbose) {
             echo $identifiant." deleted\n";
         }
         return $this->delete($identifiant);
+    }
+
+    public static function getIdentifiant($compte)
+    {
+        if ($compte->exist('login')) {
+            return $compte->login;
+        }
+        if ($compte->isSocieteContact()) {
+            return $compte->getSociete()->login;
+        }
+        return $compte->login;
     }
 
     /**
@@ -40,7 +51,7 @@ class CompteLdap extends acVinLdap
     public function info($compte)
     {
         $info = array();
-        $info['uid']              = $compte->login;
+        $info['uid']              = self::getIdentifiant($compte);
         $info['cn']               = self::replace_invalid_syntax($compte->nom_a_afficher);
         $info['objectClass'][0]   = 'top';
         $info['objectClass'][1]   = 'person';

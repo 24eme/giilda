@@ -14,6 +14,7 @@ php symfony export:csv-configuration $SYMFONYTASKOPTIONS > $TMP/produits.csv
 php symfony export:facture $SYMFONYTASKOPTIONS | perl bin/preconvertExportFactureChapeau.pl $TMP/produits.csv data/export/ivso_comptes2analytiques.csv > $TMP/factures.csv
 cat $TMP/factures.csv | perl bin/convertExportFacture2SAGE.pl | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' > $TMP/factures.txt
 
+if test -f $TMP/$VINSIEXPORT; then
 echo -n > $TMP/$VINSIEXPORT
 echo  "#FLG 001" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 echo "#VER 14" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
@@ -21,6 +22,7 @@ echo "#DEV EUR" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 cat $TMP/societes.txt >> $TMP/$VINSIEXPORT
 cat $TMP/factures.txt >> $TMP/$VINSIEXPORT
 echo "#FIN" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
+fi
 
 echo -n > $TMP/factures.sage
 echo "#FLG 000" | sed 's/$/\r/' >> $TMP/factures.sage

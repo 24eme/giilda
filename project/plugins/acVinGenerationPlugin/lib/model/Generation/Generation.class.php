@@ -21,9 +21,11 @@ class Generation extends BaseGeneration {
     }
   }
 
+  private $no_auto = null;
+
   public function save() {
     $this->nb_documents = count($this->documents);
-    if (count($this->fichiers) && $this->statut != GenerationClient::GENERATION_STATUT_ENERREUR) {
+    if (!$this->no_auto && count($this->fichiers) && $this->statut != GenerationClient::GENERATION_STATUT_ENERREUR) {
       $this->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
     }
     if (!$this->nb_documents && $this->statut == GenerationClient::GENERATION_STATUT_GENERE) {
@@ -34,7 +36,8 @@ class Generation extends BaseGeneration {
     return parent::save();
   }
 
-  public function setStatut($statut) {
+  public function setStatut($statut, $no_auto = false) {
+    $this->no_auto = $no_auto;
     if($statut == GenerationClient::GENERATION_STATUT_ENATTENTE) {
       $this->message = "";
     }

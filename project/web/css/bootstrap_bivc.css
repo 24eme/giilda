@@ -5352,8 +5352,14 @@ a.thumbnail.active {
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  background-color: #f3eadb;
-  border: 1px solid #E1C18E;
+  background-color: #fff;
+  border: 1px solid #eeeeee;
+}
+.list-group-item.active-bordered {
+    border-left: 6px solid #1c2436 !important;
+}
+.panel-primary-bordered-right {
+    border-right: 6px solid #1c2436 !important;
 }
 .list-group-item:first-child {
   border-top-right-radius: 0;
@@ -7077,7 +7083,6 @@ button.close {
 }
 #list-item .list-group-item {
   background-color: #fff;
-  border: 1px solid #1c2436;
 }
 #list-item .list-group-item.disabled {
   background-color: #eee;

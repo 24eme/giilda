@@ -243,7 +243,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
 
             $produitTav = ($produit->getTav()) ?: null;
-            $p = $this->addProduit($produitConfig->getHash(), $produit->getParent()->getKey(), $produit->denomination_complementaire, $produitTav);
+            $p = $this->addProduit($produitConfig->getHash(), $produit->getParent()->getKey(), ($produit->getKey() != 'DEFAUT' && !$produit->denomination_complementaire) ? $produit->produit_libelle : $produit->denomination_complementaire, $produitTav);
+            if ($produit->getKey() != 'DEFAUT') {
+                $p->produit_libelle = $produit->produit_libelle;
+                $p->code_inao = $produit->code_inao;
+            }
 
             if(DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getInstance()->getPeriodePrecedente($this->periode)) {
                 $p->stocks_debut->initial = $produit->total;
@@ -264,7 +268,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach($drm->getAllCrds() as $regime => $crds) {
             foreach($crds as $crd) {
                 $stock = null;
-                if (DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+                if (DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getInstance()->getPeriodePrecedente($this->periode)) {
                     $stock = $crd->stock_fin;
                 }
 
@@ -443,12 +447,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         if($this->exist("transmission_douane")) {
             //cas d'erreur de transmission
-            if ($this->transmission_douane->success === false ) {
+            if ($this->transmission_douane->xml && $this->transmission_douane->success == false ) {
                 $this->addControleMessage(DRM::CONTROLE_TRANSMISSION, $this->getTransmissionErreur());
                 $nb_controles++;
             }
             //cas d'incoherence
-            if ($this->get("transmission_douane")->coherente === false) {
+            if ($this->get("transmission_douane")->coherente == false && !is_null($this->get("transmission_douane")->coherente)) {
                 $this->addControleMessage(DRM::CONTROLE_COHERENCE, "Non conforme douane");
                 $nb_controles++;
             }
@@ -1569,7 +1573,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
             foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
                 foreach ($crdsByRegime as $key => $crd) {
-                    $count_entree =  $crd->entrees_achats + $crd->entrees_retours + $crd->entrees_excedents + $crd->stock_fin + $crd->stock_debut;
+                    $count_entree = $crd->entrees_achats + $crd->entrees_retours + $crd->entrees_excedents + $crd->entrees_autres + $crd->stock_fin + $crd->stock_debut;
                     if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0 && !$count_entree) {
                         $toRemoves[] = $regime . '/' . $key;
                     }

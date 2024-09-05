@@ -274,7 +274,7 @@ class DRMCalendrier {
             return;
         }
         $drm = $this->drms[$etablissement->identifiant][$periode];
-        return $drm[DRMAllView::KEY_TYPE_CREATION];
+        return $drm[DRMAllView::KEY_TYPE_CREATION] == "IMPORT";
     }
 
     public function getNumeroArchive($periode, $etablissement =  false) {

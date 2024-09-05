@@ -102,10 +102,16 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function isSameAdresseThanSociete() {
+        if (!$this->getSociete()->getMasterCompte()) {
+            return false;
+        }
         return $this->isSameAdresseThan($this->getSociete()->getMasterCompte());
     }
 
     public function isSameContactThanSociete() {
+        if (!$this->getSociete()->getMasterCompte()) {
+            return false;
+        }
         return $this->isSameContactThan($this->getSociete()->getMasterCompte());
     }
 
@@ -115,6 +121,14 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     public function isSameExtrasThanSociete() {
         return Compte::isSameExtrasComptes($this->getMasterCompte(), $this->getSociete()->getMasterCompte());
+    }
+
+    public function getNumCompteEtablissement() {
+        if (!$this->compte)
+            return null;
+        if ($this->compte != $this->getSociete()->compte_societe)
+            return $this->compte;
+        return null;
     }
 
     public function getNoTvaIntraCommunautaire() {
@@ -161,6 +175,9 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         $libellesTypeRelation = EtablissementClient::getTypesLiaisons();
         $compte = $this->getMasterCompte();
         $compte->addTag('relations',$libellesTypeRelation[$type]);
+        if ($this->maintenance) {
+            $compte->setMaintenance();
+        }
         $compte->save();
 
         if($etablissement->exist('ppm') && $etablissement->ppm){
@@ -184,6 +201,10 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     protected function updateLiaisonOpposee($liaison) {
         $etablissement = $liaison->getEtablissement();
+        if ($this->maintenance) {
+            $etablissement->setMaintenance();
+        }
+
         $typeLiaisonOpposee = EtablissementClient::getTypeLiaisonOpposee($liaison->type_liaison);
 
         if ($this->isSuspendu()) {
@@ -229,12 +250,18 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         if($removeOther && $typeLiaisonOpposee) {
             $etablissement = $liaison->getEtablissement();
+            if ($this->maintenance) {
+                $etablissement->setMaintenance();
+            }
             $etablissement->removeLiaison($typeLiaisonOpposee."_".$this->_id, false);
             $etablissement->save();
         }
 
         $compte = $this->getMasterCompte();
         $compte->removeTags('manuel', array($liaison->type_liaison));
+        if ($this->maintenance) {
+            $compte->setMaintenance();
+        }
         $compte->save();
         $this->liaisons_operateurs->remove($key);
 
@@ -250,14 +277,14 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function isNegociant() {
-        return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT);
+        return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT || $this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_PUR);
     }
     public function isCooperative() {
         return ($this->famille == EtablissementFamilles::FAMILLE_COOPERATIVE);
     }
 
     public function isViticulteur() {
-        return ($this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR);
+        return ($this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR || $this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR_VINIFICATEUR);
     }
 
     public function isNegociantVinificateur() {
@@ -324,6 +351,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
     }
 
+    private $maintenance = null;
+    public function setMaintenance() {
+        $this->maintenance = true;
+    }
+
     public function save() {
         if(SocieteConfiguration::getInstance()->isDisableSave()) {
 
@@ -367,11 +399,19 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
         parent::save();
 
-        $this->getMasterCompte()->setStatut($this->getStatut());
-
+        if ($this->getMasterCompte()) {
+            $this->getMasterCompte()->setStatut($this->getStatut());
+        }
+        $compte->setStatut($this->getStatut());
+        if ($this->maintenance) {
+            $compte->setMaintenance();
+        }
         $compte->save();
-        
+
         if($needSocieteSave) {
+            if ($this->maintenance) {
+                $societe->setMaintenance();
+            }
             $societe->save();
         }
     }
@@ -504,7 +544,8 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     public function getCommentaires() {
         $lines = explode("\n", str_replace(' - ', "\n", $this->getCommentaire()));
-        return array_filter($lines, fn($value) => (rtrim($value)));
+        $fonc_filter = function($value){return rtrim($value);};
+        return array_filter($lines, $fonc_filter);
     }
 
     public function addCommentaire($s) {
@@ -740,4 +781,20 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return $lieu_stockage;
     }
 
+    public function haveLiaison($etablissement){
+        foreach ($this->liaisons_operateurs as $key => $value) {
+            if($value->id_etablissement == $etablissement->_id ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getEtablissementsLies(){
+        $result=array();
+        foreach($this->liaisons_operateurs as $id => $tab){
+            $result[$tab['id_etablissement']]=$tab['libelle_etablissement'];
+        }
+        return $result;
+    }
 }
