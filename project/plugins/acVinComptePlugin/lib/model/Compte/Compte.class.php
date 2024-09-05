@@ -679,7 +679,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $ldap = new CompteLdap();
 
         if ($this->isActif()) {
-            if (!$this->mot_de_passe) {
+            if (!$this->exist('mot_de_passe') || !$this->mot_de_passe) {
                 if ($verbose) {
                     echo "No password: no ldap\n";
                 }
