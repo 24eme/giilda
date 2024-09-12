@@ -94,7 +94,7 @@
                                 <?php endif; ?>
                                 <?php if ($etablissement->exist('crd_regime') && $etablissement->crd_regime): ?>
                                 <div title="Régime CRD" style="margin-bottom: 5px;" class="col-xs-4 text-muted">Régim.&nbsp;CRD&nbsp;:</div>
-                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo $etablissement->crd_regime; ?></div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo $etablissement->crd_regime; ?>&nbsp;<span class="text-muted">(<a href="<?php echo url_for('etablissement_crd_reinit', $etablissement); ?>">X</a>)</span></div>
                                 <?php endif; ?>
                                 <?php if($etablissement->exist('mois_stock_debut') && !is_null($etablissement->mois_stock_debut)): ?>
                                 <div style="margin-bottom: 5px;" class="col-xs-4 text-muted" title="Mois de saisie du stock">Mois&nbsp;stock&nbsp;:</div>
