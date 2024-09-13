@@ -1005,6 +1005,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $noeud->lon = $coordonnees["lon"];
         $noeud->lat = $coordonnees["lat"];
+        if ($noeud->exist('insee') && !$noeud->get('insee')) {
+            $noeud->set('insee', $coordonnees["insee"]);
+        }
         return true;
     }
 
