@@ -672,7 +672,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function updateLdap($verbose = 0) {
-        if($this->identifiant == $this->getSociete()->getMasterCompte()->login) {
+        if(($this->_id != $this->getSociete()->getMasterCompte()->_id) && ($this->identifiant == $this->getSociete()->getMasterCompte()->login)) {
+            if ($verbose) {
+                echo "identifiant ".$this->identifiant." identifique à celui de la société\n";
+            }
             return;
         }
 
