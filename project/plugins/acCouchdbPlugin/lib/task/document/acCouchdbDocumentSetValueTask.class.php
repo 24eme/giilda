@@ -40,6 +40,10 @@ EOF;
     $hash = null;
     $value = null;
     foreach($arguments['hash_values'] as $i => $arg) {
+        if ($options['delete']) {
+            $values[$arg] = true;
+            continue;
+        }
         if($i % 2 == 0) {
             $hash = $arg;
         } else {
@@ -66,8 +70,12 @@ EOF;
         return;
     }
 
-    $output = array();
     foreach($values as $hash => $value) {
+        if ($options['delete']) {
+            $doc->remove($hash);
+            $output[] = $hash." REMOVING";
+            continue;
+        }
         try {
             $docadd = $doc;
             $hashadd = $hash;
