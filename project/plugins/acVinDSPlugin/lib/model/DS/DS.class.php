@@ -338,7 +338,10 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 	}
 
 	public function getSuivante() {
-			return $this->findMaster();
+        if ($version = $this->version_document->getNextVersion()) {
+            return DSClient::getInstance()->find(DSClient::makeId($this->identifiant, $this->getDateStock(), $version));
+        }
+		return null;
 	}
 
 }
