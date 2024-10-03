@@ -18,7 +18,7 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 facturemassive">
         <h3>Générer toutes les factures <small>(<a href="<?php echo url_for('facture_en_attente'); ?>">mvts en attentes</a> | <a href="<?php echo url_for('facture_en_attente', ['only_versionnes_factures' =>  1, 'versionnes' => 1]); ?>">mvts modifiés</a>)</small></h3>
         <?php include_partial('generationMasse', ['generationForm' => $generationForm, 'massive' => true]); ?>
     </div>

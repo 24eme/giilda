@@ -142,6 +142,13 @@ EOF;
             $ligne[self::CSV_FA_DATE_CONTRAT] = Date::francizeDate($contrat->date_signature);
             $ligne[self::CSV_FA_DATE_VISA] = Date::francizeDate($contrat->date_visa);
 
+            if (!$vendeurCompte->insee) {
+                $vendeurCompte->updateCoordonneesLongLat();
+            }
+            if (!$acheteurCompte->insee) {
+                $acheteurCompte->updateCoordonneesLongLat();
+            }
+
             $ligne[self::CSV_FA_CODE_COMMUNE_LIEU_VINIFICATION] = $vendeurCompte->insee; // Code Insee Acheteur
             $ligne[self::CSV_FA_INDICATION_DOUBLE_FIN] = 'N'; // Quelle signification?
             /**

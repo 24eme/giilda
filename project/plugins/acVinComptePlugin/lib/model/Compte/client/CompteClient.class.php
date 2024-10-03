@@ -320,7 +320,7 @@ class CompteClient extends acCouchdbClient {
             return false;
         }
 
-        return array("lat" => $result->features[0]->geometry->coordinates[1], "lon" => $result->features[0]->geometry->coordinates[0]);
+        return array("lat" => $result->features[0]->geometry->coordinates[1], "lon" => $result->features[0]->geometry->coordinates[0], 'insee' => $result->features[0]->properties->citycode);
     }
 
     public function deleteLdapCompte($identifiant){
