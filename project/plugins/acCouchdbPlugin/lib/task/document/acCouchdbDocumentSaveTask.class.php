@@ -34,9 +34,6 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     $doc = acCouchdbManager::getClient()->find($arguments['doc_id']);
-    $doc->remove('controles');
-    $doc->transmission_douane->success = true;
-    $doc->transmission_douane->coherente = true;
     $doc->save();
 
     echo "Document ".$doc->_id."@".$doc->_rev." saved\n";

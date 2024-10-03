@@ -34,12 +34,6 @@ class CompteLdap extends acVinLdap
 
     public static function getIdentifiant($compte)
     {
-        if ($compte->exist('login')) {
-            return $compte->login;
-        }
-        if ($compte->isSocieteContact()) {
-            return $compte->getSociete()->login;
-        }
         return $compte->login;
     }
 
