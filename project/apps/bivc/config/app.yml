@@ -168,7 +168,7 @@ all:
           aggregation:
             filter:
               terms:
-                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'creationvrac_details', 'creationvractirebouche_details', 'entrees/achatcrd', 'entrees/achatnoncrd']
+                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'sorties/vracsanscontratacquitte', 'creationvrac_details', 'creationvractirebouche_details', 'entrees/achatcrd', 'entrees/achatnoncrd']
             aggs:
               totaux_france:
                 sum_bucket:
@@ -209,7 +209,7 @@ all:
                       france:
                         filter:
                           term:
-                            doc.mouvements.type_hash: 'sorties/ventefrancecrd'
+                            doc.mouvements.type_hash: ['sorties/ventefrancecrd', 'sorties/vracsanscontratacquitte']
                         aggs:
                           agg_column:
                             sum:
@@ -290,7 +290,7 @@ all:
           aggregation:
             filter:
               terms:
-                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'creationvrac_details', 'creationvractirebouche_details', 'entrees/achatcrd', 'entrees/achatnoncrd']
+                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'sorties/vracsanscontratacquitte', 'creationvrac_details', 'creationvractirebouche_details', 'entrees/achatcrd', 'entrees/achatnoncrd']
             aggs:
               totaux_france:
                 sum_bucket:
@@ -330,7 +330,7 @@ all:
                       france:
                         filter:
                           term:
-                            doc.mouvements.type_hash: 'sorties/ventefrancecrd'
+                            doc.mouvements.type_hash: ['sorties/ventefrancecrd', 'sorties/vracsanscontratacquitte']
                         aggs:
                           agg_column:
                             sum:
