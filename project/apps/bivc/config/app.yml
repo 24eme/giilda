@@ -208,7 +208,7 @@ all:
                     aggs:
                       france:
                         filter:
-                          term:
+                          terms:
                             doc.mouvements.type_hash: ['sorties/ventefrancecrd', 'sorties/vracsanscontratacquitte']
                         aggs:
                           agg_column:
@@ -329,7 +329,7 @@ all:
                     aggs:
                       france:
                         filter:
-                          term:
+                          terms:
                             doc.mouvements.type_hash: ['sorties/ventefrancecrd', 'sorties/vracsanscontratacquitte']
                         aggs:
                           agg_column:
