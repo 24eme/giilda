@@ -31,6 +31,7 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setWidget('alternative_logins', new bsWidgetFormInput());
 
         $this->setWidget('email', new bsWidgetFormInput());
+        $this->setWidget('email_teledeclaration', new bsWidgetFormInput());
         $this->setWidget('telephone_perso', new bsWidgetFormInput());
         $this->setWidget('telephone_bureau', new bsWidgetFormInput());
         $this->setWidget('telephone_mobile', new bsWidgetFormInput());
@@ -48,6 +49,7 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('alternative_logins', 'Logins alternatifs');
 
         $this->widgetSchema->setLabel('email', 'E-mail');
+        $this->widgetSchema->setLabel('email_teledeclaration', 'E-mail de télédéclaration');
         $this->widgetSchema->setLabel('telephone_perso', 'Telephone Perso.');
         $this->widgetSchema->setLabel('telephone_bureau', 'Telephone Bureau');
         $this->widgetSchema->setLabel('telephone_mobile', 'Mobile');
@@ -67,6 +69,7 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setValidator('droits', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getDroits()))));
         $this->setValidator('alternative_logins', new sfValidatorString(array('required' => false)));
         $this->setValidator('email', new sfValidatorEmails(array('required' => false), array('invalid' => 'Adresse email invalide.')));
+        $this->setValidator('email_teledeclaration', new sfValidatorEmails(array('required' => false), array('invalid' => 'Adresse email invalide.')));
         $this->setValidator('telephone_perso', new sfValidatorRegex(array('required' => false, "pattern" => "/^(\+[1-9][0-9 \.]+|0[0-9 \.]{9,13})$/")), array('invalid' => 'Téléphone invalide : 04 12 34 56 78 ou +33412345678 attendus'));
         $this->setValidator('telephone_bureau', new sfValidatorRegex(array('required' => false, "pattern" => "/^(\+[1-9][0-9 \.]+|0[0-9 \.]{9,13})$/")), array('invalid' => 'Téléphone invalide : 04 12 34 56 78 ou +33412345678 attendus'));
         $this->setValidator('telephone_mobile', new sfValidatorRegex(array('required' => false, "pattern" => "/^(\+[1-9][0-9 \.]+|0[0-9 \.]{9,13})$/")), array('invalid' => 'Téléphone invalide : 04 12 34 56 78 ou +33412345678 attendus'));
@@ -90,6 +93,7 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setDefault('adresse_complementaire', $this->getObject()->getAdresseComplementaire());
 
         $this->setDefault('email', $this->getObject()->getEmail());
+        $this->setDefault('email_teledeclaration', $this->getObject()->getEmailTeledeclaration());
         $this->setDefault('telephone_perso', $this->getObject()->getTelephonePerso());
         $this->setDefault('telephone_bureau', $this->getObject()->getTelephoneBureau());
         $this->setDefault('telephone_mobile', $this->getObject()->getTelephoneMobile());
@@ -105,6 +109,7 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
             $this->setDefault('adresse_complementaire', $this->getObject()->getSociete()->getAdresseComplementaire());
 
             $this->setDefault('email', $this->getObject()->getSociete()->getEmail());
+            $this->setDefault('email_teledeclaration', $this->getObject()->getSociete()->getCompte()->getEmailTeledeclaration());
             $this->setDefault('telephone_perso', $this->getObject()->getSociete()->getTelephonePerso());
             $this->setDefault('telephone_bureau', $this->getObject()->getSociete()->getTelephoneBureau());
             $this->setDefault('telephone_mobile', $this->getObject()->getSociete()->getTelephoneMobile());
@@ -153,6 +158,7 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->getObject()->setCodePostal($values['code_postal']);
 
         $this->getObject()->setEmail($values['email']);
+        $this->getObject()->getSociete()->getCompte()->setEmailTeledeclaration($values['email']);
         $this->getObject()->setTelephonePerso($values['telephone_perso']);
         $this->getObject()->setTelephoneBureau($values['telephone_bureau']);
         $this->getObject()->setTelephoneMobile($values['telephone_mobile']);
