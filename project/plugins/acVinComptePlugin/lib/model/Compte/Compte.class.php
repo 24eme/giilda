@@ -672,14 +672,17 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function updateLdap($verbose = 0) {
-        if($this->identifiant == $this->getSociete()->getMasterCompte()->login) {
+        if(($this->_id != $this->getSociete()->getMasterCompte()->_id) && ($this->identifiant == $this->getSociete()->getMasterCompte()->login)) {
+            if ($verbose) {
+                echo "identifiant ".$this->identifiant." identifique à celui de la société\n";
+            }
             return;
         }
 
         $ldap = new CompteLdap();
 
         if ($this->isActif()) {
-            if (!$this->mot_de_passe) {
+            if (!$this->exist('mot_de_passe') || !$this->mot_de_passe) {
                 if ($verbose) {
                     echo "No password: no ldap\n";
                 }
@@ -1005,6 +1008,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $noeud->lon = $coordonnees["lon"];
         $noeud->lat = $coordonnees["lat"];
+        if ($noeud->exist('insee') && !$noeud->get('insee')) {
+            $noeud->set('insee', $coordonnees["insee"]);
+        }
         return true;
     }
 
