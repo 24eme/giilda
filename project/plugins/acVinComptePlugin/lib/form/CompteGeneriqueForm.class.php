@@ -31,7 +31,15 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setWidget('alternative_logins', new bsWidgetFormInput());
 
         $this->setWidget('email', new bsWidgetFormInput());
-        $this->setWidget('email_teledeclaration', new bsWidgetFormInput());
+        if (method_exists($this->getObject(), 'getEmailTeledeclaration')) {
+            if (! method_exists($this->getObject(), 'getCompteType')) {
+                $this->setWidget('email_teledeclaration', new bsWidgetFormInput());
+            } else {
+                if (! $this->getObject()->getCompteType() == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+                    $this->setWidget('email_teledeclaration', new bsWidgetFormInput());
+                }
+            }
+        }
         $this->setWidget('telephone_perso', new bsWidgetFormInput());
         $this->setWidget('telephone_bureau', new bsWidgetFormInput());
         $this->setWidget('telephone_mobile', new bsWidgetFormInput());
@@ -49,7 +57,15 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('alternative_logins', 'Logins alternatifs');
 
         $this->widgetSchema->setLabel('email', 'E-mail');
-        $this->widgetSchema->setLabel('email_teledeclaration', 'E-mail de télédéclaration');
+        if (method_exists($this->getObject(), 'getEmailTeledeclaration')) {
+            if (! method_exists($this->getObject(), 'getCompteType')) {
+                $this->widgetSchema->setLabel('email_teledeclaration', 'E-mail de télédéclaration');
+            } else {
+                if (! $this->getObject()->getCompteType() == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+                    $this->widgetSchema->setLabel('email_teledeclaration', 'E-mail de télédéclaration');
+                }
+            }
+        }
         $this->widgetSchema->setLabel('telephone_perso', 'Telephone Perso.');
         $this->widgetSchema->setLabel('telephone_bureau', 'Telephone Bureau');
         $this->widgetSchema->setLabel('telephone_mobile', 'Mobile');
@@ -94,10 +110,20 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
 
         $this->setDefault('email', $this->getObject()->getEmail());
         if (method_exists($this->getObject(), 'getEmailTeledeclaration')) {
-            if ($this->getObject()->email != $this->getObject()->email_teledeclaration) {
-                $this->setDefault('email_teledeclaration', $this->getObject()->getEmailTeledeclaration());
+            if (! method_exists($this->getObject(), 'getCompteType')) {
+                if ($this->getObject()->email != $this->getObject()->email_teledeclaration) {
+                    $this->setDefault('email_teledeclaration', $this->getObject()->getEmailTeledeclaration());
+                } else {
+                    $this->setDefault('email_teledeclaration', null);
+                }
             } else {
-                $this->setDefault('email_teledeclaration', null);
+                if (! $this->getObject()->getCompteType() == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+                    if ($this->getObject()->email != $this->getObject()->email_teledeclaration) {
+                        $this->setDefault('email_teledeclaration', $this->getObject()->getEmailTeledeclaration());
+                    } else {
+                        $this->setDefault('email_teledeclaration', null);
+                    }
+                }
             }
         }
         $this->setDefault('telephone_perso', $this->getObject()->getTelephonePerso());
@@ -116,7 +142,13 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
 
             $this->setDefault('email', $this->getObject()->getSociete()->getEmail());
             if (method_exists($this->getObject(), 'getEmailTeledeclaration')) {
-                $this->setDefault('email_teledeclaration', $this->getObject()->getEmailTeledeclaration());
+                if (! method_exists($this->getObject(), 'getCompteType')) {
+                    $this->setDefault('email_teledeclaration', $this->getObject()->getEmailTeledeclaration());
+                } else {
+                    if (! $this->getObject()->getCompteType() == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+                        $this->setDefault('email_teledeclaration', $this->getObject()->getEmailTeledeclaration());
+                    }
+                }
             }
             $this->setDefault('telephone_perso', $this->getObject()->getSociete()->getTelephonePerso());
             $this->setDefault('telephone_bureau', $this->getObject()->getSociete()->getTelephoneBureau());
@@ -167,7 +199,13 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
 
         $this->getObject()->setEmail($values['email']);
         if (method_exists($this->getObject(), 'setEmailTeledeclaration')) {
-            $this->getObject()->setEmailTeledeclaration($values['email_teledeclaration']);
+            if (! method_exists($this->getObject(), 'getCompteType')) {
+                $this->getObject()->setEmailTeledeclaration($values['email_teledeclaration']);
+            } else {
+                if (! $this->getObject()->getCompteType() == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+                    $this->getObject()->setEmailTeledeclaration($values['email_teledeclaration']);
+                }
+            }
         }
         $this->getObject()->setTelephonePerso($values['telephone_perso']);
         $this->getObject()->setTelephoneBureau($values['telephone_bureau']);
