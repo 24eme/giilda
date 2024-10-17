@@ -12,7 +12,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h2>Génération des factures</h3>
+        <h2>Génération des factures</h2>
         <?php include_partial('historiqueGeneration', array('generations' => $generations, 'interproFacturable' => $interproFacturable)); ?>
     </div>
 </div>
@@ -28,7 +28,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h2>Facturation libre</h3>
+        <h2>Facturation libre</h2>
         <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default">Créer des mouvements de facturation libre</a>
     </div>
 </div>

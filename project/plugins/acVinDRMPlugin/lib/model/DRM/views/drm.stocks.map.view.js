@@ -32,6 +32,10 @@ function(doc) {
                 				 var total = 0;
                                  var produit_libelle = null;
 				                 var nbDetails = 0;
+                         var reserve = 0;
+                         if (cepage.reserve_interpro !== undefined) {
+                           reserve = parseFloat(cepage.reserve_interpro);
+                         }
                 				 for(detail_key in cepage.details) {
                                      detail = cepage.details[detail_key];
                 				     total_debut_mois += detail.total_debut_mois;
@@ -46,7 +50,7 @@ function(doc) {
                 				     nbDetails += 1;
                                  }
                     				if(nbDetails > 0)  {
-                     				 emit([doc.campagne, societe, doc.identifiant, hash, doc.periode, doc.version], [total_debut_mois, total_entrees, total_recolte, total_sorties, total_facturable, total, doc.declarant.nom, produit_libelle, doc.declarant.famille]);
+                     				 emit([doc.campagne, societe, doc.identifiant, hash, doc.periode, doc.version], [total_debut_mois, total_entrees, total_recolte, total_sorties, total_facturable, total, reserve, doc.declarant.nom, produit_libelle, doc.declarant.famille]);
                     				}
                             } // Boucle cepage
                           } // Boucle couleur

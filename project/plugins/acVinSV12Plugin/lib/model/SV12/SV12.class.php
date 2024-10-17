@@ -188,10 +188,10 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
                 $noeud = $this->totaux->produits->get($contrat->produit_libelle);
             }
 
-            if ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS) {
+            if ($contrat->contrat_type == strtoupper(VracClient::TYPE_TRANSACTION_RAISINS)) {
                 $noeud->volume_raisins += $contrat->volume;
                 $this->totaux->volume_raisins += $contrat->volume;
-            } elseif($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
+            } elseif($contrat->contrat_type == strtoupper(VracClient::TYPE_TRANSACTION_MOUTS)) {
                 $noeud->volume_mouts += $contrat->volume;
                 $this->totaux->volume_mouts += $contrat->volume;
             } else {
