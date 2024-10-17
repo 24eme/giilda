@@ -64,6 +64,14 @@
                                 <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">TVA&nbsp;Intracom.&nbsp;:</div>
                                 <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo $societe->no_tva_intracommunautaire; ?></div>
                             <?php endif; ?>
+                            <?php if ($societe->date_creation): ?>
+                                <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">Date&nbsp;création&nbsp;:</div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo date_format(date_create($societe->date_creation), 'd/m/Y'); ?></div>
+                            <?php endif; ?>
+                            <?php if ($societe->date_modification): ?>
+                                <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">Date&nbsp;modif.&nbsp;:</div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo date_format(date_create($societe->date_modification), 'd/m/Y'); ?></div>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="col-xs-7" style="border-left: 1px solid #eee">
