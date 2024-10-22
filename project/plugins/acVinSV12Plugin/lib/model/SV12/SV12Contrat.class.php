@@ -113,9 +113,9 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->facture = 0;
         $mouvement->version = $this->getDocument()->version;
         $mouvement->date_version = ($this->getDocument()->valide->date_saisie) ? ($this->getDocument()->valide->date_saisie) : date('Y-m-d');
-        if ($this->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS) {
+        if ($this->contrat_type == strtoupper(VracClient::TYPE_TRANSACTION_RAISINS)) {
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS;
-        } elseif ($this->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
+        } elseif ($this->contrat_type == strtoupper(VracClient::TYPE_TRANSACTION_MOUTS)) {
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS;
         }
         if (!$this->getVrac())

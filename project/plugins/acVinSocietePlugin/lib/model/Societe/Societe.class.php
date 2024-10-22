@@ -640,8 +640,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return null;
     }
 
-    public function setEmailTeledeclaration($email) {
-        $this->add('teledeclaration_email', $email);
+    public function setEmailTeledeclaration($email_teledeclaration) {
+        $this->add('teledeclaration_email', $email_teledeclaration);
     }
 
     public function getCommentaire() {
