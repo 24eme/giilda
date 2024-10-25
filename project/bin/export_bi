@@ -63,7 +63,7 @@ done;
 
 . bin/export_bi_stocks
 
-CSVHEADER="#ID;Type document;campagne;identifiant;certifications;genres;appellations;mentions;lieux;couleurs;cepages;date;modificatrice;stock debut;entree;entree recolte;sortie;sortie facturable;stock fin;reserve interpro;nom;libelle produit;famille"
+CSVHEADER="#ID;Type document;campagne;identifiant;certifications;genres;appellations;mentions;lieux;couleurs;cepages;date;modificatrice;stock debut;entree;entree recolte;sortie;sortie facturable;stock fin;nom;libelle produit;famille;reserve interpro"
 echo $CSVHEADER > $TMP/export_bi_drm_stock.csv
 cat $TMP/export_bi_drm_stock_last_modificatrices.csv | sed 's/"//g' | sed 's|/declaration/certifications/||' | sed 's|/genres/|;|' | sed 's|/appellations/|;|' | sed 's|/mentions/|;|' | sed 's|/lieux/|;|' | sed 's|/couleurs/|;|' | sed 's|/cepages/|;|' | sed 's|/details/[^/;]*||' >> $TMP/export_bi_drm_stock.csv
 
