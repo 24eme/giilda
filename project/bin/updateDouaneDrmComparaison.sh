@@ -3,13 +3,14 @@
 . $(dirname $0)/config.inc
 
 FILEDATE=$WORKINGDIR"/data/dateDrmDouane";
+DATEREQUETE=$(head -n 1 $FILEDATE | grep -E '^20[0-9][0-9]-[01][0-9]-[0123][0-9]');
 
-if [ ! -f $FILEDATE ];then
-    echo "2017-08-01" > $FILEDATE
+if ! test "$DATEREQUETE"; then
+    DATEREQUETE=$(date -d '-6 months' '+%Y-%m-%d')
+    echo $DATEREQUETE > $FILEDATE
 fi;
 APPLICATION=$(echo $SYMFONYTASKOPTIONS | sed -r 's|(.+)application=(.+)\ (.+)|\2|');
 
-DATEREQUETE=$(cat $FILEDATE);
 DATE=$(date +%Y%m%d%H%M%S)
 DATEFORMAT=`date '+%Y-%m-%d %H:%M:%S'`
 mkdir -p $TMP"/retoursDouanes" > /dev/null
