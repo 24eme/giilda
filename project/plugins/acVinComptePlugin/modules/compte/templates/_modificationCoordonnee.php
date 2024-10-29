@@ -76,6 +76,16 @@ $isSameDroitsThanSociete = !$isCompteSociete && $compteForm->getObject()->isSame
 
                 <?php echo $compteForm['email']->renderError(); ?>
             </div>
+            <?php if (isset($compteForm['email_teledeclaration'])): ?>
+              <div class="form-group <?php if($compteForm['email_teledeclaration']->hasError()): ?> has-error<?php endif; ?>">
+
+                  <?php echo $compteForm['email_teledeclaration']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
+
+                  <div class="col-xs-8"><?php echo $compteForm['email_teledeclaration']->render(); ?></div>
+
+                  <?php echo $compteForm['email_teledeclaration']->renderError(); ?>
+              </div>
+            <?php endif; ?>
             <div class="form-group">
 
                 <?php echo $compteForm['telephone_perso']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>

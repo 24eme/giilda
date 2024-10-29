@@ -994,7 +994,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($key_to_remove as $key) {
            $this->remove($key);
         }
-
+        if (!$this->declarant->famille) {
+            $this->declarant->famille = $this->getEtablissement()->famille;
+        }
         parent::save();
     }
 

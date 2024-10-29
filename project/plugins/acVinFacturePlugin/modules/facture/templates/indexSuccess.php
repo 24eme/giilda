@@ -12,13 +12,13 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h2>Génération des factures</h3>
+        <h2>Génération des factures</h2>
         <?php include_partial('historiqueGeneration', array('generations' => $generations, 'interproFacturable' => $interproFacturable)); ?>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 facturemassive">
         <h3>Générer toutes les factures <small>(<a href="<?php echo url_for('facture_en_attente'); ?>">mvts en attentes</a> | <a href="<?php echo url_for('facture_en_attente', ['only_versionnes_factures' =>  1, 'versionnes' => 1]); ?>">mvts modifiés</a>)</small></h3>
         <?php include_partial('generationMasse', ['generationForm' => $generationForm, 'massive' => true]); ?>
     </div>
@@ -28,7 +28,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h2>Facturation libre</h3>
+        <h2>Facturation libre</h2>
         <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default">Créer des mouvements de facturation libre</a>
     </div>
 </div>
