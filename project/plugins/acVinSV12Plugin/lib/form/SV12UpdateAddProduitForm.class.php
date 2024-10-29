@@ -78,7 +78,7 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
 	       throw $this->getErrorSchema();
       }
 
-      $typeKey = ($this->_raisinetmout)? $this->values['raisinetmout'] : SV12Client::SV12_TYPEKEY_VENDANGE ;
+      $typeKey = ($this->_raisinetmout)? strtoupper($this->values['raisinetmout']) : SV12Client::SV12_TYPEKEY_VENDANGE ;
 
       if (!isset($this->values['withviti']) || !$this->values['withviti']) {
              $key = SV12Client::SV12_KEY_SANSVITI.'-'.$typeKey.str_replace('/', '-', $this->values['hashref']);
