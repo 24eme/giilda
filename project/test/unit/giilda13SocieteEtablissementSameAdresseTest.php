@@ -26,11 +26,11 @@ $societe->commune = "Neuilly sur seine";
 $societe->email = 'email@example.org';
 $societe->save();
 $id = $societe->getidentifiant();
-$compte01 = $societe->getMasterCompte();
-$compte01->addTag('test', 'test');
-$compte01->addTag('test', 'test_same');
-$compte01->save();
-$t->is($compte01->email, $societe->email, $societe->_id." : le compte de la societe a le même mail que la societe");
+$compteSociete = $societe->getMasterCompte();
+$compteSociete->addTag('test', 'test');
+$compteSociete->addTag('test', 'test_same');
+$compteSociete->save();
+$t->is($compteSociete->email, $societe->email, $societe->_id." : le compte de la societe a le même mail que la societe");
 
 $etablissement = $societe->createEtablissement(EtablissementFamilles::FAMILLE_PRODUCTEUR);
 $etablissement->nom = "établissement viti test contacts";
@@ -38,15 +38,16 @@ $etablissement->save();
 
 $t->is($etablissement->isSameAdresseThan($societe), true, $etablissement->_id." : un etablissement créé depuis une société a la même adresse");
 $t->is($etablissement->isSameContactThan($societe), true, $etablissement->_id." : un etablissement créé depuis une société a les même contacts");
-$t->is($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id, $etablissement->_id." : un etablissement créé depuis une société a le même compte");
+$t->is($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id ."01", $etablissement->_id." : un etablissement créé depuis une société à le compte 01");
 $t->ok(SocieteClient::getInstance()->find($societe->_id)->etablissements->exist($etablissement->_id), $etablissement->_id." : L'établissement est referencé dans la société");
+$t->ok(SocieteClient::getInstance()->find($societe->_id)->contacts->exist($etablissement->getMasterCompte()->_id), $etablissement->_id." : Le compte de l'établissement est referencé dans la société");
 
 $etablissement->adresse = "rue dulud";
 $etablissement->save();
-$compte02 = $etablissement->getMasterCompte();
-$compte02->addTag('test', 'test');
-$compte02->addTag('test', 'test_same');
-$compte02->save();
+$compteEtablissement = $etablissement->getMasterCompte();
+$compteEtablissement->addTag('test', 'test');
+$compteEtablissement->addTag('test', 'test_same');
+$compteEtablissement->save();
 
 $t->is($etablissement->isSameAdresseThan($societe), false, $etablissement->_id." : un etablissement dont on a changé l'adresse n'a plus la même adresse que la societe");
 $t->is($etablissement->isSameContactThan($societe), true, $etablissement->_id." : un etablissement dont on a changé l'adresse  a les même contacts que la societe");
@@ -66,8 +67,8 @@ $etablissement->email = NULL;
 $etablissement->save();
 $t->is($etablissement->isSameAdresseThan($societe), true, $etablissement->_id." : un etablissement dont l'adresse et l'email sont RAZ, a la même adresse que la societe");
 $t->is($etablissement->isSameContactThan($societe), true, $etablissement->_id." : un etablissement dont l'adresse et l'email sont RAZ, a les même contacts que la societe");
-$t->is($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id, $etablissement->_id." : un etablissement dont l'adresse et l'email sont RAZ a le même compte que la societe");
-$t->ok(!SocieteClient::getInstance()->find($societe->_id)->contacts->exist($idContactEtablissement), $etablissement->_id." : Le compte de l'établissement n'est plus referencé dans la société");
+$t->is($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id."01", $etablissement->_id." : le compte de l'établissement ne change pas");
+$t->ok(SocieteClient::getInstance()->find($societe->_id)->contacts->exist($idContactEtablissement), $etablissement->_id." : Le compte de l'établissement n'est plus referencé dans la société");
 
 $societe->raison_sociale = "société viti test contacts modifié";
 $societe->adresse = "rue du chateau";
@@ -77,4 +78,4 @@ $etablissement = EtablissementClient::getInstance()->find($etablissement->_id);
 
 $t->is($etablissement->adresse, $societe->adresse, $etablissement->_id." : l'établissement à la même adresse que la société après modification");
 $t->is($etablissement->email, $societe->email, $etablissement->_id." : l'établissement à le même email que la société après modification");
-$t->is($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id, $etablissement->_id." : l'établissement à le même compte que la société");
+$t->is($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id."01", $etablissement->_id." : l'établissement à le même compte");
