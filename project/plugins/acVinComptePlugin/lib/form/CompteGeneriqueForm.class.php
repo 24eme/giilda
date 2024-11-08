@@ -237,6 +237,9 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         }
 
         $compte->updateCoordonneesLongLat();
+        if(!$this->getObject()->insee && $compte->insee) {
+            $this->getObject()->insee = $compte->insee;
+        }
 
         $this->compteToSave = $compte;
       }
