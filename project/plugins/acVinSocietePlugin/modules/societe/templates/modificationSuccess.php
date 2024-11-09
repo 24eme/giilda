@@ -38,9 +38,9 @@
                 </div><div class="col-xs-6 text-right">
                     <button id="btn_valider" type="submit" class="btn btn-success">Valider</button>
                 </div>
+               </form>
                </div>
             </div>
-        </form>
    </section>
 </section>
 <?php
