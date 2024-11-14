@@ -27,7 +27,7 @@
 
 <h4 class="page-header"><?php echo count($mouvements) ?> opérateurs avec des mouvements en attente</h4>
 
-<a href="<?php echo url_for('facture_en_attente', array('csv' => 1, 'versionnes' => $mvtsVersionnes, 'only_mvts_next_facturation' => $onlyMvtsNextFacturation, 'only_versionnes_factures' => $onlyVersionnesFactures)) ?>" class="btn pull-right btn-warning btn-xs"><span class="glyphicon glyphicon-download-alt"> CSV</span></a>
+<a href="<?php echo url_for('facture_en_attente', array('csv' => 1, 'versionnes' => $mvtsVersionnes, 'only_mvts_next_facturation' => $onlyMvtsNextFacturation, 'only_versionnes_factures' => $onlyVersionnesFactures)) ?>" class="btn btn-link pull-right"><span class="glyphicon glyphicon-download-alt"></span> CSV</a>
 
     <table class="table table-striped table-condensed">
       <thead>
