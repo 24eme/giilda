@@ -76,6 +76,16 @@ $isSameDroitsThanSociete = !$isCompteSociete && $compteForm->getObject()->isSame
 
                 <?php echo $compteForm['email']->renderError(); ?>
             </div>
+            <?php if (isset($compteForm['email_teledeclaration'])): ?>
+              <div class="form-group <?php if($compteForm['email_teledeclaration']->hasError()): ?> has-error<?php endif; ?>">
+
+                  <?php echo $compteForm['email_teledeclaration']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
+
+                  <div class="col-xs-8"><?php echo $compteForm['email_teledeclaration']->render(); ?></div>
+
+                  <?php echo $compteForm['email_teledeclaration']->renderError(); ?>
+              </div>
+            <?php endif; ?>
             <div class="form-group">
 
                 <?php echo $compteForm['telephone_perso']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
@@ -158,4 +168,21 @@ $isSameDroitsThanSociete = !$isCompteSociete && $compteForm->getObject()->isSame
                 </div>
             </div>
         </div>
+
+        <?php if(isset($compteForm['delegation'])): ?>
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title">Délégations</h4>
+            <span class="pull-right  " style="margin-top: -20px; font-size: 15px;">
+              <span class="label-edit">Edition</span>&nbsp;
+            </span>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <?php echo $compteForm['delegation']->renderLabel("Liste des identifiants", array('class' => 'col-xs-4 control-label')); ?>
+              <div class="col-xs-8"><?php echo $compteForm['delegation']->render(); ?></div>
+              <?php echo $compteForm['delegation']->renderError(); ?>
+            </div>
+          </div>
+        </div>
+        <?php endif; ?>
     </div>
