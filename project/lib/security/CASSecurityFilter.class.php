@@ -30,6 +30,8 @@ class CASSecurityFilter extends BasicSecurityFilter
       if (!$this->context->getUser()->isAuthenticated() && ($this->request->getParameter('ticket') || isset($_SESSION["phpCAS"]["user"]))) {
           acCas::processAuth();
           $this->getContext()->getUser()->signInOrigin(acCas::getUser());
+
+          return $this->redirect($this->request->getUri());
       }
 
       parent::execute($filterChain);
