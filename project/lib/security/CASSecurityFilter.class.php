@@ -31,7 +31,7 @@ class CASSecurityFilter extends BasicSecurityFilter
           acCas::processAuth();
           $this->getContext()->getUser()->signInOrigin(acCas::getUser());
 
-          return $this->redirect($this->request->getUri());
+          return $this->controller->redirect($this->request->getUri());
       }
 
       parent::execute($filterChain);
