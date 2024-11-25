@@ -97,6 +97,14 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel('extra_'.$k, $e['nom']);
             $this->setValidator('extra_'.$k, new sfValidatorString(array('required' => false)));
         }
+
+        $compte = $this->getObject()->getMasterCompte();
+        if($compte->exist('delegation')) {
+            $this->setWidget('delegation', new bsWidgetFormTextarea());
+            $this->setValidator('delegation', new sfValidatorString(array('required' => false)));
+            $this->setDefault('delegation', implode("\n", array_map(function($id) { return str_replace("COMPTE-", "", $id); }, $compte->delegation->toArray(true, false))));
+        }
+
     }
 
     protected function updateDefaultsFromObject() {
@@ -237,6 +245,15 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         }
 
         $compte->updateCoordonneesLongLat();
+        if(!$this->getObject()->insee && $compte->insee) {
+            $this->getObject()->insee = $compte->insee;
+        }
+
+        if(isset($values['delegation']) && $compte->exist('delegation')) {
+            $compte->remove('delegation');
+            $compte->add('delegation');
+            $compte->set('delegation', array_values(array_map(function($identifiant) { return "COMPTE-".trim($identifiant); }, array_filter(explode("\n", $values['delegation']), function($identifiant) { return preg_match('/^[a-zA-Z0-9]+$/', trim($identifiant)); }))));
+        }
 
         $this->compteToSave = $compte;
       }
