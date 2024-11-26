@@ -2,7 +2,7 @@ all:
   configuration:
     facture:
       pdf_nom_interpro: "CIVA"
-      pdf_ordre_cheque: "Conseil Interprofessionnel des Vins d'Alsace"
+      pdf_ordre_cheque: "Comité Interprofessionnel des Vins d'Alsace"
       prefix_sage: "VEN"
       compte_defaut: "75620"
       compte_tva: "44578"

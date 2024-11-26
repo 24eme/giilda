@@ -4,7 +4,7 @@
 
 <div class="col-md-12">
 
-	<h4>Import des ventes de <strong><?php echo ucfirst(format_date($periode->format('Y-m-d'), 'MMMM yyyy', 'fr_FR')) ?></strong></h4>
+	<h4>Import des ventes</h4>
 
 	<div class="col-md-12" style="margin-top: 20px;">
 

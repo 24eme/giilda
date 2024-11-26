@@ -397,6 +397,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
           $needSocieteSave = true;
           $societe->addEtablissement($this);
         }
+        $this->updateSiegeAdresse();
         parent::save();
 
         if ($this->getMasterCompte()) {
@@ -413,6 +414,27 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
                 $societe->setMaintenance();
             }
             $societe->save();
+        }
+    }
+
+    public function updateSiegeAdresse() {
+        if ($this->adresse != $this->siege->adresse) {
+            $this->siege->adresse = $this->adresse;
+        }
+        if ($this->adresse_complementaire != $this->siege->adresse_complementaire) {
+            $this->siege->adresse_complementaire = $this->adresse_complementaire;
+        }
+        if ($this->code_postal != $this->siege->code_postal) {
+            $this->siege->code_postal = $this->code_postal;
+        }
+        if ($this->commune != $this->siege->commune) {
+            $this->siege->commune = $this->commune;
+        }
+        if ($this->pays != $this->siege->pays) {
+            $this->siege->pays = $this->pays;
+        }
+        if ($this->insee != $this->siege->insee) {
+            $this->siege->insee = $this->insee;
         }
     }
 
