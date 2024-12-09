@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<h1>Expérimentation des données de commercialisation</h1>
+<h1>Données de commercialisation</h1>
 <div class="row" style="margin:0;">
 	<div class="col-xs-6">
 		<div class="row"><a class="btn btn-sm btn-default" href="<?php echo url_for('dae_export_edi', array('sf_subject' => $etablissement, 'campagne' => $campagne)) ?>"><span class=" glyphicon glyphicon-cloud-download"></span> Voir le fichier de mes commercialisations <?php echo $campagne ?></a></div>
