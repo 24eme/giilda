@@ -59,7 +59,15 @@
                         <?php include_partial('compte/visualisationAdresse', array('compte' => $compte)); ?>
                     </div>
                 </div>
-                <?php if($compte->mot_de_passe): ?>
+                <?php if ($compte->mot_de_passe === null) : ?>
+                  <hr />
+                  <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Télédéclaration</strong></h5>
+                      <div class="row">
+                          <div class="col-xs-12">
+                              <i class="glyphicon glyphicon-asterisk"></i> <a href="<?= url_for('compte_generate_codecreation', ['identifiant' => $compte->identifiant]) ?>">Générer un code de création</a>
+                          </div>
+                    </div>
+                <?php elseif ($compte->mot_de_passe): ?>
                 <hr />
                 <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Télédéclaration</strong></h5>
                 <?php include_partial('compte/visualisationLogin', array('compte' => $compte)); ?>
