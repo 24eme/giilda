@@ -81,6 +81,12 @@ class acVinCompteRouting {
             array('model' => 'Compte',
             'type' => 'object')));
 
+        $r->prependRoute('compte_generate_codecreation',
+            new CompteRoute('/compte/:identifiant/generate-code-creation',
+                ['module' => 'compte', 'action' => 'generateCodeCreation'],
+                ['sf_method' => ['get']],
+                ['model' => 'Compte', 'type' => 'object']
+            ));
 
         $r->prependRoute('compte_interlocuteur_delete', new CompteRoute('/compte/:identifiant/suppression',
             array('module' => 'compte',
