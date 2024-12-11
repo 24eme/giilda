@@ -90,9 +90,6 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
     public function isWritableForEtablissement($etb, $isTeledeclaree = false) {
         if($this->douane_type == DRMClient::CRD_TYPE_ACQUITTE){
-            if(!$isTeledeclaree){
-                return false;
-            }
             if(!$etb->exist('crd_regime') || !$etb->crd_regime){
                 return false;
             }
