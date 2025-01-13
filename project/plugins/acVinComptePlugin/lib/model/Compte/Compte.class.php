@@ -1158,4 +1158,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
         return (count($a));
     }
+
+    public function generateCodeCreation() {
+        $this->mot_de_passe = CompteClient::getInstance()->generateCodeCreation();
+    }
+
 }

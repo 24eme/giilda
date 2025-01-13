@@ -30,6 +30,8 @@ class CASSecurityFilter extends BasicSecurityFilter
       if (!$this->context->getUser()->isAuthenticated() && ($this->request->getParameter('ticket') || isset($_SESSION["phpCAS"]["user"]))) {
           acCas::processAuth();
           $this->getContext()->getUser()->signInOrigin(acCas::getUser());
+
+          return $this->controller->redirect($this->request->getUri());
       }
 
       parent::execute($filterChain);
@@ -37,7 +39,7 @@ class CASSecurityFilter extends BasicSecurityFilter
 
   protected function forwardToLoginAction()
   {
-      $this->controller->redirect(sfConfig::get('app_cas_url') . '/login?service=' . $this->request->getUri());
+      $this->controller->redirect(sfConfig::get('app_cas_url') . '/login?service=' . urlencode(preg_replace("/\?$/", '', $this->request->getUri())));
 
       throw new sfStopException();
   }

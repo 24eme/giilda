@@ -5,7 +5,7 @@ class FactureRoute extends sfObjectRoute {
 
     protected function getObjectForParameters($parameters) {
         $this->facture = FactureClient::getInstance()->find($parameters['id']);
-        if (sfContext::getInstance()->getUser()->hasTeledeclaration() && sfContext::getInstance()->getUser()->getCompte()->id_societe != $this->facture->getSociete()->_id) {
+        if (sfContext::getInstance()->getUser()->isAdmin() === false && sfContext::getInstance()->getUser()->hasTeledeclaration() && sfContext::getInstance()->getUser()->getCompte()->id_societe != $this->facture->getSociete()->_id) {
             throw new sfError404Exception("Vous n'avez pas le droit d'accéder à cette page");
         }
         if (!$this->facture) {
