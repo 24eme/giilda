@@ -810,6 +810,8 @@ class DRMClient extends acCouchdbClient {
         $recapCvos["TOTAL"]->totalVolumeDroitsCvo = 0;
         $recapCvos["TOTAL"]->totalVolumeReintegration = 0;
         $recapCvos["TOTAL"]->totalPrixDroitCvo = 0;
+        $recapCvos["TOTAL"]->totalCvo = 0;
+        $recapCvos["TOTAL"]->nbMvt = 0;
         $recapCvos["TOTAL"]->version = null;
         $recapCvos["TOTAL"]->totalPrixDroitCvoTTC = 0;
 
@@ -817,9 +819,11 @@ class DRMClient extends acCouchdbClient {
             if ($drm->mouvements->exist($drm->identifiant)) {
             	foreach ($drm->mouvements->get($drm->identifiant) as $mouvement) {
             		if ($mouvement->facturable) {
-            	    	$recapCvos["TOTAL"]->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
+            	    	$recapCvos["TOTAL"]->totalPrixDroitCvo += round($mouvement->volume * -1 * $mouvement->cvo, 2);
             	        $recapCvos["TOTAL"]->totalVolumeDroitsCvo += $mouvement->volume * -1;
                         $recapCvos["TOTAL" ]->totalPrixDroitCvoTTC = round($recapCvos["TOTAL" ]->totalPrixDroitCvo * (1 + $drm->getTauxTva()), 2);
+                        $recapCvos["TOTAL" ]->totalCvo += $mouvement->cvo;
+                        $recapCvos["TOTAL"]->nbMvt += 1;
             		}
             	    if ($mouvement->type_hash == 'entrees/reintegration' && $mouvement->facturable) {
             			$recapCvos["TOTAL"]->totalVolumeReintegration += $mouvement->volume;
@@ -841,15 +845,21 @@ class DRMClient extends acCouchdbClient {
                     $recapCvos[$version]->totalPrixDroitCvo = 0;
                     $recapCvos[$version]->version = $version;
                     $recapCvos[$version]->totalPrixDroitCvoTTC = 0;
+                    $recapCvos[$version]->totalCvo = 0;
+                    $recapCvos[$version]->nbMvt = 0;
                 }
                 if ($mouvement->facturable) {
                     $recapCvos[$version]->totalVolumeDroitsCvo += $mouvement->quantite;
                     $recapCvos["TOTAL" ]->totalVolumeDroitsCvo += $mouvement->quantite;
                     $recapCvos[$version]->totalPrixDroitCvo += $mouvement->prix_ht;
                     $recapCvos["TOTAL" ]->totalPrixDroitCvo += $mouvement->prix_ht;
+                    $recapCvos[$version]->totalCvo += $mouvement->cvo;
+                    $recapCvos["TOTAL" ]->totalCvo += $mouvement->cvo;
+                    $recapCvos[$version]->nbMvt += 1;
+                    $recapCvos["TOTAL" ]->nbMvt += 1;
                     if ($drm) {
-                        $recapCvos[$version]->totalPrixDroitCvoTTC = round($recapCvos[$version]->totalPrixDroitCvo * (1 + $drm->getTauxTva()), 2);
-                        $recapCvos["TOTAL" ]->totalPrixDroitCvoTTC = round($recapCvos["TOTAL" ]->totalPrixDroitCvo * (1 + $drm->getTauxTva()), 2);
+                        $recapCvos[$version]->totalPrixDroitCvoTTC = $recapCvos[$version]->totalPrixDroitCvo * (1 + $drm->getTauxTva());
+                        $recapCvos["TOTAL" ]->totalPrixDroitCvoTTC = $recapCvos["TOTAL" ]->totalPrixDroitCvo * (1 + $drm->getTauxTva());
                     }
                 }
                 if ($mouvement->type_hash == 'entrees/reintegration' && $mouvement->facturable) {
@@ -859,7 +869,7 @@ class DRMClient extends acCouchdbClient {
             }
 
             foreach ($recapCvos as &$recap) {
-                $recap->totalVolumeDroitsCvo = round($recap->totalVolumeDroitsCvo, Facture::ARRONDI_QUANTITE);
+                $recap->totalVolumeDroitsCvo = round($recap->totalVolumeDroitsCvo, Facture::ARRONDI_QUANTITE + 2);
             }
         }
 
