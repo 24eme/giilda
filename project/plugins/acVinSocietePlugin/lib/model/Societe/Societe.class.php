@@ -77,7 +77,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
 
         if(!$this->_get('code_comptable_client') && class_exists("FactureConfiguration")) {
-            return FactureConfiguration::getInstance()->getPrefixCodeComptable().$this->identifiant."";
+            return FactureConfiguration::getInstance()->getPrefixCodeComptable().((int)$this->identifiant)."";
         }
 
         if(!$this->_get('code_comptable_client')) {

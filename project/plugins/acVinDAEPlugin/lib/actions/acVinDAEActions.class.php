@@ -2,12 +2,13 @@
 class acVinDAEActions extends sfActions
 {
 	public function executeMonEspace(sfWebRequest $request) {
+        ini_set('memory_limit', '512M');
 		$this->etablissement = $this->getRoute()->getEtablissement();
 		$this->periode = new DateTime($request->getParameter('periode', date('Y-m-d')));
 		$this->campagne = ConfigurationClient::getInstance()->buildCampagne($this->periode->format('Y-m-d'));
-		
+
 		$this->formCampagne = new DAEEtablissementCampagneForm($this->etablissement->identifiant, $this->periode->format('Y-m'));
-		
+
 		if ($request->isMethod(sfWebRequest::POST)) {
 			$param = $request->getParameter($this->formCampagne->getName());
 			if ($param) {
@@ -17,21 +18,22 @@ class acVinDAEActions extends sfActions
 		}
 		$this->daes = DAEClient::getInstance()->findByIdentifiantPeriode($this->etablissement->identifiant, $this->periode->format('Ym'), acCouchdbClient::HYDRATE_JSON)->getDatas();
 	}
-	
+
 	public function executeExportEdi(sfWebRequest $request) {
+        ini_set('memory_limit', '512M');
 		$this->etablissement = $this->getRoute()->getEtablissement();
 		$this->campagne = $request->getParameter('campagne');
-	
+
 		$export = new DAEExportCsv();
-	
+
 		$csv = $export->exportByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
-	
+
 		$this->response->setContentType('text/csv');
 		$this->response->setHttpHeader('md5', md5($csv));
 		$this->response->setHttpHeader('Content-Disposition', "attachment; filename=DAE-".$this->etablissement->identifiant."-".$this->campagne.".csv");
 		return $this->renderText($csv);
 	}
-	
+
 	public function executeUploadEdi(sfWebRequest $request) {
   		set_time_limit(300);
 		$this->etablissement = $this->getRoute()->getEtablissement();

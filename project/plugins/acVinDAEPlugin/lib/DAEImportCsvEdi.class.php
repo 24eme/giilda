@@ -522,7 +522,7 @@ class DAEImportCsvEdi extends DAECsvEdi
     	return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_ACHETEUR_TYPE]), "Le type de client n'a pas été trouvé");
     }
 
-    private function condtionnementNotFoundError($num_ligne, $csvRow) {
+    private function conditionnementNotFoundError($num_ligne, $csvRow) {
     	return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_CONDITIONNEMENT_TYPE]), "Le conditionnement n'a pas été trouvé");
     }
 
