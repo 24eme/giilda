@@ -57,8 +57,8 @@
                             echo display_latex_string($nom,';',40);
                      ?>}
 \def\RessortissantAdresse{<?php $adresse = ($ressortissant->adresse == '')? "~" : html_entity_decode($ressortissant->adresse);
-                                                 echo display_latex_string($adresse,';',50,2); ?>}
+                                                 echo display_latex_string($adresse,';',40,2); ?>}
 \def\RessortissantAdresseComplementaire{<?php $adresseComplementaire = (!$ressortissant->adresse_complementaire)? "~" : "\\\\".html_entity_decode($ressortissant->adresse_complementaire);
-                                          echo display_latex_string($adresseComplementaire,';',50,2);   ?>}
+                                          echo display_latex_string($adresseComplementaire,';',40,2);   ?>}
 \def\RessortissantCP{<?php echo $ressortissant->code_postal; ?>}
 \def\RessortissantVille{<?php echo $ressortissant->commune; ?>}
