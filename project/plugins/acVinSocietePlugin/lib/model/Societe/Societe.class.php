@@ -29,21 +29,12 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         $this->enseignes->add(count($this->enseignes), "");
     }
 
-    public function getInterlocuteursWithOrdre() {
-        foreach ($this->contacts as $key => $interlocuteur) {
-            if (is_null($interlocuteur->ordre))
-                $interlocuteur->ordre = 2;
+    public function getInterlocuteurs() {
+        $interlocuteurs = [];
+        foreach ($this->contacts as $id => $infos) {
+            $interlocuteurs[$id] = CompteClient::getInstance()->find($id);
         }
-        return $this->contacts;
-    }
-
-    public function getMaxOrdreContacts() {
-        $max = 0;
-        foreach ($this->contacts as $contact) {
-            if ($max < $contact->ordre)
-                $max = $contact->ordre;
-        }
-        return $max;
+        return $interlocuteurs;
     }
 
     public function hasChais() {
