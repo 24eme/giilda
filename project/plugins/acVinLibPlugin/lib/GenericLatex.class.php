@@ -4,6 +4,7 @@ class GenericLatex {
 
   const OUTPUT_TYPE_PDF = 'pdf';
   const OUTPUT_TYPE_LATEX = 'latex';
+  protected $texWorkingDir = null;
 
   public function getLatexFile() {
     $fn = $this->getLatexFileName();
@@ -30,7 +31,13 @@ class GenericLatex {
   }
 
   protected function getTEXWorkingDir() {
-    return self::createIfNeeded(sfConfig::get('sf_app_cache_dir')."/latex_tmp/");
+    if(!is_null($this->texWorkingDir)) {
+
+        return $this->texWorkingDir;
+    }
+    self::createIfNeeded(sfConfig::get('sf_app_cache_dir')."/latex_tmp/");
+    $this->texWorkingDir = self::createIfNeeded(sfConfig::get('sf_app_cache_dir')."/latex_tmp/".md5(uniqid().$this->getPublicFileName())."/");
+    return $this->texWorkingDir;
   }
 
   public function generatePDF() {
@@ -52,6 +59,7 @@ class GenericLatex {
     @unlink($file.'.synctex.gz');
     @unlink($file.'.fls');
     @unlink($file.'.fdb_latexmk');
+    rmdir($this->getTEXWorkingDir());
   }
 
   public function getPDFFile() {

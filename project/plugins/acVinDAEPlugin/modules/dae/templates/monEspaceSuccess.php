@@ -1,12 +1,5 @@
 <?php use_helper('Date'); ?>
 <?php include_partial('dae/preTemplate'); ?>
-<?php include_partial('dae/breadcrum', array('etablissement' => $etablissement)); ?>
-
-<div class="row">
-    <div class="col-xs-12" id="daeFormEtablissement">
-        <?php include_component('dae', 'formEtablissementChoice', array('identifiant' => $etablissement->_id)) ?>
-    </div>
-</div>
 
 <h1>Données de commercialisation</h1>
 <div class="row" style="margin:0;">
