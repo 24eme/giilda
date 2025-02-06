@@ -697,13 +697,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             if (sfConfig::get('app_ldap_autogroup', false)) {
 	            $groupldap = new CompteGroupLdap();
 
-                $comptes = $this->getSociete()->getInterlocuteursWithOrdre();
-
                 $groupes = [];
 
-                foreach ($comptes as $compte_id => $info) {
-                    $compte = CompteClient::getInstance()->find($compte_id);
-
+                foreach ($this->getSociete()->getInterlocuteurs() as $compte) {
                     if ($compte === null ||
                         $compte->compte_type === CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
                         continue;
