@@ -34,6 +34,7 @@ class DRMMailNotificationReserveInterproTask extends sfBaseTask
     {
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
+        $context = sfContext::createInstance($this->configuration);
 
         $etablissement = EtablissementClient::getInstance()->findByCvi($arguments['cvi']);
 
@@ -104,7 +105,7 @@ class DRMMailNotificationReserveInterproTask extends sfBaseTask
          ->setSubject("Réserve Interprofessionnelle")
          ->setBody($mailFinal);
 
-        $sent = sfContext::getInstance()->getMailer()->send($message);
+        $sent = $this->getMailer()->send($message);
         return $sent;
     }
 }
