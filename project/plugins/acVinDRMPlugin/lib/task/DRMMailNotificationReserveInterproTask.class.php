@@ -106,6 +106,11 @@ class DRMMailNotificationReserveInterproTask extends sfBaseTask
          ->setBody($mailFinal);
 
         $sent = $this->getMailer()->send($message);
+
+        echo $sent
+            ? "CVI : ".$arguments['cvi']." Message envoyé à $email".PHP_EOL
+            : "CVI : ".$arguments['cvi']." Erreur d'envoi message à $email".PHP_EOL;
+
         return $sent;
     }
 }
