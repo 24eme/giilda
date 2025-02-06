@@ -98,7 +98,7 @@ class DRMMailNotificationReserveInterproTask extends sfBaseTask
         $fromEmail = sfConfig::get('app_mail_from_email');
         $fromName  = sfConfig::get('app_mail_from_name');
 
-        $message = \Swift_Message::newInstance()
+        $message = Swift_Message::newInstance()
          ->setFrom($fromEmail, $fromName)
          ->setTo($email)
          ->setSubject("Réserve Interprofessionnelle")
