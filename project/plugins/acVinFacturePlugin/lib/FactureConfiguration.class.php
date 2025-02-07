@@ -55,6 +55,20 @@ class FactureConfiguration {
 
     }
 
+    public function getDiscriminantTypeArchive($facture)
+    {
+        if ($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS) && isset($this->configuration['type_libre']['discrimine_type_archive'])) {
+            return $this->configuration['type_libre']['identifiant_prefix'];
+        }
+        if ($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_SV12) && isset($this->configuration['type_sv']) && isset($this->configuration['type_sv']['discrimine_type_archive'])) {
+            return $this->configuration['type_sv']['identifiant_prefix'];
+        }
+        if (($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)||$facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_SV12)) && isset($this->configuration['type_cvo']['discrimine_type_archive'])) {
+            return $this->configuration['type_cvo']['identifiant_prefix'];
+        }
+        return null;
+    }
+
     public function getPaiementsActif() {
 
         return $this->configuration['paiements_actif'];
