@@ -124,3 +124,19 @@ span.disabled, a.disabled {
 .row-condensed .control-label {
     padding: 5px 10px 0 10px !important;
 }
+
+.transparence-md {
+    opacity: 0.4;
+}
+
+.transparence-lg {
+    opacity: 0.2;
+}
+
+.transparence-sm {
+    opacity: 0.60;
+}
+
+.transparence-xs {
+    opacity: 0.80;
+}

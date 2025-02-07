@@ -1,16 +1,29 @@
-Conformément aux dispositions de l’accord interprofessionnel 2022-2025 des vins d’Alsace, une réserve interprofessionnelle sur le Pinot Gris et le Gewurztraminer a été mise en place pour la campagne 2023/2024.
+Conformément aux dispositions de l’accord interprofessionnel 2022-2025 des
+vins d’Alsace, une réserve interprofessionnelle sur le Gewurztraminer, le
+Pinot Gris et le Riesling a été mise en place pour la campagne 2024/2025.
 
-La détermination des volumes à mettre en réserve par opérateur est réalisée à partir des déclarations de récolte des récoltants-vinificateurs et des déclarations de production (anciennement dénommées SV11 et SV12) des négociants et coopératives.
+Elle s’ajoute à la réserve déjà en place sur le Gewurztraminer en 2023/2024
+dont les volumes apparaissent encore sur les DRM des entreprises concernées.
 
-Pour votre entreprise, les volumes totaux à mettre en réserve sont les suivants : 
+La détermination des volumes à mettre en réserve par opérateur est réalisée à
+partir des déclarations de récolte des récoltants-vinificateurs et des
+déclarations de production (anciennement dénommées SV11 et SV12)
+des négociants et coopératives.
+
+Pour votre entreprise, les volumes totaux à mettre en réserve sont les suivants :
     • Pinot Gris (hors lieux-dits, communales, VT/SGN) :  %pg_vol% hL
     • Gewurztraminer (hors lieux-dits, communales, VT/SGN) :  %gw_vol% hL
+    • Riesling (hors lieux-dits, communales, VT/SGN) :  %ri_vol% hL
 
-Ces volumes seront automatiquement inscrits dans votre DRM de janvier 2024.
+Ces volumes sont automatiquement inscrits dans votre DRM de janvier 2025.
 
-Vous trouverez les informations relatives au mécanisme de réserve ainsi qu’aux modalités de calcul dans la notice disponible sur le www.vinsalsace.pro dans la rubrique « Infos pratiques » / « Interprofession » / « Organisation du marché » ou directement dans les documents d’aide de votre espace déclaratif DRM.
+Vous trouverez les informations relatives au mécanisme de réserve ainsi qu’aux
+modalités de calcul dans la notice disponible sur le www.vinsalsace.pro dans
+la rubrique « Infos pratiques » / « Interprofession » / « Organisation du marché »
+ou directement dans les documents d’aide de votre espace déclaratif DRM.
 
-Les services du CIVA se tiennent à votre disposition pour répondre à vos éventuelles questions.
+Les services du CIVA se tiennent à votre disposition pour répondre à vos
+éventuelles questions.
 
 Bien cordialement,
 
