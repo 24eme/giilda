@@ -213,8 +213,11 @@ class FactureClient extends acCouchdbClient {
             if (count($mouvementsBySoc[$identifiant]) == 0) {
                 $mouvementsBySoc[$identifiant] = null;
             }
+            if ($somme == 0) {
+                $mouvementsBySoc[$identifiant] = null;
+            }
             if (isset($parameters['seuil']) && $parameters['seuil']) {
-                if (($somme < $parameters['seuil']) && ($somme >= 0)) {
+                if (($somme < $parameters['seuil'])) {
                     $mouvementsBySoc[$identifiant] = null;
                 }
             }
