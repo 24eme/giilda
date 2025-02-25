@@ -189,7 +189,7 @@ Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 \circled{2}~~\textbf{Désignation du produit :} \\
 \normalsize
 \hspace*{0.5cm}
-La vendange concernée par ce contrat est issue du millésime \textbf{\CONTRATMILLESIMEPRODUIT} \\
+La vendange concernée par ce contrat est issue du millésime \textbf{\CONTRATMILLESIMEPRODUIT} <?php if ($vrac->cepage_libelle) { echo " - ".$vrac->cepage_libelle; } if ($vrac->cepage_85_15) { echo " - 85/15"; } ?> \\
 \hspace*{0.5cm}
 Assiette foncière totale correspondant aux volumes commercialisés : \textbf{\SURFACECONTRAT} ~ <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['surface']['libelle'] ?> \\
 \hspace*{0.5cm}
