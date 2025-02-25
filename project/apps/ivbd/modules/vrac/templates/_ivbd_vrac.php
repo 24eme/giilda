@@ -186,7 +186,7 @@ Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 \hspace*{0.5cm}
 Volume : \textbf{\CONTRATVOLUME} hl \\
 \hspace*{0.5cm}
-Produit : \textbf{\CONTRATAPPELLATIONPRODUIT} \small {\CONTRATLABELSPRODUIT} ~~ de la récolte : \textbf{\CONTRATMILLESIMEPRODUIT} <?php if ($vrac->cepage_libelle) { echo " - ".$vrac->cepage_libelle; } if ($vrac->cepage_85_15) { echo " - 85/15"; } ?> \\
+Produit : \textbf{\CONTRATAPPELLATIONPRODUIT} \small {\CONTRATLABELSPRODUIT} ~~ de la récolte : \textbf{\CONTRATMILLESIMEPRODUIT} <?php if ($vrac->cepage_libelle) { echo display_latex_string(" - ".$vrac->cepage_libelle); } if ($vrac->cepage_85_15) { echo display_latex_string(" - 85/15"); } ?> \\
 \hspace*{0.5cm}
 Ce vins droit de goût, loyal et marchand est garanti conforme aux prescriptions légales et à l'échantillon fourni pour la conclusion de cette transaction. \\
 \hspace*{0.5cm}
