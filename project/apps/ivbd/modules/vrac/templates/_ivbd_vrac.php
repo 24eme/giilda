@@ -88,7 +88,7 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATAPPELLATIONPRODUIT{<?php echo $vrac->produit_libelle ?>}
 \def\CONTRATLABELSPRODUIT {<?php echo $vrac->renderLabels() ?>}
 \def\CONTRATCOULEURPRODUIT{??}
-\def\CONTRATMILLESIMEPRODUIT{<?php echo ($vrac->millesime)? $vrac->millesime : 'NM'; ?>}
+\def\CONTRATMILLESIMEPRODUIT{<?php echo ($vrac->millesime) ? $vrac->millesime : 'NM';  if ($vrac->millesime_85_15) { echo " (85/15)"; } ?>}
 \def\CONTRATLIEUPRODUIT{<?php echo ($vrac->logement)? $vrac->logement : $vrac->vendeur->commune ?>}
 \def\CONTRATNOMPRODUIT{<?php echo ($vrac->autorisation_nom_vin)? VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin].' '.$vrac->domaine : ''; ?>}
 
