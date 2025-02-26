@@ -249,6 +249,11 @@ class compteActions extends sfCredentialActions {
 
       //$q->setLimit(1000000);
       $resset = $index->search($q);
+      if ( ! $resset->getTotalHits() ) {
+          $tag = $request->getParameter('tag');
+          $q = $this->initSearch($request, $tag, !$remove);
+          $resset = $index->search($q);
+      }
 
       if (!$tag) {
 		throw new sfException("Un tag doit être fourni pour pouvoir être ajouté");
