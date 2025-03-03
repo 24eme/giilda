@@ -341,10 +341,6 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return $this->getDroit()->has($droit);
     }
 
-    public function isInterpro() {
-        return ($this->region != EtablissementClient::REGION_HORS_CVO);
-    }
-
     protected function initFamille() {
         if (!$this->famille) {
             $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
