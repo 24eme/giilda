@@ -1,9 +1,9 @@
-<!-- #principal -->
+<?php use_helper('Compte') ?>
 <section id="principal">
      <ol class="breadcrumb">
         <li><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
-        <li class="active"><a href="">Société <?php echo $societe->raison_sociale; ?></a></li>
-
+        <li><a href="<?php echo url_for('societe_visualisation', $societe); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?></a></li>
+        <li class="active"><a href="">Modification de la société</a></li>
     </ol>
     <!-- #contacts -->
     <section id="contacts">
