@@ -177,23 +177,6 @@ class SocieteClient extends acCouchdbClient {
         return $this->find($this->getId($identifiant));
     }
 
-    public function getInterlocuteursWithOrdre($identifiant, $withSuspendus) {
-        $contactsArr = $this->findByIdentifiantSociete($identifiant)->getInterlocuteursWithOrdre();
-        $result = array();
-        foreach ($contactsArr as $id => $value) {
-            $compte = CompteClient::getInstance()->find($id);
-            if ($withSuspendus) {
-                $result[] = $compte;
-            } else {
-
-                if ($compte->statut != SocieteClient::STATUT_SUSPENDU) {
-                    $result[] = $compte;
-                }
-            }
-        }
-        return $result;
-    }
-
     public static function getSocieteTypes() {
         return array(self::TYPE_OPERATEUR => self::TYPE_OPERATEUR,
             self::TYPE_COURTIER => self::TYPE_COURTIER,

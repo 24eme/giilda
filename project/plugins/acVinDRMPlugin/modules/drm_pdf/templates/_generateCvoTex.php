@@ -26,11 +26,11 @@ $recapCvos = DRMClient::getInstance()->getRecapCvosFromView($drm);
 \\
 \hline
 \multicolumn{1}{|l}{\small{\textbf{CVO Totale}}} &
-\multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalVolumeDroitsCvo).' hl';  ?>}}} &
+\multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalVolumeDroitsCvo, "%01.04f").' hl';  ?>}}} &
 <?php if($recapCvos["TOTAL"]->totalVolumeReintegration) : ?>
-\multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalVolumeReintegration).' hl';  ?>}}} &
+\multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalVolumeReintegration, "%01.04f").' hl';  ?>}}} &
 <?php endif; ?>
-\multicolumn{1}{|r|}{\small{\textbf{<?php echo ($recapCvos["TOTAL"]->totalVolumeDroitsCvo) ? round($recapCvos["TOTAL"]->totalPrixDroitCvo/$recapCvos["TOTAL"]->totalVolumeDroitsCvo,2).' € HT/hl' : '0'; ?>}}} &
+\multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalCvo / $recapCvos["TOTAL"]->nbMvt).' hl';  ?>}}} &
 \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalPrixDroitCvo).' €'; ?>}}} &
 \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalPrixDroitCvoTTC).' €'; ?>}}}
 \\

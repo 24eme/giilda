@@ -1,18 +1,18 @@
 <div class="panel panel-default" style="margin-bottom: 10px;">
     <div class="panel-heading"><h3 class="panel-title"><span class="glyphicon glyphicon-calendar"></span> Société</h3></div>
     <div class="list-group">
-        <div class="list-group-item clearfix <?php if($societe->_id == $activeObject->_id): ?>active-bordered<?php endif; ?>">
+        <div class="list-group-item clearfix <?php if($societe->_id == $activeObject->_id): ?>active-bordered<?php endif; ?> <?php if($societe->isSuspendu()): ?>transparence-xs<?php endif; ?>">
 
             <?php include_partial('societe/bloc', array('societe' => $societe)); ?>
         </div>
     <?php foreach($societe->getSocietesLiees() as $societeLieeId): ?>
       <?php $societeLiee = SocieteClient::getInstance()->find($societeLieeId); ?>
-      <div class="list-group-item clearfix">
+      <div class="list-group-item clearfix <?php if($societeLiee->isSuspendu()): ?>transparence-xs<?php endif; ?>">
         <a href="<?php echo url_for('societe_visualisation', $societeLiee) ?>" title="Société liée"><span class="glyphicon glyphicon-link"></span> <?php echo $societeLiee->raison_sociale ?></a>
       </div>
     <?php endforeach; ?>
-    <?php if($societe->getSocieteMaisonMereObject()): ?>
-    <div class="list-group-item clearfix">
+  <?php if($societe->getSocieteMaisonMereObject()): ?>
+    <div class="list-group-item clearfix <?php if($societe->getSocieteMaisonMereObject()->isSuspendu()): ?>transparence-xs<?php endif; ?>">
       <a href="<?php echo url_for('societe_visualisation', $societe->getSocieteMaisonMereObject()) ?>" title="Société maison mère"><span class="glyphicon glyphicon-stats"></span> <?php echo $societe->getSocieteMaisonMereObject()->raison_sociale ?></a>
     </div>
     <?php endif; ?>
@@ -22,7 +22,7 @@
     <div class="panel-heading"><h3 class="panel-title"><span class="glyphicon glyphicon-home"></span> Établissements</h3></div>
     <div class="list-group">
         <?php foreach($etablissements as $etablissement): ?>
-            <div class="list-group-item clearfix <?php if($etablissement->_id == $activeObject->_id): ?>active-bordered<?php endif; ?>">
+            <div class="list-group-item clearfix <?php if($etablissement->_id == $activeObject->_id): ?>active-bordered<?php endif; ?> <?php if($etablissement->isSuspendu()): ?>transparence-xs<?php endif; ?>">
                 <?php include_partial('etablissement/bloc', array('etablissement' => $etablissement)); ?>
             </div>
         <?php endforeach; ?>
@@ -70,8 +70,8 @@
     <div class="panel-heading"><h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Interlocuteurs</h3></div>
     <?php if(count($interlocuteurs)): ?>
     <div class="list-group">
-        <?php foreach ($interlocuteurs as $interlocuteurId => $interlorcuteur) : ?>
-            <div class="list-group-item clearfix <?php if($interlorcuteur->_id == $activeObject->_id): ?>active-bordered<?php endif; ?>">
+        <?php foreach ($interlocuteurs as $interlorcuteur) : ?>
+            <div class="list-group-item clearfix <?php if($interlorcuteur->_id == $activeObject->_id): ?>active-bordered<?php endif; ?> <?php if($interlorcuteur->isSuspendu()): ?>transparence-xs<?php endif; ?>">
                 <?php include_partial('compte/bloc', array('compte' => $interlorcuteur)); ?>
             </div>
         <?php endforeach; ?>
