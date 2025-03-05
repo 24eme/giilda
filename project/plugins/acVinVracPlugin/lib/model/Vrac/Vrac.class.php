@@ -628,15 +628,6 @@ class Vrac extends BaseVrac {
         return $this->_get('prix_unitaire') && $this->_get('prix_unitaire') > 0;
     }
 
-    public function isRaisinMoutNegoHorsIL() {
-        $isRaisinMout = (($this->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) ||
-                ($this->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS));
-        if (!$isRaisinMout)
-            return false;
-        $nego = EtablissementClient::getInstance()->findByIdentifiant($this->acheteur_identifiant);
-        return !$nego->isInterpro();
-    }
-
     public function isVitiRaisinsMoutsTypeVins() {
         return EtablissementClient::getInstance()->find($this->vendeur_identifiant)->raisins_mouts == 'oui' && $this->isVin();
     }
