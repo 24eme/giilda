@@ -28,9 +28,6 @@ class DRMDeclaration extends BaseDRMDeclaration {
                 $detail->delete();
                 $delete = true;
             }
-            if ($detail->exist('reserve_interpro') && $detail->reserve_interpro == 0) {
-                $detail->remove('reserve_interpro');
-            }
         }
 
         if ($delete) {
