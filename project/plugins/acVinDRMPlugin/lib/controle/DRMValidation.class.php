@@ -313,7 +313,7 @@ class DRMValidation extends DocumentValidation {
             if ($produit->exist('reserve_interpro')) {
                 if ($produit->getVolumeCommercialisable() < 0) {
                     $this->addPoint('erreur', 'reserve_interpro', $produit->getLibelle(), $this->generateUrl('drm_edition', $this->document));
-                }elseif (($produit->total / $produit->getRerserveIntepro()) < 1.2) {
+                }elseif ($produit->getRerserveIntepro() != 0 && ($produit->total / $produit->getRerserveIntepro()) < 1.2) {
                     $this->addPoint('vigilance', 'reserve_interpro', $produit->getLibelle(), $this->generateUrl('drm_edition', $this->document));
                 }
             }
