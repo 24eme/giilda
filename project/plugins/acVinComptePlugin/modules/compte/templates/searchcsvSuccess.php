@@ -1,5 +1,5 @@
 <?php
-$csv = "# id société ; nom complet ; type ; id compte ; numéro interne ; cvi ; siret ; civilité ; nom ; prénom ; adresse ; adresse complémentaire 1 ; adresse complémentaire 2 ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email ; commentaire ; nom groupe ; fonction ; type société ; société raison sociale ; société adresse ; société adresse complémentaire 1; société adresse complémentaire 2; société code postal ; société commune ; société téléphone ; société fax ; société email; code de création \n";
+$csv = "# id société ; nom complet ; type ; id compte ; numéro interne ; cvi ; siret ; civilité ; nom ; prénom ; adresse ; adresse complémentaire 1 ; adresse complémentaire 2 ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email ; commentaire ; nom groupe ; fonction ; type société ; société raison sociale ; société adresse ; société adresse complémentaire 1; société adresse complémentaire 2; société code postal ; société commune ; société téléphone ; société fax ; société email; code de création ; statut \n";
 
 $groupe = null;
 if(isset($selected_typetags) && (count($selected_typetags->getRawValue()) == 1)){
@@ -84,7 +84,8 @@ foreach ($results as $res) {
   $csv .= '"'.$telephone_societe. '";';
   $csv .= '"'.$societe_informations['fax']. '";';
   $csv .= '"'.$societe_informations['email']. '";';
-  $csv .= '"'.$mdp.'"';
+  $csv .= '"'.$mdp.'";';
+  $csv .= '"'.$data['doc']['statut'].'"';
   $csv .= "\n";
 }
 echo utf8_decode($csv);

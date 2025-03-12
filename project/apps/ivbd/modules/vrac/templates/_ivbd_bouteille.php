@@ -134,7 +134,16 @@ if ($vrac->mandataire_exist) {
 \hline
 \end{tabularx}
 \end{minipage}
-
+\\
+\\
+\\
+\textbf{Relations précontractuelles : Initiative du producteur} \\
+\small{Le présent contrat doit être précédé d'une proposition préalable du vendeur. Au titre des critères et modalité de révision ou de détermination du prix,  elle prend en compte un ou plusieurs indicateurs relatifs aux couts pertinents de production en agriculture et à l'évolution de ces couts. Elle constitue le socle de la négociation entre le vendeur et l'acheteur.}\\
+\small{Tout refus ou réserve de l'acheteur portant sur la proposition doit être faite par écrit, motivé et dans un délai raisonnable.}\\
+\small{Le vendeur peut mandater son courtier pour qu'il fasse la proposition préalable en son nom et pour son compte. Dans ce cas, le mandat doit être écrit.}\\
+\small{La proposition préalable du vendeur ou son mandat au courtier accompagné de la proposition préalable fait en son nom est annexé au présent contrat.}\\
+\small{Le vendeur peut exiger par écrit de l'acheteur une offre de contrat écrit.}\\
+\\
 %PARTIE 1%
 \circled{1}~~\textbf{Désignation des parties:} \\
 \normalsize
@@ -205,7 +214,7 @@ correspondant au minimum aux deux tiers de ceux identifiant le producteur) son n
 contrat, de son nom patronymique ou de sa raison sociale, ainsi que de son adresse pour la présentation du vin.<?php if ($vrac->autorisation_nom_producteur): ?>~Oui~\squareChecked~Non~$\square$<?php else : ?>~Oui~$\square$~Non~\squareChecked<?php endif; ?>
 ~ \\
 %PARTIE 5%
-\circled{5}~~\textbf{Préparation du vin et embouteillage:} \normalsize \underline{Dans tous les cas l'acheteur assume la responsabilité de la mise en bouteilles.} Cependant, préciser l'option retenue :\\
+\circled{5}~~\textbf{Préparation du vin et embouteillage:} \normalsize \underline{Dans tous les cas l'acheteur assume la responsabilité de la mise en bouteilles}. Cependant, préciser l'option retenue :\\
 \hspace*{0.5cm}
 Les opérations techniques de préparation du vin à la mise sont effectuées par : <?php if ($vrac->preparation_vin == 'VENDEUR'): ?>~le vendeur~\squareChecked~l'acheteur~$\square$<?php else : ?>~le vendeur~$\square$~l'acheteur~\squareChecked<?php endif; ?> \\
 \hspace*{0.5cm}
@@ -216,7 +225,7 @@ Lorsque l'acheteur effectue les opérations techniques, le vendeur met à la dis
 et la consommation d'eau et d'électricité.
 ~ \\
  %PARTIE 6%
-\circled{6}~~\textbf{Mode de conditionnement:} \normalsize Dans tous les cas, les CRD utilisées sont les CRD du négociant. Cependant, préciser l'option retenue :\\
+\circled{6}~~\textbf{Mode de conditionnement:} \normalsize \underline{Dans tous les cas, les CRD utilisées sont les CRD du négociant}. Cependant, préciser l'option retenue :\\
 \hspace*{0.5cm}
 <?php if ($vrac->conditionnement_crd == 'NEGOCE_ACHEMINE'): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?>~CRD Négoce acheminées sur la propriété du récoltant pour être apposées lors de la mise. \\
 \hspace*{0.5cm}
@@ -227,16 +236,18 @@ les chais du négociant. Les n° de lot et d'embouteilleur devront figurer sur l
 Le cas échéant, le millésime devra également figurer sur les bouchons.
 ~ \\
 %PARTIE 7%
-\circled{7}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année : 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
+\circled{7}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?>\\
 \hspace*{0.5cm}
-Le volume et le prix indiqués sur ce bordereau concernent l'année d'application cochée, sous réserve du respect des règles précisées au verso. \\\hspace*{0.5cm}
-En année 1, préciser :\small ~- si une révision est envisagée pour les années suivante :<?php if ($vrac->seuil_revision || $vrac->pourcentage_variation): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat : $\pm$ \textbf{\CONTRATSEUILDECLENCHEMENT}\% \\
-\hspace*{3.32cm}
-- le pourcentage de variabilité maximale du volume en année 2 ou 3 par rapport au volume prévu en année 1 est de : $\pm$ \textbf{\CONTRATBORDEREUPOURCENTAGEANNEEUN}\% \\
+Les critères et modalités de révision et de détermination du prix sont librement définis par les partis. \\
 \hspace*{0.5cm}
-\normalsize
-En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initial déposé en année 1 : \textbf{\CONTRATNUMEROENREGISTREMENTANNEEUN}
-~ \\
+Ils doivent comporter au moins trois indicateurs que sont : \\
+\hspace*{0.5cm}
+-~~~Les indicateurs de la proposition socle \\
+\hspace*{0.5cm}
+-~~~Les mercuriales des vins de Bergerac et Duras \\
+\hspace*{0.5cm}
+-~~~Un ou plusieurs indicateurs relatifs aux quantités, à la composition, à la qualité, à l'origine et à la traçabilité des produits ou au respect d'un cahier des \hspace*{0.5cm} charges. \\
+ ~ \\
 %PARTIE 8%
 \circled{8}~~\textbf{Prix et conditions de paiement:}
 Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / T ( Moyen de paiement : \textbf{\CONTRATMOYENPAIEMENT} , Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} ) \\
@@ -256,7 +267,7 @@ exigibilité. Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): 
 %PARTIE 9%
 \circled{9}~~\textbf{Retiraison, Délivrance :}\\
 \hspace*{0.5cm}
-\undeline{La retiraison devra s'effectuer dans un délai maximal de 90 jours après signature du présent contrat sauf mention particulière précisée ci-dessous.}\\
+\underline{La retiraison devra s'effectuer dans un délai maximal de 90 jours après signature du présent contrat sauf mention particulière précisée ci-dessous.}\\
 \hspace*{0.5cm}
 \underline{Mention particulière} : La retiraison intégrale devra s'effectuer au plus tard le : \textbf{\DATELIMITERETIRAISON} et en fonction du calendrier précisé au verso du présent contrat.\\
 \hspace*{0.5cm}
@@ -297,13 +308,13 @@ En vertu de l'article 4 des Accords Interprofessionnels étendus de l'IVBD concl
 \hspace*{0.5cm}
 est soumis à enregistrement auprès des services de l'IVBD. Pour toute annulation conjointe du présent contrat, chaque partie devra manifester\\
 \hspace*{0.5cm}
-son accord écrit à l'IVBD par la remise de son exemplaire (ou à défaut par courrier signé). Le courtier signataire du présent contrat pouvant\\
+son accord écrit à l'IVBD par courrier signé. Le courtier signataire du présent contrat pouvant\\
 \hspace*{0.5cm}
 agir au nom de chacune des parties. En cas d'annulation du contrat pour cause de non retiraison du vin dans les délais prévus, le vendeur devra\\
 \hspace*{0.5cm}
 en avertir l'IVBD par courrier signé et circonstancié.\\
 \hspace*{0.5cm}
-\textit{Les signataires attestent avoir pris connaissance du verso du présent bordereau, et s'engagent à respecter les conditions particulières et règles}\\
+\textit{Les signataires attestent avoir pris connaissance de la page 2 du présent bordereau, et s'engagent à respecter les conditions particulières et règles}\\
 \hspace*{0.5cm}
 \textit{d'utilisation spécifiées. En l'absence de signature du vendeur et de l'acheteur, le courtier signataire du présent contrat garantit l'exactitude de}\\
 \hspace*{0.5cm}
