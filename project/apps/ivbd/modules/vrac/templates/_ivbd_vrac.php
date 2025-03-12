@@ -135,7 +135,16 @@ if ($vrac->mandataire_exist) {
 \hline
 \end{tabularx}
 \end{minipage}
-
+\\
+\\
+\\
+\textbf{Relations précontractuelles : Initiative du producteur} \\
+\small{Le présent contrat doit être précédé d'une proposition préalable du vendeur. Au titre des critères et modalité de révision ou de détermination du prix,  elle prend en compte un ou plusieurs indicateurs relatifs aux couts pertinents de production en agriculture et à l'évolution de ces couts. Elle constitue le socle de la négociation entre le vendeur et l'acheteur.}\\
+\small{Tout refus ou réserve de l'acheteur portant sur la proposition doit être faite par écrit, motivé et dans un délai raisonnable.}\\
+\small{Le vendeur peut mandater son courtier pour qu'il fasse la proposition préalable en son nom et pour son compte. Dans ce cas, le mandat doit être écrit.}\\
+\small{La proposition préalable du vendeur ou son mandat au courtier accompagné de la proposition préalable fait en son nom est annexé au présent contrat.}\\
+\small{Le vendeur peut exiger par écrit de l'acheteur une offre de contrat écrit.}\\
+\\
 %PARTIE 1%
 \circled{1}~~\textbf{Désignation des parties:} \\
 \normalsize
@@ -220,7 +229,7 @@ Ils doivent comporter au moins trois indicateurs que sont : \\
 \hspace*{0.5cm}
 -~~~Les mercuriales des vins de Bergerac et Duras \\
 \hspace*{0.5cm}
--~~~Un ou plusieurs indicateurs relatifs aux quantités, à la composition, à la qualité, à l'origine et à la traçabilité des produits ou au respect d'un cahier des \hspace*{0.5cm}charges. \\
+-~~~Un ou plusieurs indicateurs relatifs aux quantités, à la composition, à la qualité, à l'origine et à la traçabilité des produits ou au respect d'un cahier des \hspace*{0.5cm} charges. \\
  ~ \\
 %PARTIE 6%
 \circled{6}~~\textbf{Prix et conditions de paiement :} \\
