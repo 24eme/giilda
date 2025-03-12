@@ -208,15 +208,19 @@ et l'adresse du négociant, ainsi que le nom du viticulteur.\\
 contrat, de son nom patronymique ou de sa raison sociale, ainsi que de son adresse pour la présentation du vin.<?php if ($vrac->autorisation_nom_producteur): ?>~Oui~\squareChecked~Non~$\square$<?php else : ?>~Oui~$\square$~Non~\squareChecked<?php endif; ?>\\
  ~ \\
 %PARTIE 5%
-\circled{5}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>Non~$\square$~Oui~\squareChecked~<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année : 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
+\circled{5}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>Non~$\square$~Oui~\squareChecked~<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> \\
 \hspace*{0.5cm}
-Le volume et le prix indiqués sur ce bordereau concernent l'année d'application cochée, sous réserve du respect des règles précisées au verso. \\\hspace*{0.5cm}
-En année 1, préciser :\small ~- si une révision est envisagée pour les années suivante :<?php if ($vrac->seuil_revision || $vrac->pourcentage_variation): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat : $\pm$ \textbf{\CONTRATSEUILDECLENCHEMENT}\% \\
-\hspace*{3.32cm}
-- le pourcentage de variabilité maximale du volume en année 2 ou 3 par rapport au volume prévu en année 1 est de : $\pm$ \textbf{\CONTRATBORDEREUPOURCENTAGEANNEEUN}\% \\
+Révision envisagée : <?php if ($vrac->seuil_revision): ?>~Oui~\squareChecked~Non~$\square$<?php else: ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> Si oui à partir de l'année ~2~$\square$ ou ~3~$\square$. \\
 \hspace*{0.5cm}
-\normalsize
-En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initial déposé en année 1 : \textbf{\CONTRATNUMEROENREGISTREMENTANNEEUN}\\
+Les critères et modalités de révision et de détermination du prix sont librement définis par les partis. \\
+\hspace*{0.5cm}
+Ils doivent comporter au moins trois indicateurs que sont : \\
+\hspace*{0.5cm}
+-~~~Les indicateurs de la proposition socle \\
+\hspace*{0.5cm}
+-~~~Les mercuriales des vins de Bergerac et Duras \\
+\hspace*{0.5cm}
+-~~~Un ou plusieurs indicateurs relatifs aux quantités, à la composition, à la qualité, à l'origine et à la traçabilité des produits ou au respect d'un cahier des \hspace*{0.5cm}charges. \\
  ~ \\
 %PARTIE 6%
 \circled{6}~~\textbf{Prix et conditions de paiement :} \\
@@ -292,13 +296,13 @@ En vertu de l'article 4 des Accords Interprofessionnels étendus de l'IVBD concl
 \hspace*{0.5cm}
 est soumis à enregistrement auprès des services de l'IVBD. Pour toute annulation conjointe du présent contrat, chaque partie devra manifester\\
 \hspace*{0.5cm}
-son accord écrit à l'IVBD par la remise de son exemplaire (ou à défaut par courrier signé). Le courtier signataire du présent contrat pouvant\\
+son accord écrit à l'IVBD par courrier signé. Le courtier signataire du présent contrat pouvant\\
 \hspace*{0.5cm}
 agir au nom de chacune des parties. En cas d'annulation du contrat pour cause de non retiraison du vin dans les délais prévus, le vendeur devra\\
 \hspace*{0.5cm}
 en avertir l'IVBD par courrier signé et circonstancié.\\
 \hspace*{0.5cm}
-\textit{Les signataires attestent avoir pris connaissance du verso du présent bordereau, et s'engagent à respecter les conditions particulières et règles}\\
+\textit{Les signataires attestent avoir pris connaissance de la page 2 du présent bordereau, et s'engagent à respecter les conditions particulières et règles}\\
 \hspace*{0.5cm}
 \textit{d'utilisation spécifiées. En l'absence de signature du vendeur et de l'acheteur, le courtier signataire du présent contrat garantit l'exactitude de}\\
 \hspace*{0.5cm}
