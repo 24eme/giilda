@@ -393,6 +393,9 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
           $needSocieteSave = true;
           $societe->addEtablissement($this);
         }
+        if($compte->region != $this->region) {
+            $needSocieteSave = true;
+        }
         $this->updateSiegeAdresse();
         parent::save();
 
