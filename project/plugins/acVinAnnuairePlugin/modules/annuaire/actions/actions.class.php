@@ -58,7 +58,7 @@ class annuaireActions extends sfActions {
               if ($this->type == AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY && $e->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR) {
                   continue;
               }
-              if ($this->type == AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY && $e->famille != EtablissementFamilles::FAMILLE_NEGOCIANT) {
+              if ($this->type == AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY && in_array($e->famille, [EtablissementFamilles::FAMILLE_NEGOCIANT, EtablissementFamilles::FAMILLE_NEGOCIANT_PUR]) === false) {
                   continue;
               }
               $this->etablissements[] = $item;
