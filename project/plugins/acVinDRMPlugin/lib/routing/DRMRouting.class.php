@@ -322,6 +322,12 @@ class DRMRouting {
             ['sf_method' => array('get', 'post')],
             ['model' => 'DRM', 'type' => 'object']
         ));
+
+        $r->prependRoute('drm_ajout_recolte_etablissement', new DRMRoute('/drm/:identifiant/edition/:periode_version/ajout',
+            ['module' => 'drm_validation', 'action' => 'ajoutReserveInterpro'],
+            ['sf_method' => array('get', 'post')],
+            ['model' => 'DRM', 'type' => 'object']
+        ));
     }
 
 }
