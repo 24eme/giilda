@@ -65,7 +65,7 @@ class annuaireActions extends sfActions {
             }
 
             if (!count($this->etablissements)) {
-                return $this->redirect('annuaire_selectionner', array('type' => $type, 'identifiant' => $this->identifiant));
+                return $this->redirect('annuaire_selectionner', array('type' => $this->type, 'identifiant' => $this->identifiant));
             }
 
 
