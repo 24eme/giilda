@@ -25,7 +25,7 @@ class MandatSepaDebiteurForm extends acCouchdbObjectForm {
 
         $this->setWidget('banque_commune', new bsWidgetFormInput());
         $this->widgetSchema->setLabel('banque_commune', 'Commune de la banque :');
-        $this->setValidator('banque_commune', new sfValidatorString());
+        $this->setValidator('banque_commune', new sfValidatorString(array('required' => false)));
 
         $this->setWidget('iban', new bsWidgetFormInput());
         $this->widgetSchema->setLabel('iban', 'IBAN :');
