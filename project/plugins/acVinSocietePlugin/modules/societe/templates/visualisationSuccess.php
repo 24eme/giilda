@@ -106,6 +106,10 @@
                     <?php endif ?>
                   </div>
                   <div class="row" style="margin-top: 5px;">
+                    <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">BANQUE&nbsp;</div>
+                    <div style="margin-bottom: 5px;" class="col-xs-11"><?php echo $mandatSepa->debiteur->banque_nom; ?><?php echo $mandatSepa->debiteur->banque_commune ? ' ('.$mandatSepa->debiteur->banque_commune.')' : ''; ?></div>
+                  </div>
+                  <div class="row" style="margin-top: 5px;">
                     <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">IBAN&nbsp;</div>
                     <div style="margin-bottom: 5px;" class="col-xs-6"><?php echo chunk_split($mandatSepa->debiteur->iban, 4, ' '); ?></div>
                     <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Mandat signé&nbsp;</div>
