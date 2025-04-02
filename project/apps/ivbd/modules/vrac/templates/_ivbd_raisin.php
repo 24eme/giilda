@@ -1,6 +1,7 @@
 <?php
 use_helper('Date');
 use_helper('Display');
+use_helper('Compte');
 $moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement();
 $delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement();
 $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage();
@@ -65,17 +66,20 @@ if ($vrac->mandataire_exist) {
 
 \def\CONTRATVENDEURNOM{<?php echo display_latex_string($vendeur_raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
+\def\CONTRATVENDEURSIRET{<?php formatSIRET($vrac->vendeur->siret) ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune); ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
 \def\CONTRATVENDEURPAYEUR{<?php echo display_latex_string($vrac->representant->raison_sociale); ?>}
 
 \def\CONTRATACHETEURNOM{<?php echo display_latex_string($acheteur_raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php display_cvi_formatted($vrac->acheteur->cvi) ?>}
+\def\CONTRATACHETEURSIRET{<?php formatSIRET($vrac->acheteur->siret) ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
 \def\CONTRATCOURTIERNOM{<?php echo display_latex_string($mandataire_raison_sociale); ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro ?>}
+\def\CONTRATCOURTIERSIRET{<?php formatSIRET($vrac->mandataire->siret) ?>}
 \def\CONTRATCOURTIERADRESSE{<?php echo display_latex_string($vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune); ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo ($vrac->mandataire_identifiant)? $vrac->getMandataireObject()->telephone : null; ?>}
 
@@ -115,12 +119,10 @@ if ($vrac->mandataire_exist) {
 	\small{\IVBDCOORDONNEESADRESSE} \\
 	~  \\
 	\begin{large}
-       \textbf{BORDEREAU DE CONFIRMATION D'ACHAT DE}\\
+       \textbf{BORDEREAU DE CONFIRMATION D'ACHAT DE VENDANGES FRAICHES}\\
     \end{large}
-    \textbf{- VENDANGES FRAICHES -}\\
     ~  \\
-    n° IF - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMENREGISTREMENT} \end{large} \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
-    \\ dans un délai maximal de 10 jours après signature du présent bordereau
+    n° IF - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMENREGISTREMENT} \end{large} \\
 \end{center}
 \end{minipage}
 \hspace{2cm}
@@ -139,7 +141,7 @@ if ($vrac->mandataire_exist) {
 \\
 \\
 \textbf{Relations précontractuelles : Initiative du producteur} \\
-\small{Le présent contrat doit être précédé d'une proposition préalable du vendeur. Au titre des critères et modalité de révision ou de détermination du prix,  elle prend en compte un ou plusieurs indicateurs relatifs aux couts pertinents de production en agriculture et à l'évolution de ces couts. Elle constitue le socle de la négociation entre le vendeur et l'acheteur.}\\
+\small{Le présent contrat doit être précédé d'une proposition préalable du vendeur. Au titre des critères et modalité de révision ou de détermination du prix,  elle prend en compte un ou plusieurs indicateurs relatifs aux coûts pertinents de production en agriculture et à l'évolution de ces coûts. Elle constitue le socle de la négociation entre le vendeur et l'acheteur.}\\
 \small{Tout refus ou réserve de l'acheteur portant sur la proposition doit être faite par écrit, motivé et dans un délai raisonnable.}\\
 \small{Le vendeur peut mandater son courtier pour qu'il fasse la proposition préalable en son nom et pour son compte. Dans ce cas, le mandat doit être écrit.}\\
 \small{La proposition préalable du vendeur ou son mandat au courtier accompagné de la proposition préalable fait en son nom est annexé au présent contrat.}\\
@@ -176,6 +178,11 @@ N° CVI : \textbf{\CONTRATVENDEURCVI} \\
 <?php else: ?>
 \\ ~ \\
 <?php endif; ?>
+<?php if ($vrac->vendeur->siret): ?>
+N° CVI : \textbf{\CONTRATVENDEURSIRET} \\
+<?php else: ?>
+\\ ~ \\
+<?php endif; ?>
 Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\
 <?php if ($vrac->getAcheteurObject()->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR): ?>
 ~Récoltant~\squareChecked~Négociant~$\square$ \\
@@ -187,9 +194,15 @@ N° CVI : \textbf{\CONTRATACHETEURCVI} \\
 <?php else: ?>
 \\ ~ \\
 <?php endif; ?>
+<?php if ($vrac->acheteur->siret): ?>
+N° CVI : \textbf{\CONTRATACHETEURSIRET} \\
+<?php else: ?>
+\\ ~ \\
+<?php endif; ?>
 Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
 N° CIP : \textbf{\CONTRATCOURTIERCARTEPRO} \\
+N° SIRET : \textbf{\CONTRATCOURTIERSIRET} \\
 Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 <?php endif; ?>
 \end{minipage}
@@ -198,7 +211,7 @@ Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 \circled{2}~~\textbf{Désignation du produit :} \\
 \normalsize
 \hspace*{0.5cm}
-La vendange concernée par ce contrat est issue du millésime \textbf{\CONTRATMILLESIMEPRODUIT} <?php if ($vrac->cepage_libelle) { echo display_latex_string(" - ".$vrac->cepage_libelle); } if ($vrac->cepage_85_15) { echo display_latex_string(" - 85/15"); } ?> \\
+La vendange concernée par ce contrat est issue du millésime \textbf{\CONTRATMILLESIMEPRODUIT} \\
 \hspace*{0.5cm}
 Assiette foncière totale correspondant aux volumes commercialisés : \textbf{\SURFACECONTRAT} ~ <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['surface']['libelle'] ?> \\
 \hspace*{0.5cm}
@@ -266,7 +279,7 @@ Les parties ne sauraient être tenues responsables de l'inexécution de leurs ob
 \hspace*{0.5cm}
 conformément aux dispositions de l'article 1218 du code civil.\\
 \hspace*{0.5cm}
-L'exécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non- exécution prennent fin.
+L'exécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.
  ~ \\   ~ \\
 %PARTIE 6%
 \circled{6}~~\textbf{Réserve de propriété :}\\
@@ -300,6 +313,12 @@ son accord écrit à l'IVBD par courrier signé. Le courtier signataire du prés
 \vspace*{0.3cm}
 
 \begin{minipage}[t]{0.3\textwidth}
+\begin{center}
+Le Vendeur,\\
+Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_vendeur)? date("d/m/Y", strtotime($vrac->valide->date_signature_vendeur)) : date("d/m/Y", strtotime($vrac->date_signature));  ?>}
+\end{center}
+\end{minipage}
+\begin{minipage}[t]{0.3\textwidth}
 <?php if ($vrac->mandataire_identifiant): ?>
 \begin{center}
 Le Courtier,\\
@@ -308,12 +327,6 @@ Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_c
 <?php else: ?>
 ~ \\
 <?php endif; ?>
-\end{minipage}
-\begin{minipage}[t]{0.3\textwidth}
-\begin{center}
-Le Vendeur,\\
-Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_vendeur)? date("d/m/Y", strtotime($vrac->valide->date_signature_vendeur)) : date("d/m/Y", strtotime($vrac->date_signature));  ?>}
-\end{center}
 \end{minipage}
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}
