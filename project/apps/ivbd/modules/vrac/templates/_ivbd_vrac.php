@@ -1,6 +1,7 @@
 <?php
 use_helper('Date');
 use_helper('Display');
+use_helper('Compte');
 $moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement();
 $delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement();
 $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage();
@@ -69,17 +70,20 @@ if ($vrac->mandataire_exist) {
 
 \def\CONTRATVENDEURNOM{<?php echo display_latex_string($vendeur_raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
+\def\CONTRATVENDEURSIRET{<?php formatSIRET($vrac->vendeur->siret) ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune); ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
 \def\CONTRATVENDEURPAYEUR{<?php echo display_latex_string($vrac->representant->raison_sociale); ?>}
 
 \def\CONTRATACHETEURNOM{<?php echo display_latex_string($acheteur_raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php display_cvi_formatted($vrac->acheteur->cvi) ?>}
+\def\CONTRATACHETEURSIRET{<?php formatSIRET($vrac->acheteur->siret) ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
 \def\CONTRATCOURTIERNOM{<?php echo display_latex_string($mandataire_raison_sociale); ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo display_latex_string($carte_pro); ?>}
+\def\CONTRATCOURTIERSIRET{<?php formatSIRET($vrac->mandataire->siret) ?>}
 \def\CONTRATCOURTIERADRESSE{<?php echo display_latex_string($vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune); ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo ($vrac->mandataire_identifiant)? $vrac->getMandataireObject()->telephone : null; ?>}
 
@@ -176,15 +180,26 @@ N° CVI : \textbf{\CONTRATVENDEURCVI} \\
 <?php else: ?>
 \\ ~ \\
 <?php endif; ?>
+<?php if ($vrac->vendeur->siret): ?>
+N° CVI : \textbf{\CONTRATVENDEURSIRET} \\
+<?php else: ?>
+\\ ~ \\
+<?php endif; ?>
 Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\
 <?php if ($vrac->acheteur->cvi): ?>
 N° CVI : \textbf{\CONTRATACHETEURCVI} \\
 <?php else: ?>
 \\ ~ \\
 <?php endif; ?>
+<?php if ($vrac->acheteur->siret): ?>
+N° CVI : \textbf{\CONTRATACHETEURSIRET} \\
+<?php else: ?>
+\\ ~ \\
+<?php endif; ?>
 Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
 N° CIP : \textbf{\CONTRATCOURTIERCARTEPRO} \\
+N° CIP : \textbf{\CONTRATCOURTIERSIRET} \\
 Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 <?php endif; ?>
 \end{minipage}
@@ -265,13 +280,13 @@ Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\square
 \hspace*{0.5cm}
 \underline{La retiraison devra s'effectuer dans un délai maximal de 90 jours après signature du présent contrat sauf mention particulière précisée ci-dessous.} \\
 \hspace*{0.5cm}
-\underline{Mention particulière} : La retiraison intégrale devra s'effectuer au plus tard le : \textbf{\DATELIMITERETIRAISON}.\\
+\underline{Mention particulière} : La retiraison intégrale devra s'effectuer au plus tard le : \textbf{\DATELIMITERETIRAISON}\\
 \hspace*{0.5cm}
 et en fonction du calendrier précisé au verso du présent contrat. Pour tout différé de retiraison, un avenant au présent contrat devra être établi\\
 \hspace*{0.5cm}
-en 4 exemplaires dont 1 pour l'IVBD, et signé par chacune des parties. De convention expresse entre les parties, la délivrance au sens de l'article\\
+et signé par chacune des parties. De convention expresse entre les parties, la délivrance au sens de l'article 1604 du Code Civil se réalisera à \\
 \hspace*{0.5cm}
-1604 du Code Civil se réalisera à la date figurant sur le titre de mouvement.
+la date figurant sur le titre de mouvement.
  ~ \\
  %PARTIE 7bis%
 \circled{7}~~\textbf{bis : Résiliation du contrat :}\\
@@ -305,11 +320,11 @@ En vertu de l'article 4 des Accords Interprofessionnels étendus de l'IVBD concl
 \hspace*{0.5cm}
 est soumis à enregistrement auprès des services de l'IVBD. Pour toute annulation conjointe du présent contrat, chaque partie devra manifester\\
 \hspace*{0.5cm}
-son accord écrit à l'IVBD par courrier signé. Le courtier signataire du présent contrat pouvant\\
+son accord écrit à l'IVBD par courrier signé. Le courtier signataire du présent contrat pouvant agir au nom de chacune des parties.\\
 \hspace*{0.5cm}
-agir au nom de chacune des parties. En cas d'annulation du contrat pour cause de non retiraison du vin dans les délais prévus, le vendeur devra\\
+En cas d'annulation du contrat pour cause de non retiraison du vin dans les délais prévus, le vendeur devra en avertir l'IVBD\\
 \hspace*{0.5cm}
-en avertir l'IVBD par courrier signé et circonstancié.\\
+par courrier signé et circonstancié.\\
 \hspace*{0.5cm}
 \textit{Les signataires attestent avoir pris connaissance de la page 2 du présent bordereau, et s'engagent à respecter les conditions particulières et règles}\\
 \hspace*{0.5cm}
@@ -319,16 +334,6 @@ en avertir l'IVBD par courrier signé et circonstancié.\\
 
 \vspace*{0.3cm}
 
-\begin{minipage}[t]{0.3\textwidth}
-<?php if ($vrac->mandataire_identifiant): ?>
-\begin{center}
-Le Courtier,\\
-Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_courtier)? date("d/m/Y", strtotime($vrac->valide->date_signature_courtier)) : date("d/m/Y", strtotime($vrac->date_signature)); ?>}
-\end{center}
-<?php else: ?>
-~ \\
-<?php endif; ?>
-\end{minipage}
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}
 Le Vendeur,\\
@@ -340,6 +345,16 @@ Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_v
 L'Acheteur,\\
 Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_acheteur)? date("d/m/Y", strtotime($vrac->valide->date_signature_acheteur)) : date("d/m/Y", strtotime($vrac->date_signature));  ?>}
 \end{center}
+\end{minipage}
+\begin{minipage}[t]{0.3\textwidth}
+<?php if ($vrac->mandataire_identifiant): ?>
+\begin{center}
+Le Courtier,\\
+Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_courtier)? date("d/m/Y", strtotime($vrac->valide->date_signature_courtier)) : date("d/m/Y", strtotime($vrac->date_signature)); ?>}
+\end{center}
+<?php else: ?>
+~ \\
+<?php endif; ?>
 \end{minipage}
 
 \newpage
