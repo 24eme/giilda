@@ -66,20 +66,20 @@ if ($vrac->mandataire_exist) {
 
 \def\CONTRATVENDEURNOM{<?php echo display_latex_string($vendeur_raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
-\def\CONTRATVENDEURSIRET{<?php formatSIRET($vrac->vendeur->siret) ?>}
+\def\CONTRATVENDEURSIRET{<?php echo formatSIRET($vrac->vendeur->siret) ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune); ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
 \def\CONTRATVENDEURPAYEUR{<?php echo display_latex_string($vrac->representant->raison_sociale); ?>}
 
 \def\CONTRATACHETEURNOM{<?php echo display_latex_string($acheteur_raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php display_cvi_formatted($vrac->acheteur->cvi) ?>}
-\def\CONTRATACHETEURSIRET{<?php formatSIRET($vrac->acheteur->siret) ?>}
+\def\CONTRATACHETEURSIRET{<?php echo formatSIRET($vrac->acheteur->siret) ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
 \def\CONTRATCOURTIERNOM{<?php echo display_latex_string($mandataire_raison_sociale); ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro ?>}
-\def\CONTRATCOURTIERSIRET{<?php formatSIRET($vrac->mandataire->siret) ?>}
+\def\CONTRATCOURTIERSIRET{<?php echo formatSIRET($vrac->mandataire->siret) ?>}
 \def\CONTRATCOURTIERADRESSE{<?php echo display_latex_string($vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune); ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo ($vrac->mandataire_identifiant)? $vrac->getMandataireObject()->telephone : null; ?>}
 
@@ -179,7 +179,7 @@ N° CVI : \textbf{\CONTRATVENDEURCVI} \\
 \\ ~ \\
 <?php endif; ?>
 <?php if ($vrac->vendeur->siret): ?>
-N° CVI : \textbf{\CONTRATVENDEURSIRET} \\
+N° SIRET : \textbf{\CONTRATVENDEURSIRET} \\
 <?php else: ?>
 \\ ~ \\
 <?php endif; ?>
@@ -195,7 +195,7 @@ N° CVI : \textbf{\CONTRATACHETEURCVI} \\
 \\ ~ \\
 <?php endif; ?>
 <?php if ($vrac->acheteur->siret): ?>
-N° CVI : \textbf{\CONTRATACHETEURSIRET} \\
+N° SIRET : \textbf{\CONTRATACHETEURSIRET} \\
 <?php else: ?>
 \\ ~ \\
 <?php endif; ?>
@@ -235,7 +235,7 @@ Ils doivent comporter au moins trois indicateurs que sont : \\
 -~~~Les mercuriales des vins de Bergerac et Duras \\
 \hspace*{0.5cm}
 -~~~Un ou plusieurs indicateurs relatifs aux quantités, à la composition, à la qualité, à l'origine et à la traçabilité des produits ou au respect d'un cahier des charges. \\
- ~ \\
+ ~ \\ ~ \\
 %PARTIE 4%
 \circled{4}~~\textbf{Prix et conditions de paiement:} \\
 \hspace*{0.5cm}

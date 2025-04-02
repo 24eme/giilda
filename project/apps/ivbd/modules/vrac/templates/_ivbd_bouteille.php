@@ -70,20 +70,20 @@ if ($vrac->mandataire_exist) {
 
 \def\CONTRATVENDEURNOM{<?php echo display_latex_string($vendeur_raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
-\def\CONTRATVENDEURSIRET{<?php formatSIRET($vrac->vendeur->siret) ?>}
+\def\CONTRATVENDEURSIRET{<?php echo formatSIRET($vrac->vendeur->siret) ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune) ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
 \def\CONTRATVENDEURPAYEUR{<?php echo display_latex_string($vrac->representant->raison_sociale); ?>}
 
 \def\CONTRATACHETEURNOM{<?php echo display_latex_string($acheteur_raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php display_cvi_formatted($vrac->acheteur->cvi) ?>}
-\def\CONTRATACHETEURSIRET{<?php formatSIRET($vrac->acheteur->siret) ?>}
+\def\CONTRATACHETEURSIRET{<?php echo formatSIRET($vrac->acheteur->siret) ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
 \def\CONTRATCOURTIERNOM{<?php echo display_latex_string($mandataire_raison_sociale); ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro ?>}
-\def\CONTRATCOURTIERSIRET{<?php formatSIRET($vrac->mandataire->siret) ?>}
+\def\CONTRATCOURTIERSIRET{<?php echo formatSIRET($vrac->mandataire->siret) ?>}
 \def\CONTRATCOURTIERADRESSE{<?php echo display_latex_string($vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune); ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo ($vrac->mandataire_identifiant)? $vrac->getMandataireObject()->telephone : null; ?>}
 
@@ -93,7 +93,7 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATCOULEURPRODUIT{??}
 \def\CONTRATMILLESIMEPRODUIT{<?php echo ($vrac->millesime) ? $vrac->millesime : 'NM';  if ($vrac->millesime_85_15) { echo " (85/15)"; } ?>}
 \def\CONTRATLIEUPRODUIT{<?php echo ($vrac->logement)? $vrac->logement : $vrac->vendeur->commune ?>}
-\def\CONTRATNOMPRODUIT{<?php echo ($vrac->autorisation_nom_vin)? VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin].' '.$vrac->domaine : ''; ?>}
+\def\CONTRATNOMPRODUIT{<?php echo ($vrac->autorisation_nom_vin)? $vrac->domaine : ''; ?>}
 
 \def\CONTRATBORDEREUPOURCENTAGEANNEEUN{<?php echo $vrac->pourcentage_variation ?>}
 \def\CONTRATSEUILDECLENCHEMENT{<?php echo $vrac->seuil_revision ?>}
@@ -308,6 +308,7 @@ conformément aux dispositions de l’article 1218 du code civil.\\
 \hspace*{0.5cm}
 L’exécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.
 ~ \\
+~ \\
 %PARTIE 10%
 \circled{10}~~\textbf{Réserve de propriété :}\\
 \hspace*{0.5cm}
@@ -322,9 +323,9 @@ En vertu de l'article 4 des Accords Interprofessionnels étendus de l'IVBD concl
 \hspace*{0.5cm}
 est soumis à enregistrement auprès des services de l'IVBD. Pour toute annulation conjointe du présent contrat, chaque partie devra manifester\\
 \hspace*{0.5cm}
-son accord écrit à l'IVBD par courrier signé. Le courtier signataire du présent contrat pouvant\\
+son accord écrit à l'IVBD par courrier signé. Le courtier signataire du présent contrat pouvant agir au nom de chacune des parties.\\
 \hspace*{0.5cm}
-agir au nom de chacune des parties. En cas d'annulation du contrat pour cause de non retiraison du vin dans les délais prévus, le vendeur devra\\
+En cas d'annulation du contrat pour cause de non retiraison du vin dans les délais prévus, le vendeur devra\\
 \hspace*{0.5cm}
 en avertir l'IVBD par courrier signé et circonstancié.\\
 \hspace*{0.5cm}

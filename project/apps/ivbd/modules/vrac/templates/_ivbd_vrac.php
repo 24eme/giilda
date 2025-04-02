@@ -70,20 +70,20 @@ if ($vrac->mandataire_exist) {
 
 \def\CONTRATVENDEURNOM{<?php echo display_latex_string($vendeur_raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
-\def\CONTRATVENDEURSIRET{<?php formatSIRET($vrac->vendeur->siret) ?>}
+\def\CONTRATVENDEURSIRET{<?php echo formatSIRET($vrac->vendeur->siret) ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune); ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
 \def\CONTRATVENDEURPAYEUR{<?php echo display_latex_string($vrac->representant->raison_sociale); ?>}
 
 \def\CONTRATACHETEURNOM{<?php echo display_latex_string($acheteur_raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php display_cvi_formatted($vrac->acheteur->cvi) ?>}
-\def\CONTRATACHETEURSIRET{<?php formatSIRET($vrac->acheteur->siret) ?>}
+\def\CONTRATACHETEURSIRET{<?php echo formatSIRET($vrac->acheteur->siret) ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
 \def\CONTRATCOURTIERNOM{<?php echo display_latex_string($mandataire_raison_sociale); ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo display_latex_string($carte_pro); ?>}
-\def\CONTRATCOURTIERSIRET{<?php formatSIRET($vrac->mandataire->siret) ?>}
+\def\CONTRATCOURTIERSIRET{<?php echo formatSIRET($vrac->mandataire->siret) ?>}
 \def\CONTRATCOURTIERADRESSE{<?php echo display_latex_string($vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune); ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo ($vrac->mandataire_identifiant)? $vrac->getMandataireObject()->telephone : null; ?>}
 
@@ -123,8 +123,7 @@ if ($vrac->mandataire_exist) {
     \end{large}
     \textbf{- AVEC RETIRAISON EN VRAC -}\\
     ~  \\
-    n° IV - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMENREGISTREMENT} \end{large} \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
-    \\ dans un délai maximal de 10 jours après signature du présent bordereau
+    n° IV - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMENREGISTREMENT} \end{large} \\
 \end{center}
 \end{minipage}
 \hspace{2cm}
@@ -143,7 +142,7 @@ if ($vrac->mandataire_exist) {
 \\
 \\
 \textbf{Relations précontractuelles : Initiative du producteur} \\
-\small{Le présent contrat doit être précédé d'une proposition préalable du vendeur. Au titre des critères et modalité de révision ou de détermination du prix,  elle prend en compte un ou plusieurs indicateurs relatifs aux couts pertinents de production en agriculture et à l'évolution de ces couts. Elle constitue le socle de la négociation entre le vendeur et l'acheteur.}\\
+\small{Le présent contrat doit être précédé d'une proposition préalable du vendeur. Au titre des critères et modalité de révision ou de détermination du prix,  elle prend en compte un ou plusieurs indicateurs relatifs aux coûts pertinents de production en agriculture et à l'évolution de ces coûts. Elle constitue le socle de la négociation entre le vendeur et l'acheteur.}\\
 \small{Tout refus ou réserve de l'acheteur portant sur la proposition doit être faite par écrit, motivé et dans un délai raisonnable.}\\
 \small{Le vendeur peut mandater son courtier pour qu'il fasse la proposition préalable en son nom et pour son compte. Dans ce cas, le mandat doit être écrit.}\\
 \small{La proposition préalable du vendeur ou son mandat au courtier accompagné de la proposition préalable fait en son nom est annexé au présent contrat.}\\
@@ -181,7 +180,7 @@ N° CVI : \textbf{\CONTRATVENDEURCVI} \\
 \\ ~ \\
 <?php endif; ?>
 <?php if ($vrac->vendeur->siret): ?>
-N° CVI : \textbf{\CONTRATVENDEURSIRET} \\
+N° SIRET : \textbf{\CONTRATVENDEURSIRET} \\
 <?php else: ?>
 \\ ~ \\
 <?php endif; ?>
@@ -192,14 +191,14 @@ N° CVI : \textbf{\CONTRATACHETEURCVI} \\
 \\ ~ \\
 <?php endif; ?>
 <?php if ($vrac->acheteur->siret): ?>
-N° CVI : \textbf{\CONTRATACHETEURSIRET} \\
+N° SIRET : \textbf{\CONTRATACHETEURSIRET} \\
 <?php else: ?>
 \\ ~ \\
 <?php endif; ?>
 Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
 N° CIP : \textbf{\CONTRATCOURTIERCARTEPRO} \\
-N° CIP : \textbf{\CONTRATCOURTIERSIRET} \\
+N° SIRET : \textbf{\CONTRATCOURTIERSIRET} \\
 Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 <?php endif; ?>
 \end{minipage}
@@ -280,13 +279,12 @@ Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\square
 \hspace*{0.5cm}
 \underline{La retiraison devra s'effectuer dans un délai maximal de 90 jours après signature du présent contrat sauf mention particulière précisée ci-dessous.} \\
 \hspace*{0.5cm}
-\underline{Mention particulière} : La retiraison intégrale devra s'effectuer au plus tard le : \textbf{\DATELIMITERETIRAISON}\\
+\underline{Mention particulière} : La retiraison intégrale devra s'effectuer au plus tard le : \textbf{\DATELIMITERETIRAISON} et en fonction du calendrier précisé au verso du présent contrat.\\
 \hspace*{0.5cm}
-et en fonction du calendrier précisé au verso du présent contrat. Pour tout différé de retiraison, un avenant au présent contrat devra être établi\\
+Pour tout différé de retiraison, un avenant au présent contrat devra être établi et signé par chacune des parties.\\
 \hspace*{0.5cm}
-et signé par chacune des parties. De convention expresse entre les parties, la délivrance au sens de l'article 1604 du Code Civil se réalisera à \\
+De convention expresse entre les parties, la délivrance au sens de l'article 1604 du Code Civil se réalisera à la date figurant sur le titre de mouvement.
 \hspace*{0.5cm}
-la date figurant sur le titre de mouvement.
  ~ \\
  %PARTIE 7bis%
 \circled{7}~~\textbf{bis : Résiliation du contrat :}\\
