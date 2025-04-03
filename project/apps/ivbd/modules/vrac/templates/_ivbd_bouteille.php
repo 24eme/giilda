@@ -314,7 +314,7 @@ L’exécution des obligations est suspendue pendant la durée de la force majeu
 \hspace*{0.5cm}
 Les parties entendent placer le présent contrat sous le régime de la réserve de propriété prévu par la loi du 12 mai 1980.\\
 \hspace*{0.5cm}
-En application de cette loi, le vendeur se réserve la propriété des vins vendus jusqu'à parfait paiement de ceux-ci. <?php if ($vrac->clause_reserve_propriete): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?>
+En application de cette loi, le vendeur se réserve la propriété des vins vendus jusqu'à parfait paiement de ceux-ci. <?php if ($vrac->clause_reserve_propriete): ?>~Oui~\squareChecked&nbsp;&nbsp;Non~$\square$<?php else: ?>~Oui~$\square$Non~\squareChecked<?php endif;?>
 ~ \\
 %PARTIE 11%
 \circled{11}~~\textbf{Enregistrement à l'IVBD:}\\
@@ -325,9 +325,9 @@ est soumis à enregistrement auprès des services de l'IVBD. Pour toute annulati
 \hspace*{0.5cm}
 son accord écrit à l'IVBD par courrier signé. Le courtier signataire du présent contrat pouvant agir au nom de chacune des parties.\\
 \hspace*{0.5cm}
-En cas d'annulation du contrat pour cause de non retiraison du vin dans les délais prévus, le vendeur devra\\
+En cas d'annulation du contrat pour cause de non retiraison du vin dans les délais prévus, le vendeur devra en avertir l'IVBD\\
 \hspace*{0.5cm}
-en avertir l'IVBD par courrier signé et circonstancié.\\
+par courrier signé et circonstancié.\\
 \hspace*{0.5cm}
 \textit{Les signataires attestent avoir pris connaissance de la page 2 du présent bordereau, et s'engagent à respecter les conditions particulières et règles}\\
 \hspace*{0.5cm}
