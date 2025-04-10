@@ -85,7 +85,7 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATLABELSPRODUIT {<?php echo $vrac->renderLabels() ?>}
 \def\CONTRATCEPAGEPRODUIT{<?php echo $vrac->cepage_libelle ?>}
 \def\CONTRATCOULEURPRODUIT{??}
-\def\CONTRATMILLESIMEPRODUIT{<?php echo $vrac->millesime ?>}
+\def\CONTRATMILLESIMEPRODUIT{<?php echo ($vrac->millesime) ? $vrac->millesime : 'NM';  if ($vrac->millesime_85_15) { echo " (85/15)"; } ?>}
 \def\CONTRATLIEUPRODUIT{<?php echo ($vrac->logement)? $vrac->logement : $vrac->vendeur->commune ?>}
 \def\CONTRATNOMPRODUIT{<?php echo ($vrac->autorisation_nom_vin)? VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin].' '.$vrac->domaine : ''; ?>}
 
@@ -189,7 +189,7 @@ Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 \circled{2}~~\textbf{Désignation du produit :} \\
 \normalsize
 \hspace*{0.5cm}
-La vendange concernée par ce contrat est issue du millésime \textbf{\CONTRATMILLESIMEPRODUIT} \\
+La vendange concernée par ce contrat est issue du millésime \textbf{\CONTRATMILLESIMEPRODUIT} <?php if ($vrac->cepage_libelle) { echo display_latex_string(" - ".$vrac->cepage_libelle); } if ($vrac->cepage_85_15) { echo display_latex_string(" - 85/15"); } ?> \\
 \hspace*{0.5cm}
 Assiette foncière totale correspondant aux volumes commercialisés : \textbf{\SURFACECONTRAT} ~ <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['surface']['libelle'] ?> \\
 \hspace*{0.5cm}
