@@ -21,7 +21,7 @@
                       <div class="checkbox">
                           <?php echo $validationForm['transmission_ciel']->renderError(); ?>
                           <label>
-                              <input id="drm_transmission_ciel_visible" type="checkbox"  value="1" checked="checked" />
+                              <input id="drm_transmission_ciel_visible" type="checkbox"  value="1" checked="checked" required="required"/>
                               <strong>Transmission pour préremplissage de votre DRM electronique sur le portail douane.gouv.fr</strong>
                           </label>
                       </div>
