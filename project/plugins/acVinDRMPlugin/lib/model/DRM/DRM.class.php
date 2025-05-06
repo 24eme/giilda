@@ -628,6 +628,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->cleanDetails();
         $this->cleanCrds();
         $this->cleanAnnexes();
+        $this->cleanReserve();
     }
 
     public function validate($options = null) {
@@ -1665,6 +1666,14 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
         foreach ($releve_non_apurement_to_remove as $key_to_remove) {
             $this->releve_non_apurement->remove($key_to_remove);
+        }
+    }
+
+    public function cleanReserve() {
+        foreach ($this->getProduits() as $produit => $value) {
+            if ($value->exist('reserve_interpro') && $value->reserve_interpro == 0) {
+                $value->remove('reserve_interpro');
+            }
         }
     }
 

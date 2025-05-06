@@ -1,6 +1,12 @@
 <?php use_helper('DRM'); ?>
-<?php
-$produits = $drm->getProduitsReserveInterpro();
+
+<?php if ($sf_user->isAdmin()): ?>
+    <div class="text-right" style="margin-top: -15px;position: relative;">
+    <a class="text-muted btn-link btn-xs" href="<?php echo url_for('drm_ajout_recolte_etablissement', ['identifiant' => $drm->identifiant, 'periode_version' => $drm->periode])?>" style="position: absolute;right:0;bottom:-18px;">(Ajouter une réserve interprofessionnelle sur un produit)</a>
+    </div>
+<?php endif; ?>
+
+<?php $produits = $drm->getProduitsReserveInterpro();
 if (count($produits) && DRMConfiguration::getInstance()->hasActiveReserveInterpro()): ?>
     <div class="row">
         <div class="col-xs-12">
