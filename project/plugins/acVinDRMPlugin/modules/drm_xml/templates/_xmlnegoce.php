@@ -79,7 +79,7 @@
 				<retours><?php echo $crd->entrees_retours ?></retours>
 <?php endif; ?>
 <?php if ($crd->entrees_autres): ?>
-        <autres><?php echo $crd->entrees_autres ?></autres>
+        <autres-entrees><?php echo $crd->entrees_autres ?></autres-entrees>
 <?php endif; ?>
         		</entrees-capsules>
 <?php endif; ?>
@@ -95,7 +95,7 @@
 				<manquants><?php echo $crd->sorties_manquants ?></manquants>
 <?php endif; ?>
 <?php if ($crd->sorties_autres): ?>
-        <autres><?php echo $crd->sorties_manquants ?></autres>
+        <autres-sorties><?php echo $crd->sorties_manquants ?></autres-sorties>
 <?php endif; ?>
         		</sorties-capsules>
 <?php endif; ?>
