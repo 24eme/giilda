@@ -2077,7 +2077,11 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
         $this->add('transmission_douane');
         $this->transmission_douane->success = false;
-        $this->transmission_douane->xml = 'Pas de transmission';
+        if ($this->isNegoce()) {
+            $this->transmission_douane->xml = 'Pas de transmission : DRM Négociant pur';
+        } else {
+            $this->transmission_douane->xml = 'Pas de transmission';
+        }
     }
 
     public function getDetailsByHash($hash_details_or_cepage){

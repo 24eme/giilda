@@ -90,7 +90,7 @@
         </div>
     </div>
     <?php if ($isTeledeclarationMode): ?>
-        <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'compte' => $compte, 'etablissementPrincipal' => $etablissementPrincipal, 'validationForm' => $form)); ?>
+        <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'compte' => $compte, 'validationForm' => $form)); ?>
     <?php endif; ?>
 </form>
 </div>
