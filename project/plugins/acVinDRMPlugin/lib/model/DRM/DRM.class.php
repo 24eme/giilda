@@ -2082,6 +2082,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         } else {
             $this->transmission_douane->xml = 'Pas de transmission';
         }
+        if ($this->valide->identifiant) {
+            $this->transmission_douane->xml .= ' ('.$this->valide->identifiant.')';
+        }
     }
 
     public function getDetailsByHash($hash_details_or_cepage){
