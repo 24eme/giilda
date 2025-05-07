@@ -90,7 +90,7 @@ class drm_validationActions extends drmGeneriqueActions {
         if (!$this->validation->isValide()) {
             return sfView::SUCCESS;
         }
-        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'identifiant' => $compte_login->identifiant));
         $this->form->save();
 
         $this->drm->updateVracs();
@@ -173,6 +173,29 @@ class drm_validationActions extends drmGeneriqueActions {
         }
 
         $this->form = new DRMTransfertReserveInterproForm($this->drm);
+
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+                return $this->redirect('drm_validation', $this->drm);
+            }
+        }
+    }
+
+    public function executeAjoutReserveInterpro(sfWebRequest $request) {
+        $this->drm = $this->getRoute()->getDRM();
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+
+        if (! $this->getUser()->isAdmin()) {
+            return $this->redirect403IfIsTeledeclaration();
+        }
+
+        if (DRMConfiguration::getInstance()->hasActiveReserveInterpro() === false) {
+            return $this->redirect('drm_validation', $this->drm);
+        }
+
+        $this->form = new DRMAjoutReserveInterproForm($this->drm, $this->drm->declaration->getConfig());
 
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));

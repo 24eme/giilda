@@ -259,14 +259,14 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
       }
 
     protected function doSave($con = null) {
-        parent::doSave($con);
-
         if($this->compteToSave) {
             if($this->getObject() instanceof Societe) {
                 $this->compteToSave->setSociete($this->getObject());
             }
             $this->compteToSave->save();
         }
+
+        parent::doSave($con);
     }
 
     public static function getCountryList() {

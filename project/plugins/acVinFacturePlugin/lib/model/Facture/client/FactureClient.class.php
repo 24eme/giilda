@@ -355,6 +355,8 @@ class FactureClient extends acCouchdbClient {
             if($lignes->exist('quantite')) {
                 $lignes->quantite *= -1;
             }
+            $lignes->montant_ht *= -1;
+            $lignes->montant_tva *= -1;
             foreach ($lignes->details as $id => $ligne) {
                 $ligne->quantite *= -1;
                 $ligne->montant_ht *= -1;
@@ -363,6 +365,7 @@ class FactureClient extends acCouchdbClient {
         }
         $avoir->total_ttc *= -1;
         $avoir->total_ht *= -1;
+        $avoir->total_taxe *= -1;
         $avoir->remove('echeances');
         $avoir->add('echeances');
         $avoir->statut = self::STATUT_NONREDRESSABLE;
@@ -372,7 +375,6 @@ class FactureClient extends acCouchdbClient {
         $avoir->numero_piece_comptable = null;
         $avoir->versement_comptable = 0;
         $avoir->add('taux_tva', round($f->getTauxTva(), 2));
-        $avoir->updateTotaux();
         $avoir->save();
 
         $f->defacturer();

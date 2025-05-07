@@ -1,6 +1,7 @@
 <?php
 use_helper('Date');
 use_helper('Display');
+use_helper('Compte');
 $moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement();
 $delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement();
 $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage();
@@ -65,17 +66,20 @@ if ($vrac->mandataire_exist) {
 
 \def\CONTRATVENDEURNOM{<?php echo display_latex_string($vendeur_raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
+\def\CONTRATVENDEURSIRET{<?php formatSIRET($vrac->vendeur->siret) ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune); ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
 \def\CONTRATVENDEURPAYEUR{<?php echo display_latex_string($vrac->representant->raison_sociale); ?>}
 
 \def\CONTRATACHETEURNOM{<?php echo display_latex_string($acheteur_raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php display_cvi_formatted($vrac->acheteur->cvi) ?>}
+\def\CONTRATACHETEURSIRET{<?php formatSIRET($vrac->acheteur->siret) ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
 \def\CONTRATCOURTIERNOM{<?php echo display_latex_string($mandataire_raison_sociale); ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro ?>}
+\def\CONTRATCOURTIERSIRET{<?php formatSIRET($vrac->mandataire->siret) ?>}
 \def\CONTRATCOURTIERADRESSE{<?php echo display_latex_string($vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune); ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo ($vrac->mandataire_identifiant)? $vrac->getMandataireObject()->telephone : null; ?>}
 
@@ -85,7 +89,7 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATLABELSPRODUIT {<?php echo $vrac->renderLabels() ?>}
 \def\CONTRATCEPAGEPRODUIT{<?php echo $vrac->cepage_libelle ?>}
 \def\CONTRATCOULEURPRODUIT{??}
-\def\CONTRATMILLESIMEPRODUIT{<?php echo $vrac->millesime ?>}
+\def\CONTRATMILLESIMEPRODUIT{<?php echo ($vrac->millesime) ? $vrac->millesime : 'NM';  if ($vrac->millesime_85_15) { echo " (85/15)"; } ?>}
 \def\CONTRATLIEUPRODUIT{<?php echo ($vrac->logement)? $vrac->logement : $vrac->vendeur->commune ?>}
 \def\CONTRATNOMPRODUIT{<?php echo ($vrac->autorisation_nom_vin)? VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin].' '.$vrac->domaine : ''; ?>}
 
@@ -115,12 +119,10 @@ if ($vrac->mandataire_exist) {
 	\small{\IVBDCOORDONNEESADRESSE} \\
 	~  \\
 	\begin{large}
-       \textbf{BORDEREAU DE CONFIRMATION D'ACHAT DE}\\
+       \textbf{BORDEREAU DE CONFIRMATION D'ACHAT DE VENDANGES FRAICHES}\\
     \end{large}
-    \textbf{- VENDANGES FRAICHES -}\\
     ~  \\
-    n° IF - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMENREGISTREMENT} \end{large} \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
-    \\ dans un délai maximal de 10 jours après signature du présent bordereau
+    n° IF - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMENREGISTREMENT} \end{large} \\
 \end{center}
 \end{minipage}
 \hspace{2cm}
@@ -135,7 +137,16 @@ if ($vrac->mandataire_exist) {
 \hline
 \end{tabularx}
 \end{minipage}
-
+\\
+\\
+\\
+\textbf{Relations précontractuelles : Initiative du producteur} \\
+\small{Le présent contrat doit être précédé d'une proposition préalable du vendeur. Au titre des critères et modalité de révision ou de détermination du prix,  elle prend en compte un ou plusieurs indicateurs relatifs aux coûts pertinents de production en agriculture et à l'évolution de ces coûts. Elle constitue le socle de la négociation entre le vendeur et l'acheteur.}\\
+\small{Tout refus ou réserve de l'acheteur portant sur la proposition doit être faite par écrit, motivé et dans un délai raisonnable.}\\
+\small{Le vendeur peut mandater son courtier pour qu'il fasse la proposition préalable en son nom et pour son compte. Dans ce cas, le mandat doit être écrit.}\\
+\small{La proposition préalable du vendeur ou son mandat au courtier accompagné de la proposition préalable fait en son nom est annexé au présent contrat.}\\
+\small{Le vendeur peut exiger par écrit de l'acheteur une offre de contrat écrit.}\\
+\\
 %PARTIE 1%
 \circled{1}~~\textbf{Désignation des parties:} \\
 \normalsize
@@ -167,6 +178,11 @@ N° CVI : \textbf{\CONTRATVENDEURCVI} \\
 <?php else: ?>
 \\ ~ \\
 <?php endif; ?>
+<?php if ($vrac->vendeur->siret): ?>
+N° CVI : \textbf{\CONTRATVENDEURSIRET} \\
+<?php else: ?>
+\\ ~ \\
+<?php endif; ?>
 Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\
 <?php if ($vrac->getAcheteurObject()->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR): ?>
 ~Récoltant~\squareChecked~Négociant~$\square$ \\
@@ -178,9 +194,15 @@ N° CVI : \textbf{\CONTRATACHETEURCVI} \\
 <?php else: ?>
 \\ ~ \\
 <?php endif; ?>
+<?php if ($vrac->acheteur->siret): ?>
+N° CVI : \textbf{\CONTRATACHETEURSIRET} \\
+<?php else: ?>
+\\ ~ \\
+<?php endif; ?>
 Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
 N° CIP : \textbf{\CONTRATCOURTIERCARTEPRO} \\
+N° SIRET : \textbf{\CONTRATCOURTIERSIRET} \\
 Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 <?php endif; ?>
 \end{minipage}
@@ -202,16 +224,18 @@ Le vendeur s'engage à livrer à l'acheteur les raisins désignés ci-dessus, is
 les cahiers des charges des vins concernés. Il certifie que les renseignements ci-dessus sont repris dans sa déclaration de récolte.
  ~ \\   ~ \\
 %PARTIE 3%
-\circled{3}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
+\circled{3}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?>\\
 \hspace*{0.5cm}
-Le volume et le prix indiqués sur ce bordereau concernent l'année d'application cochée, sous réserve du respect des règles précisées au verso. \\\hspace*{0.5cm}
-En année 1, préciser :\small ~- si une révision du prix est envisagée pour les années suivantes :<?php if ($vrac->seuil_revision || $vrac->pourcentage_variation): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat : $\pm$ \textbf{\CONTRATSEUILDECLENCHEMENT}\% \\
-\hspace*{2.98cm}
-- le pourcentage de variabilité maximale du volume en année 2 ou 3 par rapport au volume prévu en année 1 est de : $\pm$ \textbf{\CONTRATBORDEREUPOURCENTAGEANNEEUN}\% \\
+Les critères et modalités de révision et de détermination du prix sont librement définis par les partis. \\
 \hspace*{0.5cm}
-\normalsize
-En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initial déposé en année 1 : \textbf{\CONTRATNUMEROENREGISTREMENTANNEEUN}
- ~ \\   ~ \\
+Ils doivent comporter au moins trois indicateurs que sont : \\
+\hspace*{0.5cm}
+-~~~Les indicateurs de la proposition socle \\
+\hspace*{0.5cm}
+-~~~Les mercuriales des vins de Bergerac et Duras \\
+\hspace*{0.5cm}
+-~~~Un ou plusieurs indicateurs relatifs aux quantités, à la composition, à la qualité, à l'origine et à la traçabilité des produits ou au respect d'un cahier des charges. \\
+ ~ \\
 %PARTIE 4%
 \circled{4}~~\textbf{Prix et conditions de paiement:} \\
 \hspace*{0.5cm}
@@ -255,7 +279,7 @@ Les parties ne sauraient être tenues responsables de l'inexécution de leurs ob
 \hspace*{0.5cm}
 conformément aux dispositions de l'article 1218 du code civil.\\
 \hspace*{0.5cm}
-L'exécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non- exécution prennent fin.
+L'exécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.
  ~ \\   ~ \\
 %PARTIE 6%
 \circled{6}~~\textbf{Réserve de propriété :}\\
@@ -278,11 +302,9 @@ En vertu de l'article 4 des Accords Interprofessionnels étendus de l'IVBD concl
 \hspace*{0.5cm}
 est soumis à enregistrement auprès des services de l'IVBD. Pour toute annulation conjointe du présent contrat, chaque partie devra manifester\\
 \hspace*{0.5cm}
-son accord écrit à l'IVBD par la remise de son exemplaire (ou à défaut par courrier signé). Le courtier signataire du présent contrat pouvant\\
+son accord écrit à l'IVBD par courrier signé. Le courtier signataire du présent contrat pouvant agir au nom de chacune des parties.\\
 \hspace*{0.5cm}
-agir au nom de chacune des parties.\\
-\hspace*{0.5cm}
-\textit{Les signataires attestent avoir pris connaissance du verso du présent bordereau, et s'engagent à respecter les conditions particulières et règles}\\
+\textit{Les signataires attestent avoir pris connaissance de la page 2 du présent bordereau, et s'engagent à respecter les conditions particulières et règles}\\
 \hspace*{0.5cm}
 \textit{d'utilisation spécifiées. En l'absence de signature du vendeur et de l'acheteur, le courtier signataire du présent contrat garantit l'exactitude de}\\
 \hspace*{0.5cm}
@@ -290,6 +312,12 @@ agir au nom de chacune des parties.\\
 
 \vspace*{0.3cm}
 
+\begin{minipage}[t]{0.3\textwidth}
+\begin{center}
+Le Vendeur,\\
+Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_vendeur)? date("d/m/Y", strtotime($vrac->valide->date_signature_vendeur)) : date("d/m/Y", strtotime($vrac->date_signature));  ?>}
+\end{center}
+\end{minipage}
 \begin{minipage}[t]{0.3\textwidth}
 <?php if ($vrac->mandataire_identifiant): ?>
 \begin{center}
@@ -299,12 +327,6 @@ Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_c
 <?php else: ?>
 ~ \\
 <?php endif; ?>
-\end{minipage}
-\begin{minipage}[t]{0.3\textwidth}
-\begin{center}
-Le Vendeur,\\
-Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_vendeur)? date("d/m/Y", strtotime($vrac->valide->date_signature_vendeur)) : date("d/m/Y", strtotime($vrac->date_signature));  ?>}
-\end{center}
 \end{minipage}
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}

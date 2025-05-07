@@ -628,6 +628,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->cleanDetails();
         $this->cleanCrds();
         $this->cleanAnnexes();
+        $this->cleanReserve();
     }
 
     public function validate($options = null) {
@@ -1668,6 +1669,14 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
     }
 
+    public function cleanReserve() {
+        foreach ($this->getProduits() as $produit => $value) {
+            if ($value->exist('reserve_interpro') && $value->reserve_interpro == 0) {
+                $value->remove('reserve_interpro');
+            }
+        }
+    }
+
     public function initReleveNonApurement() {
         $releveNonApurement = $this->getOrAdd('releve_non_apurement');
         if (!count($releveNonApurement)) {
@@ -2068,7 +2077,14 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
         $this->add('transmission_douane');
         $this->transmission_douane->success = false;
-        $this->transmission_douane->xml = 'Pas de transmission';
+        if ($this->isNegoce()) {
+            $this->transmission_douane->xml = 'Pas de transmission : DRM Négociant pur';
+        } else {
+            $this->transmission_douane->xml = 'Pas de transmission';
+        }
+        if ($this->valide->identifiant) {
+            $this->transmission_douane->xml .= ' ('.$this->valide->identifiant.')';
+        }
     }
 
     public function getDetailsByHash($hash_details_or_cepage){

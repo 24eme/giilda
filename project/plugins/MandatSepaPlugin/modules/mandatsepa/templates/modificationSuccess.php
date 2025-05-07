@@ -64,6 +64,26 @@
               </div>
             </div>
 
+            <div class="form-group<?php if ($form['banque_nom']->renderError()): ?> has-error<?php endif; ?>">
+              <?php echo $form['banque_nom']->renderLabel(null, array('class' => 'col-sm-3')) ?>
+              <div class="col-sm-6">
+                <?php echo $form['banque_nom']->render() ?>
+              </div>
+              <div class="col-sm-3 text-danger">
+                <?php echo $form['banque_nom']->renderError(); ?>
+              </div>
+            </div>
+
+            <div class="form-group<?php if ($form['banque_commune']->renderError()): ?> has-error<?php endif; ?>">
+              <?php echo $form['banque_commune']->renderLabel(null, array('class' => 'col-sm-3')) ?>
+              <div class="col-sm-6">
+                <?php echo $form['banque_commune']->render() ?>
+              </div>
+              <div class="col-sm-3 text-danger">
+                <?php echo $form['banque_commune']->renderError(); ?>
+              </div>
+            </div>
+
             <div class="form-group<?php if ($form['iban']->renderError()): ?> has-error<?php endif; ?>">
               <?php echo $form['iban']->renderLabel(null, array('class' => 'col-sm-3')) ?>
               <div class="col-sm-6">

@@ -67,7 +67,7 @@
  									if (centilisation2douane($crd->centilitrage, $crd->detail_libelle) == 'AUTRE') : ?> volumePersonnalise="<?php printf('%.01lf', $crd->centilitrage * 10000);
 									?>" bib="<?php echo ($crd->isBib()) ? 'true' : 'false' ; ?>"<?php endif; ?>>
         		<stock-debut-periode><?php echo $crd->stock_debut ?></stock-debut-periode>
-<?php if ($crd->entrees_achats || $crd->entrees_excedents || $crd->entrees_retours): ?>
+<?php if ($crd->entrees_achats || $crd->entrees_excedents || $crd->entrees_retours || $crd->entrees_autres): ?>
         		<entrees-capsules>
 <?php if ($crd->entrees_achats): ?>
 				<achats><?php echo $crd->entrees_achats ?></achats>
@@ -78,9 +78,12 @@
 <?php if ($crd->entrees_retours): ?>
 				<retours><?php echo $crd->entrees_retours ?></retours>
 <?php endif; ?>
+<?php if ($crd->entrees_autres): ?>
+        <autres><?php echo $crd->entrees_autres ?></autres>
+<?php endif; ?>
         		</entrees-capsules>
 <?php endif; ?>
-<?php if ($crd->sorties_utilisations || $crd->sorties_destructions || $crd->sorties_manquants): ?>
+<?php if ($crd->sorties_utilisations || $crd->sorties_destructions || $crd->sorties_manquants || $crd->sorties_autres): ?>
         		<sorties-capsules>
 <?php if ($crd->sorties_utilisations): ?>
 				<utilisations><?php echo $crd->sorties_utilisations ?></utilisations>
@@ -90,6 +93,9 @@
 <?php endif; ?>
 <?php if ($crd->sorties_manquants): ?>
 				<manquants><?php echo $crd->sorties_manquants ?></manquants>
+<?php endif; ?>
+<?php if ($crd->sorties_autres): ?>
+        <autres><?php echo $crd->sorties_manquants ?></autres>
 <?php endif; ?>
         		</sorties-capsules>
 <?php endif; ?>
