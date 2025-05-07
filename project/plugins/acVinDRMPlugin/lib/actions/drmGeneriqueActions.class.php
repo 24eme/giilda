@@ -12,7 +12,7 @@ class drmGeneriqueActions extends sfActions {
         if ($this->isTeledeclarationDrm()) {
             $this->etablissementPrincipal = $this->getRoute()->getEtablissement();
             $this->societe = $this->etablissementPrincipal->getSociete();
-            $this->compte = $this->societe->getCompte();
+            $this->compte = $this->societe->getMasterCompte();
         }
         if (!$this->compte) {
             $this->compte = $this->compte_login;
