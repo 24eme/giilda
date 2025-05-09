@@ -8,14 +8,10 @@
             <div class="modal-body">
                 <p>Vous êtes sur le point de valider votre DRM, une fois votre déclaration validée, vous ne pourrez plus la modifier.</p>
                 <p>Après validation vous recevrez votre DRM par mail.</p>
-
-                <?php if($compte->hasDroit(Roles::TELEDECLARATION_DOUANE) && !$drm->isNegoce()): ?>
-                    <p>Si vous le souhaitez, en cliquant sur l'option ci-dessous, vous pouvez transmettre cette DRM directement sur le portail de la douane, qui apparaitra en mode brouillon sur le portail douane.gouv.fr. Il vous restera alors à la valider en ligne sur le site web douanier.</p>
+                <?php if(!isset($validationForm['transmission_ciel'])): ?>
+                <p>Après avoir validé, vous allez être invité.e à télécharger votre DRM au format XML afin de l'importer en DTI+ sur le site de la douane.</p>
                 <?php else: ?>
-                    <p>Après avoir validé, vous allez être invité.e à télécharger votre DRM au format XML afin de l'importer en DTI+ sur le site de la douane.</p>
-                <?php endif; ?>
-      	   <!--<p>Si vous décidez de transmettre le document par courrier postal ou par mail, n'oubliez pas que la DRM doit être signée manuellement pour être valable.</p>-->
-                <?php if($compte->hasDroit(Roles::TELEDECLARATION_DOUANE) && !$drm->isNegoce()): ?>
+                <p>Si vous le souhaitez, en cliquant sur l'option ci-dessous, vous pouvez transmettre cette DRM directement sur le portail de la douane, qui apparaitra en mode brouillon sur le portail douane.gouv.fr. Il vous restera alors à la valider en ligne sur le site web douanier.</p>
                 <p>
                   <div class="ligne_form">
                       <div class="checkbox">
