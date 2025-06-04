@@ -234,8 +234,13 @@ class ConfigurationClient extends acCouchdbClient {
         if(is_null($this->countries)) {
             $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr'));
             $this->countries = $destinationChoicesWidget->getChoices();
+
             $this->countries['CW'] = 'Curaçao';
+            $this->countries['AN'] = 'Antilles néerlandaises';
+            $this->countries['SX'] = 'Saint-Martin (partie néerlandaise)';
 			unset($this->countries['FR']);
+            asort($this->countries, SORT_LOCALE_STRING);
+
 			DRMConfiguration::getInstance();
 			$this->countries = array_merge(array("" => ""), DRMConfiguration::getInstance()->getExportPaysDebut(), $this->countries, DRMConfiguration::getInstance()->getExportPaysFin());
         }
