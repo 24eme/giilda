@@ -32,7 +32,7 @@ class drm_xmlActions extends drmGeneriqueActions {
 
       if (!$this->drm->transmission_douane->success) {
           $to = sfConfig::get('app_ac_exception_notifier_email');
-          $to = ($to && isset($to->to)) ? $to->to : 'vins@24eme.fr';
+          $to = ($to && isset($to->to)) ? $to->to : 'logs@24eme.fr';
           $msg = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')),
           $to,
           "Erreur transmision XML pour ".$this->drm->_id,
