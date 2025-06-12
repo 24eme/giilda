@@ -74,7 +74,7 @@ use_helper('Date');
 <?php else: ?>
     <p class="text-center text-muted"><i>Aucune Facture</i></p>
 <?php endif; ?>
-<?php if($sf_user->isAdmin() && count($societe->getSocietesLieesIds()) >= 2): ?>
+<?php if(count($societe->getSocietesLieesIds()) >= 2): ?>
 <p>Voir l'historique de : <?php foreach($societe->getSocietesLieesIds() as $societeLieeId): ?>
   <?php $societeLiee = SocieteClient::getInstance()->find($societeLieeId); ?>
   <?php if(!$societeLiee || $societeLiee->_id == $societe->_id): continue; endif; ?>
