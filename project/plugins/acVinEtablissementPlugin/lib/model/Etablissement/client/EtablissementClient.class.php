@@ -32,6 +32,10 @@ class EtablissementClient extends acCouchdbClient {
     const TYPE_LIAISON_LABO = "LABO";
     const TYPE_LIAISON_ANALYSE_DE = "ANALYSE_DE";
 
+    // Liaisons interpro supplémentaires
+    const TYPE_LIAISON_ADHERENT = 'ADHERENT'; //pour les cooperateurs
+    const TYPE_LIAISON_CONTRAT_INTERNE = 'CONTRAT_INTERNE';
+
     const STATUT_ACTIF = 'ACTIF'; #'actif';
     const STATUT_SUSPENDU = 'SUSPENDU'; #'suspendu';
     const OUI = 'OUI';
@@ -457,6 +461,9 @@ class EtablissementClient extends acCouchdbClient {
             self::TYPE_LIAISON_LABO => 'A pour labo',
             self::TYPE_LIAISON_ANALYSE_DE => "Analyse les vins de",
 
+            // Liaisons interpro supplémentaires
+            self::TYPE_LIAISON_ADHERENT => 'Adhérent de (coop.)', //pour les cooperateurs
+            self::TYPE_LIAISON_CONTRAT_INTERNE => 'Contrat interne'
 
         );
     }
