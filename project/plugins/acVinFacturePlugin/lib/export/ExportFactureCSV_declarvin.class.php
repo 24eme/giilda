@@ -65,6 +65,8 @@ class ExportFactureCSV_declarvin {
                 if (isset($produits[trim($detail->libelle)])) {
                     $tab = explode('/', $produits[trim($detail->libelle)]);
                     $produitDetails = $tab[3].';'.$tab[5].';'.$tab[7].';'.$tab[9].';'.$tab[11].';'.$tab[13].';'.$tab[15].';'.$tab[18];
+                } else {
+                    $produitDetails = ';;;;;;;';
                 }
                 echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $libelle
                 . ';'.$code_compte.';;' . $identifiant_analytique . ';;' . $this->getSens($detail->montant_ht, "CREDIT") . ';' . $this->getMontant($detail->montant_ht, "CREDIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_LIGNE . ';' . $facture->declarant->nom . ";" . $facture->code_comptable_client . ';' . $detail->origine_type . ';' . "PRODUIT_TYPE" . ';' . $origine_mvt . ';' . $detail->quantite . ';' . $detail->prix_unitaire
