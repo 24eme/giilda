@@ -46,11 +46,10 @@ class ExportFactureCSV_declarvin {
         $societe = null;
         foreach ($facture->lignes as $t => $lignes) {
             $origine_mvt = "";
-            $drm = DRMClient::getInstance()->find($t);
             $produits = [];
             foreach ($lignes->origine_mouvements as $keyDoc => $mvt) {
                 $origine_mvt = $keyDoc;
-                if ($drm) {
+                if ($drm = DRMClient::getInstance()->find($keyDoc)) {
                     foreach ($mvt as $m) {
                         if ($drm->mouvements->exist($drm->identifiant) && $drm->mouvements->get($drm->identifiant)->exist($m)) {
                             $produits[trim($drm->mouvements->get($drm->identifiant)->get($m)->produit_libelle)] = str_replace('DEFAUT', '', $drm->mouvements->get($drm->identifiant)->get($m)->produit_hash.'/'.$drm->mouvements->get($drm->identifiant)->get($m)->denomination_complementaire);
