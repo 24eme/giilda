@@ -62,7 +62,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                         continue;
                     }
                     $tags['produit'][$produit_libelle] = 1;
-                    $tags['documents']['SV12'.$c] = 1;
+                    $tags['documents']['SV12 '.$c] = 1;
                 }
                 $mvts = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($id, $c);
                 foreach ($mvts as $m) {
@@ -75,6 +75,14 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                     if ($m->detail_libelle && preg_match("/export.*_details/", $m->type_hash)) {
                         $tags['export'][$this->replaceAccents($m->detail_libelle)] = 1;
                     }
+                }
+                try {
+                    $nbContrats = count(VracClient::getInstance()->getBySoussigne($c, $identifiant)->rows);
+                } catch(Exception $e) {
+                    $nbContrats = 0;
+                }
+                if($nbContrats) {
+                    $tags['documents']['Contrat '.$c] = 1;
                 }
                 if($cvi && $dr = acCouchdbManager::getClient()->find('DR-'.$cvi.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {
                     $tags['documents']['DR '.$periode] = 1;
