@@ -107,6 +107,24 @@ class SocieteClient extends acCouchdbClient {
         return $societe;
     }
 
+    public function fetchFromInseeApi($societe, $sirenOrSiret) {
+        $json = InseeSirene::getJson($sirenOrSiret);
+
+        if(!$json) {
+            return;
+        }
+
+        $societe->adresse_complementaire = ($json->adresseEtablissement->complementAdresseEtablissement) ? $json->adresseEtablissement->complementAdresseEtablissement : null;
+        $societe->siret = $json->siret;
+        if(isset($json->tva)) {
+            $societe->no_tva_intracommunautaire = $json->tva;
+        }
+        $societe->adresse = preg_replace("/[ ]+/", " ", trim(sprintf("%s%s %s %s", $json->adresseEtablissement->numeroVoieEtablissement, $json->adresseEtablissement->indiceRepetitionEtablissement, $json->adresseEtablissement->typeVoieEtablissement, $json->adresseEtablissement->libelleVoieEtablissement)));
+        $societe->code_postal = $json->adresseEtablissement->codePostalEtablissement;
+        $societe->commune = $json->adresseEtablissement->libelleCommuneEtablissement;
+        $societe->insee = $json->adresseEtablissement->codeCommuneEtablissement;
+    }
+
     public function find($id_or_identifiant, $hydrate = self::HYDRATE_DOCUMENT, $force_return_ls = false) {
         return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }

@@ -76,7 +76,12 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                         $tags['export'][$this->replaceAccents($m->detail_libelle)] = 1;
                     }
                 }
-                if(count(VracClient::getInstance()->getBySoussigne($c, $identifiant)->rows)) {
+                try {
+                    $nbContrats = count(VracClient::getInstance()->getBySoussigne($c, $identifiant)->rows);
+                } catch(Exception $e) {
+                    $nbContrats = 0;
+                }
+                if($nbContrats) {
                     $tags['documents']['Contrat '.$c] = 1;
                 }
                 if($cvi && $dr = acCouchdbManager::getClient()->find('DR-'.$cvi.'-'.$periode, acCouchdbClient::HYDRATE_JSON)) {

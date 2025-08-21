@@ -72,23 +72,27 @@ class societeActions extends sfCredentialActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $values = $this->form->getValues();
-                $this->redirect('societe_creation_doublon', array('raison_sociale' => $values['raison_sociale']));
+                $this->redirect('societe_creation_doublon', array('raison_sociale' => $values['raison_sociale'], 'siret' => $values['siret']));
             }
         }
     }
 
     public function executeCreationSocieteDoublon(sfWebRequest $request) {
         $this->raison_sociale = $request->getParameter('raison_sociale', false);
+        $this->siret = $request->getParameter('siret', false);
         $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithRaisonSociale($this->raison_sociale);
 
         if (!count($this->societesDoublons)) {
-            $this->redirect('societe_nouvelle', array('type' => $this->type, 'raison_sociale' => $this->raison_sociale));
+            $this->redirect('societe_nouvelle', array('type' => $this->type, 'raison_sociale' => $this->raison_sociale, 'siret' => $this->siret));
         }
     }
 
     public function executeSocieteNew(sfWebRequest $request) {
-        $this->raison_sociale = $request->getParameter('raison_sociale', false);
-        $societe = SocieteClient::getInstance()->createSociete($this->raison_sociale);
+        $raisonRociale = $request->getParameter('raison_sociale', false);
+        $siretOrSiren = $request->getParameter('siret', false);
+
+        $societe = SocieteClient::getInstance()->createSociete($raisonRociale);
+        SocieteClient::getInstance()->fetchFromInseeApi($societe, $siretOrSiren);
         $societe->save();
         $this->redirect('societe_modification', array('identifiant' => $societe->identifiant));
     }
