@@ -50,6 +50,9 @@ class GenerationFacturePDF extends GenerationPDF {
               throw new sfException($societeID . " unknown :(");
           $modele = $arguments['modele'];
           $facture = FactureClient::getInstance()->createDocFromMouvements($mouvementsSoc, $societe, $modele, $arguments['date_facturation'], $message_communication, $interpro);
+          if (!$facture) {
+              continue;
+          }
           $facture->save();
           $this->generation->somme += $facture->total_ht;
           $this->generation->documents->add($cpt, $facture->_id);
