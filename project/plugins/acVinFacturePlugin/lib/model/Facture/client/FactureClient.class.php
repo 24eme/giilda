@@ -130,6 +130,9 @@ class FactureClient extends acCouchdbClient {
             $facture->addOneMessageCommunication($message_communication);
         }
         $facture->storeEmetteur();
+        if ($facture->total_ht == 0 && count($facture->lignes) == 0) {
+            return null;
+        }
         return $facture;
     }
 
