@@ -23,7 +23,7 @@ $paramFacturation =  array(
 );
 
 
-$facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, $paramFacturation);
+$facture = FactureClient::getInstance()->createFacturesBySociete($societeViti, $paramFacturation);
 $facture->save();
 
 $t->ok($facture, "La facture est créé pour ".$societeViti);
