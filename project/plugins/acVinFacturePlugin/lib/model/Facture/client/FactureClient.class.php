@@ -248,7 +248,7 @@ class FactureClient extends acCouchdbClient {
         return $mouvementsBySoc;
     }
 
-    public function createAndSaveFacturesBySociete($societe, $parameters) {
+    public function createFacturesBySociete($societe, $parameters) {
         if (!isset($parameters['interpro'])) {
             $parameters['interpro'] = null;
         }

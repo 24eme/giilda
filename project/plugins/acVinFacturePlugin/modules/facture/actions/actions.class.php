@@ -169,8 +169,7 @@ class factureActions extends sfActions {
         }
 
         $parameters = $this->constructFactureFiltersParameters();
-        $f = FactureClient::getInstance()->createAndSaveFacturesBySociete($this->societe, $parameters);
-
+        $f = FactureClient::getInstance()->createFacturesBySociete($this->societe, $parameters);
         if(!$f) {
 
             return $this->redirect('facture_societe', $this->societe);

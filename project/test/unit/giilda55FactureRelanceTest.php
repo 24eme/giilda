@@ -45,7 +45,7 @@ $paramFacture = array(
     "seuil" => null,
 );
 
-$facture1 = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, $paramFacture);
+$facture1 = FactureClient::getInstance()->createFacturesBySociete($societeViti, $paramFacture);
 $facture1->save();
 
 $t->ok($facture1, "Facture n°1 créée");
@@ -59,7 +59,7 @@ $drm->save();
 $drm->validate();
 $drm->save();
 
-$facture2 = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, $paramFacture);
+$facture2 = FactureClient::getInstance()->createFacturesBySociete($societeViti, $paramFacture);
 $facture2->save();
 
 $t->ok($facture2, "Facture n°2 créée");
@@ -73,7 +73,7 @@ $drm->save();
 $drm->validate();
 $drm->save();
 
-$facture3 = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, $paramFacture);
+$facture3 = FactureClient::getInstance()->createFacturesBySociete($societeViti, $paramFacture);
 $facture3->save();
 
 $t->ok($facture3, "Facture n°3 créée");
