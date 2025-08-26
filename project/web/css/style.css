@@ -149,3 +149,7 @@ span.disabled, a.disabled {
 .mdp i.glyphicon {
     font-size: 15px;
 }
+
+.mdp-wrapper {
+     padding: 0;
+ }
