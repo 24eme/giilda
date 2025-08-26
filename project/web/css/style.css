@@ -140,3 +140,12 @@ span.disabled, a.disabled {
 .transparence-xs {
     opacity: 0.80;
 }
+
+.mdp {
+    display: inline-block;
+    padding: 9px 0;
+}
+
+.mdp i.glyphicon {
+    font-size: 15px;
+}
