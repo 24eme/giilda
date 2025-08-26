@@ -495,3 +495,30 @@
     }
 
 })(jQuery);
+
+// Afficher / cacher le mot de passe
+const passwordField1 = document.getElementById("ac_vin_compte_mdp1");
+const passwordField2 = document.getElementById("ac_vin_compte_mdp2");
+
+const togglePassword1 = document.querySelector(".mdp1-toggle-icon i");
+const togglePassword2 = document.querySelector(".mdp2-toggle-icon i");
+
+function togglePasswordVisibility(toggleButton, passwordField) {
+  if (passwordField.type === "password") {
+    passwordField.type = "text";
+    toggleButton.classList.remove("glyphicon-eye-open");
+    toggleButton.classList.add("glyphicon-eye-close");
+  } else {
+    passwordField.type = "password";
+    toggleButton.classList.remove("glyphicon-eye-close");
+    toggleButton.classList.add("glyphicon-eye-open");
+  }
+}
+
+togglePassword1.addEventListener("click", function () {
+  togglePasswordVisibility(togglePassword1, passwordField1);
+});
+
+togglePassword2.addEventListener("click", function () {
+  togglePasswordVisibility(togglePassword2, passwordField2);
+});

@@ -94,6 +94,7 @@ if($compte->getSociete()->isTransaction()){
                     <?php echo $form['mdp1']->renderError() ?>
                     <div class="form-group">
                       <?php echo $form['mdp1']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                      <span class="mdp mdp1-toggle-icon"><i class="glyphicon glyphicon-eye-open"></i> </span>
                       <div class="col-sm-4">
                         <?php echo $form['mdp1']->render() ?>
                       </div>
@@ -102,6 +103,7 @@ if($compte->getSociete()->isTransaction()){
                     <?php echo $form['mdp2']->renderError() ?>
                     <div class="form-group">
                       <?php echo $form['mdp2']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
+                      <span class="mdp mdp2-toggle-icon"><i class="glyphicon glyphicon-eye-open"></i> </span>
                       <div class="col-sm-4">
                         <?php echo $form['mdp2']->render() ?>
                       </div>
