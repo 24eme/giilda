@@ -1,57 +1,31 @@
-<!-- #principal -->
 <?php use_helper('Compte') ?>
-<section class="row">
-    <ol class="breadcrumb">
-        <li><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
-        <li><a href="<?php echo url_for('societe_creation'); ?>"><span class="glyphicon glyphicon-calendar"></span>&nbsp;Création d'une société </a></li>
-        <li class="active"><a href="">Sociétés existantes</a></li>
-    </ol>
+<ol class="breadcrumb">
+    <li><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
+    <li><a href="<?php echo url_for('societe_creation'); ?>"><span class="glyphicon glyphicon-calendar"></span>&nbsp;Création d'une société </a></li>
+    <li class="active"><a href="">Sociétés existantes</a></li>
+</ol>
 
-    <h2>Sociétés existantes</h2>
-    <div class="col-xs-12 ">
-        <div class="well">
-            <span>
-                Les sociétés suivantes possède un raison sociale proche de <strong>"<?php echo $raison_sociale; ?>"</strong>.
-            </span>
-        </div>
-    </div>
-    <br>
+    <h3 class="mb-2">Vérification des sociétés existantes : <strong>"<?php echo $raison_sociale; ?>"</strong></h3>
 
-    <div style="" class="col-xs-12">
-        <?php foreach ($societesDoublons as $societeDoublee) : ?>
-            <div class="list-group">
-                <div class="list-group-item">
-                    <h2 style="margin-top: 5px; margin-bottom: 5px;"><span class="glyphicon glyphicon-calendar"></span>
-                        <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societeDoublee->key[SocieteAllView::KEY_IDENTIFIANT])); ?>">
-                            <?php echo $societeDoublee->key[SocieteAllView::KEY_RAISON_SOCIALE]; ?>
-                        </a>
-                        <small class="text-muted">(n° de societe : <?php echo $societeDoublee->key[SocieteAllView::KEY_IDENTIFIANT]; ?>)</small>
-                </div>
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-xs-12  text-center">
-                            <address class="">
-                                <?php echo $societeDoublee->key[SocieteAllView::KEY_COMMUNE]; ?>&nbsp;<?php echo $societeDoublee->key[SocieteAllView::KEY_CODE_POSTAL]; ?>
-                            </address>
-                        </div>
-                    </div>
-                </div>
-                <div class="list-group-item">
-                    <ul class="list-inline">
-                        <li><attr>N° SIRET :</attr> <?php echo formatSIRET($societeDoublee->key[SocieteAllView::KEY_SIRET]); ?></li>
-                    </ul>
-                </div>
-            </div>
-            <br/>
-        <?php endforeach; ?>
-    </div>
+    <p class="mt-4 mb-4">
+        <strong><?php echo count($societesDoublons) ?> société(s)</strong> possédant déjà une raison sociale proche ou identique à celle que vous voulez créer ont été trouvée(s) :
+    </p>
 
-    <div class="form_btn">
+
+
+    <?php foreach ($societesDoublons as $societeDoublee) : ?>
+        <ul>
+            <li><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societeDoublee->key[SocieteAllView::KEY_IDENTIFIANT])); ?>">
+                <?php echo $societeDoublee->key[SocieteAllView::KEY_RAISON_SOCIALE]; ?> (<?php echo $societeDoublee->key[SocieteAllView::KEY_IDENTIFIANT]; ?>, <?php echo $societeDoublee->key[SocieteAllView::KEY_SIRET] ? formatSIRET($societeDoublee->key[SocieteAllView::KEY_SIRET]) : "Aucun SIRET"; ?>) : <?php if($societeDoublee->key[SocieteAllView::KEY_COMMUNE] || $societeDoublee->key[SocieteAllView::KEY_CODE_POSTAL]): ?><?php echo $societeDoublee->key[SocieteAllView::KEY_COMMUNE]; ?>&nbsp;<?php echo $societeDoublee->key[SocieteAllView::KEY_CODE_POSTAL]; ?><?php else: ?>Aucune adresse<?php endif; ?></a></li>
+        </ul>
+    <?php endforeach; ?>
+
+    <div class="row mt-5">
         <div class="col-xs-6">
             <a class="btn btn-default" href="<?php echo url_for('societe_creation'); ?>">Annuler</a>
         </div>
         <div class="col-xs-6  text-right">
-            <a class="btn btn-success" href="<?php echo url_for('societe_nouvelle', array('raison_sociale' => $raison_sociale)); ?>">Créer</a>
+            <a class="btn btn-primary" href="<?php echo url_for('societe_nouvelle', array('raison_sociale' => $raison_sociale, 'siret' => $siret)); ?>">Continuer et créer la société</a>
         </div>
     </div>
 </section>
