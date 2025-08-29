@@ -515,10 +515,12 @@ function togglePasswordVisibility(toggleButton, passwordField) {
   }
 }
 
-togglePassword1.addEventListener("click", function () {
-  togglePasswordVisibility(togglePassword1, passwordField1);
-});
+if (togglePassword1 || togglePassword2) {
+  togglePassword1.addEventListener("click", function () {
+    togglePasswordVisibility(togglePassword1, passwordField1);
+  });
 
-togglePassword2.addEventListener("click", function () {
-  togglePasswordVisibility(togglePassword2, passwordField2);
-});
+  togglePassword2.addEventListener("click", function () {
+    togglePasswordVisibility(togglePassword2, passwordField2);
+  });
+}
