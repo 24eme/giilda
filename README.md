@@ -1,4 +1,4 @@
-# GIILDA : Groupement IVSO IVBD (et aussi BIVC et CIVA) de Logiciels dediés aux Déclarations Administratives 
+# GIILDA : Groupement Interprofessionnel Informatique de Logiciels dediés aux Déclarations Administratives 
 
 Projet de dématérialisation informatique des activités d'une interprofession viticole.
 
@@ -10,6 +10,7 @@ Le projet est actuellement en cours d'utilisation par  :
 * IVBD (Bergerac): https://declaration.ivbdpro.fr/
 * BIVC (Centre Loire): https://declaration.vins-centre-loire.com/
 * CIVA (Alsace): https://declaration.vinsalsace.pro/
+* Partiellement utilisé par InterRhone, CIVP, IVSE (en plus du projet Déclarvins)
 
 ## Aperçu de l'application
 
