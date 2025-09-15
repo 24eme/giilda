@@ -3,7 +3,6 @@
 class DRMEtablissementCampagneForm extends BaseForm {
 
     private $isTeledeclarationMode = false;
-    const TELEDECLARATION_SAISIE_INTERNE_SI_CAMPAGNE_DE_PLUS_DE_X_ANNEEE = 4;
 
     public function configure() {
         $list = $this->getChoiceCampagnes();
@@ -32,7 +31,7 @@ class DRMEtablissementCampagneForm extends BaseForm {
             $campagnes = array();
             $currentCampagne = ConfigurationClient::getInstance()->getCurrentCampagne();
             $campages[$currentCampagne] = $currentCampagne;
-            for($i = date('Y'); $i > date('Y') - TELEDECLARATION_SAISIE_INTERNE_SI_CAMPAGNE_DE_PLUS_DE_X_ANNEEE ; $i--) {
+            for($i = date('Y'); $i > (date('Y') - DRMConfiguration::getInstance()->getNbCampagneTeledeclaration()) ; $i--) {
                 $campagne = ($i - 1)."-".$i;
                 $campagnes[$campagne] = $campagne;
             }
