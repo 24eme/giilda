@@ -457,7 +457,16 @@ class VracClient extends acCouchdbClient {
                         ->group_level(2)
                         ->limit(1)
                         ->getView('vrac', 'soussigneidentifiant')->rows;
-        return ConfigurationClient::getInstance()->getCampagneVinicole()->fillCampagnesList($rows[0]->key[1]);
+
+        if (count($rows) === 0) {
+            $campagne = ConfigurationClient::getInstance()->getCampagneVinicole()->getCurrent();
+            $debut_campagne = (int) substr($campagne, 0, 4);
+            $first_campagne = sprintf("%s-%s", $debut_campagne - 1, $debut_campagne);
+        } else {
+            $first_campagne = $rows[0]->key[1];
+        }
+
+        return ConfigurationClient::getInstance()->getCampagneVinicole()->fillCampagnesList($first_campagne);
     }
 
     public static function getCsvForEtiquettes($date_debut, $date_fin) {

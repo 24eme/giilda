@@ -54,7 +54,7 @@
                             <?php endif; ?>
                             <?php if ($societe->siret): ?>
                                 <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">SIRET&nbsp;:</div>
-                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo formatSIRET($societe->siret); ?></div>
+                                <div style="margin-bottom: 5px;" class="col-xs-8"><?php echo formatSIRET($societe->siret); ?>&nbsp;&nbsp;<a href="https://annuaire-entreprises.data.gouv.fr/entreprise/<?php echo substr($societe->siret, 0, 9) ?>" class="text-muted" style="text-decoration: none;" target="_blank" title="Voir sur l'annuaire des entreprise (annuaire-entreprises.data.gouv.fr)"><small class="glyphicon glyphicon-eye-open"></small></a></div>
                             <?php endif; ?>
                             <?php if ($societe->code_naf): ?>
                                 <div style="margin-bottom: 5px;" class="col-xs-4 text-muted">Code naf&nbsp;:</div>

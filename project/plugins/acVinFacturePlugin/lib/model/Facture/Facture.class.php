@@ -42,7 +42,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($this->isFactureDRM()){
             return 'DRM';
         } elseif($this->isFactureSV12()){
-            return ($this->getSociete()->getNegociant())? 'SV12 Interne' : 'SV12';
+            return 'SV12';
+        } elseif($this->isFactureSV12Nego()){
+            return 'SV12 Interne';
         } elseif($this->isFactureDivers()){
             return 'Libre';
         } else {
@@ -252,7 +254,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $etablissements = $this->getEtablissements();
         $comptabilite = ComptabiliteClient::getInstance()->findCompta($this->getOrAdd('interpro'));
         $keysOrigin = array();
-        if (($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
+        if (($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12) || ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12_NEGO)) {
             foreach ($ligneByType->origines as $origine) {
                 $keyOrigin = explode(':', $origine);
                 $keyOriginWithoutModificatrice = preg_replace('/(.*)-(M|R)[0-9]+$/', '$1', $keyOrigin[0]);
@@ -865,6 +867,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function isFactureSV12(){
       return $this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_SV12);
+    }
+
+    public function isFactureSV12Nego(){
+      return $this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_SV12_NEGO);
     }
 
     public function isFactureDivers(){

@@ -90,9 +90,16 @@ class DRMConfiguration {
         return $this->configuration['sans_contrat_option'];
     }
 
+    /****
+     * Si après ce délais, le statut Saisie interne en mis pour la télédéclaration
+     ***/
     public function getDelaiOuvertureTeledeclaration() {
 
         return $this->configuration['delai_ouverture_teledeclaration'];
+    }
+
+    public function getNbCampagneTeledeclaration() {
+        return 4;
     }
 
     public function isDRMVracMultiProduit() {
