@@ -82,6 +82,24 @@ class FactureClient extends acCouchdbClient {
             $facture->add('interpro', $interpro);
         }
         $biggestMouvementSocDate = null;
+        if ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12_NEGO) {
+            if (!$societe->isNegociant()) {
+              return null;
+            }
+            $new_mvt = [];
+            foreach ($mouvementsSoc as $mouvementSoc) {
+                if ($mouvementSoc->origine != FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12) {
+                    continue;
+                }
+                foreach ($mouvementSoc->origines as $o) {
+                    if (strpos($o, $societe->identifiant) !== false) {
+                        $new_mvt[] = $mouvementSoc;
+                        continue;
+                    }
+                }
+            }
+            $mouvementsSoc = $new_mvt;
+        }
         foreach ($mouvementsSoc as $mouvementSoc) {
           if (isset($mouvementSoc->date) && $mouvementSoc->date > $biggestMouvementSocDate) {
             $biggestMouvementSocDate = $mouvementSoc->date;
@@ -112,6 +130,9 @@ class FactureClient extends acCouchdbClient {
             $facture->addOneMessageCommunication($message_communication);
         }
         $facture->storeEmetteur();
+        if ($facture->total_ht == 0 && count($facture->lignes) == 0) {
+            return null;
+        }
         return $facture;
     }
 
@@ -248,7 +269,7 @@ class FactureClient extends acCouchdbClient {
         return $mouvementsBySoc;
     }
 
-    public function createAndSaveFacturesBySociete($societe, $parameters) {
+    public function createFacturesBySociete($societe, $parameters) {
         if (!isset($parameters['interpro'])) {
             $parameters['interpro'] = null;
         }

@@ -99,7 +99,7 @@ $prixHt = $prixHt;
 $prixTaxe = $prixHt * 0.2;
 $prixTTC = $prixHt+$prixTaxe;
 
-$facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, $paramFacturation);
+$facture = FactureClient::getInstance()->createFacturesBySociete($societeViti, $paramFacturation);
 
 $facture->save();
 $t->ok($facture, "La facture est créée");
@@ -214,7 +214,7 @@ $papierGenerator->generate();
 
 $t->comment("Test d'une nouvelle facturation sur la société pour s'assurer qu'aucune facture ne sera créée");
 
-$t->ok(!FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, $paramFacturation), "La facture n'a pas été créée");
+$t->ok(!FactureClient::getInstance()->createFacturesBySociete($societeViti, $paramFacturation), "La facture n'a pas été créée");
 
 $t->comment("Création d'un avoir à partir de la facture");
 
@@ -341,7 +341,7 @@ $drm->save();
 
 $dateFacturation = new DateTime(preg_replace("/([0-9]{4})([0-9]{2})/", '\1-\2-31', $periode));
 $paramFacturation["date_mouvement"] = $dateFacturation->modify("+ 1 month")->format('Y-m-d');
-$facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeNego, $paramFacturation);
+$facture = FactureClient::getInstance()->createFacturesBySociete($societeNego, $paramFacturation);
 
 if($hasCVONegociant) {
     $t->is($drm->mouvements->get($nego2->getIdentifiant())->getFirst()->facturable, 1, 'Mouvement du negociant est facturable');
@@ -357,7 +357,7 @@ if($hasCVONegociant) {
     $t->pass("Aucun test");
 }
 
-$facture_negoce2 = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeNego2, $paramFacturation);
+$facture_negoce2 = FactureClient::getInstance()->createFacturesBySociete($societeNego2, $paramFacturation);
 if($hasCVONegociant) {
     $t->ok($facture_negoce2, "La facture de l'acheteur est créée");
     $t->is($facture_negoce2->total_ht, round($vrac_detail->volume * ($details->getCVOTaux() / 2), 2), "Le total HT est correct");
