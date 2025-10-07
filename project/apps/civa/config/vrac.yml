@@ -1,0 +1,4 @@
+all:
+  configuration:
+    vrac:
+      region_departement: false
