@@ -81,6 +81,15 @@ class SV12Routing {
                       'control' => array('valid')
         )));
 
+        $r->prependRoute('sv12_delete', new SV12Route('/sv12/:identifiant/edition/:periode_version/deleteBrouillon',
+            array('module' => 'sv12',
+                  'action' => 'deleteBrouillon'),
+            array('sf_method' => array('get')),
+            array('model' => 'SV12',
+                 'type' => 'object',
+                 'control' => array('edition'))
+        ));
+
     }
 
 }
