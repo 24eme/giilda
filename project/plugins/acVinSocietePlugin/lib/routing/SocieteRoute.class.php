@@ -10,7 +10,7 @@ class SocieteRoute extends sfObjectRoute implements InterfaceSocieteRoute, Inter
       }
       $myUser = sfContext::getInstance()->getUser();
       if ($myUser->hasTeledeclaration() && !$myUser->isAdmin() &&
-              $myUser->getCompte()->identifiant != $this->societe->getMasterCompte()->identifiant) {
+              $myUser->getCompte()->identifiant != $this->societe->getMasterCompte()->identifiant && !in_array($this->societe->_id, $this->societe->getSocietesLieesIds())) {
 
             throw new sfError403Exception("Vous n'avez pas le droit d'accéder à cette page");
       }

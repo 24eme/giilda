@@ -124,7 +124,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
             $master = null;
         }
 
-        if ($mother && $mother->_id === $mother->_id) {
+        if ($mother && $mother->_id === $this->_id) {
             $mother = null;
         }
 

@@ -22,10 +22,12 @@ class SocieteCreationForm extends baseForm {
         parent::configure();
 
         $this->setWidget('raison_sociale', new bsWidgetFormInput());
-
         $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
+        $this->widgetSchema->setLabel('raison_sociale', 'Raison sociale');
 
-        $this->widgetSchema->setLabel('raison_sociale', 'Raison sociale de la société : ');
+        $this->setWidget('siret', new bsWidgetFormInput());
+        $this->setValidator('siret', new sfValidatorString(array('required' => false)));
+        $this->widgetSchema->setLabel('siret', 'SIRET / SIREN');
 
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
         $this->widgetSchema->setNameFormat('societe-creation[%s]');

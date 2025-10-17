@@ -22,6 +22,9 @@
                   <div class="col-sm-4">
                     <?php echo $form['mdp1']->render(['autofocus' => 'autofocus']) ?>
                   </div>
+                  <div class="col-sm-1 mdp-wrapper">
+                      <span class="mdp mdp1-toggle-icon"><i class="glyphicon glyphicon-eye-open"></i> </span>
+                  </div>
                 </div>
 
                 <?php echo $form['mdp2']->renderError() ?>
@@ -29,6 +32,9 @@
                   <?php echo $form['mdp2']->renderLabel(null, ['class' => 'col-sm-4 control-label']) ?>
                   <div class="col-sm-4">
                     <?php echo $form['mdp2']->render() ?>
+                  </div>
+                  <div class="col-sm-1 mdp-wrapper">
+                      <span class="mdp mdp2-toggle-icon"><i class="glyphicon glyphicon-eye-open"></i> </span>
                   </div>
                 </div>
 
