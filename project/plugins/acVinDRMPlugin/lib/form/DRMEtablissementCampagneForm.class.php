@@ -31,7 +31,7 @@ class DRMEtablissementCampagneForm extends BaseForm {
             $campagnes = array();
             $currentCampagne = ConfigurationClient::getInstance()->getCurrentCampagne();
             $campages[$currentCampagne] = $currentCampagne;
-            for($i = date('Y'); $i > date('Y') - 4; $i--) {
+            for($i = date('Y'); $i > (date('Y') - DRMConfiguration::getInstance()->getNbCampagneTeledeclaration()) ; $i--) {
                 $campagne = ($i - 1)."-".$i;
                 $campagnes[$campagne] = $campagne;
             }

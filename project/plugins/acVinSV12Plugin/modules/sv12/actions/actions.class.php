@@ -137,4 +137,11 @@ class sv12Actions extends sfActions {
             }
        }
     }
+
+    public function executeDeleteBrouillon(sfWebRequest $request)
+    {
+        $this->sv12 = $this->getRoute()->getSV12();
+        $this->sv12->delete();
+        return $this->redirect('sv12_etablissement', $this->getRoute()->getEtablissement());
+    }
 }
