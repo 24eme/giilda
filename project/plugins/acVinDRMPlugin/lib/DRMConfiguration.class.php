@@ -99,7 +99,7 @@ class DRMConfiguration {
     }
 
     public function getNbCampagneTeledeclaration() {
-        return 4;
+        return ceil($this->getDelaiOuvertureTeledeclaration() / 12);
     }
 
     public function isDRMVracMultiProduit() {
