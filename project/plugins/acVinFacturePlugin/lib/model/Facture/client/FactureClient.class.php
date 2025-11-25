@@ -153,17 +153,20 @@ class FactureClient extends acCouchdbClient {
         return $this->find('FACTURE-' . $idSociete . '-' . $idFacture);
     }
 
-    public function getReduceLevelForFacturation() {
+    public function getReduceLevelForFacturation($no_reduce = false) {
+        if ($no_reduce) {
+            return null;
+        }
         return MouvementfactureFacturationView::KEYS_VRAC_DEST + 1;
     }
 
-    public function getMouvementsForMasse($interpro, $regions) {
+    public function getMouvementsForMasse($interpro, $regions, $no_reduce = false) {
         if (!$regions) {
-            return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1, $interpro, $this->getReduceLevelForFacturation());
+            return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1, $interpro, $this->getReduceLevelForFacturation($no_reduce));
         }
         $mouvementsByRegions = array();
         foreach ($regions as $region) {
-            $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1, $interpro, $region, $this->getReduceLevelForFacturation()), $mouvementsByRegions);
+            $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1, $interpro, $region, $this->getReduceLevelForFacturation($no_reduce)), $mouvementsByRegions);
         }
 
         ksort($mouvementsByRegions);
@@ -186,7 +189,14 @@ class FactureClient extends acCouchdbClient {
         return $generationFactures;
     }
 
-    public function filterWithParameters($mouvementsBySoc, $parameters) {
+    public function retrieveMouvement($identifiant, $idDoc, $mouvKey) {
+        if ($doc = Factureclient::getInstance()->getDocumentOrigine($idDoc)) {
+          return $doc->findMouvement($mouvKey, $identifiant);
+        }
+        return null;
+    }
+
+    public function filterWithParameters($mouvementsBySoc, $parameters, $ignore_somme_nulle = true) {
         $date_mouvement = null;
         if (isset($parameters['date_mouvement']) && $parameters['date_mouvement']) {
             $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
@@ -219,7 +229,8 @@ class FactureClient extends acCouchdbClient {
                 }
             }
         }
-        foreach ($mouvementsBySoc as $identifiant => $mouvements) {
+        if ($ignore_somme_nulle) {
+          foreach ($mouvementsBySoc as $identifiant => $mouvements) {
             $somme = 0;
             foreach ($mouvements as $key => $mouvement) {
                 $prix = $mouvement->prix_ht;
@@ -239,6 +250,7 @@ class FactureClient extends acCouchdbClient {
                     $mouvementsBySoc[$identifiant] = null;
                 }
             }
+          }
         }
         $mouvementsBySoc = $this->cleanMouvementsBySoc($mouvementsBySoc);
         return $mouvementsBySoc;
