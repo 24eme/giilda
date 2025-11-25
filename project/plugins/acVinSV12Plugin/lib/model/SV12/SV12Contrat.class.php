@@ -78,7 +78,7 @@ class SV12Contrat extends BaseSV12Contrat {
 
     public function isCleanable() {
 
-        return !$this->volume && !($this->getDocument()->hasVersion() && $this->getDocument()->isModifiedMother($this, 'volume'));
+        return !$this->volume;
     }
 
     protected function getVolumeVersion() {
