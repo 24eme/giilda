@@ -250,7 +250,7 @@ class ConfigurationClient extends acCouchdbClient {
     }
 
     public function getCountry($code) {
-        if (is_null($this->countries) {
+        if (is_null($this->countries)) {
 			$this->getCountryList();
 		}
 
