@@ -238,6 +238,7 @@ class ConfigurationClient extends acCouchdbClient {
             $this->countries['CW'] = 'Curaçao';
             $this->countries['AN'] = 'Antilles néerlandaises';
             $this->countries['SX'] = 'Saint-Martin (partie néerlandaise)';
+            $this->countries['XK'] = 'Kosovo';
 			unset($this->countries['FR']);
             asort($this->countries, SORT_LOCALE_STRING);
 
@@ -249,9 +250,11 @@ class ConfigurationClient extends acCouchdbClient {
     }
 
     public function getCountry($code) {
-        $countries = $this->getCountryList();
+        if (is_null($this->countries) {
+			$this->getCountryList();
+		}
 
-        return $countries[$code];
+        return $this->countries[$code];
     }
 
     public function findCountryByCode($code) {
