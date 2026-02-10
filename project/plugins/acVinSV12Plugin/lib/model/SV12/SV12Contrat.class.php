@@ -199,7 +199,7 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function getTauxCvo() {
-        $this->cvo = $this->getDroitCVO()->taux*1.0;
+        $this->cvo = ($this->getDroitCVO())? $this->getDroitCVO()->taux*1.0 : 0;
         return $this->cvo;
     }
 
