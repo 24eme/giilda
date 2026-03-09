@@ -137,6 +137,7 @@ Vrac:
             '*': {  }
       mandataire_identifiant: {  }
       logement: {  }
+      vinification: {  }
       mandataire:
         type: collection
         definition:
