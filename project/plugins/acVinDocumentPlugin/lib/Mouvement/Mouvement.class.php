@@ -18,9 +18,9 @@ abstract class Mouvement extends acCouchdbDocumentTree
         $this->_set('produit_libelle', preg_replace('/ *, */', ' - ', $s));
     }
 
-    public function facturer() {
+    public function facturer($facture_flag = 1) {
         if($this->isFacturable()) {
-            $this->facture = 1;
+            $this->facture = $facture_flag;
         }
     }
 

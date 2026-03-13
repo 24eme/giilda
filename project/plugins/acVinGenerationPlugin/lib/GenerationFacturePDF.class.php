@@ -33,6 +33,8 @@ class GenerationFacturePDF extends GenerationPDF {
             $interpro = $arguments['interpro'];
         }
 
+        if (!isset($arguments['cleanonly']) || !$arguments['cleanonly']) {
+
         $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse($interpro, $regions);
 
         $mouvementsBySoc = FactureClient::getInstance()->getMouvementsNonFacturesBySoc($allMouvementsByRegion);
@@ -57,6 +59,41 @@ class GenerationFacturePDF extends GenerationPDF {
           $this->generation->somme += $facture->total_ht;
           $this->generation->documents->add($cpt, $facture->_id);
           $cpt++;
+        }
+
+        }
+
+        $this->cleanMouvementNonFacturables($interpro, $regions, $arguments);
+
+    }
+
+    public function cleanMouvementNonFacturables($interpro, $regions, $arguments) {
+        $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse($interpro, $regions, true);
+        $mouvementsBySoc = FactureClient::getInstance()->getMouvementsNonFacturesBySoc($allMouvementsByRegion);
+        $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $arguments, false);
+        foreach ($mouvementsBySoc as $societeID => $mouvementsSoc) {
+            $somme = 0;
+            foreach ($mouvementsSoc as $key => $ligneByType) {
+                $somme += $ligneByType->prix_unitaire * $ligneByType->quantite;
+            }
+            //Si la somme des mouvements ne s'annule pas, on ne nettoye pas les mouvements
+            if ($somme) {
+                continue;
+            }
+            $real_mvts = [];
+            foreach ($mouvementsSoc as $mvtkey => $ligneByType) {
+                $doc_to_save = [];
+                foreach ($ligneByType->origines as $o) {
+                    $doc_mvt = explode(':', $o);
+                    $real_mvt = FactureClient::getInstance()->retrieveMouvement($ligneByType->etablissement_identifiant, $doc_mvt[0], $doc_mvt[1]);
+                    $real_mvt->facturer(-1);
+                    $doc = $real_mvt->getDocument();
+                    $doc_to_save[$doc->_id] = $doc;
+                }
+                foreach($doc_to_save as $id => $doc) {
+                    $doc->save();
+                }
+            }
         }
     }
 

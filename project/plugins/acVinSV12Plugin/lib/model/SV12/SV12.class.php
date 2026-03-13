@@ -179,6 +179,9 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->totaux->volume_mouts = 0;
 
         foreach ($this->contrats as $contrat) {
+            if (! $contrat->volume) {
+                continue;
+            }
             if(!$this->totaux->produits->exist($contrat->produit_libelle)) {
                 $noeud = $this->totaux->produits->add($contrat->produit_libelle);
                 $noeud->produit_hash = $contrat->produit_hash;
