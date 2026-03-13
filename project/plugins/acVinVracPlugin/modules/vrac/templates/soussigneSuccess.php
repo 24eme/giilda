@@ -135,7 +135,25 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 		            <div id="bloc_logement" data-condition-value="1" class="form-group bloc_conditionner <?php if($form['logement']->hasError()): ?>has-error<?php endif; ?>">
                 		                <?php echo $form['logement']->renderError(); ?>
                 		                <div class="col-sm-12">
-                		                    <?php echo $form['logement']->render(array("placeholder" => "Ville du logement")); ?>
+                		                    <?php echo $form['logement']->render(array("placeholder" => "Adresse du logement")); ?>
+                		                </div>
+                		            </div>
+                		            <?php endif; ?>
+				                   <?php if(isset($form['vinification'])): ?>
+                                    <div class="form-group <?php if($form['vinification_exist']->hasError()): ?>has-error<?php endif; ?>">
+                		                    <?php echo $form['vinification_exist']->renderError(); ?>
+                		                    <div class="checkbox col-sm-12 bloc_condition" data-condition-cible="#bloc_vinification">
+                		                        <label for="<?php echo $form['vinification_exist']->renderId(); ?>">
+                		                            <?php echo $form['vinification_exist']->render(); ?>
+                		                            Vin vinifié à une autre adresse
+                		                        </label>
+                                            <span>&nbsp;&nbsp;<?php echo getPointAideHtml('vrac','soussignes_vin_vinifie'); ?></span>
+                		                    </div>
+                		            </div>
+                		            <div id="bloc_vinification" data-condition-value="1" class="form-group bloc_conditionner <?php if($form['vinification']->hasError()): ?>has-error<?php endif; ?>">
+                		                <?php echo $form['vinification']->renderError(); ?>
+                		                <div class="col-sm-12">
+                		                    <?php echo $form['vinification']->render(array("placeholder" => "Adresse de vinification")); ?>
                 		                </div>
                 		            </div>
                 		            <?php endif; ?>

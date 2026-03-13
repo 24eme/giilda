@@ -155,6 +155,10 @@ use_helper('PointsAides');
                     'Courtier : ' . link_to($v->mandataire->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->mandataire_identifiant)) : 'Courtier : ' . $v->mandataire->nom;
               echo "</div>";
              endif; ?>
+
+               <?php if(isset($v->interne) && $v->interne): ?>
+                 <br /><small><span class="glyphicon glyphicon-resize-small"></span> Contrat interne</small>
+               <?php endif; ?>
                     </td>
 
                     <td><?php

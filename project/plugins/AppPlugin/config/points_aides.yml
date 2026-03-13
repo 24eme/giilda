@@ -33,6 +33,7 @@ all:
         soussignes_type_contrat: "Cocher le type de contrat que vous souhaitez réaliser."
         soussignes_selection_vendeur: "Sélectionner un vendeur dans la liste ou  indiquer un nouveau vendeur. La liste proposée contient des producteurs avec qui vous avez déjà travaillé. Pour indiquer un nouveau vendeur, sélectionner  « ajouter un récoltant ». Il vous faudra connaître son n° de client à l’interprofession."
         soussignes_vin_loge: "Cocher cette case si le vin est logé dans un autre chai que celui indiqué dans l’adresse du récoltant. Indiquer ensuite la commune."
+        soussignes_vin_vinifie: "Cocher cette case si le vin est vinifié dans un autre chai que celui indiqué dans l’adresse du récoltant. Indiquer ensuite la commune."
         soussignes_vente_intermediaire: "Cocher cette case si un intermédiaire intervient dans la transaction, puis le sélectionner.  Un intermédiaire est quelqu’un qui se substitue au vendeur dans ses obligations vis-à-vis de l’interprofession (CVO). Pour indiquer un nouvel intermédiaire, sélectionner  « ajouter un représentant ». Il vous faudra connaître son n° de client à l’interprofession."
         soussignes_non_tva: "Décocher la case si le vendeur n’est pas assujetti à la TVA."
 
