@@ -76,8 +76,9 @@
 			                'Courtier : ' . link_to($item['doc']['mandataire']['nom'], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $item['doc']['mandataire_identifiant'])) : '';
 			        ?>
 			        <?php endif; ?>
-
-
+              <?php if(isset($item['doc']['interne']) && $item['doc']['interne']): ?>
+                <br /><small><span class="glyphicon glyphicon-resize-small"></span> Contrat interne</small>
+              <?php endif; ?>
 				</td>
 				<td>
 					<?php $produit = ($item['doc']['type_transaction'] == VracClient::TYPE_TRANSACTION_VIN_VRAC || $item['doc']['type_transaction'] == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)? $item['doc']['produit_libelle'] : $item['doc']['cepage_libelle'];
