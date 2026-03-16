@@ -136,6 +136,10 @@ class VracConfiguration
 	{
 		return $this->configuration['conditionnements_crd'];
 	}
+	public function getTypesRetiraison()
+	{
+		return $this->configuration['types_retiraison'];
+	}
 
     public function getSoldeSeuil()
 	{

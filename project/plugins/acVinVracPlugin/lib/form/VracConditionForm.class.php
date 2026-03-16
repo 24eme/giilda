@@ -45,6 +45,8 @@ class VracConditionForm extends VracForm {
         $this->setWidget('reference_contrat', new bsWidgetFormInput());
         $this->setWidget('cahier_charge', new bsWidgetFormInputCheckbox());
 
+        $this->setWidget('type_retiraison', new bsWidgetFormChoice(array('choices' => $this->getTypesRetiraison(), 'expanded' => true)));
+
         $dateRegexpOptions = array('required' => true,
             'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
             'min_length' => 10,
@@ -121,6 +123,10 @@ class VracConditionForm extends VracForm {
 
     public function getConditionnementsCRD() {
         return VracConfiguration::getInstance()->getConditionnementsCRD();
+    }
+
+    public function getTypesRetiraison() {
+        return VracConfiguration::getInstance()->getTypesRetiraison();
     }
 
     public function doUpdateObject($values) {

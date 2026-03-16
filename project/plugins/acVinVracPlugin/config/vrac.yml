@@ -150,5 +150,8 @@ all:
       repartition_cvo: "100_ACHETEUR"
       region_departement: ".*"
       teledeclaration_visa_automatique: true
+      types_retiraison:
+        retiraison: "Retiraison"
+        livraison: "Livraison"
       visa_unique: false
       required_degre: false

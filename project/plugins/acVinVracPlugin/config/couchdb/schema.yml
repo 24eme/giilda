@@ -24,6 +24,7 @@ Vrac:
       delai_paiement_libelle: { }
       moyen_paiement: { }
       moyen_paiement_libelle: { }
+      type_retiraison: { }
       date_limite_retiraison: { type: date }
       date_debut_retiraison: { type: date }
       conditions_particulieres: { }
