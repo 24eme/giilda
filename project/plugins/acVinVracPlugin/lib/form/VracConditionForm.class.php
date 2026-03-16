@@ -80,12 +80,14 @@ class VracConditionForm extends VracForm {
         $this->setValidator('reference_contrat', new sfValidatorString(array('required' => false)));
         $this->setValidator('cahier_charge', new sfValidatorBoolean(array('required' => false)));
 
-        
+        $this->setValidator('type_retiraison', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesRetiraison()))));
+
+
         $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');
         $this->validatorSchema['date_debut_retiraison']->setMessage('required', 'La date de début de retiraison doit être renseignée.');
-        
+
         $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('condition', $this->getObject()->type_transaction));
-        
+
         if (!$this->getObject()->mandataire_exist) {
             unset($this['courtage_taux'], $this['courtage_repartition']);
         }
