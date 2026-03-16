@@ -244,6 +244,19 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 							</div>
 						</div>
 					<?php endif; ?>
+
+		            <?php if(isset($form['autorisation_suivi_aval_qualite'])): ?>
+						<div class="form-group">
+							<?php echo $form['autorisation_suivi_aval_qualite']->renderError(); ?>
+							<div class="checkbox col-sm-8 col-sm-offset-2">
+								<label for="<?php echo $form['autorisation_suivi_aval_qualite']->renderId(); ?>">
+									<?php echo $form['autorisation_suivi_aval_qualite']->render(); ?>
+									Autorisation du suivi aval de la qualité
+								</label>
+                                &nbsp;<?php echo getPointAideHtml('vrac','condition_suivi_aval_qualite'); ?>
+							</div>
+						</div>
+					<?php endif; ?>
 				</div>
                 </div>
             </div>

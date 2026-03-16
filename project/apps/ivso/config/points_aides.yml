@@ -13,3 +13,4 @@ all:
         condition_observation: "Indiquer toutes observations que vous pensez nécessaire"
         condition_nom_vin: "Cocher la case si le vendeur autorise l’utilisation du nom du vin pour sa commercialisation."
         condition_nom_producteur: "Cocher la case si le vendeur autorise l’utilisation de son nom pour la commercialisation du vin."
+        condition_suivi_aval_qualite: "Cocher la case si le vendeur et l'acheteur déclarent accepter les investigations et conclusions de la commission du suivi aval qualité quant à la qualité du produit."

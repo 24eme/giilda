@@ -33,6 +33,7 @@ Vrac:
       clause_reserve_propriete: { }
       autorisation_nom_vin: { }
       autorisation_nom_producteur: { }
+      autorisation_suivi_aval_qualite: { }
       millesime_85_15: { }
       cepage_85_15: { }
       courtage_taux: { type: float }

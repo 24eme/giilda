@@ -31,9 +31,10 @@ class VracConditionForm extends VracForm {
         $this->setWidget('clause_reserve_propriete', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_vin', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_producteur', new bsWidgetFormInputCheckbox());
+        $this->setWidget('autorisation_suivi_aval_qualite', new bsWidgetFormInputCheckbox());
         $this->setWidget('courtage_taux', new bsWidgetFormInputFloat());
         $this->setWidget('courtage_repartition', new bsWidgetFormChoice(array('choices' => $this->getCourtageRepartition()), array('class' => 'select2')));
-        
+
         $this->setWidget('preparation_vin', new bsWidgetFormChoice(array('choices' => $this->getActeursPreparationVin(), 'expanded' => true)));
         $this->setWidget('embouteillage', new bsWidgetFormChoice(array('choices' => $this->getActeursEmbouteillage(), 'expanded' => true)));
         $this->setWidget('conditionnement_crd', new bsWidgetFormChoice(array('choices' => $this->getConditionnementsCRD(), 'expanded' => true)));
@@ -65,6 +66,7 @@ class VracConditionForm extends VracForm {
         $this->setValidator('pluriannuel', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('clause_reserve_propriete', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('autorisation_nom_vin', new sfValidatorBoolean(array('required' => false)));
+        $this->setValidator('autorisation_suivi_aval_qualite', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('autorisation_nom_producteur', new sfValidatorBoolean(array('required' => false)));
 
         $this->setValidator('courtage_taux', new sfValidatorNumber(array('required' => false)));
