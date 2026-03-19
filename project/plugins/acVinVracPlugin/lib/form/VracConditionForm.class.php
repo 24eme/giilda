@@ -47,6 +47,8 @@ class VracConditionForm extends VracForm {
         $this->setWidget('cahier_charge', new bsWidgetFormInputCheckbox());
 
         $this->setWidget('type_retiraison', new bsWidgetFormChoice(array('choices' => $this->getTypesRetiraison(), 'expanded' => true)));
+        $this->setWidget('calendrier_retiraison', new bsWidgetFormTextarea());
+        $this->setWidget('modalites_retiraison', new bsWidgetFormTextarea());
 
         $dateRegexpOptions = array('required' => true,
             'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
@@ -83,6 +85,8 @@ class VracConditionForm extends VracForm {
         $this->setValidator('cahier_charge', new sfValidatorBoolean(array('required' => false)));
 
         $this->setValidator('type_retiraison', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesRetiraison()))));
+        $this->setValidator('calendrier_retiraison', new sfValidatorString(array('required' => false)));
+        $this->setValidator('modalites_retiraison', new sfValidatorString(array('required' => false)));
 
 
         $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');

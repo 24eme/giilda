@@ -131,21 +131,27 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		            <?php endif; ?>
                     </div>
                     <div class="col-sm-6">
-		            <?php if(isset($form['clause_reserve_propriete'])): ?>
-						<div class="form-group">
-							<?php echo $form['clause_reserve_propriete']->renderError(); ?>
-                            <div class="col-sm-1 col-sm-offset-5">
-                            </div>
-							<div class="checkbox col-sm-6 ">
-								<label for="<?php echo $form['clause_reserve_propriete']->renderId(); ?>">
-									<?php echo $form['clause_reserve_propriete']->render(); ?>
-									Clause de réserve de propriété
-                                    &nbsp; <?php echo getPointAideHtml('vrac','condition_clause_reserve_prop'); ?>
-                                    <br /><br />
-								</label>
-							</div>
-						</div>
-					<?php endif; ?>
+
+          <?php if (isset($form['calendrier_retiraison'])): ?>
+            <div class="<?php if($form['calendrier_retiraison']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['calendrier_retiraison']->renderError(); ?>
+
+                <div class="col-sm-1" style="margin-top:-14px;" >
+                </div>
+                <?php echo $form['calendrier_retiraison']->renderLabel("Calendrier d'enlèvement :"); ?>
+                <?php echo $form['calendrier_retiraison']->render(['rows' => 2]); ?>
+            </div>
+            <?php endif; ?>
+          <?php if (isset($form['modalites_retiraison'])): ?>
+            <div class="<?php if($form['modalites_retiraison']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['modalites_retiraison']->renderError(); ?>
+
+                <div class="col-sm-1" style="margin-top:-14px;" >
+                </div>
+                <?php echo $form['modalites_retiraison']->renderLabel("Autres modalités d'enlèvement :"); ?>
+                <?php echo $form['modalites_retiraison']->render(['rows' => 2]); ?>
+            </div>
+            <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -199,11 +205,25 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                       </div>
 			                <?php echo $form['conditions_particulieres']->renderLabel("Observations :"); ?>
                             &nbsp; <?php echo getPointAideHtml('vrac','condition_observation'); ?>
-			                <?php echo $form['conditions_particulieres']->render(); ?>
+			                <?php echo $form['conditions_particulieres']->render(['rows' => 5]); ?>
 			            </div>
 		            	<?php endif; ?>
 		            </div>
                 	<div class="row col-sm-6">
+                    <?php if(isset($form['clause_reserve_propriete'])): ?>
+                <div class="form-group <?php if($form['clause_reserve_propriete']->hasError()): ?>has-error<?php endif; ?>">
+                  <div class="col-sm-10 col-sm-offset-2">
+                      <?php echo $form['clause_reserve_propriete']->renderError(); ?>
+                      <div class="checkbox">
+                        <label for="<?php echo $form['clause_reserve_propriete']->renderId(); ?>">
+                          <?php echo $form['clause_reserve_propriete']->render(); ?>
+                          Clause de réserve de propriété
+                          </label>
+                          &nbsp; <?php echo getPointAideHtml('vrac','condition_clause_reserve_prop'); ?>
+                      </div>
+                    </div>
+                </div>
+              <?php endif; ?>
         				<?php if(isset($form['cahier_charge'])): ?>
 							<div class="form-group <?php if($form['cahier_charge']->hasError()): ?>has-error<?php endif; ?>">
                                 <div class="col-sm-10 col-sm-offset-2">

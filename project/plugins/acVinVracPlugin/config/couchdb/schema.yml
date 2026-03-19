@@ -27,6 +27,8 @@ Vrac:
       type_retiraison: { }
       date_limite_retiraison: { type: date }
       date_debut_retiraison: { type: date }
+      modalites_retiraison: { }
+      calendrier_retiraison: { }
       conditions_particulieres: { }
       tva: { }
       pluriannuel: { }
