@@ -33,6 +33,9 @@ Vrac:
       tva: { }
       pluriannuel: { }
       clause_reserve_propriete: { }
+      resiliation_cas: { }
+      resiliation_delai_preavis: { }
+      resiliation_indemnite: { }
       autorisation_nom_vin: { }
       autorisation_nom_producteur: { }
       autorisation_suivi_aval_qualite: { }

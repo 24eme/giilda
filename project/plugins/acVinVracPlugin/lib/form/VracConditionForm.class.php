@@ -50,6 +50,10 @@ class VracConditionForm extends VracForm {
         $this->setWidget('calendrier_retiraison', new bsWidgetFormTextarea());
         $this->setWidget('modalites_retiraison', new bsWidgetFormTextarea());
 
+        $this->setWidget('resiliation_cas', new bsWidgetFormInput());
+        $this->setWidget('resiliation_delai_preavis', new bsWidgetFormInput());
+        $this->setWidget('resiliation_indemnite', new bsWidgetFormInput());
+
         $dateRegexpOptions = array('required' => true,
             'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
             'min_length' => 10,
@@ -87,6 +91,10 @@ class VracConditionForm extends VracForm {
         $this->setValidator('type_retiraison', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesRetiraison()))));
         $this->setValidator('calendrier_retiraison', new sfValidatorString(array('required' => false)));
         $this->setValidator('modalites_retiraison', new sfValidatorString(array('required' => false)));
+
+        $this->setValidator('resiliation_cas', new sfValidatorString(array('required' => false)));
+        $this->setValidator('resiliation_delai_preavis', new sfValidatorString(array('required' => false)));
+        $this->setValidator('resiliation_indemnite', new sfValidatorString(array('required' => false)));
 
 
         $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');

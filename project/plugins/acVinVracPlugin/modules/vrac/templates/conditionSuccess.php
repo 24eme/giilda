@@ -197,6 +197,34 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 </div>
                 <div class="panel-body">
                 	<div class="row col-sm-6 ">
+		            <?php if(isset($form['resiliation_cas'])): ?>
+                <strong>Clause de résiliation</<strong>
+    						<div class="form-group">
+    							<?php echo $form['resiliation_cas']->renderError(); ?>
+    			        <?php echo $form['resiliation_cas']->renderLabel("Cas de résilitation :", array('class' => 'col-sm-5 control-label')); ?>
+    							<div class="col-sm-7">
+    									<?php echo $form['resiliation_cas']->render(); ?>
+    							</div>
+    						</div>
+    						<?php endif; ?>
+                <?php if(isset($form['resiliation_delai_preavis'])): ?>
+                <div class="form-group">
+                  <?php echo $form['resiliation_delai_preavis']->renderError(); ?>
+                  <?php echo $form['resiliation_delai_preavis']->renderLabel("Délai de préavis :", array('class' => 'col-sm-5 control-label')); ?>
+                  <div class="col-sm-7">
+                      <?php echo $form['resiliation_delai_preavis']->render(); ?>
+                  </div>
+                </div>
+                <?php endif; ?>
+                <?php if(isset($form['resiliation_indemnite'])): ?>
+                <div class="form-group">
+                  <?php echo $form['resiliation_indemnite']->renderError(); ?>
+                  <?php echo $form['resiliation_indemnite']->renderLabel("Indemnité :", array('class' => 'col-sm-5 control-label')); ?>
+                  <div class="col-sm-7">
+                      <?php echo $form['resiliation_indemnite']->render(); ?>
+                  </div>
+                </div>
+                <?php endif; ?>
 			        	<?php if (isset($form['conditions_particulieres'])): ?>
 			            <div class="<?php if($form['conditions_particulieres']->hasError()): ?>has-error<?php endif; ?>">
 			                <?php echo $form['conditions_particulieres']->renderError(); ?>
@@ -205,7 +233,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                       </div>
 			                <?php echo $form['conditions_particulieres']->renderLabel("Observations :"); ?>
                             &nbsp; <?php echo getPointAideHtml('vrac','condition_observation'); ?>
-			                <?php echo $form['conditions_particulieres']->render(['rows' => 5]); ?>
+			                <?php echo $form['conditions_particulieres']->render(); ?>
 			            </div>
 		            	<?php endif; ?>
 		            </div>
