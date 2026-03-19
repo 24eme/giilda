@@ -41,6 +41,16 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
     <?php endif; ?>
     <div class="row">
         <div class="col-sm-12">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title"><label>Relations précontractuelles : initiative du producteur</label></h3>
+              </div>
+              <div class="panel-body">
+                  <p>
+                    Le présent contrat doit être précédé d'une proposition préalable du vendeur. Au titre des critères et modalités de révision ou de détermination du prix, elle prend en compte un ou plusieurs indicateurs relatifs aux coûts pertinents de production en agriculture et à l'évolution de ces coûts. Elle constitue le socle de la négociation entre le vendeur et l'acheteur. Tout refus, ou réserve de l'acheteur, portant sur la proposition doit être fait par écrit, motivé et doit être transmis au vendeur dans un délai raisonnable. Le vendeur peut mandater son courtier pour qu'il fasse la proposition préalable en son nom et pour son compte. Dans ce cas, le mandat doit être écrit. La proposition préalable du vendeur, ou son mandat au courtier accompagné de la proposition préalable faite en son nom, est annexée au présent contrat. Le vendeur peut exiger par écrit de l'acheteur une offre de contrat écrit.
+                  </p>
+              </div>
+          </div>
         	<?php if(isset($form['attente_original'])): ?>
             <div class="form-group <?php if($form['attente_original']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['attente_original']->renderError(); ?>
