@@ -54,6 +54,10 @@ class VracConditionForm extends VracForm {
         $this->setWidget('resiliation_delai_preavis', new bsWidgetFormInput());
         $this->setWidget('resiliation_indemnite', new bsWidgetFormInput());
 
+        $this->setWidget('acheteur_delai_mise', new bsWidgetFormInput());
+        $this->setWidget('date_agreage', new bsWidgetFormInputDate());
+        $this->setWidget('conclusion_vente', new bsWidgetFormChoice(array('choices' => $this->getConclusionsVente(), 'expanded' => true)));
+
         $dateRegexpOptions = array('required' => true,
             'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
             'min_length' => 10,
@@ -96,6 +100,9 @@ class VracConditionForm extends VracForm {
         $this->setValidator('resiliation_delai_preavis', new sfValidatorString(array('required' => false)));
         $this->setValidator('resiliation_indemnite', new sfValidatorString(array('required' => false)));
 
+        $this->setValidator('date_agreage', new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)));
+        $this->setValidator('acheteur_delai_mise', new sfValidatorString(array('required' => false)));
+        $this->setValidator('conclusion_vente', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getConclusionsVente()))));
 
         $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');
         $this->validatorSchema['date_debut_retiraison']->setMessage('required', 'La date de début de retiraison doit être renseignée.');
@@ -145,6 +152,10 @@ class VracConditionForm extends VracForm {
         return VracConfiguration::getInstance()->getTypesRetiraison();
     }
 
+    public function getConclusionsVente() {
+        return VracConfiguration::getInstance()->getConclusionsVente();
+    }
+
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
         if ($this->getObject()->clause_reserve_propriete === null) {
@@ -155,13 +166,14 @@ class VracConditionForm extends VracForm {
         }
         if (isset($values['cahier_charge']) && $values['cahier_charge']) {
             $this->getObject()->cahier_charge = 1;
-        }        
+        }
     }
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         $this->setDefault('date_limite_retiraison', $this->getObject()->getDateLimiteRetiraison('d/m/Y'));
         $this->setDefault('date_debut_retiraison', $this->getObject()->getDateDebutRetiraison('d/m/Y'));
+        $this->setDefault('date_agreage', $this->getObject()->getDateAgreage('d/m/Y'));
         if ($this->getObject()->clause_reserve_propriete === null) {
             $this->setDefault('clause_reserve_propriete', true);
         }

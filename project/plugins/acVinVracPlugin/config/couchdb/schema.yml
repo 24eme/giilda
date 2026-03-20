@@ -45,6 +45,9 @@ Vrac:
       preparation_vin: { }
       embouteillage: { }
       conditionnement_crd: { }
+      date_agreage: { type: date }
+      acheteur_delai_mise: { }
+      conclusion_vente: { }
       reference_contrat: {  }
       annee_contrat: { }
       seuil_revision: { type: float }

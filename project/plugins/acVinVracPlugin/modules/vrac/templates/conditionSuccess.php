@@ -188,6 +188,34 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                         </div>
 		            </div>
 		            <?php endif; ?>
+		        	<?php if (isset($form['acheteur_delai_mise'])): ?>
+                <div class="form-group col-sm-6"></div>
+		            <div class="form-group col-sm-6 <?php if($form['acheteur_delai_mise']->hasError()): ?>has-error<?php endif; ?>">
+                        <?php echo $form['acheteur_delai_mise']->renderError(); ?>
+                        <?php echo $form['acheteur_delai_mise']->renderLabel("Délai de réalisation de la mise par l'acheteur :", array('class' => 'col-sm-5 control-label')); ?>
+                        <div class="col-sm-6">
+                            <?php echo $form['acheteur_delai_mise']->render(); ?>
+                        </div>
+		            </div>
+		            <?php endif; ?>
+		        	<?php if (isset($form['conclusion_vente'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['conclusion_vente']->hasError()): ?>has-error<?php endif; ?>">
+                        <?php echo $form['conclusion_vente']->renderError(); ?>
+                        <?php echo $form['conclusion_vente']->renderLabel("Conclusion de cette vente :", array('class' => 'col-sm-5 control-label')); ?>
+                        <div class="col-sm-7">
+                            <?php echo $form['conclusion_vente']->render(); ?>
+                        </div>
+		            </div>
+		            <?php endif; ?>
+                <?php if (isset($form['date_agreage'])): ?>
+  		            <div class="form-group col-sm-6  <?php if($form['date_agreage']->hasError()): ?>has-error<?php endif; ?>">
+                          <?php echo $form['date_agreage']->renderError(); ?>
+                          <?php echo $form['date_agreage']->renderLabel("Date d'agréage :", array('class' => 'col-sm-5 control-label')); ?>
+                          <div class="col-sm-6">
+                              <?php echo $form['date_agreage']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
+                          </div>
+  		            </div>
+  		            <?php endif; ?>
                 </div>
             </div>
            <?php endif; ?>
