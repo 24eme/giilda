@@ -9,7 +9,7 @@ all:
           "_ALL": ["tva", "pluriannuel", "annee_contrat", "seuil_revision", "pourcentage_variation", "courtage_taux", "courtage_repartition"]
           "RAISINS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
           "MOUTS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
-          "VIN_VRAC": ["preparation_vin", "embouteillage", "conditionnement_crd"]
+          "VIN_VRAC": ["", "", "conditionnement_crd"]
           "VIN_BOUTEILLE": []
       delais_paiement:
         "60_JOURS": "60 jours après la date d'émission de la facture"
