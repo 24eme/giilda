@@ -168,4 +168,9 @@ class VracConfiguration
 	public function isRequiredDegre(){
 		return (isset($this->configuration['required_degre'])) && $this->configuration['required_degre'];
 	}
+
+    public function hasCadreRelationPrecontractuelle()
+    {
+        return false;
+    }
 }

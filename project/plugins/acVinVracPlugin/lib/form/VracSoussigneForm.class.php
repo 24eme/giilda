@@ -112,8 +112,7 @@ class VracSoussigneForm extends VracForm {
         $this->setWidget('vendeur_intermediaire', new bsWidgetFormInputCheckbox());
         $this->setWidget('logement_exist', new bsWidgetFormInputCheckbox());
         $this->setWidget('logement', new bsWidgetFormInput());
-        $this->setWidget('vinification_exist', new bsWidgetFormInputCheckbox());
-        $this->setWidget('vinification', new bsWidgetFormInput());
+
         $this->setWidget('vendeur_tva', new bsWidgetFormInputCheckbox());
 
         $this->setWidget('isVendeur', new sfWidgetFormInputHidden());
@@ -131,7 +130,6 @@ class VracSoussigneForm extends VracForm {
             'mandataire_identifiant' => 'Sélectionner un courtier :',
             'mandataire_exist' => "Décocher s'il n'y a pas de courtier",
             'logement_exist' => "Vin logé à une autre adresse",
-            'vinification_exist' => "Vin vinifié à une autre adresse",
             'vendeur_intermediaire' => "Vendeur via intermedaire",
             'mandatant' => 'Mandaté par : ',
             'logement' => 'Ville : ',
@@ -140,11 +138,18 @@ class VracSoussigneForm extends VracForm {
         $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
         $this->setValidator('interne', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('logement_exist', new sfValidatorBoolean(array('required' => false)));
-        $this->setValidator('vinification_exist', new sfValidatorBoolean(array('required' => false)));
-        $this->setValidator('vendeur_intermediaire', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('logement', new sfValidatorString(array('required' => false)));
+        $this->setValidator('vendeur_intermediaire', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('type_contrat', new sfValidatorInteger(array('required' => true)));
         $this->setValidator('vendeur_tva', new sfValidatorBoolean(array('required' => false)));
+
+        if ($this->getObject()->exist('vinification')) {
+            $this->setWidget('vinification_exist', new bsWidgetFormInputCheckbox());
+            $this->setWidget('vinification', new bsWidgetFormInput());
+            $this->setValidator('vinification_exist', new sfValidatorBoolean(array('required' => false)));
+            $this->setValidator('vinification', new sfValidatorString(array('required' => false)));
+            $this->widgetSchema->setLabel('vinification_exist', 'Vin vinifié à une autre adresse');
+        }
 
       //  $this->validatorSchema['acheteur_producteur']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
       //  $this->validatorSchema['acheteur_negociant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
@@ -202,7 +207,7 @@ class VracSoussigneForm extends VracForm {
         if ($this->getObject()->logement) {
             $defaults['logement_exist'] = true;
         }
-        if ($this->getObject()->vinification) {
+        if ($this->getObject()->exist('vinification') && $this->getObject()->vinification) {
             $defaults['vinification_exist'] = true;
         }
         if (!$this->getObject()->isNew() && $this->getObject()->type_contrat === VracClient::TYPE_CONTRAT_PLURIANNUEL) {
@@ -242,9 +247,6 @@ class VracSoussigneForm extends VracForm {
         }
         if (!isset($values['logement_exist']) || !$values['logement_exist']) {
             $values['logement'] = null;
-        }
-        if (!isset($values['vinification_exist']) || !$values['vinification_exist']) {
-            $values['vinification'] = null;
         }
         if (isset($values['commercial']) && $values['commercial']) {
             $this->getObject()->storeInterlocuteurCommercialInformations($values['commercial'], $this->getAnnuaire()->commerciaux->get($values['commercial']));

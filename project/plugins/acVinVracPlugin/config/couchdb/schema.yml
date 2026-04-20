@@ -24,30 +24,30 @@ Vrac:
       delai_paiement_libelle: { }
       moyen_paiement: { }
       moyen_paiement_libelle: { }
-      type_retiraison: { }
+      type_retiraison: { required: false }
       date_limite_retiraison: { type: date }
       date_debut_retiraison: { type: date }
-      modalites_retiraison: { }
-      calendrier_retiraison: { }
+      modalites_retiraison: { required: false }
+      calendrier_retiraison: { required: false }
       conditions_particulieres: { }
       tva: { }
       pluriannuel: { }
       clause_reserve_propriete: { }
-      resiliation_cas: { }
-      resiliation_delai_preavis: { }
-      resiliation_indemnite: { }
+      resiliation_cas: { required: false }
+      resiliation_delai_preavis: { required: false }
+      resiliation_indemnite: { required: false }
       autorisation_nom_vin: { }
       autorisation_nom_producteur: { }
-      autorisation_suivi_aval_qualite: { }
+      autorisation_suivi_aval_qualite: { required: false }
       millesime_85_15: { }
       cepage_85_15: { }
       courtage_taux: { type: float }
       preparation_vin: { }
       embouteillage: { }
       conditionnement_crd: { }
-      date_agreage: { type: date }
-      acheteur_delai_mise: { }
-      conclusion_vente: { }
+      date_agreage: { required: false, type: date }
+      acheteur_delai_mise: { required: false }
+      conclusion_vente: { required: false }
       reference_contrat: {  }
       annee_contrat: { }
       seuil_revision: { type: float }
@@ -147,7 +147,7 @@ Vrac:
             '*': {  }
       mandataire_identifiant: {  }
       logement: {  }
-      vinification: {  }
+      vinification: {  required: false }
       mandataire:
         type: collection
         definition:
