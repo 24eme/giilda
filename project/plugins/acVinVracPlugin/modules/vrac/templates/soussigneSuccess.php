@@ -41,6 +41,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
     <?php endif; ?>
     <div class="row">
         <div class="col-sm-12">
+          <?php if(VracConfiguration::getInstance()->hasCadreRelationPrecontractuelle()): ?>
           <div class="panel panel-default">
               <div class="panel-heading">
                   <h3 class="panel-title"><label>Relations précontractuelles : initiative du producteur</label></h3>
@@ -51,6 +52,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                   </p>
               </div>
           </div>
+        <?php endif; ?>
         	<?php if(isset($form['attente_original'])): ?>
             <div class="form-group <?php if($form['attente_original']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['attente_original']->renderError(); ?>

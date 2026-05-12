@@ -97,7 +97,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 
         	<div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><label>Enlèvement</label></h3>
+                    <h3 class="panel-title"><label>Retiraison</label></h3>
                 </div>
                 <div class="panel-body">
                     <div class="col-sm-6">
@@ -113,7 +113,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		        	<?php if (isset($form['date_debut_retiraison'])): ?>
 		            <div class="form-group  <?php if($form['date_debut_retiraison']->hasError()): ?>has-error<?php endif; ?>">
                         <?php echo $form['date_debut_retiraison']->renderError(); ?>
-                        <?php echo $form['date_debut_retiraison']->renderLabel("Date début d'enlèvement :", array('class' => 'col-sm-5 control-label')); ?>
+                        <?php echo $form['date_debut_retiraison']->renderLabel("Date début de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-6">
                             <?php echo $form['date_debut_retiraison']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
                         </div>
@@ -123,7 +123,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		            <div class="form-group  <?php if($form['date_limite_retiraison']->hasError()): ?>has-error<?php endif; ?>">
                         <?php echo $form['date_limite_retiraison']->renderError(); ?>
                         <div class="col-sm-1 pull-right" style="top:-20px;" ><?php echo getPointAideHtml('vrac','condition_date_retiraison'); ?></div>
-                        <?php echo $form['date_limite_retiraison']->renderLabel("Date limite d'enlèvement :", array('class' => 'col-sm-5 control-label')); ?>
+                        <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-6">
                             <?php echo $form['date_limite_retiraison']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
                         </div>
