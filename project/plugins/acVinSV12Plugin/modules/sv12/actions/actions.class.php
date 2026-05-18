@@ -30,7 +30,10 @@ class sv12Actions extends sfActions {
             $this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
         }
         $this->formCampagne = new VracEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
-    	if (!$this->etablissement->isNegociant()) {
+        if (SV12Configuration::getInstance()->inclureProducteurs() && !($this->etablissement->isNegociant()||$this->etablissement->isViticulteur())) {
+            throw new sfException('Seuls les négociants et producteurs peuvent faire des SV12');
+
+        } elseif (!SV12Configuration::getInstance()->inclureProducteurs() && !$this->etablissement->isNegociant()) {
     	    throw new sfException('Seuls les négociants peuvent faire des SV12');
         }
         $this->list = SV12AllView::getInstance()->getMasterByEtablissement($this->etablissement->identifiant);
