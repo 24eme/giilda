@@ -50,4 +50,8 @@ class mandatsepaActions extends sfActions
             }
         }
     }
+
+    public function executeMain()
+    {
+    }
 }
