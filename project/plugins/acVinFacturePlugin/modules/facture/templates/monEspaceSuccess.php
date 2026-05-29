@@ -16,48 +16,48 @@ use_helper('Float');
     <?php endif; ?>
     <div class="col-xs-12">
         <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures, 'interpro' => $interproFacturable)); ?>
-          <?php if (MandatSepaConfiguration::getInstance()->isActive()): ?>
+          <?php if (MandatSepaConfiguration::getInstance($interproFacturable)->isActive()): ?>
             <hr />
                 <h2>Prélèvement SEPA</h2>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                      <h4 class="titre_principal">Vos coordonnées bancaires</h4>
+                      <h4 class="titre_principal">Vos coordonnées bancaires <?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?><a href="<?php echo url_for('mandatsepa_modification', ['identifiant' => $societe->getIdentifiant()]) ?>" class="pull-right" title="Créer ou modifier les coordonnées bancaires"><span class="glyphicon glyphicon glyphicon-edit"></span></a><?php endif; ?></h4>
                     </div>
                     <div class="panel-body">
                     <?php if ($mandatSepa): ?>
-                        <div class="row">
-                          <div class="col-xs-2 text-right">
+                        <div class="row" style="margin: 5px 0;">
+                          <div class="col-xs-3 text-right">
                               <label>Statut :</label>
                           </div>
-                          <div class="col-xs-6 text-left<?php if(!$mandatSepa->is_signe): ?> text-danger<?php endif; ?>">
+                          <div class="col-xs-5 text-left<?php if(!$mandatSepa->is_signe): ?> text-danger<?php endif; ?>">
                               <?php echo $mandatSepa->getStatut(); ?>
                           </div>
                         </div>
 
-                        <div class="row">
-                          <div class="col-xs-2 text-right">
+                        <div class="row" style="margin: 5px 0;">
+                          <div class="col-xs-3 text-right">
                               <label>IBAN :</label>
                           </div>
-                          <div class="col-xs-6 text-left">
+                          <div class="col-xs-5 text-left">
                               <?php echo chunk_split($mandatSepa->debiteur->iban, 4, ' '); ?>
                           </div>
                         </div>
 
-                        <div class="row">
-                          <div class="col-xs-2 text-right">
+                        <div class="row" style="margin: 5px 0;">
+                          <div class="col-xs-3 text-right">
                               <label>BIC :</label>
                           </div>
-                          <div class="col-xs-6 text-left">
+                          <div class="col-xs-5 text-left">
                               <?php echo $mandatSepa->debiteur->bic; ?>
                           </div>
                         </div>
 
-                        <?php if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration()): ?>
-                          <div class="row">
+                        <?php if (MandatSepaConfiguration::getInstance($interproFacturable)->isAccessibleTeledeclaration()): ?>
+                          <div class="row" style="margin: 5px 0;">
                             <div class="col-xs-3 text-right">
                                 <label>Mandat de prélèvement SEPA :</label>
                             </div>
-                            <div class="col-xs-6 text-left">
+                            <div class="col-xs-5 text-left">
                                 <a href="<?php echo url_for('mandatsepa_pdf', $mandatSepa) ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-file"></span>&nbsp;Télécharger le document</a>
                             </div>
                           </div>
@@ -66,7 +66,7 @@ use_helper('Float');
                           <?php endif; ?>
                         <?php endif ?>
                     <?php else: ?>
-                      <div class="row">
+                      <div class="row" style="margin: 5px 0;">
                         <div class="col-xs-6 col-xs-offset-3 text-center">
                           <p>Vous n'avez pas encore saisi de coordonnées bancaires</p>
                         </div>
