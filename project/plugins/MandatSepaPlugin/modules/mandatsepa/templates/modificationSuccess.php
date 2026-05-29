@@ -1,3 +1,5 @@
+<?php include_partial('mandatsepa/preTemplate'); ?>
+
 <div id="principal" >
   <div class="row">
     <div class="col-xs-12">
@@ -118,3 +120,4 @@
 
         </div>
 </div>
+<?php include_partial('mandatsepa/postTemplate'); ?>
