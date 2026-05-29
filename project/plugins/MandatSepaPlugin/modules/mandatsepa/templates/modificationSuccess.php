@@ -109,7 +109,7 @@
             <div class="col-sm-12">&nbsp;<br/></div>
 
             <div class="col-sm-12">
-                  <a href="<?php echo url_for('societe_visualisation', ['identifiant' => $societe->getIdentifiant()]); ?>" class=" btn btn-default " alt="Retour" style="cursor: pointer;">Retour</a>
+                  <a href="<?php echo url_for($back, ['identifiant' => $societe->getIdentifiant()]); ?>" class=" btn btn-default " alt="Retour" style="cursor: pointer;">Retour</a>
                   <input type="submit" class="btn btn-success" style="cursor: pointer; float: right;" value="Enregistrer" />
             </div>
           </form>

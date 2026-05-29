@@ -154,4 +154,10 @@ class MandatSepaConfiguration implements InterfaceMandatSepaPartie {
       }
       return $this->configuration['creancier']['commune'];
   }
+  public function getEditBack() {
+      if(!isset($this->configuration['edit_back'])){
+        return null;
+      }
+      return $this->configuration['edit_back'];
+  }
 }

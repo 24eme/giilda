@@ -25,12 +25,20 @@ class mandatsepaActions extends sfActions
     {
         $this->societe = SocieteClient::getInstance()->find($request->getParameter('identifiant'));
 
+        $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
+        if (!$mandatSepa) {
+            $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
+        }
+
+        $interpro = ($mandatSepa->exist('interpro'))? $mandatSepa->get('interpro') : null;
+        $configuration = MandatSepaConfiguration::getInstance($interpro);
+
         if (! $this->getUser()->isAdmin()) {
-            if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration() === false) {
+            if ($configuration->isAccessibleTeledeclaration() === false) {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
 
-            if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration() === true && $this->getUser()->getCompte()->getSociete()->getIdentifiant() !== $request->getParameter('identifiant')) {
+            if ($configuration->isAccessibleTeledeclaration() === true && $this->getUser()->getCompte()->getSociete()->getIdentifiant() !== $request->getParameter('identifiant')) {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         }
@@ -40,6 +48,7 @@ class mandatsepaActions extends sfActions
             $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
         }
         $this->form = new MandatSepaDebiteurForm($mandatSepa->debiteur);
+        $this->back = ($configuration->getEditBack()) ?: 'societe_visualisation';
 
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
