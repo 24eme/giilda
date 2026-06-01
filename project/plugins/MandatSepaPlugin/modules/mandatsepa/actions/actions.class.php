@@ -55,7 +55,7 @@ class mandatsepaActions extends sfActions
             if ($this->form->isValid()) {
                 $this->form->save();
                 $this->getUser()->setFlash('maj', 'Vos coordonnées bancaires ont bien été mises à jour.');
-                $this->redirect('societe_visualisation', ['identifiant' => $this->societe->getIdentifiant()]);
+                $this->redirect($this->back, ['identifiant' => $this->societe->getIdentifiant()]);
             }
         }
     }
