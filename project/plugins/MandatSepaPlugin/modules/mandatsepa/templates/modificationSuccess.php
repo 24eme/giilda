@@ -106,6 +106,30 @@
               </div>
             </div>
 
+            <?php if (isset($form['is_signe'])): ?>
+            <div class="form-group<?php if ($form['is_signe']->renderError()): ?> has-error<?php endif; ?>">
+              <?php echo $form['is_signe']->renderLabel(null, array('class' => 'col-sm-3')) ?>
+              <div class="col-sm-6">
+                <?php echo $form['is_signe']->render() ?>
+              </div>
+              <div class="col-sm-3 text-danger">
+                <?php echo $form['is_signe']->renderError(); ?>
+              </div>
+            </div>
+            <?php endif; ?>
+
+            <?php if (isset($form['is_actif'])): ?>
+            <div class="form-group<?php if ($form['is_signe']->renderError()): ?> has-error<?php endif; ?>">
+              <?php echo $form['is_actif']->renderLabel(null, array('class' => 'col-sm-3')) ?>
+              <div class="col-sm-6">
+                <?php echo $form['is_actif']->render() ?>
+              </div>
+              <div class="col-sm-3 text-danger">
+                <?php echo $form['is_actif']->renderError(); ?>
+              </div>
+            </div>
+            <?php endif; ?>
+
             <p>Une fois vos coordonnées bancaires saisies, vous devrez télécharger le document PDF du mandat de prélèvement SEPA, l'imprimer, le signer et nous le retourner par voie postale à l'adresse indiqué sur ledit document.</p>
 
             <div class="col-sm-12">&nbsp;<br/></div>

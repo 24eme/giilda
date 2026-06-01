@@ -47,7 +47,7 @@ class mandatsepaActions extends sfActions
         if (!$mandatSepa) {
             $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
         }
-        $this->form = new MandatSepaDebiteurForm($mandatSepa->debiteur);
+        $this->form = new MandatSepaDebiteurForm($mandatSepa->debiteur, $this->getUser()->isAdmin());
         $this->back = ($configuration->getEditBack()) ?: 'societe_visualisation';
 
         if ($request->isMethod(sfWebRequest::POST)) {
