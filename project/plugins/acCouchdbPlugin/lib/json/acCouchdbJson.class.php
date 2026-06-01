@@ -41,7 +41,10 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
 
             return $this->get($objHash[acCouchdbHash::FIRST_KEY_OF_HASH])->get($objHash[acCouchdbHash::HASH_WITHOUT_FIRST_KEY]);
         } elseif(!$this->isArray()) {
-            foreach($this as $key => $item) {
+            $keys = array_keys($this->getFields());
+            usort($keys, function($a, $b){ return substr_count($a, "/") < substr_count($b, "/"); });
+            foreach($keys as $key) {
+                $key = $this->getFieldName($key);
                 if($this->containsSubHash($key_or_hash, $key)) {
                     return $this->get($key)->get(str_replace($key, "", $key_or_hash));
                 }
