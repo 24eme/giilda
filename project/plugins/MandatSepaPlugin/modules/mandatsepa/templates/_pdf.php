@@ -14,7 +14,6 @@
   <tr>
     <td>
       <table border="0">
-        <tr><td>&nbsp;</td></tr>
         <tr>
             <td><?php echo $mandatSepa->mention_autorisation ?></td>
         </tr>
@@ -26,7 +25,6 @@
         <tr>
             <td><?php echo $mandatSepa->mention_droits ?></td>
         </tr>
-        <tr><td>&nbsp;</td></tr>
       </table>
     </td>
   </tr>
@@ -35,11 +33,10 @@
 <table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
 
 <span class="h3Alt">&nbsp;Créancier&nbsp;</span><br/>
-<table class="tableAlt">
+<table class="tableAlt" width="50%">
   <tr>
     <td>
       <table border="0">
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
         <tr>
             <td>Identifiant (ICS) : <strong><?php echo $mandatSepa->creancier->identifiant_ics ?></strong></td>
             <td>&nbsp;</td>
@@ -56,7 +53,6 @@
             <td>&nbsp;</td>
             <td>&nbsp;<?php echo $mandatSepa->creancier->code_postal ?>&nbsp;<?php echo $mandatSepa->creancier->commune ?></td>
         </tr>
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
       </table>
     </td>
   </tr>
@@ -65,11 +61,10 @@
 <table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
 
 <span class="h3Alt">&nbsp;Débiteur&nbsp;</span><br/>
-<table class="tableAlt">
+<table class="tableAlt" width="50%">
   <tr>
     <td>
       <table border="0">
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
         <tr>
             <td>Identifiant (RUM) : <strong><?php echo $mandatSepa->debiteur->identifiant_rum ?></strong></td>
             <td>&nbsp;</td>
@@ -86,7 +81,6 @@
             <td>&nbsp;</td>
             <td><?php echo $mandatSepa->debiteur->code_postal ?>&nbsp;<?php echo $mandatSepa->debiteur->commune ?></td>
         </tr>
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
       </table>
     </td>
   </tr>
@@ -95,11 +89,10 @@
 <table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
 
 <span class="h3Alt">&nbsp;Informations bancaires&nbsp;</span><br/>
-<table class="tableAlt">
+<table class="tableAlt" width="50%">
   <tr>
     <td>
       <table border="0">
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
         <tr>
             <td>Prélèvement <?php echo strtolower(MandatSepaClient::getFrequencePrelevementLibelle($mandatSepa->debiteur->frequence_prelevement)) ?></td>
             <td>&nbsp;</td>
@@ -112,7 +105,6 @@
             <td>&nbsp;</td>
             <td>BIC : <?php echo $mandatSepa->debiteur->bic ?></td>
         </tr>
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
       </table>
     </td>
   </tr>
@@ -122,11 +114,10 @@
   Le <?php echo $mandatSepa->getDateFr() ?>
 </p>
 
-<table border="0">
+<table border="0" width="50%">
   <tr>
-    <td>&nbsp;</td>
     <td>
-      <table class="tableAlt">
+      <table class="tableAlt" width="50%">
         <tr><td>&nbsp;Signature du débiteur :</td></tr>
         <tr><td>&nbsp;</td></tr>
         <tr><td>&nbsp;</td></tr>
