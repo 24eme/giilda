@@ -6,6 +6,9 @@
 .h3Alt {
     background-color: #bec6d0; color: #000; font-weight: bold;
 }
+h1 {
+    text-align: center;
+}
 </style>
 
 <?php if ($title = $mandatSepa->getConfiguration()->getPdfTitle()): ?><h1><?php echo $title ?></h1><?php else: ?><table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table><?php endif; ?>
