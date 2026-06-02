@@ -16,7 +16,10 @@ use_helper('Float');
     <?php endif; ?>
     <div class="col-xs-12">
         <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures, 'interpro' => $interproFacturable)); ?>
-          <?php if (MandatSepaConfiguration::getInstance($interproFacturable)->isActive()): ?>
+          <?php
+            if (!$interproFacturable && is_callable([$compte, 'getInterproFacturable'], true)) $interproFacturable = $compte->getInterproFacturable();
+            if (MandatSepaConfiguration::getInstance($interproFacturable)->isActive()):
+        ?>
             <hr />
                 <h2>Prélèvement SEPA</h2>
                 <div class="panel panel-default">
