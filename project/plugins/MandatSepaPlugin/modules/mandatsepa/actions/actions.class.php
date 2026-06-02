@@ -4,34 +4,32 @@ class mandatsepaActions extends sfActions
 {
 
 	public function executePdf(sfWebRequest $request) {
+        $mandatSepa = $this->getRoute()->getMandatSepa();
+        $configuration = $mandatSepa->getConfiguration();
         if (MandatSepaConfiguration::getInstance()->isAccessibleTeledeclaration() === false) {
             return $this->redirect403();
         }
-		$mandatSepa = $this->getRoute()->getMandatSepa();
 		$this->document = new MandatSepaPDF($mandatSepa, $request->getParameter('output','pdf'), false);
-    $this->document->setPartialFunction(array($this, 'getPartial'));
-    if ($request->getParameter('force')) {
-        $this->document->removeCache();
-    }
-    $this->document->generate();
+        $this->document->setPartialFunction(array($this, 'getPartial'));
+        if ($request->getParameter('force')) {
+            $this->document->removeCache();
+        }
+        $this->document->generate();
 		$output = $this->document->output();
 		$mandatSepa->setIsTelecharge(1);
 		$mandatSepa->save();
-    $this->document->addHeaders($this->getResponse());
-    return $this->renderText($output);
+        $this->document->addHeaders($this->getResponse());
+        return $this->renderText($output);
 	}
 
     public function executeModification(sfWebRequest $request)
     {
         $this->societe = SocieteClient::getInstance()->find($request->getParameter('identifiant'));
-
         $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
         if (!$mandatSepa) {
             $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
         }
-
-        $interpro = ($mandatSepa->exist('interpro'))? $mandatSepa->get('interpro') : null;
-        $configuration = MandatSepaConfiguration::getInstance($interpro);
+        $configuration = $mandatSepa->getConfiguration();
 
         if (! $this->getUser()->isAdmin()) {
             if ($configuration->isAccessibleTeledeclaration() === false) {
