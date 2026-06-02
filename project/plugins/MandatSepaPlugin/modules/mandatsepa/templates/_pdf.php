@@ -1,6 +1,7 @@
 <style>
 .tableAlt {
     border: 1px solid #bec6d0;
+    width: 100%;
 }
 .h3Alt {
     background-color: #bec6d0; color: #000; font-weight: bold;
@@ -33,7 +34,7 @@
 <table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
 
 <span class="h3Alt">&nbsp;Créancier&nbsp;</span><br/>
-<table class="tableAlt" width="50%">
+<table class="tableAlt">
   <tr>
     <td>
       <table border="0">
@@ -61,7 +62,7 @@
 <table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
 
 <span class="h3Alt">&nbsp;Débiteur&nbsp;</span><br/>
-<table class="tableAlt" width="50%">
+<table class="tableAlt">
   <tr>
     <td>
       <table border="0">
@@ -89,7 +90,7 @@
 <table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
 
 <span class="h3Alt">&nbsp;Informations bancaires&nbsp;</span><br/>
-<table class="tableAlt" width="50%">
+<table class="tableAlt">
   <tr>
     <td>
       <table border="0">
@@ -117,10 +118,8 @@
 <table border="0" width="50%">
   <tr>
     <td>
-      <table class="tableAlt" width="50%">
+      <table class="tableAlt">
         <tr><td>&nbsp;Signature du débiteur :</td></tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td>&nbsp;</td></tr>
         <tr><td>&nbsp;</td></tr>
         <tr><td>&nbsp;</td></tr>
         <tr><td>&nbsp;</td></tr>
