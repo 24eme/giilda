@@ -160,4 +160,10 @@ class MandatSepaConfiguration implements InterfaceMandatSepaPartie {
       }
       return $this->configuration['edit_back'];
   }
+  public function getPdfTitle() {
+      if(!isset($this->configuration['pdf_title'])){
+        return null;
+      }
+      return $this->configuration['pdf_title'];
+  }
 }
