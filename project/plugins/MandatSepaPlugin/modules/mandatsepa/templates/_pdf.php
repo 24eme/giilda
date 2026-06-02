@@ -8,7 +8,7 @@
 }
 </style>
 
-<table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+<?php if ($title = $mandatSepa->getConfiguration()->getPdfTitle()): ?><h1><?php echo $title ?></h1><?php else: ?><table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table><?php endif; ?>
 
 <span class="h3Alt">&nbsp;Objet&nbsp;</span><br/>
 <table class="tableAlt">
