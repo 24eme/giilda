@@ -118,9 +118,10 @@ h1 {
   Le <?php echo $mandatSepa->getDateFr() ?>
 </p>
 
-<table border="0" width="50%">
+<table border="0" width="100%">
   <tr>
-    <td>
+    <td width="50%">&nbsp;</td>
+    <td width="50%">
       <table class="tableAlt">
         <tr><td>&nbsp;Signature du débiteur :</td></tr>
         <tr><td>&nbsp;</td></tr>
