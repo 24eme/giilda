@@ -81,7 +81,6 @@ class FactureClient extends acCouchdbClient {
         if ($interpro) {
             $facture->add('interpro', $interpro);
         }
-        $biggestMouvementSocDate = null;
         if ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12_NEGO) {
             if (!$societe->isNegociant()) {
               return null;
@@ -100,13 +99,8 @@ class FactureClient extends acCouchdbClient {
             }
             $mouvementsSoc = $new_mvt;
         }
-        foreach ($mouvementsSoc as $mouvementSoc) {
-          if (isset($mouvementSoc->date) && $mouvementSoc->date > $biggestMouvementSocDate) {
-            $biggestMouvementSocDate = $mouvementSoc->date;
-          }
-        }
         $facture->checkModeCalculTotalTaxe();
-        $facture->storeDatesCampagne($date_facturation, $biggestMouvementSocDate);
+        $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);
         $facture->storeDeclarant($societe);
 

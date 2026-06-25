@@ -130,4 +130,9 @@ class MandatSepa extends BaseMandatSepa {
     }
     return $this->debiteur->bic;
   }
+
+  public function getConfiguration() {
+      $interpro = ($this->exist('interpro'))? $this->get('interpro') : null;
+      return MandatSepaConfiguration::getInstance($interpro);
+  }
 }
