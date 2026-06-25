@@ -26,18 +26,15 @@ class VracConditionForm extends VracForm {
         $this->setWidget('date_debut_retiraison', new bsWidgetFormInputDate());
         $this->setWidget('conditions_particulieres', new bsWidgetFormTextarea());
         $this->setWidget('tva', new bsWidgetFormChoice(array('choices' => $this->getTva(), 'expanded' => true)));
-
         $this->setWidget('pluriannuel', new bsWidgetFormInputCheckbox());
         $this->setWidget('clause_reserve_propriete', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_vin', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_producteur', new bsWidgetFormInputCheckbox());
         $this->setWidget('courtage_taux', new bsWidgetFormInputFloat());
         $this->setWidget('courtage_repartition', new bsWidgetFormChoice(array('choices' => $this->getCourtageRepartition()), array('class' => 'select2')));
-        
         $this->setWidget('preparation_vin', new bsWidgetFormChoice(array('choices' => $this->getActeursPreparationVin(), 'expanded' => true)));
         $this->setWidget('embouteillage', new bsWidgetFormChoice(array('choices' => $this->getActeursEmbouteillage(), 'expanded' => true)));
         $this->setWidget('conditionnement_crd', new bsWidgetFormChoice(array('choices' => $this->getConditionnementsCRD(), 'expanded' => true)));
-
         $this->setWidget('annee_contrat', new bsWidgetFormChoice(array('choices' => $anneesContrat, 'expanded' => true)));
         $this->setWidget('seuil_revision', new bsWidgetFormInputFloat());
         $this->setWidget('acompte', new bsWidgetFormInputFloat());
@@ -64,10 +61,8 @@ class VracConditionForm extends VracForm {
         $this->setValidator('clause_reserve_propriete', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('autorisation_nom_vin', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('autorisation_nom_producteur', new sfValidatorBoolean(array('required' => false)));
-
         $this->setValidator('courtage_taux', new sfValidatorNumber(array('required' => false)));
         $this->setValidator('courtage_repartition', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCourtageRepartition()))));
-
         $this->setValidator('preparation_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursPreparationVin()))));
         $this->setValidator('embouteillage', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursEmbouteillage()))));
         $this->setValidator('conditionnement_crd', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getConditionnementsCRD()))));
@@ -78,12 +73,52 @@ class VracConditionForm extends VracForm {
         $this->setValidator('reference_contrat', new sfValidatorString(array('required' => false)));
         $this->setValidator('cahier_charge', new sfValidatorBoolean(array('required' => false)));
 
-        
+        if ($this->getObject()->exist('autorisation_suivi_aval_qualite')) {
+            $this->setWidget('autorisation_suivi_aval_qualite', new bsWidgetFormInputCheckbox());
+            $this->setValidator('autorisation_suivi_aval_qualite', new sfValidatorBoolean(array('required' => false)));
+        }
+        if ($this->getObject()->exist('type_retiraison')) {
+            $this->setWidget('type_retiraison', new bsWidgetFormChoice(array('choices' => $this->getTypesRetiraison(), 'expanded' => true)));
+            $this->setValidator('type_retiraison', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesRetiraison()))));
+        }
+        if ($this->getObject()->exist('calendrier_retiraison')) {
+            $this->setWidget('calendrier_retiraison', new bsWidgetFormTextarea());
+            $this->setValidator('calendrier_retiraison', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('modalites_retiraison')) {
+            $this->setWidget('modalites_retiraison', new bsWidgetFormTextarea());
+            $this->setValidator('modalites_retiraison', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('resiliation_cas')) {
+            $this->setWidget('resiliation_cas', new bsWidgetFormInput());
+            $this->setValidator('resiliation_cas', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('resiliation_delai_preavis')) {
+            $this->setWidget('resiliation_delai_preavis', new bsWidgetFormInput());
+            $this->setValidator('resiliation_delai_preavis', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('resiliation_indemnite')) {
+            $this->setWidget('resiliation_indemnite', new bsWidgetFormInput());
+            $this->setValidator('resiliation_indemnite', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('date_agreage')) {
+            $this->setWidget('date_agreage', new bsWidgetFormInputDate());
+            $this->setValidator('date_agreage', new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)));
+        }
+        if ($this->getObject()->exist('acheteur_delai_mise')) {
+            $this->setWidget('acheteur_delai_mise', new bsWidgetFormInput());
+            $this->setValidator('acheteur_delai_mise', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('conclusion_vente')) {
+            $this->setWidget('conclusion_vente', new bsWidgetFormChoice(array('choices' => $this->getConclusionsVente(), 'expanded' => true)));
+            $this->setValidator('conclusion_vente', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getConclusionsVente()))));
+        }
+
         $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');
         $this->validatorSchema['date_debut_retiraison']->setMessage('required', 'La date de début de retiraison doit être renseignée.');
-        
+
         $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('condition', $this->getObject()->type_transaction));
-        
+
         if (!$this->getObject()->mandataire_exist) {
             unset($this['courtage_taux'], $this['courtage_repartition']);
         }
@@ -123,6 +158,14 @@ class VracConditionForm extends VracForm {
         return VracConfiguration::getInstance()->getConditionnementsCRD();
     }
 
+    public function getTypesRetiraison() {
+        return VracConfiguration::getInstance()->getTypesRetiraison();
+    }
+
+    public function getConclusionsVente() {
+        return VracConfiguration::getInstance()->getConclusionsVente();
+    }
+
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
         if ($this->getObject()->clause_reserve_propriete === null) {
@@ -133,13 +176,16 @@ class VracConditionForm extends VracForm {
         }
         if (isset($values['cahier_charge']) && $values['cahier_charge']) {
             $this->getObject()->cahier_charge = 1;
-        }        
+        }
     }
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         $this->setDefault('date_limite_retiraison', $this->getObject()->getDateLimiteRetiraison('d/m/Y'));
         $this->setDefault('date_debut_retiraison', $this->getObject()->getDateDebutRetiraison('d/m/Y'));
+        if ($this->getObject()->exist('date_agreage')) {
+            $this->setDefault('date_agreage', $this->getObject()->getDateAgreage('d/m/Y'));
+        }
         if ($this->getObject()->clause_reserve_propriete === null) {
             $this->setDefault('clause_reserve_propriete', true);
         }
@@ -172,7 +218,7 @@ class VracConditionForm extends VracForm {
         }
         if(is_null($this->getObject()->courtage_repartition)){
              $this->setDefault('courtage_repartition','ACHETEUR' );
-            
+
         }
     }
 

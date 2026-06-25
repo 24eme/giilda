@@ -304,7 +304,7 @@ class compte_teledeclarantActions extends sfActions {
         $this->entities_number = 0;
         $entities = array();
         foreach($compte->getSociete()->getEtablissementsObj() as $e) {
-            $k = $e->etablissement->cvi.$e->etablissement->no_accises;
+            $k = $e->etablissement->cvi.$compte->getSociete()->siret.$e->etablissement->no_accises;
             if ($k) {
                 $entities[$k] = $e;
             }
@@ -313,6 +313,9 @@ class compte_teledeclarantActions extends sfActions {
             $this->entities['raison_sociale'][] = htmlspecialchars($e->etablissement->raison_sociale, ENT_XML1, 'UTF-8');
             $this->entities['cvi'][] = str_replace(' ', '', $e->etablissement->cvi);
             $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
+            if(strlen(str_replace(' ', '', $compte->getSociete()->siret)) > 9) {
+                $this->entities['siren'][] = substr(str_replace(' ', '', $compte->getSociete()->siret), 0, 9);
+            }
             $this->entities['accises'][] = str_replace(' ', '', $e->etablissement->no_accises);
             $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
             if($request->getParameter('extra')) {
@@ -334,6 +337,9 @@ class compte_teledeclarantActions extends sfActions {
         if(!$compte->getSociete()->canHaveChais()) {
             $this->entities['raison_sociale'][] = htmlspecialchars($compte->getSociete()->raison_sociale, ENT_XML1, 'UTF-8');
             $this->entities['siret'][] = str_replace(' ', '', $compte->getSociete()->siret);
+            if(strlen(str_replace(' ', '', $compte->getSociete()->siret)) > 9) {
+                $this->entities['siren'][] = substr(str_replace(' ', '', $compte->getSociete()->siret), 0, 9);
+            }
             $this->entities['tva'][] = str_replace(' ', '', $compte->getSociete()->no_tva_intracommunautaire);
             $this->entities['adresse'][] = htmlspecialchars($compte->getSociete()->getAdresse(), ENT_XML1, 'UTF-8');
             $this->entities['adresse_complementaire'][] = htmlspecialchars($compte->getSociete()->getAdresseComplementaire(), ENT_XML1, 'UTF-8');

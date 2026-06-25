@@ -36,7 +36,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                 <br />
                 <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?>Representé par <a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->representant_identifiant)) ?>"><?php echo ($vrac->getRepresentantObject())? $vrac->getRepresentantObject()->getNom() : "Représentant sans nom"; ?></a><br /><?php endif; ?>
                 <?php if ($vrac->logement): ?>Logement du vin : <?php echo $vrac->logement ?><br/><?php endif; ?>
-                <?php if ($vrac->vinification): ?>Vinification du vin : <?php echo $vrac->vinification ?><br/><?php endif; ?>
+                <?php if ($vrac->exist('vinification') && $vrac->vinification): ?>Vinification du vin : <?php echo $vrac->vinification ?><br/><?php endif; ?>
                 <br/>
                 <?php if ($vrac->teledeclare) : ?>
                 <small class="text-muted">
@@ -67,7 +67,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                     <br />
                     <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?><br /><?php endif; ?>
                     <?php if ($vrac->logement): ?><br/><?php endif; ?>
-                    <?php if ($vrac->vinification): ?><br/><?php endif; ?>
+                    <?php if ($vrac->exist('vinification') && $vrac->vinification): ?><br/><?php endif; ?>
                     <br/>
                     <?php if ($vrac->teledeclare) : ?>
                     <small class="text-muted">
@@ -99,7 +99,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                 <br />
                 <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?><br /><?php endif; ?>
                 <?php if ($vrac->logement): ?><br/><?php endif; ?>
-                <?php if ($vrac->vinification): ?><br/><?php endif; ?>
+                <?php if ($vrac->exist('vinification') && $vrac->vinification): ?><br/><?php endif; ?>
                 <br/>
                 <?php if ($vrac->teledeclare) : ?>
                 <small class="text-muted">
