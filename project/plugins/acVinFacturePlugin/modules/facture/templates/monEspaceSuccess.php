@@ -17,7 +17,9 @@ use_helper('Float');
     <div class="col-xs-12">
         <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures, 'interpro' => $interproFacturable)); ?>
           <?php
-            if (!$interproFacturable && is_callable([$compte, 'getInterproFacturable'], true)) $interproFacturable = $compte->getInterproFacturable();
+            if (!$interproFacturable && method_exists($compte, 'getInterproFacturable')) {
+                $interproFacturable = $compte->getInterproFacturable();
+            }
             if (MandatSepaConfiguration::getInstance($interproFacturable)->isActive()):
         ?>
             <hr />
