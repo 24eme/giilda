@@ -166,4 +166,8 @@ class MandatSepaConfiguration implements InterfaceMandatSepaPartie {
       }
       return $this->configuration['pdf_title'];
   }
+  public function emailRetour()
+  {
+    return (isset($this->configuration['email_retour'])) ? $this->configuration['email_retour'] : null;
+  }
 }

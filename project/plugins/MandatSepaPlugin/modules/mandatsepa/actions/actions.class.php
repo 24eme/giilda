@@ -29,14 +29,14 @@ class mandatsepaActions extends sfActions
         if (!$mandatSepa) {
             $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
         }
-        $configuration = $mandatSepa->getConfiguration();
+        $this->configuration = $mandatSepa->getConfiguration();
 
         if (! $this->getUser()->isAdmin()) {
-            if ($configuration->isAccessibleTeledeclaration() === false) {
+            if ($this->configuration->isAccessibleTeledeclaration() === false) {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
 
-            if ($configuration->isAccessibleTeledeclaration() === true && $this->getUser()->getCompte()->getSociete()->getIdentifiant() !== $request->getParameter('identifiant')) {
+            if ($this->configuration->isAccessibleTeledeclaration() === true && $this->getUser()->getCompte()->getSociete()->getIdentifiant() !== $request->getParameter('identifiant')) {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         }
@@ -46,7 +46,7 @@ class mandatsepaActions extends sfActions
             $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
         }
         $this->form = new MandatSepaDebiteurForm($mandatSepa->debiteur, $this->getUser()->isAdmin());
-        $this->back = ($configuration->getEditBack()) ?: 'societe_visualisation';
+        $this->back = ($this->configuration->getEditBack()) ?: 'societe_visualisation';
 
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
