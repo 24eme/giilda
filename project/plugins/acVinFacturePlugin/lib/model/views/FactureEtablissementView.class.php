@@ -69,10 +69,13 @@ class FactureEtablissementView extends acCouchdbView
                     ->getView($this->design, $this->view)->rows;
     }
 
-    public function getAllSocietesForCompta() {
+    public function getAllSocietesForCompta($interpro = null) {
         $items = $this->getAllFacturesForCompta();
         $societes = array();
         foreach($items as $item) {
+            if ($interpro && $item->key[self::KEYS_INTERPRO] != $interpro) {
+                continue;
+            }
             $societes[$item->key[self::KEYS_CLIENT_ID]] = (object) array('id' => 'SOCIETE-'.$item->key[self::KEYS_CLIENT_ID]);
         }
         return $societes;
