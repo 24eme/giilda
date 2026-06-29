@@ -12,53 +12,46 @@
  * sfDoctrineRecordI18nFilter implements access to the translated properties for
  * the current culture from the internationalized model.
  *
- * @package    symfony
- * @subpackage doctrine
  * @author     Jonathan H. Wage <jonwage@gmail.com>
- * @version    SVN: $Id: sfDoctrineRecordI18nFilter.class.php 24337 2009-11-24 14:37:03Z Kris.Wallsmith $
  */
 class sfDoctrineRecordI18nFilter extends Doctrine_Record_Filter
 {
-  /**
-   * @see Doctrine_Table::unshiftFilter()
-   */
-  public function init()
-  {
-  }
-
-  /**
-   * Calls set on Translation relationship.
-   *
-   * Allows manipulation of I18n properties from the main object.
-   *
-   * @param Doctrine_Record $record
-   * @param string          $name   Name of the property
-   * @param string          $value  Value of the property
-   */
-  public function filterSet(Doctrine_Record $record, $name, $value)
-  {
-    return $record['Translation'][sfDoctrineRecord::getDefaultCulture()][$name] = $value;
-  }
-
-  /**
-   * Call get on Translation relationship.
-   *
-   * Allow access to I18n properties from the main object.
-   *
-   * @param Doctrine_Record $record
-   * @param string          $name   Name of the property
-   */
-  public function filterGet(Doctrine_Record $record, $name)
-  {
-    $culture = sfDoctrineRecord::getDefaultCulture();
-    if (isset($record['Translation'][$culture]))
+    /**
+     * @see Doctrine_Table::unshiftFilter()
+     */
+    public function init()
     {
-      return $record['Translation'][$culture][$name];
     }
-    else
+
+    /**
+     * Calls set on Translation relationship.
+     *
+     * Allows manipulation of I18n properties from the main object.
+     *
+     * @param string $name  Name of the property
+     * @param string $value Value of the property
+     */
+    public function filterSet(Doctrine_Record $record, $name, $value)
     {
-      $defaultCulture = sfConfig::get('sf_default_culture');
-      return $record['Translation'][$defaultCulture][$name];
+        return $record['Translation'][sfDoctrineRecord::getDefaultCulture()][$name] = $value;
     }
-  }
+
+    /**
+     * Call get on Translation relationship.
+     *
+     * Allow access to I18n properties from the main object.
+     *
+     * @param string $name Name of the property
+     */
+    public function filterGet(Doctrine_Record $record, $name)
+    {
+        $culture = sfDoctrineRecord::getDefaultCulture();
+        if (isset($record['Translation'][$culture]) && '' != $record['Translation'][$culture][$name]) {
+            return $record['Translation'][$culture][$name];
+        }
+
+        $defaultCulture = sfConfig::get('sf_default_culture');
+
+        return $record['Translation'][$defaultCulture][$name];
+    }
 }
