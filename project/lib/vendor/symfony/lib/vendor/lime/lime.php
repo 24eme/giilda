@@ -13,7 +13,6 @@
  *
  * @package    lime
  * @author     Fabien Potencier <fabien.potencier@gmail.com>
- * @version    SVN: $Id: lime.php 29529 2010-05-19 13:41:48Z fabien $
  */
 class lime_test
 {
@@ -68,7 +67,7 @@ class lime_test
     return self::$all_results;
   }
 
-static public function to_xml($results = null, $failed = null)
+  static public function to_xml($results = null)
   {
     if (is_null($results))
     {
@@ -87,28 +86,24 @@ static public function to_xml($results = null, $failed = null)
 
     foreach ($results as $result)
     {
-        $nb_errors = count($result['stats']['errors']);
-        if(isset($failed) && is_array($failed) && in_array($result['file'], $failed)) {
-            $nb_errors++;
-        }
       $testsuites->appendChild($testsuite = $dom->createElement('testsuite'));
       $testsuite->setAttribute('name', basename($result['file'], '.php'));
       $testsuite->setAttribute('file', $result['file']);
       $testsuite->setAttribute('failures', count($result['stats']['failed']));
-      $testsuite->setAttribute('errors', $nb_errors);
+      $testsuite->setAttribute('errors', count($result['stats']['errors']));
       $testsuite->setAttribute('skipped', count($result['stats']['skipped']));
       $testsuite->setAttribute('tests', $result['stats']['plan']);
       $testsuite->setAttribute('assertions', $result['stats']['plan']);
 
       $failures += count($result['stats']['failed']);
-      $errors += $nb_errors;
+      $errors += count($result['stats']['errors']);
       $skipped += count($result['stats']['skipped']);
       $assertions += $result['stats']['plan'];
 
       foreach ($result['tests'] as $test)
       {
         $testsuite->appendChild($testcase = $dom->createElement('testcase'));
-        $testcase->setAttribute('name', utf8_encode($test['message']));
+        $testcase->setAttribute('name', mb_convert_encoding($test['message'], 'UTF-8', 'ISO-8859-1'));
         $testcase->setAttribute('file', $test['file']);
         $testcase->setAttribute('line', $test['line']);
         $testcase->setAttribute('assertions', 1);
@@ -174,7 +169,7 @@ static public function to_xml($results = null, $failed = null)
   {
     $this->update_stats();
 
-    if ($result = (boolean) $exp)
+    if ($result = (bool) $exp)
     {
       $this->results['stats']['passed'][] = $this->test_nb;
     }
@@ -524,11 +519,11 @@ static public function to_xml($results = null, $failed = null)
   {
     $this->output->error($message, $file, $line, $traces);
 
-  	$this->results['stats']['errors'][] = array(
-  	  'message' => $message,
-  	  'file' => $file,
-  	  'line' => $line,
-  	);
+    $this->results['stats']['errors'][] = array(
+      'message' => $message,
+      'file' => $file,
+      'line' => $line,
+    );
   }
 
   protected function update_stats()
@@ -557,7 +552,8 @@ static public function to_xml($results = null, $failed = null)
     $t = array_reverse($traces);
     foreach ($t as $trace)
     {
-      if (isset($trace['object']) && $this->is_test_object($trace['object']))
+      // In internal calls, like error_handle, 'file' will be missing
+      if (isset($trace['object']) && $this->is_test_object($trace['object']) && isset($trace['file']))
       {
         return array($trace['file'], $trace['line']);
       }
@@ -568,7 +564,7 @@ static public function to_xml($results = null, $failed = null)
     return array($traces[$last]['file'], $traces[$last]['line']);
   }
 
-  public function handle_error($code, $message, $file, $line, $context)
+  public function handle_error($code, $message, $file, $line, $context = null)
   {
     if (!$this->options['error_reporting'] || ($code & error_reporting()) == 0)
     {
@@ -591,7 +587,11 @@ static public function to_xml($results = null, $failed = null)
     $this->error($type.': '.$message, $file, $line, $trace);
   }
 
-  public function handle_exception(Throwable $exception)
+  /**
+   * @param Throwable|Exception $exception
+   * @return bool
+   */
+  public function handle_exception($exception)
   {
     $this->error(get_class($exception).': '.$exception->getMessage(), $exception->getFile(), $exception->getLine(), $exception->getTrace());
 
@@ -911,7 +911,7 @@ class lime_harness extends lime_registration
 
   public function to_xml()
   {
-    return lime_test::to_xml($this->to_array(), $this->get_failed_files());
+    return lime_test::to_xml($this->to_array());
   }
 
   public function run()
@@ -1102,7 +1102,10 @@ EOF
 
             $this->output->comment(sprintf('  at %s line %s', $this->get_relative_file($testsuite['tests'][$testcase]['file']).$this->extension, $testsuite['tests'][$testcase]['line']));
             $this->output->info('  '.$testsuite['tests'][$testcase]['message']);
-            $this->output->echoln($testsuite['tests'][$testcase]['error'], null, false);
+            if (isset($testsuite['tests'][$testcase]['error']))
+            {
+              $this->output->echoln($testsuite['tests'][$testcase]['error'], null, false);
+            }
           }
         }
       }

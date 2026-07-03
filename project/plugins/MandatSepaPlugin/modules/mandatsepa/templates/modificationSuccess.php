@@ -130,7 +130,7 @@
             </div>
             <?php endif; ?>
 
-            <p>Une fois vos coordonnées bancaires saisies, vous devrez télécharger le document PDF du mandat de prélèvement SEPA, l'imprimer, le signer et nous le retourner par voie postale à l'adresse indiqué sur ledit document.</p>
+            <p>Une fois vos coordonnées bancaires saisies, vous devrez télécharger le document PDF du mandat de prélèvement SEPA, l'imprimer, le signer et nous le retourner <?php if($email = $configuration->emailRetour()): ?>par email à l'adresse <a href="mailto:<?php echo $email ?>"><?php echo $email ?></a><?php else: ?>par voie postale à l'adresse indiqué sur ledit document.<?php endif; ?></p>
 
             <div class="col-sm-12">&nbsp;<br/></div>
 

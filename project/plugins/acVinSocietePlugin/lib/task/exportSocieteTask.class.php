@@ -10,6 +10,7 @@ class exportSocieteTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
       new sfCommandOption('all', null, sfCommandOption::PARAMETER_OPTIONAL, 'Display all societé (suspendu included)', ''),
+      new sfCommandOption('interpro', null, sfCommandOption::PARAMETER_REQUIRED, 'Interpro', null),
       // add your own options here
     ));
 
@@ -32,14 +33,13 @@ EOF;
 	return ;
     }
     print $compte.";";
-    print $societe->getIntitule().";";
-    print $societe->getRaisonSocialeWithoutIntitule().";";
+    print $societe->raison_sociale.";";
     if ($isclient == self::ISCLIENT) {
       print "CLIENT;";
     }else{
       print "FOURNISSEUR;";
     }
-    print strtoupper(substr($societe->getRaisonSocialeWithoutIntitule(), 0, 5)).";";
+    print strtoupper(substr($societe->raison_sociale, 0, 5)).";";
     print preg_replace('/;.*/', '', $societe->getSiegeAdresses()).";";
     if (preg_match('/;/', $societe->getSiegeAdresses())) {
         print str_replace(';', '-', preg_replace('/.*;/', '', $societe->getSiegeAdresses()));
@@ -90,12 +90,13 @@ EOF;
     if (isset($options['all']) && $options['all']) {
 	$this->includeSuspendu = true;
     }
+    $interpro = $options['interpro'];
 
     $this->routing = clone ProjectConfiguration::getAppRouting();
 
 
     try {
-        $mandatSepaConfiguration = MandatSepaConfiguration::getInstance();
+        $mandatSepaConfiguration = MandatSepaConfiguration::getInstance($interpro);
         $mandatSepaActif = $mandatSepaConfiguration->isActive();
     } catch (Exception $e) {
         $mandatSepaActif = false;
@@ -106,16 +107,16 @@ EOF;
     echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;Actif;$mandatSepaEntetes\n";
 
     if ($onlyFactures) {
-        $societes = FactureEtablissementView::getInstance()->getAllSocietesForCompta();
+        $societes = FactureEtablissementView::getInstance()->getAllSocietesForCompta($interpro);
     } else {
-        $societes = SocieteAllView::getInstance()->findByInterpro('INTERPRO-declaration');
+        $societes = SocieteAllView::getInstance()->findByInterpro($interpro ?: 'INTERPRO-declaration');
     }
     foreach($societes as $socdata) {
       $soc = SocieteClient::getInstance()->find($socdata->id);
       if (!$soc->code_comptable_client && ! $soc->code_comptable_fournisseur)
 	continue;
       if ($soc->code_comptable_client) {
-	$this->printSociete($soc, $soc->code_comptable_client, self::ISCLIENT, $mandatSepaActif);
+	$this->printSociete($soc, $soc->getCodeComptableClient($interpro), self::ISCLIENT, $mandatSepaActif);
       }
       if ($soc->code_comptable_fournisseur) {
 	$this->printSociete($soc, $soc->code_comptable_fournisseur, self::ISFOURNISSEUR, $mandatSepaActif);

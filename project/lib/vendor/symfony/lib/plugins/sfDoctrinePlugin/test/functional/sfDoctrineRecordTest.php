@@ -3,14 +3,15 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 $app = 'frontend';
 $fixtures = 'fixtures/fixtures.yml';
-require_once(dirname(__FILE__).'/../bootstrap/functional.php');
+
+require_once dirname(__FILE__).'/../bootstrap/functional.php';
 
 $t = new lime_test(22);
 
@@ -68,15 +69,18 @@ $t->is($article->getCamelCase()->getTable()->getOption('name'), 'CamelCase');
 
 // Test getDateTimeObject()
 $dateTime = $article->getDateTimeObject('created_at');
-$t->is($dateTime instanceof DateTime, true);
-$t->is($dateTime->format('m/d/Y'), date('m/d/Y'));
+$t->is($dateTime, null);
 
 try {
-  $article->getDateTimeObject('author_id');
-  $t->fail();
-} catch (Exception $e) {
-  $t->pass();
+    $article->getDateTimeObject('author_id');
+    $t->fail();
+} catch (sfException $e) {
+    $t->pass();
 }
 
 $article->setDateTimeObject('created_at', new DateTime('1985-09-01'));
 $t->is($article->getDateTimeObject('created_at')->format('m/d/Y'), '09/01/1985');
+
+$article->setDateTimeObject('created_at', null);
+$dateTime = $article->getDateTimeObject('created_at');
+$t->is($dateTime, null);

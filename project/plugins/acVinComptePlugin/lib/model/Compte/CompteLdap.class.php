@@ -146,8 +146,8 @@ class CompteLdap extends acVinLdap
     }
 
     public static function replace_invalid_syntax($s) {
-        return str_replace(array('é', 'è', 'ê', 'ë', 'à', 'ù', 'ä', 'ü', 'ï', 'ç', 'ö', 'ô', 'â', 'î', 'ô', 'û'),
-                             array('e', 'e', 'e', 'e', 'a', 'u', 'a', 'u', 'i', 'c', 'o', 'o', 'a', 'i', 'o', 'u'), $s);
+        return str_replace(array('é', 'è', 'ê', 'ë', 'à', 'ù', 'ä', 'ü', 'ï', 'ç', 'ö', 'ô', 'â', 'î', 'ô', 'û', 'É', 'È', 'Ê', 'Ë', 'À', 'Ù', 'Ä', 'Ü', 'Ï', 'Ç', 'Ö', 'Ô', 'Â', 'Î', 'Ô', 'Û'),
+                             array('e', 'e', 'e', 'e', 'a', 'u', 'a', 'u', 'i', 'c', 'o', 'o', 'a', 'i', 'o', 'u', 'E', 'E', 'E', 'E', 'A', 'U', 'A', 'U', 'I', 'C', 'O', 'O', 'A', 'I', 'O', 'U'), $s);
     }
 
 }

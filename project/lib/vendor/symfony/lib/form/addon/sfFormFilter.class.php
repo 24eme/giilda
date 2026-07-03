@@ -13,10 +13,7 @@
  *
  * This class extends BaseForm, a class generated automatically with each new project.
  *
- * @package    symfony
- * @subpackage form
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfFormFilter.class.php 18331 2009-05-16 11:13:47Z Kris.Wallsmith $
  */
 class sfFormFilter extends BaseForm
 {
