@@ -7,7 +7,7 @@ all:
         vrac_detail:
           creation: true
       export_pays_debut: { }
-      export_pays_fin: { "AUTRE": "Autres pays"}
+      export_pays_fin: { "BY": "Biélorussie", "AUTRE": "Autres pays"}
       vrac_multi_produit: false
       crd_only_suspendus: false
       aggregate_edi: [ ]

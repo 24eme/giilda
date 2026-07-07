@@ -1,0 +1,10 @@
+all:
+  logger:
+    param:
+      loggers:
+        sf_web_debug:
+          param:
+            web_debug_class: WebDebugApp
+
+  mailer:
+    class: AppMailer
