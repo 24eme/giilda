@@ -36,8 +36,10 @@ class DRMReleveNonApurementItemsForm extends acCouchdbObjectForm {
             if (!is_array($values) || array_key_exists($key, $this->embeddedForms)) {
                 continue;
             }
-            $this->embedForm($key, new DRMReleveNonApurementItemForm($this->getObject()->add(),array('keyNonApurement' => $key)));
+            $form = $this->embedForm($key, new DRMReleveNonApurementItemForm($this->getObject()->add($key),array('keyNonApurement' => $key)));
         }
+
+        parent::bind($taintedValues, $taintedFiles);
     }
 
     public function unEmbedForm($key) {
