@@ -65,5 +65,12 @@ class VracChangeSoussigneTask extends sfBaseTask
         $vrac->setInformations();
 
         $vrac->save();
+        echo sprintf("SUCCESS;Vrac %s mis à jour. Nouveau %s : %s (%s) (représentant : %s)", [
+            $vrac->_id,
+            $arguments['type_soussigne'],
+            $soussigne->raison_sociale,
+            $soussigne->identifiant,
+            $options['is_representant'] ? 'OUI' : 'NON'
+        ]).PHP_EOL;
     }
 }
