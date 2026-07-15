@@ -50,6 +50,7 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
         }
         $this->embedForm($key, new FactureMouvementEditionLignesForm($this->getObject()->mouvements->add('nouveau')->add('nouveau')));
       }
+      parent::bind($taintedValues, $taintedFiles);
     }
 
     public function unEmbedForm($key) {
