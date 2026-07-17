@@ -29,6 +29,7 @@ class LiaisonsItemForm extends acCouchdbObjectForm {
             }
             $this->embedForm($key, new LiaisonItemForm($this->getObject()->add()));
         }
+        parent::bind($taintedValues, $taintedFiles);
     }
 
     public function unEmbedForm($key) {
