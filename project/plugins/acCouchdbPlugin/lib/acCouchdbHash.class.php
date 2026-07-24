@@ -23,9 +23,10 @@
  */
 class acCouchdbHash {
 
+    const FIRST_KEY_OF_HASH = 'f';
+    const HASH_WITHOUT_FIRST_KEY = 'w';
+
     private $_hash = array();
-
-
 
     /**
      *
@@ -114,8 +115,8 @@ class acCouchdbHash {
     public static function getResultArray($hash) {
         if($hash && strpos($hash, '/') === false) {
             return array(
-                "f" => $hash,
-                "w" => null
+                acCouchdbHash::FIRST_KEY_OF_HASH => $hash,
+                acCouchdbHash::HASH_WITHOUT_FIRST_KEY => null
             );
         }
 
@@ -123,8 +124,8 @@ class acCouchdbHash {
         $first = array_shift($hashArray);
 
         return array(
-            "f" => $first,
-            "w" => (count($hashArray) > 0) ? implode('/', $hashArray) : null,
+            acCouchdbHash::FIRST_KEY_OF_HASH => $first,
+            acCouchdbHash::HASH_WITHOUT_FIRST_KEY => (count($hashArray) > 0) ? implode('/', $hashArray) : null,
         );
     }
 

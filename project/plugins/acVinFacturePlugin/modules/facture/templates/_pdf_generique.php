@@ -99,7 +99,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
 
 $nb_blank = FactureLatex::MAX_LIGNES_PERPAGE - $line_nb - $total_lines_footer;
 if ($nbEcheances = count($facture->echeances)) {
-  $nb_blank -= ($nbEcheances-2);
+  $nb_blank -= $nbEcheances;
 }
 for($i=0; $i<$nb_blank;$i++):
     ?>
