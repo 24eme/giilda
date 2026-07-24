@@ -1,20 +1,23 @@
 <style>
 .tableAlt {
     border: 1px solid #bec6d0;
+    width: 100%;
 }
 .h3Alt {
     background-color: #bec6d0; color: #000; font-weight: bold;
 }
+h1 {
+    text-align: center;
+}
 </style>
 
-<table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+<?php if ($title = $mandatSepa->getConfiguration()->getPdfTitle()): ?><h1><?php echo $title ?></h1><?php else: ?><table border="0"><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table><?php endif; ?>
 
 <span class="h3Alt">&nbsp;Objet&nbsp;</span><br/>
 <table class="tableAlt">
   <tr>
     <td>
       <table border="0">
-        <tr><td>&nbsp;</td></tr>
         <tr>
             <td><?php echo $mandatSepa->mention_autorisation ?></td>
         </tr>
@@ -26,7 +29,6 @@
         <tr>
             <td><?php echo $mandatSepa->mention_droits ?></td>
         </tr>
-        <tr><td>&nbsp;</td></tr>
       </table>
     </td>
   </tr>
@@ -39,7 +41,6 @@
   <tr>
     <td>
       <table border="0">
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
         <tr>
             <td>Identifiant (ICS) : <strong><?php echo $mandatSepa->creancier->identifiant_ics ?></strong></td>
             <td>&nbsp;</td>
@@ -56,7 +57,6 @@
             <td>&nbsp;</td>
             <td>&nbsp;<?php echo $mandatSepa->creancier->code_postal ?>&nbsp;<?php echo $mandatSepa->creancier->commune ?></td>
         </tr>
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
       </table>
     </td>
   </tr>
@@ -69,7 +69,6 @@
   <tr>
     <td>
       <table border="0">
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
         <tr>
             <td>Identifiant (RUM) : <strong><?php echo $mandatSepa->debiteur->identifiant_rum ?></strong></td>
             <td>&nbsp;</td>
@@ -86,7 +85,6 @@
             <td>&nbsp;</td>
             <td><?php echo $mandatSepa->debiteur->code_postal ?>&nbsp;<?php echo $mandatSepa->debiteur->commune ?></td>
         </tr>
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
       </table>
     </td>
   </tr>
@@ -99,7 +97,6 @@
   <tr>
     <td>
       <table border="0">
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
         <tr>
             <td>Prélèvement <?php echo strtolower(MandatSepaClient::getFrequencePrelevementLibelle($mandatSepa->debiteur->frequence_prelevement)) ?></td>
             <td>&nbsp;</td>
@@ -112,7 +109,6 @@
             <td>&nbsp;</td>
             <td>BIC : <?php echo $mandatSepa->debiteur->bic ?></td>
         </tr>
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
       </table>
     </td>
   </tr>
@@ -122,14 +118,12 @@
   Le <?php echo $mandatSepa->getDateFr() ?>
 </p>
 
-<table border="0">
+<table border="0" width="100%">
   <tr>
-    <td>&nbsp;</td>
-    <td>
+    <td width="50%">&nbsp;</td>
+    <td width="50%">
       <table class="tableAlt">
         <tr><td>&nbsp;Signature du débiteur :</td></tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td>&nbsp;</td></tr>
         <tr><td>&nbsp;</td></tr>
         <tr><td>&nbsp;</td></tr>
         <tr><td>&nbsp;</td></tr>

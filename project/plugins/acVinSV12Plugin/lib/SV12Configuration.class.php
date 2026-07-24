@@ -41,4 +41,8 @@ class SV12Configuration {
 
         return (!isset($this->configuration['no_viti']))? false : $this->configuration['no_viti'];
     }
+
+    public function inclureProducteurs() {
+        return (!isset($this->configuration['inclure_producteurs']))? false : $this->configuration['inclure_producteurs'];
+    }
 }

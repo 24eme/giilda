@@ -88,7 +88,7 @@ $paramFacturation =  array(
 $mouvementsFacture = array($societeViti->identifiant => FactureClient::getInstance()->getFacturationForSociete($societeViti));
 $mouvementsFacture = FactureClient::getInstance()->filterWithParameters($mouvementsFacture, $paramFacturation);
 
-$facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, $paramFacturation);
+$facture = FactureClient::getInstance()->createFacturesBySociete($societeViti, $paramFacturation);
 $facture->save();
 
 $t->is($facture->total_ht, $totalHT, "Le total TTC est de ".$totalHT." €");
@@ -110,4 +110,4 @@ $t->ok($generation, "La génération est créée");
 
 $t->comment("Test d'une nouvelle facturation sur la société pour s'assurer qu'aucune facture ne sera pas créée");
 
-$t->ok(!FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, $paramFacturation), "La facture n'a pas été créée");
+$t->ok(!FactureClient::getInstance()->createFacturesBySociete($societeViti, $paramFacturation), "La facture n'a pas été créée");

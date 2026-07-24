@@ -56,7 +56,10 @@
                     <?php if(in_array($item->valide->statut, array(SV12Client::STATUT_VALIDE, SV12Client::STATUT_VALIDE_PARTIEL))): ?>
                         <a class="btn btn-default btn-block" href="<?php echo url_for(array('sf_route' => 'sv12_visualisation', 'identifiant' => $item->identifiant, 'periode_version' => SV12Client::getInstance()->buildPeriodeAndVersion($item->periode, $item->version))) ?>">Visualiser</a>
                     <?php else: ?>
-                        <a class="btn btn-warning btn-block" href="<?php echo url_for(array('sf_route' => 'sv12_update', 'identifiant' => $item->identifiant, 'periode_version' => SV12Client::getInstance()->buildPeriodeAndVersion($item->periode, $item->version))) ?>">Continuer</a>
+                        <div class="text-center">
+                            <a class="btn btn-warning" href="<?php echo url_for(array('sf_route' => 'sv12_update', 'identifiant' => $item->identifiant, 'periode_version' => SV12Client::getInstance()->buildPeriodeAndVersion($item->periode, $item->version))) ?>">Continuer</a>
+                            <a class="pull-right" href="<?php echo url_for(array('sf_route' => 'sv12_delete', 'identifiant' => $item->identifiant, 'periode_version' => SV12Client::getInstance()->buildPeriodeAndVersion($item->periode, $item->version))) ?>" onclick="return confirm('Êtes vous sûr de vouloir supprimer ce brouillon ?')"><span class="glyphicon glyphicon-remove" style="opacity: 0.4;"></span></a>
+                        </div>
                     <?php endif; ?>
                 </td>
             </tr>

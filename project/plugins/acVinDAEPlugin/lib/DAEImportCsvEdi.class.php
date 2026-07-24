@@ -203,6 +203,7 @@ class DAEImportCsvEdi extends DAECsvEdi
             if ($this->isEmptyLine($csvRow)) {
                 continue;
             }
+            $csvRow = preg_replace('/[^\P{C}\n\t]/u', '', $csvRow);
             $nDate = trim($csvRow[self::CSV_DATE_COMMERCIALISATION]);
 		    if (preg_match('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{2,4})$/', $nDate, $m)) {
 		        $nDate = sprintf("%04d-%02d-%02d", (strlen($m[3]) == 2)? '20'.$m[3] : $m[3], $m[2], $m[1]);

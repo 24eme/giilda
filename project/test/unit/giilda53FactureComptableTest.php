@@ -59,7 +59,7 @@ $drm->save();
 $drm->validate();
 $drm->save();
 
-$facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, array(
+$facture = FactureClient::getInstance()->createFacturesBySociete($societeViti, array(
     "modele" => "DRM",
     "date_facturation" => date('Y').'-08-01',
     "date_mouvement" => null,

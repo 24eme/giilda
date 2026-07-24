@@ -193,22 +193,17 @@ abstract class acCouchdbJsonFields {
     /**
      *
      * @param string $key
-     * @return mixed 
+     * @return mixed
      */
     public function _get($key) {
         return $this->getField($key);
     }
 
-    protected function _remove($key_or_hash) {
-        $obj_hash = new acCouchdbHash($key_or_hash);
-        if ($obj_hash->isAlone()) {
-            if ($this->_is_array) {
-                return $this->removeNumeric($key_or_hash);
-            } else {
-                return $this->removeNormal($key_or_hash);
-            }
+    protected function _remove($key) {
+        if ($this->_is_array) {
+            return $this->removeNumeric($key);
         } else {
-            return $this->getField($obj_hash->getFirst())->remove($obj_hash->getAllWithoutFirst());
+            return $this->removeNormal($key);
         }
     }
 
