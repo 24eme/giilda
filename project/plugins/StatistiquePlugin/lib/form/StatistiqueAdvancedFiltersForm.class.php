@@ -27,6 +27,7 @@ class StatistiqueAdvancedFiltersForm extends BaseForm
 			}
 			$this->embedForm($key, new StatistiqueAdvancedFilterForm($this->filters));
         }
+        parent::bind($taintedValues, $taintedFiles);
 	}
 
 	public function unEmbedForm($key)
