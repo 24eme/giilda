@@ -29,6 +29,7 @@ class EnseignesItemForm extends acCouchdbObjectForm {
             }
             $this->embedForm($key, new EnseigneItemForm($this->getObject()->add()));
         }
+        parent::bind($taintedValue, $taintedFiles);
     }
 
     public function unEmbedForm($key) {
