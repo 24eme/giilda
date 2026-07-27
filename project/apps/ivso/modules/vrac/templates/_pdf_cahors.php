@@ -81,23 +81,30 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATSOUSTITRE{<?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>produits dans le Sud-Ouest<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>produits dans le Sud-Ouest retiraison bouteille<?php else: ?>destinés à l'élaboration d'AOP ou d'IGP du Sud-Ouest<?php endif; ?>}
 
 
-\def\CONTRATVENDEURNOM{<?php echo display_latex_string($vendeur_raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATVENDEURNOM{<?php echo display_latex_string(strtoupper($vendeur_raison_sociale)); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi ?>}
 \def\CONTRATVENDEURSIRET{<?php echo $vrac->vendeur->siret ?>}
 \def\CONTRATVENDEURACCISES{<?php echo $vrac->vendeur->no_accises ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse); ?>}
 \def\CONTRATVENDEURCOMMUNE{<?php  echo display_latex_string($vrac->vendeur->code_postal.' '.$vrac->vendeur->commune) ?>}
+\def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
+\def\CONTRATVENDEUREMAIL{<?php echo $vrac->getVendeurObject()->email ?>}
 
 
-\def\CONTRATACHETEUREURNOM{<?php  echo display_latex_string($acheteur_raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATACHETEUREURNOM{<?php  echo display_latex_string(strtoupper($acheteur_raison_sociale)); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi ?>}
 \def\CONTRATACHETEURSIRET{<?php echo $vrac->acheteur->siret ?>}
 \def\CONTRATACHETEURACCISES{<?php echo $vrac->acheteur->no_accises ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse); ?>}
 \def\CONTRATACHETEURCOMMUNE{<?php echo display_latex_string($vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
+\def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
+\def\CONTRATACHETEUREMAIL{<?php echo $vrac->getAcheteurObject()->email ?>}
 
-\def\CONTRATCOURTIERNOM{<?php echo display_latex_string($mandataire_raison_sociale) ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
-\def\CONTRATCOURTIERCARTEPRO{, n° carte professionnelle:~<?php echo $vrac->mandataire->carte_pro ?>}
+\def\CONTRATCOURTIERNOM{<?php echo display_latex_string(strtoupper($mandataire_raison_sociale)) ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATCOURTIERADRESSE{<?php echo display_latex_string($vrac->mandataire->adresse); ?>}
+\def\CONTRATCOURTIERCOMMUNE{<?php echo display_latex_string($vrac->mandataire->code_postal.' '.$vrac->mandataire->commune); ?>}
+\def\CONTRATCOURTIERTELEPHONE{<?php echo $vrac->getMandataireObject()->telephone ?>}
+\def\CONTRATCOURTIEREMAIL{<?php echo $vrac->getMandataireObject()->email ?>}
 
 \def\CONTRATTYPE{Moûts}
 \def\CONTRATTYPEUNITE{<?php if ($vrac->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS): ?>kg<?php else: ?>hl<?php endif; ?>}
@@ -120,6 +127,7 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATDELAIPAIEMENT{<?php echo ($vrac->delai_paiement) ? VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] : '' ; ?>}
 \def\CONTRATACOMPTE{<?php echo $vrac->acompte ?>}
 \def\CONTRATLIEUPRODUIT{<?php echo ($vrac->logement)? $vrac->logement : $vrac->vendeur->commune ?>}
+\def\CONTRATVINIFICATIONPRODUIT{<?php echo ($vrac->vinification)? $vrac->vinification : $vrac->vendeur->commune ?>}
 
 \def\CONTRATLIEUCREATION{LES VERCHERS SUR LAYON}
 \def\CONTRATDATECREATION{02/09/2015}
@@ -132,127 +140,140 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATCONDITIONNEMENT{<?php if ($vrac->conditionnement_crd == 'NEGOCE_ACHEMINE'): ?>\textbf{P} : Vin préparé pour la mise en bouteille<?php elseif ($vrac->conditionnement_crd == 'ACHAT_TIRE_BOUCHE'): ?>\textbf{TB} : Tiré Bouché<?php endif; ?>}
 \def\CONTRATTAUXCOURTAGE{<?php echo $vrac->courtage_taux ?>}
 
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
 \begin{document}
 
+{
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\textwidth}{
+    >{\raggedright\arraybackslash}p{86mm}
+    >{\raggedright\arraybackslash}p{86mm}
+}
 
-\begin{tabularx}{\textwidth}{p{140mm} |p{50mm}}
-
-	 \textbf{\LARGE{Union Interprofessionnelle du Vin de Cahors}} & N° Bordereau :  \textbf{\LARGE{\CONTRATNUMENREGISTREMENT}} \\
-	 Villa Cahors Malbec - Place François Miteerrand - 46000 Cahors &  Visa Cahors : \CONTRATVISA  \\
-	 Tel. : 05 65 23 82 35 - Fax : 05 65 23 63 09 - info@vinsdecahors.fr  & ~ \\
-	 \small{site : www.vindecahors.fr}  & Le : \textbf{\CONTRATDATEENTETE}  \\
+	 \textbf{\large{\uppercase{Union Interprofessionnelle du Vin de Cahors et des côtes du lot}}} &
+     \multicolumn{1}{C{86mm}}{%{
+     \textbf{\Large{
+   <?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>
+      		CONTRAT D'ACHAT DE VIN EN PROPRIETE
+   <?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS): ?>
+           CONTRAT D'ACHAT DE MOÛT EN PROPRIETE
+   <?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>
+           CONTRAT D'ACHAT DE BOUTEILLE EN PROPRIETE
+   <?php else: ?>
+       CONTRAT D'ACHAT DE VENDANGE EN PROPRIETE
+   <?php endif; ?>
+   	    }}
+    }%}
+     \\
+	 \textbf{\small{Villa Cahors Malbec - Place François Mitterand - 46000 CAHORS \newline Tél.: 05 65 23 82 35 - contact@vinsdecahors.fr - site : www.vindecahors.fr}} &
+     \multicolumn{1}{C{86mm}}{%{
+     \footnotesize{
+         établi suivant accord interprogessionnel du Vin de Cahors Appellation d'Origine Protégée et Côtes du Lot Indication Géographique Protégée pour les ventes sous DAA/DAC à destination du marché intérieur.
+     }
+     }%}
+     \\
+	 ~  &
+    \multicolumn{1}{R{86mm}}{%{
+        \textbf{\Large{N° \CONTRATVISA}}
+    }%}
+     \\
 
 \end{tabularx}
+}
 
-\vspace{0.4cm}
-  \begin{center}
-   	\begin{huge}
-<?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>
-   		CONTRAT D'ACHAT DE VIN EN PROPRIETE
-<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS): ?>
-        CONTRAT D'ACHAT DE MOÛT EN PROPRIETE
-<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>
-        CONTRAT D'ACHAT DE BOUTEILLE EN PROPRIETE
-<?php else: ?>
-    CONTRAT D'ACHAT DE VENDANGE EN PROPRIETE
-<?php endif; ?>
-	\end{huge}
-	\\ ~ \\
-   	\begin{large}
-   		établi suivant accord interprogessionnel du Vin de Cahors
-	\end{large}
-    \end{center}
+\textbf{1 - Désignation des parties} \\
 
-     Entre les soussignés,
 \begin{multicols}{2}
 
-
+\begin{minipage}[t]{0.485\textwidth}
+\begin{tabularx}{\textwidth}{|Xl|}
+	\hline
+    ~ & ~ \\
+	\multicolumn{2}{|l|}{\textbf{VENDEUR : \CONTRATVENDEURNOM}} \\
+    ~ & ~ \\
+	N° CVI : & \textbf{\CONTRATVENDEURCVI} \\
+	N° SIRET : & \textbf{\CONTRATVENDEURSIRET} \\
+    N° d'Accises : & \textbf{\CONTRATVENDEURACCISES} \\
+    ~ & ~ \\
+	Adresse : & \textbf{\CONTRATVENDEURADRESSE} \\
+    Commune : & \textbf{\CONTRATVENDEURCOMMUNE} \\
+    ~ & ~ \\
+	Tél : & \textbf{\CONTRATVENDEURTELEPHONE} \\
+	Courriel : & \textbf{\CONTRATVENDEUREMAIL} \\
+    ~ & ~ \\
+	\hline
+\end{tabularx}
+\end{minipage}
 
 \begin{minipage}[t]{0.485\textwidth}
-\begin{tabularx}{\textwidth}{|Xr|}
+\begin{tabularx}{\textwidth}{|Xl|}
 	\hline
-         ~ & ~ \\
-	 \multicolumn{2}{|c|}{\textbf{\CONTRATACHETEUREURNOM}} \\
-         ~ & ~ \\
-         C.V.I. & \textbf{\CONTRATACHETEURCVI} \\
-	     SIRET & \textbf{\CONTRATACHETEURSIRET} \\
-             N° d'ACCISE & \textbf{\CONTRATACHETEURACCISES} \\
-	     Adresse & \textbf{\CONTRATACHETEURADRESSE} \\
-         Commune & \textbf{\CONTRATACHETEURCOMMUNE} \\
-         ~ & ~ \\
-	 \multicolumn{2}{|r|}{Ci après dénommé l'acheteur,}\\
-	 <?php if ($vrac->representant_identifiant): ?>
-	 \multicolumn{2}{|r|}{~} \\
-	 <?php endif; ?>
+    ~ & ~ \\
+	\multicolumn{2}{|l|}{\textbf{ACHETEUR : \CONTRATACHETEUREURNOM}} \\
+    ~ & ~ \\
+    N° CVI : & \textbf{\CONTRATACHETEURCVI} \\
+	N° SIRET : & \textbf{\CONTRATACHETEURSIRET} \\
+    ~ & ~ \\
+    ~ & ~ \\
+	Adresse : & \textbf{\CONTRATACHETEURADRESSE} \\
+    Commune : & \textbf{\CONTRATACHETEURCOMMUNE} \\
+    ~ & ~ \\
+	Tél : & \textbf{\CONTRATACHETEURTELEPHONE} \\
+	Courriel : & \textbf{\CONTRATACHETEUREMAIL} \\
+    ~ & ~ \\
 	 \hline
 \end{tabularx}
 \end{minipage}
 
-\begin{minipage}[t]{0.485\textwidth}
-\begin{tabularx}{\textwidth}{|Xr|}
-	\hline
-         ~ & ~ \\
-	 \multicolumn{2}{|c|}{\textbf{\CONTRATVENDEURNOM}} \\
-         ~ & ~ \\
-	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\
-	 SIRET & \textbf{\CONTRATVENDEURSIRET} \\
-         N° d'ACCISE & \textbf{\CONTRATVENDEURACCISES} \\
-	 Adresse & \textbf{\CONTRATVENDEURADRESSE} \\
-        Commune & \textbf{\CONTRATVENDEURCOMMUNE} \\
-	 ~ & ~ \\
-	 \multicolumn{2}{|r|}{Ci après dénommé le vendeur,} \\
-	 <?php if ($vrac->representant_identifiant): ?>
-	 \multicolumn{2}{|r|}{Représenté par <?php echo display_latex_string($vrac->representant->raison_sociale) ?>} \\
-	 <?php endif; ?>
-
-	\hline
-\end{tabularx}
-\end{minipage}
 \end{multicols}
 
 <?php if ($vrac->mandataire_identifiant): ?>
-Par l'entremise de \CONTRATCOURTIERNOM, Courtier en vins\CONTRATCOURTIERCARTEPRO \\
+
+\begin{tabularx}{\textwidth}{|X X X X|}
+	\hline
+    ~ & ~ & ~ & ~ \\
+    \multicolumn{4}{|p{160mm}|}{\textbf{COURTIER : \CONTRATCOURTIERNOM}} \\
+	Adresse : & \textbf{\CONTRATCOURTIERADRESSE} & Tél : & \textbf{\CONTRATACHETEURTELEPHONE} \\
+    Commune : & \textbf{\CONTRATCOURTIERCOMMUNE} & Courriel : & \textbf{\CONTRATACHETEUREMAIL} \\
+    ~ & ~ & ~ & ~ \\
+	\hline
+\end{tabularx}
+
 <?php endif; ?>
 
-A été conclu le marché suivant: \\
+\bigskip
 
-<?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS): ?>
-\begin{tabularx}{\textwidth}{|X|p{13mm}|p{13mm}|p{13mm}|p{13mm}|}
-\hline
-~ & ~ & ~ & ~ & ~  \\
-\textbf{Cépage} & \multicolumn{1}{c|}{\textbf{Nature}} & \multicolumn{1}{c|}{\textbf{Quantité prévisionnelle}} & \multicolumn{1}{c|}{\textbf{Prix}} & \textbf{Quantité définitive} \\
-~ & ~ & ~ & ~ & ~  \\
-\hline
-~ & ~ & ~ & ~ & ~  \\
+\textbf{Relations précontractuelles : Initiative du producteur} \\
+\small{
+    Le présent contrat doit être précédé d'une proposition préalable du vendeur. Au titre des critères et modalité de révision ou de détermination du prix,  elle prend en compte un ou plusieurs indicateurs relatifs aux couts pertinents de production en agriculture et à l'évolution de ces couts. Elle constitue le socle de la négociation entre le vendeur et l'acheteur.\\
+    Tout refus ou réserve de l'acheteur portant sur la proposition doit être faite par écrit, motivé et dans un délai raisonnable.\\
+    Le vendeur peut mandater son courtier pour qu'il fasse la proposition préalable en son nom et pour son compte. Dans ce cas, le mandat doit être écrit.\\
+    La proposition préalable du vendeur ou son mandat au courtier accompagné de la proposition préalable fait en son nom est annexé au présent contrat.\\
+    Le vendeur peut exiger par écrit de l'acheteur une offre de contrat écrit.\\
+}
 
-\large{\CONTRATPRODUITCEPAGE} <?php if ($vrac->get('cepage_85_15')): ?>{\textit{85/15(\%)}}<?php endif; ?>  & \multicolumn{1}{c|}{\CONTRATPRODUITNATURE}  &  \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} & ~ \\
+\textbf{2(*) - Nom du vin : } \textbf{\CONTRATPRODUITLIBELLE} \\
+dont le vendeur autorise l'utilisation dans le cadre du présent contrat~~~~\textbf{OUI}~ <?php if ($vrac->autorisation_nom_vin): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->autorisation_nom_vin): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> \\
 
-\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}}  & ~ & ~ & ~ & ~  \\
-~ & ~ & ~ & ~ & ~  \\
-\hline
-\end{tabularx}
-<?php else: ?>
-\begin{tabularx}{\textwidth}{|X|p{13mm}|p{13mm}|p{13mm}|p{13mm}|p{13mm}|}
-\hline
-~ & ~ & ~ & ~ & ~ & ~  \\
-\textbf{Produit} & \multicolumn{1}{c|}{\textbf{Degré}} & \multicolumn{1}{c|}{\textbf{N° de lot}} & \multicolumn{1}{c|}{\textbf{Année de récolte}} & \multicolumn{1}{c|}{\textbf{Volume}} & \multicolumn{1}{c|}{\textbf{Prix}} \\
-~ & ~ & ~ & ~ & ~ & ~  \\
-\hline
-~ & ~ & ~ & ~ & ~ & ~  \\
+\textbf{3(*) - Nom du producteur : } \textbf{\CONTRATVENDEURNOM} \\
+le vendeur autorise l'utilisation par l'acheteur, dans le cadre du présent contrat, de son nom patronymique ou raison sociale et adresse pour la présentation du lot du vin concerné~~~~\textbf{OUI}~ <?php if ($vrac->autorisation_nom_producteur): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->autorisation_nom_producteur): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> \\
 
-\CONTRATPRODUITNATURE ~ \large{\CONTRATPRODUITLIBELLE}  & \multicolumn{1}{c|}{\large{\CONTRATPRODUITDEGRE}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITLOT}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITMILLESIME}} &  \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} \\
-\multicolumn{1}{|l|}{\large{\CONTRATPRODUITCEPAGE}}  & ~ & ~ & <?php if ($vrac->get('millesime_85_15')): ?>\multicolumn{1}{c|}{\textit{85/15(\%)}}<?php else: ?>~<?php endif; ?> & ~  & ~  \\
-\multicolumn{1}{|l|}{\textit{\CONTRATCONDITIONNEMENT}}  & ~ & ~ & ~ & ~  & ~  \\
-\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}}  & ~ & ~ & ~ & ~  & ~  \\
-~ & ~ & ~ & ~ & ~ & ~  \\
-\hline
-\end{tabularx}
-<?php endif; ?>
-\\ ~ \\ ~ \\
-Ce vin est logé dans la commune de : \textbf{\CONTRATLIEUPRODUIT}
-\\ ~ \\
-\textbf{Clause de réserve de proriété:}~~~~\textbf{OUI}~ <?php if ($vrac->clause_reserve_propriete): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->clause_reserve_propriete): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>
-\\
+\textbf{4 - Désignation du vin acheté en vrac : } \\
+\textbf{retiré en citerne}~ <?php if ($vrac->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{retiré en bouteilles}~ <?php if ($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> \\
+Volume : \textbf{\CONTRATPRODUITQUANTITE} hl AOP Cahors - Millésime \textbf{\CONTRATPRODUITMILLESIME} \\
+
+\textbf{5(*) - Préparation du vin et embouteillage : } \\
+Commune de vinification : \textbf{\CONTRATLIEUPRODUIT} \\
+Commune de logement : \textbf{\CONTRATVINIFICATIONPRODUIT} \\
+
+\textbf{9 - Clause de réserve de proriété:}~~~~\textbf{OUI}~ <?php if ($vrac->clause_reserve_propriete): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->clause_reserve_propriete): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> \\
+\textbf{Les parties entendent placer le présent contrat sous le régime de la réserve de propriété, dans le respect des dispositions prévues aux articles 2367 à 2372 du Code Civil ; le vendeur se réserve la propriété des vins vendus jusqu'à parfait paiement de ceux-ci. } \\
+
+\textbf{10 - Clause attributive de compétence} \\
+En cas de litige
+
 \begin{multicols}{2}
 
 \begin{minipage}[t]{0.485\textwidth}
