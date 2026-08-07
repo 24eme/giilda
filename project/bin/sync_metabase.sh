@@ -17,7 +17,9 @@ if ! test  $COUCHDISTANTHOST ; then
 	exit 2;
 fi
 
-echo "dumping $MB_DB_DBNAME from $COUCHDISTANTHOST"
+if test "$MB_DB_TYPE" == "mysql"; then 
+
+echo "dumping mysql $MB_DB_DBNAME from $COUCHDISTANTHOST"
 if ! mysqldump -h $COUCHDISTANTHOST --port="$MB_DB_PORT" -u $MB_DB_USER --password="$MB_DB_PASS"  $MB_DB_DBNAME > "/tmp/metabase_"$MB_DB_DBNAME".sql" ; then
 	echo "ERROR: mysqldump for $MB_DB_DBNAME failed"
 	exit 3;
@@ -31,3 +33,9 @@ if test $? -ne 0; then
 fi
 
 rm "/tmp/metabase_"$MB_DB_DBNAME".sql"
+
+else
+
+rsync --exclude='*sqlite*' -a $COUCHDISTANTHOST":"$metabase_path"/db/" $metabase_path"/db"
+
+fi
