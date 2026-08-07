@@ -38,6 +38,7 @@ class FichierDonneeCollectionForm extends sfForm implements FormBindableInterfac
     		}
     		$this->embedForm($key, new FichierDonneeForm($this->produits, $this->donnees->add()));
     	}
+        parent::bind($taintedValues, $taintedFiles);
     }
     
     public function unEmbedForm($key)
