@@ -26,24 +26,23 @@ class mandatsepaActions extends sfActions
     {
         $this->societe = SocieteClient::getInstance()->find($request->getParameter('identifiant'));
         $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
-        if (!$mandatSepa) {
-            $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
+        if (!$mandatSepa||!$this->getUser()->isAdmin()) {
+            if (method_exists($this->getUser()->getCompte(), 'getInterproFacturable')) {
+                $interproFacturable = $this->getUser()->getCompte()->getInterproFacturable();
+            } else {
+                $interproFacturable = null;
+            }
+            $mandatSepa = MandatSepaClient::getInstance($interproFacturable)->createDoc($this->societe);
         }
         $this->configuration = $mandatSepa->getConfiguration();
 
-        if (! $this->getUser()->isAdmin()) {
+        if (!$this->getUser()->isAdmin()) {
             if ($this->configuration->isAccessibleTeledeclaration() === false) {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
-
             if ($this->configuration->isAccessibleTeledeclaration() === true && $this->getUser()->getCompte()->getSociete()->getIdentifiant() !== $request->getParameter('identifiant')) {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
-        }
-
-        $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($this->societe);
-        if (!$mandatSepa) {
-            $mandatSepa = MandatSepaClient::getInstance()->createDoc($this->societe);
         }
         $this->form = new MandatSepaDebiteurForm($mandatSepa->debiteur, $this->getUser()->isAdmin());
         $this->back = ($this->configuration->getEditBack()) ?: 'societe_visualisation';
