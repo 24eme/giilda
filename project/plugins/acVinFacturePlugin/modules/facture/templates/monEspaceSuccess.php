@@ -14,6 +14,15 @@ use_helper('Float');
         <?php include_component('facture', 'chooseSociete', array('identifiant' => $societe->identifiant)); ?>
     </div>
     <?php endif; ?>
+    <?php if(isset($interpros) && count($interpros)): ?>
+      <div class="col-xs-12">
+    <ul class="nav nav-tabs">
+    <?php foreach($interpros as $keyInterpro => $interpro): ?>
+      <li role="presentation" class="<?php echo ($keyInterpro == $interproFacturable) ? "active" : null ?>"><a href="<?php echo url_for('facture_societe', ['sf_subject' => $societe, 'interpro' => $keyInterpro]) ?>"><?php echo $interpro ?></a></li>
+    <?php endforeach; ?>
+    </ul>
+    </div>
+    <?php endif; ?>
     <div class="col-xs-12">
         <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures, 'interpro' => $interproFacturable)); ?>
           <?php
@@ -89,7 +98,7 @@ use_helper('Float');
         <?php
         try {
             $no_region = ! count($societe->getRegionsViticoles());
-            include_partial('facture/mouvements', array('mouvements' => $mouvements, 'societe' => $societe));
+            include_partial('facture/mouvements', array('mouvements' => $mouvements, 'societe' => $societe, 'interpro' => $interproFacturable));
         }catch(Exception $e) {
             echo "<p><i>Societé n'ayant pas de région (ou hors région), impossible d'afficher ses éventuels mouvements passés.</i></p>";
         }
