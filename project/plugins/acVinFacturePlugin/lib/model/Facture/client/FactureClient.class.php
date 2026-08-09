@@ -312,7 +312,7 @@ class FactureClient extends acCouchdbClient {
         $generation->date_emission = date('YmdHis');
         $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
         $generation->documents = array();
-        $generation->somme = $facture->total_ttc;
+        $generation->somme = $facture->total_ht;
         $generation->add('documents')->add(null, $facture->_id);
 
         return $generation;
