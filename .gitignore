@@ -12,3 +12,6 @@ project/web/components/vins/.fontcustom-manifest.json
 .views/
 project/data/configuration/declarvins/
 project/data/import/configuration/declarvins/
+.github
+.git
+.*.php
