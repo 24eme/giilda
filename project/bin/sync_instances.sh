@@ -12,3 +12,12 @@ rsync -aO $WORKINGDIR"/data/upload/" $COUCHDISTANTHOST":"$WORKINGDIRDISTANT"/dat
 rsync -aO $WORKINGDIR"/data/dateDrmDouane" $COUCHDISTANTHOST":"$WORKINGDIRDISTANT"/data/"
 rsync -aO $WORKINGDIR"/web/doc/docs/" $COUCHDISTANTHOST":"$WORKINGDIRDISTANT"/web/doc/docs"
 rsync -aO $WORKINGDIR"/web/doc-edi/" $COUCHDISTANTHOST":"$WORKINGDIRDISTANT"/web/doc-edi"
+
+if test "$EXTRA_SYNC" ; then
+    echo $EXTRA_SYNC | sed 's/ /\n/g' | while read extra ; do
+        if test "$extra" && test -d "$extra" ; then
+            rsync -zaO $extra"/" $COUCHDISTANTHOST":"$extra
+        fi
+    done
+fi
+
