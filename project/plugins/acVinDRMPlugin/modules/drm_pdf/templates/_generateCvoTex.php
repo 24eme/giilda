@@ -30,7 +30,7 @@ $recapCvos = DRMClient::getInstance()->getRecapCvosFromView($drm);
 <?php if($recapCvos["TOTAL"]->totalVolumeReintegration) : ?>
 \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalVolumeReintegration, "%01.04f").' hl';  ?>}}} &
 <?php endif; ?>
-\multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalCvo / $recapCvos["TOTAL"]->nbMvt).' hl';  ?>}}} &
+\multicolumn{1}{|r|}{\small{\textbf{<?php if ($recapCvos["TOTAL"]->nbMvt) { echo sprintFloat($recapCvos["TOTAL"]->totalCvo / $recapCvos["TOTAL"]->nbMvt).' hl'; } ?>}}} &
 \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalPrixDroitCvo).' €'; ?>}}} &
 \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($recapCvos["TOTAL"]->totalPrixDroitCvoTTC).' €'; ?>}}}
 \\
