@@ -65,6 +65,9 @@ class MandatSepaClient extends acCouchdbClient {
   public function createDoc($debiteur, $creancier = null, $date = null, $frequence = null) {
       $mandatSepaConf = MandatSepaConfiguration::getInstance($this->interpro);
       $mandatSepa = new MandatSepa();
+      if ($this->interpro) {
+          $mandatSepa->add('intepro', $this->interpro);
+      }
       $mandatSepa->setDebiteur($debiteur);
       if (!$creancier) {
         $creancier = MandatSepaConfiguration::getInstance($this->interpro);
