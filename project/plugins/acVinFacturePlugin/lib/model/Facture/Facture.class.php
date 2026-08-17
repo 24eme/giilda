@@ -850,11 +850,32 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $this->exist('message_communication');
     }
 
+    public function getNbLignesMessageCommunicationWithDefault() {
+        $msg = $this->getMessageCommunicationWithDefault();
+        if (!$msg) {
+            return 0;
+        }
+        return 3 + count(explode("\n", $msg));
+    }
+
     public function getMessageCommunicationWithDefault() {
         if ($this->exist('message_communication')) {
             return $this->_get('message_communication');
         }
         return self::MESSAGE_DEFAULT;
+    }
+
+    public function getNbLignesMessageReglement() {
+        $msg_legal = $this->getMessageReglement();
+        $array = explode ("//", $msg_legal);
+        return count($array) + 1;
+    }
+
+    public function getMessageReglement() {
+        if ($this->isAvoir()) {
+            return $this->getConfiguration()->getReglementAvoir();
+        }
+        return $this->getConfiguration()->getReglement();
     }
 
     public function isFactureDRM(){
