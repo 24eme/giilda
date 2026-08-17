@@ -17,7 +17,7 @@ use_helper('Float');
     <div class="col-xs-12">
         <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures, 'interpro' => $interproFacturable)); ?>
           <?php
-            if (!$interproFacturable && method_exists($compte, 'getInterproFacturable')) {
+            if (!$interproFacturable && method_exists($compte->getRawValue(), 'getInterproFacturable')) {
                 $interproFacturable = $compte->getInterproFacturable();
             }
             if (MandatSepaConfiguration::getInstance($interproFacturable)->isActive()):
@@ -26,7 +26,7 @@ use_helper('Float');
                 <h2>Prélèvement SEPA</h2>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                      <h4 class="titre_principal">Vos coordonnées bancaires <?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?><a href="<?php echo url_for('mandatsepa_modification', ['identifiant' => $societe->getIdentifiant()]) ?>" class="pull-right" title="Créer ou modifier les coordonnées bancaires"><span class="glyphicon glyphicon glyphicon-edit"></span></a><?php endif; ?></h4>
+                      <h4 class="titre_principal">Vos coordonnées bancaires <?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)||MandatSepaConfiguration::getInstance($interproFacturable)->isAccessibleTeledeclaration()): ?><a href="<?php echo url_for('mandatsepa_modification', ['identifiant' => $societe->getIdentifiant()]) ?>" class="pull-right" title="Créer ou modifier les coordonnées bancaires"><span class="glyphicon glyphicon glyphicon-edit"></span></a><?php endif; ?></h4>
                     </div>
                     <div class="panel-body">
                     <?php if ($mandatSepa): ?>
