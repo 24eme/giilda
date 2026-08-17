@@ -850,6 +850,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $this->exist('message_communication');
     }
 
+    public function getNbLignesMessageCommunicationWithDefault() {
+        $msg = $this->getMessageCommunicationWithDefault();
+        if (!$msg) {
+            return 0;
+        }
+        return 2 + count(explode("\n", $msg));
+    }
+
     public function getMessageCommunicationWithDefault() {
         if ($this->exist('message_communication')) {
             return $this->_get('message_communication');

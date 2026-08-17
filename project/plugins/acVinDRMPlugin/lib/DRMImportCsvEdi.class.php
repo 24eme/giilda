@@ -1151,7 +1151,7 @@ private function importAnnexesFromCSV($just_check = false) {
         }
         break;
       }
-      if (!$date_emission || $dt == false || array_sum($dt->getLastErrors())) {
+      if (!$date_emission || $dt == false || ($dt->getLastErrors() && array_sum($dt->getLastErrors()))) {
         if ($just_check) {
           $this->csvDoc->addErreur($this->annexesNonApurementWrongDateError($num_ligne, $csvRow));
         }

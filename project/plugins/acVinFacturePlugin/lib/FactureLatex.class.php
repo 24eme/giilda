@@ -7,7 +7,7 @@ class FactureLatex extends GenericLatex {
 
   const MAX_LIGNES_PERPAGE = 50;
   //Entête première page
-  const NB_LIGNES_ENTETE = 8;
+  const NB_LIGNES_ENTETE_MIN = 8;
   //bloc total  + TVA
   const NB_LIGNES_REGLEMENT = 10;
   //papillon de règlement
@@ -17,8 +17,8 @@ class FactureLatex extends GenericLatex {
   function __construct(Facture $f, $config = null) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
     $this->facture = $f;
-    $interpro = ($this->facture->exist('interpro'))? $this->facture->interpro : null;
-    $this->conf = FactureConfiguration::getInstance($interpro);
+    $this->interpro = ($this->facture->exist('interpro'))? $this->facture->interpro : null;
+    $this->conf = FactureConfiguration::getInstance($this->interpro);
   }
 
   public function getNbLignesEcheancesPapillon() {
@@ -30,7 +30,7 @@ class FactureLatex extends GenericLatex {
   }
 
   public function getNbLignes() {
-    return $this->facture->getNbLignesAndDetails() + self::NB_LIGNES_ENTETE + self::NB_LIGNES_REGLEMENT + $this->getNbLignesFooter();
+    return $this->facture->getNbLignesAndDetails() + $this->getNbLignesHeader() + self::NB_LIGNES_REGLEMENT + $this->getNbLignesFooter();
   }
 
   public function getNbPages() {
@@ -45,11 +45,23 @@ class FactureLatex extends GenericLatex {
     return $this->getTEXWorkingDir().$this->getFileNameWithoutExtention();
   }
 
+  //Hack pour faire la différence entre le rendu declarvins et giilda
+  public function getHeaderExtra() {
+      if (!$this->interpro) {
+          return 0;
+      }
+      return 2;
+  }
+
+  public function getNbLignesHeader() {
+      return $this->facture->getNbLignesMessageCommunicationWithDefault() + self::NB_LIGNES_ENTETE_MIN + $this->getHeaderExtra();
+  }
+
 
   public function getLatexFileContents() {
-    $total_lines_without_footer =  $this->facture->getNbLignesAndDetails() + self::NB_LIGNES_ENTETE;
+    $total_lines_without_footer =  $this->facture->getNbLignesAndDetails() + $this->getNbLignesHeader();
     $total_pages_without_footer = floor($total_lines_without_footer / self::MAX_LIGNES_PERPAGE) + 1;
-    $line_nb = FactureLatex::NB_LIGNES_ENTETE;
+    $line_nb = $this->getNbLignesHeader();
     if ($total_pages_without_footer == $this->getNbPages()) {
       $lines_per_page = FactureLatex::MAX_LIGNES_PERPAGE;
     }else{
