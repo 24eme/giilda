@@ -7,9 +7,9 @@ include_partial('facture/templateEntete', array('facture' => $facture));
 include_partial('facture/templateTitreAdresse', array('facture' => $facture, 'avoir' => $avoir));
 include_partial('facture/templateNumPage', array('nb_page' => $nb_pages));
 include_partial('facture/templateHeadTable',array('facture' => $facture));
-$line_nb_current_page = FactureLatex::NB_LIGNES_ENTETE * ($nb_pages > 1);
+$line_nb_current_page = $factureConfiguration->getNbLignesHeader() * ($nb_pages > 1);
 $current_avg_nb_lines_per_page = floor($nb_lines / $nb_pages);
-$max_line_nb_current_page = FactureLatex::MAX_LIGNES_PERPAGE - FactureLatex::NB_LIGNES_ENTETE;
+$max_line_nb_current_page = FactureLatex::MAX_LIGNES_PERPAGE - $factureConfiguration->getNbLignesHeader();
 $current_total_line_nb = 0;
 $current_nb_pages = 0;
 foreach ($facture->lignes as $type => $typeLignes) {
@@ -42,7 +42,7 @@ $nb_echeances = count($facture->getEcheancesPapillon());
 if ($nb_echeances)
     $nb_blank += - FactureLatex::NB_LIGNES_PAPILLONS_PAR_ECHEANCE * $nb_echeances - FactureLatex::NB_LIGNES_PAPILLONS_FIXE;
 if (!$current_nb_pages)
-    $nb_blank -= FactureLatex::NB_LIGNES_ENTETE;
+    $nb_blank -= $factureConfiguration->getNbLignesHeader();
 
 include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => $nb_blank, 'end_document' => true, 'avoir' => $avoir));
 include_partial('facture/templateReglement', array('facture' => $facture));
