@@ -855,7 +855,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if (!$msg) {
             return 0;
         }
-        return 2 + count(explode("\n", $msg));
+        return 3 + count(explode("\n", $msg));
     }
 
     public function getMessageCommunicationWithDefault() {
@@ -863,6 +863,19 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             return $this->_get('message_communication');
         }
         return self::MESSAGE_DEFAULT;
+    }
+
+    public function getNbLignesMessageReglement() {
+        $msg_legal = $this->getMessageReglement();
+        $array = explode ("//", $msg_legal);
+        return count($array) + 1;
+    }
+
+    public function getMessageReglement() {
+        if ($this->isAvoir()) {
+            return $this->getConfiguration()->getReglementAvoir();
+        }
+        return $this->getConfiguration()->getReglement();
     }
 
     public function isFactureDRM(){
