@@ -33,13 +33,14 @@ EOF;
 	return ;
     }
     print $compte.";";
-    print $societe->raison_sociale.";";
+    print $societe->getIntitule().";";
+    print $societe->getRaisonSocialeWithoutIntitule().";";
     if ($isclient == self::ISCLIENT) {
       print "CLIENT;";
     }else{
       print "FOURNISSEUR;";
     }
-    print strtoupper(substr($societe->raison_sociale, 0, 5)).";";
+    print strtoupper(substr($societe->getRaisonSocialeWithoutIntitule(), 0, 5)).";";
     print preg_replace('/;.*/', '', $societe->getSiegeAdresses()).";";
     if (preg_match('/;/', $societe->getSiegeAdresses())) {
         print str_replace(';', '-', preg_replace('/.*;/', '', $societe->getSiegeAdresses()));
