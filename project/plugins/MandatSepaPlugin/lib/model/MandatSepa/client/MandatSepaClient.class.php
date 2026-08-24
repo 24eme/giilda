@@ -66,7 +66,7 @@ class MandatSepaClient extends acCouchdbClient {
       $mandatSepaConf = MandatSepaConfiguration::getInstance($this->interpro);
       $mandatSepa = new MandatSepa();
       if ($this->interpro) {
-          $mandatSepa->add('intepro', $this->interpro);
+          $mandatSepa->add('interpro', $this->interpro);
       }
       $mandatSepa->setDebiteur($debiteur);
       if (!$creancier) {
