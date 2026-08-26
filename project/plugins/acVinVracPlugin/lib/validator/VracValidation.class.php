@@ -39,8 +39,8 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'inexistant', 'Le type de transaction n\'existe pas');
         }
 
-        if (! $this->checkDate($this->document->valide->date_saisie)) {
-            parent::addPoint('erreur', 'date', 'La date de signature doit être renseignée');
+        if (! $this->checkDate($this->document->valide->date_saisie, DateTimeInterface::W3C)) {
+            parent::addPoint('erreur', 'date', 'La date de saisie doit être renseignée');
         }
 
         if (! $this->checkEtablissement($this->document->vendeur_identifiant, EtablissementFamilles::FAMILLE_PRODUCTEUR)) {
@@ -135,7 +135,7 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'float', 'L\'acompte n\'est pas un chiffre flottant');
         }
 
-        if ($this->document->millesime && ! $this->checkDate($this->document->millesime, 'Y')) {
+        if ($this->document->millesime && ! $this->checkDate((string) $this->document->millesime, 'Y')) {
             parent::addPoint('erreur', 'date', 'Le millesime n\'est pas une année');
         }
 
@@ -192,7 +192,7 @@ class VracValidation extends DocumentValidation
      * @see https://php.net/manual/en/function.is-float.php#85848
      */
     private function checkFloat($number) {
-        return ($number === (string)(float) $number);
+        return filter_var($number, FILTER_VALIDATE_FLOAT) !== false;
     }
 
     /**
