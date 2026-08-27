@@ -11,7 +11,7 @@ class MandatSepa extends BaseMandatSepa {
       throw new Exception('Il faut definir un débiteur pour le mandat SEPA.');
     }
     $this->debiteur->setPartieInformations($debiteur);
-    if (method_exists($debiteur, 'getEtablissementPrincipal') && $debiteur->getEtablissementPrincipal() && $debiteur->getEtablissementPrincipal()->exit('interpro')) {
+    if (method_exists($debiteur, 'getEtablissementPrincipal') && $debiteur->getEtablissementPrincipal() && $debiteur->getEtablissementPrincipal()->exist('interpro')) {
         if (!$this->exist('interpro')) {
             $this->add('interpro');
             $this->interpro = $debiteur->getEtablissementPrincipal()->interpro;
