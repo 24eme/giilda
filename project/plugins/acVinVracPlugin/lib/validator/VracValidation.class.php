@@ -86,7 +86,7 @@ class VracValidation extends DocumentValidation
             }
         }
 
-        if (! $this->checkFloat($this->document->degre)) {
+        if ($this->document->degre && (! $this->checkFloat($this->document->degre))) {
             parent::addPoint('erreur', 'float', 'Le degré n\'est pas un chiffre flottant');
         }
 
