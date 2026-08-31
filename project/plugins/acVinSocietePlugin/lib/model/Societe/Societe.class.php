@@ -878,7 +878,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         if (!$interpro) return $this->identifiant;
         if (count($this->etablissements) != 1)  return $this->identifiant;
         $etablissement = $this->getEtablissementPrincipal();
-        if (method_exists($etablissement, 'getIdentifiantByInterpro')) {
+        if ($etablissement && method_exists($etablissement, 'getIdentifiantByInterpro')) {
             return $etablissement->getIdentifiantByInterpro($interpro);
         }
         return $this->identifiant;

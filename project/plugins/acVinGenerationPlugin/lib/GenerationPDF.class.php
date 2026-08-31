@@ -34,7 +34,7 @@ class GenerationPDF extends GenerationAbstract {
   }
 
   function generateAPDFForAPageId($pdf, $pageid) {
-    if (!count($pdf))
+    if (! $pdf)
       return null;
     $fileres = rand().".pdf";
     file_put_contents("/tmp/$fileres.sh", '/usr/bin/pdftk "'.$pdf.'" cat '.intval($pageid).' output "'.$fileres.'"');
