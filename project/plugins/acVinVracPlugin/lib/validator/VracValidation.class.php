@@ -44,16 +44,16 @@ class VracValidation extends DocumentValidation
         }
 
         if (! $this->checkEtablissement($this->document->vendeur_identifiant, EtablissementFamilles::FAMILLE_PRODUCTEUR)) {
-            parent::addPoint('erreur', 'inexistant', 'Le vendeur n\'existe pas');
+            parent::addPoint('erreur', 'inexistant', 'Le vendeur n\'existe pas ou n\'est pas un producteur');
         }
 
         if (! $this->checkEtablissement($this->document->acheteur_identifiant, EtablissementFamilles::FAMILLE_NEGOCIANT)) {
-            parent::addPoint('erreur', 'inexistant', 'L\'acheteur n\'existe pas');
+            parent::addPoint('erreur', 'inexistant', 'L\'acheteur n\'existe pas ou n\'est pas un négociant');
         }
 
         if ($this->document->representant_identifiant !== $this->document->vendeur_identifiant) {
             if (! $this->checkEtablissement($this->document->representant_identifiant, EtablissementFamilles::FAMILLE_REPRESENTANT)) {
-                parent::addPoint('erreur', 'inexistant', 'Le représentant n\'existe pas');
+                parent::addPoint('erreur', 'inexistant', 'Le représentant n\'existe pas ou n\'est pas de famille représentant');
             }
         }
 
@@ -63,7 +63,7 @@ class VracValidation extends DocumentValidation
             }
 
             if (! $this->checkEtablissement($this->document->mandataire_identifiant, EtablissementFamilles::FAMILLE_COURTIER)) {
-                parent::addPoint('erreur', 'inexistant', 'Le mandataire n\'existe pas');
+                parent::addPoint('erreur', 'inexistant', 'Le mandataire n\'existe pas ou n\'est pas un mandataire');
             }
         }
 
