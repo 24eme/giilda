@@ -39,21 +39,21 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'inexistant', 'Le type de transaction n\'existe pas');
         }
 
-        if (! $this->checkDate($this->document->valide->date_saisie)) {
-            parent::addPoint('erreur', 'date', 'La date de signature doit être renseignée');
+        if (! $this->checkDate($this->document->valide->date_saisie, DateTimeInterface::W3C)) {
+            parent::addPoint('erreur', 'date', 'La date de saisie doit être renseignée');
         }
 
         if (! $this->checkEtablissement($this->document->vendeur_identifiant, EtablissementFamilles::FAMILLE_PRODUCTEUR)) {
-            parent::addPoint('erreur', 'inexistant', 'Le vendeur n\'existe pas');
+            parent::addPoint('erreur', 'inexistant', 'Le vendeur n\'existe pas ou n\'est pas un producteur');
         }
 
         if (! $this->checkEtablissement($this->document->acheteur_identifiant, EtablissementFamilles::FAMILLE_NEGOCIANT)) {
-            parent::addPoint('erreur', 'inexistant', 'L\'acheteur n\'existe pas');
+            parent::addPoint('erreur', 'inexistant', 'L\'acheteur n\'existe pas ou n\'est pas un négociant');
         }
 
         if ($this->document->representant_identifiant !== $this->document->vendeur_identifiant) {
             if (! $this->checkEtablissement($this->document->representant_identifiant, EtablissementFamilles::FAMILLE_REPRESENTANT)) {
-                parent::addPoint('erreur', 'inexistant', 'Le représentant n\'existe pas');
+                parent::addPoint('erreur', 'inexistant', 'Le représentant n\'existe pas ou n\'est pas de famille représentant');
             }
         }
 
@@ -63,7 +63,7 @@ class VracValidation extends DocumentValidation
             }
 
             if (! $this->checkEtablissement($this->document->mandataire_identifiant, EtablissementFamilles::FAMILLE_COURTIER)) {
-                parent::addPoint('erreur', 'inexistant', 'Le mandataire n\'existe pas');
+                parent::addPoint('erreur', 'inexistant', 'Le mandataire n\'existe pas ou n\'est pas un mandataire');
             }
         }
 
@@ -86,7 +86,7 @@ class VracValidation extends DocumentValidation
             }
         }
 
-        if (! $this->checkFloat($this->document->degre)) {
+        if ($this->document->degre && (! $this->checkFloat($this->document->degre))) {
             parent::addPoint('erreur', 'float', 'Le degré n\'est pas un chiffre flottant');
         }
 
@@ -135,7 +135,7 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'float', 'L\'acompte n\'est pas un chiffre flottant');
         }
 
-        if ($this->document->millesime && ! $this->checkDate($this->document->millesime, 'Y')) {
+        if ($this->document->millesime && ! $this->checkDate((string) $this->document->millesime, 'Y')) {
             parent::addPoint('erreur', 'date', 'Le millesime n\'est pas une année');
         }
 
@@ -192,7 +192,7 @@ class VracValidation extends DocumentValidation
      * @see https://php.net/manual/en/function.is-float.php#85848
      */
     private function checkFloat($number) {
-        return ($number === (string)(float) $number);
+        return filter_var($number, FILTER_VALIDATE_FLOAT) !== false;
     }
 
     /**

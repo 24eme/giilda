@@ -33,13 +33,14 @@ EOF;
 	return ;
     }
     print $compte.";";
-    print $societe->raison_sociale.";";
+    print $societe->getIntitule().";";
+    print $societe->getRaisonSocialeWithoutIntitule().";";
     if ($isclient == self::ISCLIENT) {
       print "CLIENT;";
     }else{
       print "FOURNISSEUR;";
     }
-    print strtoupper(substr($societe->raison_sociale, 0, 5)).";";
+    print strtoupper(substr($societe->getRaisonSocialeWithoutIntitule(), 0, 5)).";";
     print preg_replace('/;.*/', '', $societe->getSiegeAdresses()).";";
     if (preg_match('/;/', $societe->getSiegeAdresses())) {
         print str_replace(';', '-', preg_replace('/.*;/', '', $societe->getSiegeAdresses()));
@@ -104,7 +105,7 @@ EOF;
 
     $mandatSepaEntetes = ($mandatSepaActif)? 'Banque;Pays;BIC;IBAN;' : '';
 
-    echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;Actif;$mandatSepaEntetes\n";
+    echo "numéro de compte;intitulé;raison sociale;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;Actif;$mandatSepaEntetes\n";
 
     if ($onlyFactures) {
         $societes = FactureEtablissementView::getInstance()->getAllSocietesForCompta($interpro);
