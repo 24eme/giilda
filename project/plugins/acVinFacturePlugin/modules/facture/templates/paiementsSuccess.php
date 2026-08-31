@@ -4,7 +4,7 @@
 
 <ol class="breadcrumb">
     <li class="visited"><a href="<?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?><?php echo url_for('facture') ?><?php endif; ?>">Factures</a></li>
-    <li class="visited"><a href="<?php echo url_for('facture_societe', $societe) ?>"><?php echo $societe->raison_sociale ?> (<?php echo $societe->identifiant ?>)</a></li>
+    <li class="visited"><a href="<?php echo url_for('facture_societe', ["identifiant" => $facture->identifiant]) ?>"><?php echo $societe->raison_sociale ?> (<?php echo $societe->identifiant ?>)</a></li>
     <li class="active"><a href="" class="active">Paiement de la facture n°<?php echo $facture->numero_piece_comptable ?></a></li>
 </ol>
 
