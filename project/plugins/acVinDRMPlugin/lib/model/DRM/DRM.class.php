@@ -2054,7 +2054,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     }
 
     public function hasBeenTransferedToCiel() {
-      return ($this->exist('transmission_douane') && $this->transmission_douane->exit('xml') && $this->transmission_douane->success);
+      return ($this->exist('transmission_douane') && $this->transmission_douane->exist('xml') && $this->transmission_douane->success);
     }
 
     public function getTransmissionDate() {
