@@ -620,6 +620,7 @@ DRM:
                         coefficient_facturation: { type: integer, required: false }
                         region: { }
                         region_destinataire: { }
+                        interpro: { required: false }
                         date: {  }
                         date_version: {  }
                         version: {  }

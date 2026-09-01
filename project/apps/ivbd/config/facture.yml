@@ -18,3 +18,4 @@ all:
       pdf_display_code_comptable: true
       echeance: "+30 days"
       exercice: "viticole"
+      post_generation: BL
