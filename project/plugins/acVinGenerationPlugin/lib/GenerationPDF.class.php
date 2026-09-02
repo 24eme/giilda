@@ -123,6 +123,7 @@ class GenerationPDF extends GenerationAbstract {
 
     if (!count($this->generation->documents) || $this->generation->exist('pregeneration_needed')) {
       $this->generation->add('pregeneration_needed',1);
+      $this->generation->save();
       $this->preGeneratePDF();
       $this->generation->remove('pregeneration_needed');
       $this->generation->save();

@@ -36,3 +36,4 @@ all:
       code_journal: 'BQ1'
       delai_relance1: '+45 days'
       delai_relance2: '+65 days'
+      multi_interpro_facturables: true

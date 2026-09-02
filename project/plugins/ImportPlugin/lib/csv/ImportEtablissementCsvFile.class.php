@@ -1,6 +1,6 @@
 <?php
 
-class EtablissementCsvFile extends CompteCsvFile
+class ImportEtablissementCsvFile extends CompteCsvFile
 {
 
     const CSV_ID = 0;
