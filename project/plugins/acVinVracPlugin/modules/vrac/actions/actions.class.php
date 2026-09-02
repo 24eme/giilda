@@ -196,7 +196,7 @@ class vracActions extends sfActions {
             throw new sfException("Vous n'avez pas le droit d'acceder à ce choix pour cette société");
         }
 
-        $this->form = new SocieteEtablissementChoiceForm($this->societe);
+        $this->form = new VracSocieteEtablissementChoiceForm($this->societe);
 
         if ($request->isMethod(sfWebRequest::POST)) {
             $parameters = $request->getParameter($this->form->getName());
