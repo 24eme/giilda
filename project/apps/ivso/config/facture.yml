@@ -1,21 +1,33 @@
 all:
   configuration:
     facture:
-      pdf_nom_interpro: "IVSO"
-      pdf_ordre_cheque: "Interprofession des Vins du Sud Ouest"
       prefix_sage: "02"
       compte_tva: "44571502"
       compte_defaut: "70610000"
       compte_general: "41100000"
-      type_cvo:
-        identifiant_prefix: "C"
-      type_libre:
-        identifiant_prefix: "L"
       idcontrat: "ID"
       stockage_code_produit: "code_compte"
       pdf_produit: false
-      pdf_nom_ref_client: "N° IVSO"
       pdf_nom_taux: "Taux"
       pdf_display_code_comptable: true
       echeance: "+30 days"
       export_shell: "%sf_root_dir%/bin/exportSage.sh"
+      multi_interpro_facturables: true
+      pdf_nom_interpro: "IVSO"
+      pdf_ordre_cheque: "Interprofession des Vins du Sud Ouest"
+      type_cvo:
+        identifiant_prefix: "C"
+      type_libre:
+        identifiant_prefix: "L"
+      pdf_nom_ref_client: "N° IVSO"
+    facture-interpro-ivso:
+    facture-interpro-uivc:
+      pdf_nom_interpro: "UIVC"
+      pdf_ordre_cheque: "Union Interprofessionnelle du vin de Cahors"
+      pdf_nom_ref_client: "N° IVSO"
+      post_generation: BL
+      type_cvo:
+        identifiant_prefix: null
+      type_libre:
+        identifiant_prefix: null
+      export_shell: null

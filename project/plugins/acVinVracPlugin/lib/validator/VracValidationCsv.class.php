@@ -1,6 +1,6 @@
 <?php
 
-class VracValidation extends DocumentValidation
+class VracValidationCsv extends DocumentValidation
 {
     private $etablissement_client;
 
