@@ -90,9 +90,22 @@ class statistiqueActions extends sfActions {
 		$elasticaQuery->setParams($params);
         if (isset($_GET['debug'])) {
             header("content-type: text/json\n");
-            echo(json_encode($elasticaQuery->toArray())); exit;
+            echo '{"query":'."\n";
+            echo json_encode($elasticaQuery->toArray()). ',';
+            echo "\n";
         }
-		return $index->search($elasticaQuery)->getFacets();
+		$res = $index->search($elasticaQuery);
+        if (isset($_GET['debug'])) {
+            echo '"facets":' .json_encode($res->getFacets());
+            echo "\n";
+            echo ',';
+            echo "\n";
+            echo '"hits":' .json_encode($res->getResponse());
+            echo "\n";
+            echo '}';
+            exit;
+        }
+        return $res->getFacets();
 	}
 
 	protected function getAggsResultCsv($type, $current, $lastPeriode = null)

@@ -2,10 +2,21 @@
 
 class InseeSirene
 {
+
+    public static function getJsonFromSirene($sirenOrSiret)
+    {
+        $json = null;
+        for ($i = 0 ; !$json && ($i < 3) ; $i++) {
+            $ctx = stream_context_create(array('http' => array('timeout' => 5), 'https' => array('timeout' => 5)));
+            $json = json_decode(file_get_contents("https://api-avis-situation-sirene.insee.fr/identification/siret/".$sirenOrSiret, false, $ctx));
+        }
+        return $json;
+    }
+
     public static function getJson($sirenOrSiret)
     {
         if(strlen($sirenOrSiret) == 14) {
-            $json = json_decode(file_get_contents("https://api-avis-situation-sirene.insee.fr/identification/siret/".$sirenOrSiret));
+            $json = self::getJsonFromSirene($sirenOrSiret);
         }
 
         if(!$json && strlen($sirenOrSiret) == 14) {
@@ -13,7 +24,7 @@ class InseeSirene
         }
 
         if(strlen($sirenOrSiret) == 9) {
-            $json = json_decode(file_get_contents("https://api-avis-situation-sirene.insee.fr/identification/siren/".$sirenOrSiret));
+            $json = self::getJsonFromSirene($sirenOrSiret);
         }
 
         if(!isset($json->etablissements[0])) {
