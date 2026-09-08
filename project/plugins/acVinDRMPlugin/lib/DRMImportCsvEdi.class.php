@@ -408,16 +408,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
 
         if($this->drm->isMoisOuvert()) {
-            if ($this->drmPrecedente) {
-                if ($produitsReserve = $this->drmPrecedente->getProduitsReserveInterpro()) {
-                    foreach ($produitsReserve as $produitReserve) {
-                        if ($this->drm->exist($produitReserve->getHash())) {
-                            $produitAddReserve = $this->drm->get($produitReserve->getHash());
-                            $produitAddReserve->add('reserve_interpro', $produitReserve->getRerserveIntepro());
-                        }
-                    }
-                }
-            }
+            $this->initReserveFromPrecedente();
             return;
         }
       //on prépare les vérifications
@@ -1093,7 +1084,7 @@ private function importCrdsFromCSV($just_check = false) {
         continue;
     }
 
-    $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
+    $drmPrecedente = DRMClient::getInstance()->findPrecedenteFromDRM($this->drm);
     if ($drmPrecedente) {
         if  ($fieldNameCrd == 'stock_debut') {
           if ($quantite && (!$drmPrecedente->crds->exist($crd_regime) || !$drmPrecedente->crds->get($crd_regime)->exist($keyNode))) {
