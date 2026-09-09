@@ -408,7 +408,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
 
         if($this->drm->isMoisOuvert()) {
-            $this->initReserveFromPrecedente();
+            $this->drm->initReserveFromPrecedente();
             return;
         }
       //on prépare les vérifications
