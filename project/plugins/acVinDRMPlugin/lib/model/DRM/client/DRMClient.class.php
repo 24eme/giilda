@@ -217,6 +217,10 @@ class DRMClient extends acCouchdbClient {
         return null;
     }
 
+    public function findPrecedenteFromDRM($drm) {
+        return DRMClient::getInstance()->find("DRM-".$drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($drm->periode));
+    }
+
     public function getMaster($id) {
         $matches = array();
         $drm_master = null;
