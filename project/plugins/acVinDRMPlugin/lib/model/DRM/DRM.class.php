@@ -205,7 +205,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if ($produitsReserve = $drmPrecedente->getProduitsReserveInterpro()) {
             foreach ($produitsReserve as $produitReserve) {
                 if ($this->exist($produitReserve->getHash())) {
-                    $produitAddReserve = $this->drm->get($produitReserve->getHash());
+                    $produitAddReserve = $this->get($produitReserve->getHash());
                     $produitAddReserve->add('reserve_interpro', $produitReserve->getRerserveIntepro());
                 }
             }
