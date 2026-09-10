@@ -200,6 +200,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $produits;
     }
 
+    public function initReserveFromPrecedente() {
+        $drmPrecedente = $this->getPrecedente(false);
+        if ($produitsReserve = $drmPrecedente->getProduitsReserveInterpro()) {
+            foreach ($produitsReserve as $produitReserve) {
+                if ($this->exist($produitReserve->getHash())) {
+                    $produitAddReserve = $this->get($produitReserve->getHash());
+                    $produitAddReserve->add('reserve_interpro', $produitReserve->getRerserveIntepro());
+                }
+            }
+        }
+    }
+
     public function getProduits() {
         return $this->declaration->getProduits();
     }
@@ -523,7 +535,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->_set('precedente', $id);
     }
 
-    public function getPrecedente() {
+    public function getPrecedente($registered_precente = true) {
+        if (!$registered_precente) {
+            return  DRMClient::getInstance()->findPrecedenteFromDRM($this);
+        }
         if (is_null($this->document_precedent) && $this->exist('precedente') && $this->_get('precedente')) {
 
             $this->document_precedent = DRMClient::getInstance()->find($this->_get('precedente'));
