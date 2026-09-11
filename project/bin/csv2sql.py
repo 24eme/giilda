@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-1 -*
 import sys, os, pandas as pd
 from sqlalchemy import create_engine
-engine = create_engine('sqlite:///'+sys.argv[1], echo=False, encoding='iso-8859-1')
+engine = create_engine('sqlite:///'+sys.argv[1], echo=False)
 
 if len(sys.argv) > 2:
     os.chdir(sys.argv[2])
