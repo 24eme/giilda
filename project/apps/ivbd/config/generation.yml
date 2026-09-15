@@ -1,6 +1,5 @@
 all:
   configuration:
     generation:
-      post_generation: BL
       sousgeneration:
         FACTURE: []

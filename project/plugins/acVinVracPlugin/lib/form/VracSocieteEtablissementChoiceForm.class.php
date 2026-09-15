@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-class SocieteEtablissementChoiceForm extends baseForm {
+class VracSocieteEtablissementChoiceForm extends baseForm {
 
     protected $societe;
 

@@ -250,7 +250,7 @@ class VracCsvImport extends CsvFile
 
                 self::$imported++;
             } else {
-                $validator = new VracValidation($v);
+                $validator = new VracValidationCsv($v);
 
                 if ($validator->hasErreurs()) {
                     foreach ($validator->getErreurs() as $err) {

@@ -288,4 +288,11 @@ class FactureConfiguration {
     {
         return isset($this->configuration['sousgen_facture_with_prlv_auto']) && $this->configuration['facture_with_prlv_auto'];
     }
+
+    public function hasPostGenerationBL() {
+        if (!isset($this->configuration['post_generation'])) {
+            return false;
+        }
+        return ($this->configuration['post_generation'] == 'BL');
+    }
 }

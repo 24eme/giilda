@@ -82,9 +82,7 @@ class Generation extends BaseGeneration {
   public function reload() {
       $this->remove('fichiers');
       $this->add('fichiers');
-      if(count($this->arguments) > 0) {
-          $this->add('pregeneration_needed', 1);
-      }
+
       $this->statut = GenerationClient::GENERATION_STATUT_ENATTENTE;
   }
 

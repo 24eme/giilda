@@ -95,22 +95,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $coordonneesBancaires;
     }
 
-    public function getInformationsInterpro() {
-        $configs = $this->getConfiguration();
-        if (!$configs && $configs->getInfosInterpro()) {
-            throw new sfException(sprintf('Config "configuration/facture/infos_interpro" not found in app.yml'));
-        }
-        $appInfosInterpro = $configs->getInfosInterpro();
-
-        $infosInterpro = new stdClass();
-
-        $infosInterpro->siret = $appInfosInterpro['siret'];
-        $infosInterpro->ape = $appInfosInterpro['ape'];
-        $infosInterpro->tva_intracom = $appInfosInterpro['tva_intracom'];
-
-        return $infosInterpro;
-    }
-
     public function getConfiguration() {
         return FactureConfiguration::getInstance($this->getOrAdd('interpro'));
     }
