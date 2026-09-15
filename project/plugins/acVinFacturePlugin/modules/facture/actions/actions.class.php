@@ -438,7 +438,7 @@ class factureActions extends sfActions {
         if(isset($values['interpro'])) {
             $filters_parameters['interpro'] = $values['interpro'];
             if ($values['interpro'] == 'INTERPRO-CIVP' && $filters_parameters['modele'] == 'DRM') {
-                $filters_parameters['message_communication'] = 'Vous pouvez adhérer au prélèvement automatique sur simple demande par mail à compta@provencewines.com Si vous avez déjà opté pour un prélèvement automatique, merci de ne pas régler cette facture.';
+                $filters_parameters['message_communication'] = 'Vous pouvez adhérer au prélèvement automatique en remplissant vos coordonnées bancaires sur Déclarvins (Onglet "Facture", en bas "Prélèvement SEPA"). Si vous avez déjà opté pour un prélèvement automatique, merci de ne pas régler cette facture.';
             }
         }
         return $filters_parameters;
