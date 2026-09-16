@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-class SocieteCsvFile extends CompteCsvFile 
+class ImportSocieteCsvFile extends CompteCsvFile
 {
     const CSV_ID = 0;
     const CSV_TYPE = 1;
@@ -27,7 +27,7 @@ class SocieteCsvFile extends CompteCsvFile
     const CSV_MOBILE = 22;
     const CSV_FAX = 23;
     const CSV_WEB = 24;
-    const CSV_COMMENTAIRE = 25; 
+    const CSV_COMMENTAIRE = 25;
 
     private function verifyCsvLine($line) {
         if (!preg_match('/[0-9]+/', $line[self::CSV_ID]) || ((int) $line[self::CSV_ID]) == 0) {
@@ -81,7 +81,7 @@ class SocieteCsvFile extends CompteCsvFile
                 $s->save();
 
                 $this->storeCompteInfos($s, $line);
-                
+
               	$s->save();
 
             }catch(Exception $e) {

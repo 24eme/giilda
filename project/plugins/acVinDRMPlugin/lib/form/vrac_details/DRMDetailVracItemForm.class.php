@@ -19,7 +19,7 @@ class DRMDetailVracItemForm extends DRMESDetailsItemForm {
 
         if(!$this->getProduitDetail()->getCVOTaux()) {
             $this->setWidget('identifiant', new bsWidgetFormInput(array(), array("placeholder" => "Saisissez le numéro de votre contrat")));
-            $this->setValidator('identifiant', new sfValidatorRegex(array('required' => true, 'pattern' => '/^[0-9]+$/')));
+            $this->setValidator('identifiant', new sfValidatorRegex(array('required' => true, 'pattern' => '/^[0-9\-]+$/')));
         }
     }
 

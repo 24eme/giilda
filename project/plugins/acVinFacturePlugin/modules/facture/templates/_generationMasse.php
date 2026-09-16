@@ -1,4 +1,4 @@
-    <?php $url_post = (isset($massive) && $massive)? url_for('facture_generation') : ""; ?>
+    <?php $url_post = (isset($massive) && $massive)? url_for('facture_generation', ['interpro' => $interpro]) : ""; ?>
 
 <form method="post" action="<?php echo $url_post; ?>" role="generationForm" class="form-horizontal">
         <?php echo $generationForm->renderHiddenFields(); ?>

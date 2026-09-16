@@ -34,7 +34,7 @@ class GenerationPDF extends GenerationAbstract {
   }
 
   function generateAPDFForAPageId($pdf, $pageid) {
-    if (!count($pdf))
+    if (! $pdf)
       return null;
     $fileres = rand().".pdf";
     file_put_contents("/tmp/$fileres.sh", '/usr/bin/pdftk "'.$pdf.'" cat '.intval($pageid).' output "'.$fileres.'"');
@@ -123,6 +123,7 @@ class GenerationPDF extends GenerationAbstract {
 
     if (!count($this->generation->documents) || $this->generation->exist('pregeneration_needed')) {
       $this->generation->add('pregeneration_needed',1);
+      $this->generation->save();
       $this->preGeneratePDF();
       $this->generation->remove('pregeneration_needed');
       $this->generation->save();
