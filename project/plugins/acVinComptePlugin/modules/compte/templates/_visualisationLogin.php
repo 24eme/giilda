@@ -15,7 +15,7 @@
 <?php elseif (preg_match('/{OUBLIE}(.*)/',  $compte_login->mot_de_passe, $m)) : ?>
     <div onclick="navigator.clipboard.writeText(document.getElementById('input-share-link').value); const icon_message = this.getElementsByTagName('i')[0]; icon_message.classList.remove('glyphicon-duplicate');icon_message.classList.add('glyphicon-ok');setTimeout(function() { icon_message.classList.remove('glyphicon-ok');icon_message.classList.add('glyphicon-duplicate');}, 750);return false;" style="margin-bottom: 5px;" class="col-xs-8">
       <span class="text-muted">Mot de passe oublié&nbsp;:</span>
-      <input id="input-share-link" type="text" size=35 value="<?php echo "https://".$_SERVER['HTTP_HOST'].url_for("compte_teledeclarant_mot_de_passe_oublie_login", array("login" =>  $compte_login->identifiant, "mdp" => $m[1])); ?>"/>
+      <input id="input-share-link" type="text" size=35 value="<?php echo "https://".$_SERVER['HTTP_HOST'].url_for("compte_teledeclarant_mot_de_passe_oublie_login", array("login" =>  $compte_login->login, "mdp" => $m[1])); ?>"/>
       <a><i class="glyphicon glyphicon-duplicate"></i></a>
     </div>
 <?php else: ?>
