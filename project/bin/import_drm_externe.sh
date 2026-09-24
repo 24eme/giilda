@@ -21,8 +21,12 @@ do
     file=$(basename $path)
     PERIODE=$(echo -n $file | cut -d "_" -f 2)
     IDENTIFIANT=$(echo -n $file | cut -d "_" -f 3)
-    cat $path | grep -v ";dont_revendique;" | grep -E "^(ANNEXE|CRD|CAVE)" | grep -v ';acquitté;' > $path".cleaned"
-    php symfony drm:edi-import $path".cleaned" $PERIODE $IDENTIFIANT $SYMFONYTASKOPTIONS --trace | grep -v 'DEBUG:';
+    cat $path | grep -v ";dont_revendique;" | grep -E "^(ANNEXE|CRD|CAVE)" | grep -v ';acquitté;' > $path".cleaned";
+    if test "$IDENTIFIANT" && test "$PERIODE" && test -s $path; then
+        php symfony drm:edi-import $path".cleaned" $PERIODE $IDENTIFIANT $SYMFONYTASKOPTIONS --trace | grep -v 'DEBUG:';
+    else
+        echo "ERREUR: problème avec le fichier $path";
+    fi
 done
 rm /tmp/import_drm_externe.$$.file
 touch $DRMEXTERNE_IMPORTDIR/last_update
