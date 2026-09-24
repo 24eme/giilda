@@ -12,7 +12,7 @@ mkdir -p $DRMEXTERNE_IMPORTDIR 2> /dev/null
 #En cas de problème avec la clé publique lftp, voir http://tutos.tangui.eu.org/2021/02/23/lftp-host-key-verification-failed/
 echo $DRMEXTERNE_IMPORT_IDS | sed 's/|/\n/g' | grep '[A-Z]' | while read id;
 do
-    eval echo '$DRMEXTERNE_IMPORT_'$id_'CMD' | bash > /dev/null || echo "Erreur dans la récupération FTP des DRM"
+    eval echo '$DRMEXTERNE_IMPORT_'$id'_CMD' | bash > /dev/null || echo "Erreur dans la récupération FTP des DRM"
 done
 
 touch -d "7 day ago" /tmp/import_drm_externe.$$.file
