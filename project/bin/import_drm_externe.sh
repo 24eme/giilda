@@ -7,22 +7,22 @@
 # Ils n'ont pas d'autres intervention a réaliser
 # (il existe chez eux un flag IVBD mais c'est pour les DRM qui provienne de GIILDA)
 
-mkdir -p $DRMEXTERNEIMPORTDIR 2> /dev/null
+mkdir -p $DRMEXTERNE_IMPORTDIR 2> /dev/null
 
 #En cas de problème avec la clé publique lftp, voir http://tutos.tangui.eu.org/2021/02/23/lftp-host-key-verification-failed/
-for u in "${GETDRMEXTERNECMD[@]}"
+echo $DRMEXTERNE_IMPORT_IDS | sed 's/|/\n/g' | grep '[A-Z]' | while read id;
 do
-    eval $u > /dev/null || echo "Erreur dans la récupération FTP des DRM"
+    eval echo '$DRMEXTERNE_IMPORT_'$id_'CMD' | bash > /dev/null || echo "Erreur dans la récupération FTP des DRM"
 done
 
 touch -d "7 day ago" /tmp/import_drm_externe.$$.file
-find $DRMEXTERNEIMPORTDIR -newer /tmp/import_drm_externe.$$.file  -name '202*csv' | while read path
+find $DRMEXTERNE_IMPORTDIR -newer /tmp/import_drm_externe.$$.file  -name '202*csv' | while read path
 do
     file=$(basename $path)
     PERIODE=$(echo -n $file | cut -d "_" -f 2)
     IDENTIFIANT=$(echo -n $file | cut -d "_" -f 3)
-    cat $DRMEXTERNEIMPORTDIR/$file | grep -v ";dont_revendique;" | grep -E "^(ANNEXE|CRD|CAVE)" | grep -v ';acquitté;' > $DRMEXTERNEIMPORTDIR/$file".cleaned"
-    php symfony drm:edi-import $DRMEXTERNEIMPORTDIR/$file".cleaned" $PERIODE $IDENTIFIANT $SYMFONYTASKOPTIONS --trace | grep -v 'DEBUG:';
+    cat $path | grep -v ";dont_revendique;" | grep -E "^(ANNEXE|CRD|CAVE)" | grep -v ';acquitté;' > $path".cleaned"
+    php symfony drm:edi-import $path".cleaned" $PERIODE $IDENTIFIANT $SYMFONYTASKOPTIONS --trace | grep -v 'DEBUG:';
 done
 rm /tmp/import_drm_externe.$$.file
-touch $DRMEXTERNEIMPORTDIR/last_update
+touch $DRMEXTERNE_IMPORTDIR/last_update
