@@ -29,7 +29,7 @@ EOF;
 
         sfContext::createInstance($this->configuration);
 
-        $from = [ sfConfig::get('app_email_plugin_from_adresse') => sfConfig::get('app_email_plugin_from_name') ];
+        $from = [ sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name') ];
         $to = [$arguments['adresse_email']];
         $subject = "Validation de la configuration des mails";
         $body = "Bonjour, voici un simple mail pour tester la configuration des mails sur l'application";
