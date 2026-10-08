@@ -219,14 +219,14 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                 <?php if ($vrac->date_limite_retiraison || $vrac->date_debut_retiraison || $vrac->clause_reserve_propriete): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6">
-                            <?php if ($vrac->date_debut_retiraison): ?>Date début de retiraison : <strong><?php echo format_date($vrac->date_debut_retiraison, 'D') ?></strong><?php endif; ?>
+                            <?php if ($vrac->date_debut_retiraison): ?>Date début d'enlèvement : <strong><?php echo format_date($vrac->date_debut_retiraison, 'D') ?></strong><?php endif; ?>
                             <br />
                             <?php if ($vrac->clause_reserve_propriete): ?>
                                 <strong>Clause de reserve de propriété</strong>
                             <?php endif; ?>
                         </span>
                         <span class="col-xs-6">
-                            <?php if ($vrac->date_limite_retiraison): ?>Date limite de retiraison : <strong><?php echo format_date($vrac->date_limite_retiraison, 'D') ?></strong><?php endif; ?>
+                            <?php if ($vrac->date_limite_retiraison): ?>Date limite d'enlèvement : <strong><?php echo format_date($vrac->date_limite_retiraison, 'D') ?></strong><?php endif; ?>
                         </span>
                     </li>
                 <?php endif; ?>
