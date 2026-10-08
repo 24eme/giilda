@@ -28,7 +28,7 @@ class VracConfiguration
 		return $this->configuration;
 	}
 
-	public function getTransactions()
+	public function getTransactions($cleanLibelle = false)
 	{
 		$transactions = array();
 		foreach($this->configuration['transactions'] as $key => $transaction) {
@@ -36,7 +36,7 @@ class VracConfiguration
 				continue;
 			}
 
-			$transactions[$key] = $transaction;
+			$transactions[$key] = ($cleanLibelle)? trim(strip_tags($transaction)) : $transaction;
 		}
 
 		return $transactions;
