@@ -173,4 +173,10 @@ class VracConfiguration
     {
         return false;
     }
+
+	public function getChampsRequired($hashProduit = null)
+	{
+        if (!$hashProduit) return [];
+		return (isset($this->configuration['champs_required']) && !empty($this->configuration['champs_required'][$hashProduit]))? $this->configuration['champs_required'][$hashProduit] :[];
+	}
 }

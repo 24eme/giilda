@@ -658,10 +658,19 @@ class Vrac extends BaseVrac {
       if (!$this->valide->statut) {
         $this->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
       }
+      $this->checkChampsRequired();
       $this->update();
       $this->setInterneTrueIfLiaison();
 
       return parent::save();
+    }
+
+    public function checkChampsRequired()
+    {
+        $champs = VracConfiguration::getInstance()->getChampsRequired($this->produit);
+        foreach ($champs as $champ) {
+            $this->getOrAdd($champ);
+        }
     }
 
     /*     * * ARCHIVAGE ** */
