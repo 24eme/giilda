@@ -931,6 +931,10 @@ class lime_harness extends lime_registration
       'total'        => 0,
     );
 
+    if (! is_dir($this->options['test_path'])) {
+        mkdir($this->options['test_path']);
+    }
+
     foreach ($this->files as $file)
     {
       $this->stats['files'][$file] = array();

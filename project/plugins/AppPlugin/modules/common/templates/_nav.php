@@ -179,6 +179,7 @@ endif; ?>
           <ul class="dropdown-menu">
             <li><a href="<?php echo url_for("produits") ?>">Catalogue produit</a></li>
             <li><a href="<?php echo url_for("comptabilite_edition") ?>">Codes analytiques</a></li>
+            <li><a href="/export/">Exports</a></li>
           </ul>
         </li>
 <?php
