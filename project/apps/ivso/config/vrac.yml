@@ -18,7 +18,6 @@ all:
       delais_paiement:
         "60_JOURS": "60 jours après la date d'émission de la facture"
         "COMPTANT": "Comptant"
-        "45_JOURS": "45 jours à compter du mois d'émission de la facture"
       moyens_paiement:
         "VIREMENT": "Virement bancaire"
         "CB": "Carte bancaire"
