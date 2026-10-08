@@ -226,7 +226,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 <div class="panel-body">
                 	<div class="row col-sm-6 ">
 		            <?php if(isset($form['resiliation_cas'])): ?>
-                <strong>Clause de résiliation</<strong>
+                <strong>Clause de résiliation</strong>
     						<div class="form-group">
     							<?php echo $form['resiliation_cas']->renderError(); ?>
     			        <?php echo $form['resiliation_cas']->renderLabel("Cas de résilitation :", array('class' => 'col-sm-5 control-label')); ?>
