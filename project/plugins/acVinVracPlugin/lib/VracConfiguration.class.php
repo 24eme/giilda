@@ -174,9 +174,25 @@ class VracConfiguration
         return false;
     }
 
-	public function getChampsRequired($hashProduit = null)
+	public function getSpecificitesProduit($hashProduit = null)
 	{
         if (!$hashProduit) return [];
-		return (isset($this->configuration['champs_required']) && !empty($this->configuration['champs_required'][$hashProduit]))? $this->configuration['champs_required'][$hashProduit] :[];
+		return (isset($this->configuration['specifites_produit']) && !empty($this->configuration['specifites_produit'][$hashProduit]))? $this->configuration['specifites_produit'][$hashProduit] : [];
+	}
+
+	public function getSpecificitesProduitValeur($key, $hashProduit = null)
+	{
+        $specificites = $this->getSpecificitesProduit($hashProduit);
+		return (!empty($specificites[$key]))? $specificites[$key] : [];
+	}
+
+	public function getSpecificitesProduitChampsRequired($hashProduit = null)
+	{
+        return $this->getSpecificitesProduitValeur('champs_required', $hashProduit);
+	}
+
+	public function getSpecificitesProduitTypesVinsAcceptes($hashProduit = null)
+	{
+        return $this->getSpecificitesProduitValeur('types_vins_acceptes', $hashProduit);
 	}
 }

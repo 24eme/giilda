@@ -667,7 +667,7 @@ class Vrac extends BaseVrac {
 
     public function checkChampsRequired()
     {
-        $champs = VracConfiguration::getInstance()->getChampsRequired($this->produit);
+        $champs = VracConfiguration::getInstance()->getSpecificitesProduitChampsRequired($this->produit);
         foreach ($champs as $champ) {
             $this->getOrAdd($champ);
         }
