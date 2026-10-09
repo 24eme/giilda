@@ -113,6 +113,14 @@ class VracConditionForm extends VracForm {
             $this->setWidget('conclusion_vente', new bsWidgetFormChoice(array('choices' => $this->getConclusionsVente(), 'expanded' => true)));
             $this->setValidator('conclusion_vente', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getConclusionsVente()))));
         }
+        if ($this->getObject()->exist('contrat_pluriannuel')) {
+            $this->setWidget('contrat_pluriannuel', new bsWidgetFormInputCheckbox());
+            $this->setValidator('contrat_pluriannuel', new sfValidatorBoolean(array('required' => false)));
+        }
+        if ($this->getObject()->exist('contrat_pluriannuel_duree')) {
+            $this->setWidget('contrat_pluriannuel_duree', new bsWidgetFormInput());
+            $this->setValidator('contrat_pluriannuel_duree', new sfValidatorInteger(array('required' => false)));
+        }
 
         $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');
         $this->validatorSchema['date_debut_retiraison']->setMessage('required', 'La date de début de retiraison doit être renseignée.');

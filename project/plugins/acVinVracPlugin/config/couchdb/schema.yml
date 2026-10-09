@@ -32,6 +32,8 @@ Vrac:
       conditions_particulieres: { }
       tva: { }
       pluriannuel: { }
+      contrat_pluriannuel: { required: false }
+      contrat_pluriannuel_duree: { required: false }
       clause_reserve_propriete: { }
       resiliation_cas: { required: false }
       resiliation_delai_preavis: { required: false }
