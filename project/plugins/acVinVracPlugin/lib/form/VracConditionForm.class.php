@@ -121,6 +121,18 @@ class VracConditionForm extends VracForm {
             $this->setWidget('contrat_pluriannuel_duree', new bsWidgetFormInput());
             $this->setValidator('contrat_pluriannuel_duree', new sfValidatorInteger(array('required' => false)));
         }
+        if ($this->getObject()->exist('clause_renegociation_prix')) {
+            $this->setWidget('clause_renegociation_prix', new bsWidgetFormInputCheckbox());
+            $this->setValidator('clause_renegociation_prix', new sfValidatorBoolean(array('required' => false)));
+        }
+        if ($this->getObject()->exist('clause_renegociation_prix_conditions')) {
+            $this->setWidget('clause_renegociation_prix_conditions', new bsWidgetFormTextarea());
+            $this->setValidator('clause_renegociation_prix_conditions', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('clause_renegociation_prix_delais')) {
+            $this->setWidget('clause_renegociation_prix_delais', new bsWidgetFormInput());
+            $this->setValidator('clause_renegociation_prix_delais', new sfValidatorString(array('required' => false)));
+        }
 
         $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');
         $this->validatorSchema['date_debut_retiraison']->setMessage('required', 'La date de début de retiraison doit être renseignée.');

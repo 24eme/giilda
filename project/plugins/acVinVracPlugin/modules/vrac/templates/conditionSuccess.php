@@ -418,6 +418,42 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
             </div>
             <?php endif; ?>
 
+
+            <?php if(isset($form['clause_renegociation_prix'])): ?>
+              <div class="panel panel-default">
+                  <?php echo $form['clause_renegociation_prix']->renderError(); ?>
+                  <div class="panel-heading">
+                      <h3 class="panel-title">
+                      	<span class="bloc_condition" data-condition-cible="#bloc_renegociationprix"><?php echo $form['clause_renegociation_prix']->render(); ?>&nbsp;&nbsp;<label for="<?php echo $form['clause_renegociation_prix']->renderId(); ?>">Modalités de renégociation du prix</label></span>
+  					          </h3>
+                  </div>
+                  <div id="bloc_renegociationprix" data-condition-value="1" class="panel-body bloc_conditionner">
+                      <div class="row col-sm-6">
+                          <?php if(isset($form['clause_renegociation_prix_conditions'])): ?>
+              						<div class="form-group">
+              							<?php echo $form['clause_renegociation_prix_conditions']->renderError(); ?>
+              			        <?php echo $form['clause_renegociation_prix_conditions']->renderLabel("Conditions et seuils de renégociation :", array('class' => 'col-sm-5 control-label')); ?>
+              							<div class="col-sm-7">
+              									<?php echo $form['clause_renegociation_prix_conditions']->render(['rows' => 2]); ?>
+              							</div>
+              						</div>
+              						<?php endif; ?>
+  					          </div>
+                      <div class="row col-sm-6">
+                          <?php if(isset($form['clause_renegociation_prix_delais'])): ?>
+              						<div class="form-group">
+              							<?php echo $form['clause_renegociation_prix_delais']->renderError(); ?>
+              			        <?php echo $form['clause_renegociation_prix_delais']->renderLabel("Le délai est fixé à :", array('class' => 'col-sm-5 control-label')); ?>
+              							<div class="col-sm-7">
+              									<?php echo $form['clause_renegociation_prix_delais']->render(); ?>
+              							</div>
+              						</div>
+              						<?php endif; ?>
+  					          </div>
+                  </div>
+              </div>
+              <?php endif; ?>
+
         </div>
     </div>
 

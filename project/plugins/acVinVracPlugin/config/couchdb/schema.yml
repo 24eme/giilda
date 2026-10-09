@@ -38,6 +38,10 @@ Vrac:
       resiliation_cas: { required: false }
       resiliation_delai_preavis: { required: false }
       resiliation_indemnite: { required: false }
+      clause_renegociation_prix: { required: false }
+      clause_renegociation_prix_conditions: { required: false }
+      clause_renegociation_prix_delais: { required: false }
+      clause_litiges_dispositif_arbitrage: { required: false }
       autorisation_nom_vin: { }
       autorisation_nom_producteur: { }
       autorisation_suivi_aval_qualite: { required: false }
