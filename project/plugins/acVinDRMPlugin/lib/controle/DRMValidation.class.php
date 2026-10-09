@@ -36,6 +36,7 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('vigilance', 'reserve_interpro', "Votre stock fin de mois se rapproche de la limite de votre réserve interprofessionnelle");
         $this->addControle('erreur', 'reserve_interpro', "Votre stock fin de mois est inférieur à votre réserve interprofessionnelle");
 
+        $this->addControle('erreur', 'tav_manquant', "Le TAV doit être renseigné ou supérieur à zéro");
     }
 
     public function controle() {
@@ -205,7 +206,11 @@ class DRMValidation extends DocumentValidation {
                 }
             }
 
-
+            if ($detail->exist('tav')) {
+                if (! $detail->tav || $detail->tav <= 0) {
+                    $this->addPoint('erreur', 'tav_manquant', sprintf("Le produit %s a un TAV de %.2f saisi", $detail->getLibelle(), round($detail->getTav(), 2)), $this->generateUrl('drm_annexes', $this->document));
+                }
+            }
         }
 
         $volumes_restant = array();
