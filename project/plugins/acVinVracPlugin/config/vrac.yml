@@ -156,5 +156,9 @@ all:
       conclusions_vente:
         avant_agreage: "Avant agréage"
         apres_agreage: "Après agréage"
+      types_prix:
+        determine_sans_revision_prix: "Déterminé sans révision du prix"
+        determine_avec_revision_prix: "Déterminé avec révision du prix"
+        determinable: "Déterminable"
       visa_unique: false
       required_degre: false

@@ -113,6 +113,18 @@ class VracConditionForm extends VracForm {
             $this->setWidget('conclusion_vente', new bsWidgetFormChoice(array('choices' => $this->getConclusionsVente(), 'expanded' => true)));
             $this->setValidator('conclusion_vente', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getConclusionsVente()))));
         }
+        if ($this->getObject()->exist('type_prix')) {
+            $this->setWidget('type_prix', new bsWidgetFormChoice(array('choices' => $this->getTypesPrix(), 'expanded' => true)));
+            $this->setValidator('type_prix', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesPrix()))));
+        }
+        if ($this->getObject()->exist('revision_prix_formule')) {
+            $this->setWidget('revision_prix_formule', new bsWidgetFormInput());
+            $this->setValidator('revision_prix_formule', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('revision_prix_frequence')) {
+            $this->setWidget('revision_prix_frequence', new bsWidgetFormInput());
+            $this->setValidator('revision_prix_frequence', new sfValidatorString(array('required' => false)));
+        }
         if ($this->getObject()->exist('contrat_pluriannuel')) {
             $this->setWidget('contrat_pluriannuel', new bsWidgetFormInputCheckbox());
             $this->setValidator('contrat_pluriannuel', new sfValidatorBoolean(array('required' => false)));
@@ -184,6 +196,10 @@ class VracConditionForm extends VracForm {
 
     public function getConclusionsVente() {
         return VracConfiguration::getInstance()->getConclusionsVente();
+    }
+
+    public function getTypesPrix() {
+        return VracConfiguration::getInstance()->getTypesPrix();
     }
 
     public function doUpdateObject($values) {

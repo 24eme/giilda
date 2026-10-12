@@ -18,8 +18,49 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
     <div class="row">
         <div class="col-sm-12">
         	<p>
-            	<span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
-            </p>
+          	<span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
+          </p>
+          <?php if (isset($form['conclusion_vente'])): ?>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><label>Prix</label></h3>
+            </div>
+            <div class="panel-body">
+	            <div data-condition-cible="#bloc_label_determine_avec_revision_prix|#bloc_label_determinable|#bloc_revision_prix_formule|#bloc_revision_prix_frequence" class="bloc_condition form-group col-sm-12 <?php if($form['type_prix']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['type_prix']->renderError(); ?>
+                <?php echo $form['type_prix']->renderLabel($vrac->prix_initial_unitaire.' '.VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle']." est un prix :", array('class' => 'col-sm-3 control-label')); ?>
+                <div class="col-sm-9">
+                    <?php echo $form['type_prix']->render(); ?>
+                </div>
+	            </div>
+
+              <?php if(isset($form['revision_prix_formule'])): ?>
+              <div id="bloc_revision_prix_formule" data-condition-value="determine_avec_revision_prix|determinable">
+                <div class="form-group col-sm-12 <?php if($form['revision_prix_formule']->hasError()): ?>has-error<?php endif; ?>">
+                  <?php echo $form['revision_prix_formule']->renderError(); ?>
+                  <?php echo $form['revision_prix_formule']->renderLabel("Formule de révision :", array('id' => 'bloc_label_determine_avec_revision_prix', 'data-condition-value' => 'determine_avec_revision_prix', 'class' => 'col-sm-3 control-label')); ?>
+                  <?php echo $form['revision_prix_formule']->renderLabel("Formule de détermination :", array('id' => 'bloc_label_determinable', 'data-condition-value' => 'determinable', 'class' => 'col-sm-3 control-label')); ?>
+                  <div class="col-sm-5">
+                      <?php echo $form['revision_prix_formule']->render(); ?>
+                  </div>
+                </div>
+              </div>
+              <?php endif; ?>
+              <?php if(isset($form['revision_prix_formule'])): ?>
+              <div id="bloc_revision_prix_frequence" data-condition-value="determine_avec_revision_prix">
+                <div class="form-group col-sm-12 <?php if($form['revision_prix_frequence']->hasError()): ?>has-error<?php endif; ?>">
+                  <?php echo $form['revision_prix_frequence']->renderError(); ?>
+                  <?php echo $form['revision_prix_frequence']->renderLabel("Fréquence de révision :", array('class' => 'col-sm-3 control-label')); ?>
+                  <div class="col-sm-5">
+                      <?php echo $form['revision_prix_frequence']->render(); ?>
+                  </div>
+                </div>
+              </div>
+              <?php endif; ?>
+
+            </div>
+          </div>
+          <?php endif; ?>
         	<div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><label>Paiement</label></h3>

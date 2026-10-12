@@ -144,6 +144,10 @@ class VracConfiguration
 	{
 		return $this->configuration['conclusions_vente'];
 	}
+	public function getTypesPrix()
+	{
+		return $this->configuration['types_prix'];
+	}
 
     public function getSoldeSeuil()
 	{
@@ -194,5 +198,10 @@ class VracConfiguration
 	public function getSpecificitesProduitTypesVinsAcceptes($hashProduit = null)
 	{
         return $this->getSpecificitesProduitValeur('types_vins_acceptes', $hashProduit);
+	}
+
+	public function getSpecificitesProduitHasAmenagementForceMajeur($hashProduit = null)
+	{
+        return $this->getSpecificitesProduitValeur('has_amenagement_force_majeur', $hashProduit) == 1;
 	}
 }
