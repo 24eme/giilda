@@ -70,8 +70,8 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		            <div class="form-group col-sm-6 <?php if($form['delai_paiement']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['delai_paiement']->renderError(); ?>
                     <div class="col-sm-1 pull-right" style="top:-20px;" ><?php echo getPointAideHtml('vrac','condition_delais_paiement'); ?></div>
-		                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-4 control-label')); ?>
-		                <div class="col-sm-7">
+		                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-6">
 		                    <?php echo $form['delai_paiement']->render(array('autofocus' => 'autofocus')); ?>
 		                </div>
 		            </div>
@@ -80,8 +80,8 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		            <div class="form-group col-sm-6 <?php if($form['acompte']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['acompte']->renderError(); ?>
                         <div class="col-sm-1 pull-right" style="top:-20px;" ><?php echo getPointAideHtml('vrac','condition_accompte'); ?></div>
-		                <?php echo $form['acompte']->renderLabel("Acompte à la signature :", array('class' => 'col-sm-6 control-label')); ?>
-		                <div class="col-sm-5 pull-right">
+		                <?php echo $form['acompte']->renderLabel("Acompte à la signature :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-6 pull-right">
 							<div class="input-group">
 		                    	<?php echo $form['acompte']->render(); ?>
 								<span class="input-group-addon">&nbsp;€&nbsp;&nbsp;</span>
