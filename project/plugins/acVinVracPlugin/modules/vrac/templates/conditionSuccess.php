@@ -18,8 +18,49 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
     <div class="row">
         <div class="col-sm-12">
         	<p>
-            	<span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
-            </p>
+          	<span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
+          </p>
+          <?php if (isset($form['conclusion_vente'])): ?>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><label>Prix</label></h3>
+            </div>
+            <div class="panel-body">
+	            <div data-condition-cible="#bloc_label_determine_avec_revision_prix|#bloc_label_determinable|#bloc_revision_prix_formule|#bloc_revision_prix_frequence" class="bloc_condition form-group col-sm-12 <?php if($form['type_prix']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['type_prix']->renderError(); ?>
+                <?php echo $form['type_prix']->renderLabel($vrac->prix_initial_unitaire.' '.VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle']." est un prix :", array('class' => 'col-sm-3 control-label')); ?>
+                <div class="col-sm-9">
+                    <?php echo $form['type_prix']->render(); ?>
+                </div>
+	            </div>
+
+              <?php if(isset($form['revision_prix_formule'])): ?>
+              <div id="bloc_revision_prix_formule" data-condition-value="determine_avec_revision_prix|determinable">
+                <div class="form-group col-sm-12 <?php if($form['revision_prix_formule']->hasError()): ?>has-error<?php endif; ?>">
+                  <?php echo $form['revision_prix_formule']->renderError(); ?>
+                  <?php echo $form['revision_prix_formule']->renderLabel("Formule de révision :", array('id' => 'bloc_label_determine_avec_revision_prix', 'data-condition-value' => 'determine_avec_revision_prix', 'class' => 'col-sm-3 control-label')); ?>
+                  <?php echo $form['revision_prix_formule']->renderLabel("Formule de détermination :", array('id' => 'bloc_label_determinable', 'data-condition-value' => 'determinable', 'class' => 'col-sm-3 control-label')); ?>
+                  <div class="col-sm-5">
+                      <?php echo $form['revision_prix_formule']->render(); ?>
+                  </div>
+                </div>
+              </div>
+              <?php endif; ?>
+              <?php if(isset($form['revision_prix_formule'])): ?>
+              <div id="bloc_revision_prix_frequence" data-condition-value="determine_avec_revision_prix">
+                <div class="form-group col-sm-12 <?php if($form['revision_prix_frequence']->hasError()): ?>has-error<?php endif; ?>">
+                  <?php echo $form['revision_prix_frequence']->renderError(); ?>
+                  <?php echo $form['revision_prix_frequence']->renderLabel("Fréquence de révision :", array('class' => 'col-sm-3 control-label')); ?>
+                  <div class="col-sm-5">
+                      <?php echo $form['revision_prix_frequence']->render(); ?>
+                  </div>
+                </div>
+              </div>
+              <?php endif; ?>
+
+            </div>
+          </div>
+          <?php endif; ?>
         	<div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><label>Paiement</label></h3>
@@ -29,8 +70,8 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		            <div class="form-group col-sm-6 <?php if($form['delai_paiement']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['delai_paiement']->renderError(); ?>
                     <div class="col-sm-1 pull-right" style="top:-20px;" ><?php echo getPointAideHtml('vrac','condition_delais_paiement'); ?></div>
-		                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-4 control-label')); ?>
-		                <div class="col-sm-7">
+		                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-6">
 		                    <?php echo $form['delai_paiement']->render(array('autofocus' => 'autofocus')); ?>
 		                </div>
 		            </div>
@@ -39,8 +80,8 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		            <div class="form-group col-sm-6 <?php if($form['acompte']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['acompte']->renderError(); ?>
                         <div class="col-sm-1 pull-right" style="top:-20px;" ><?php echo getPointAideHtml('vrac','condition_accompte'); ?></div>
-		                <?php echo $form['acompte']->renderLabel("Acompte à la signature :", array('class' => 'col-sm-6 control-label')); ?>
-		                <div class="col-sm-5 pull-right">
+		                <?php echo $form['acompte']->renderLabel("Acompte à la signature :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-6 pull-right">
 							<div class="input-group">
 		                    	<?php echo $form['acompte']->render(); ?>
 								<span class="input-group-addon">&nbsp;€&nbsp;&nbsp;</span>
@@ -97,7 +138,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 
         	<div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><label>Retiraison</label></h3>
+                    <h3 class="panel-title"><label>Enlèvement</label></h3>
                 </div>
                 <div class="panel-body">
                     <div class="col-sm-6">
@@ -113,7 +154,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		        	<?php if (isset($form['date_debut_retiraison'])): ?>
 		            <div class="form-group  <?php if($form['date_debut_retiraison']->hasError()): ?>has-error<?php endif; ?>">
                         <?php echo $form['date_debut_retiraison']->renderError(); ?>
-                        <?php echo $form['date_debut_retiraison']->renderLabel("Date début de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
+                        <?php echo $form['date_debut_retiraison']->renderLabel("Date début d'enlèvement :", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-6">
                             <?php echo $form['date_debut_retiraison']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
                         </div>
@@ -123,7 +164,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		            <div class="form-group  <?php if($form['date_limite_retiraison']->hasError()): ?>has-error<?php endif; ?>">
                         <?php echo $form['date_limite_retiraison']->renderError(); ?>
                         <div class="col-sm-1 pull-right" style="top:-20px;" ><?php echo getPointAideHtml('vrac','condition_date_retiraison'); ?></div>
-                        <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
+                        <?php echo $form['date_limite_retiraison']->renderLabel("Date limite d'enlèvement :", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-6">
                             <?php echo $form['date_limite_retiraison']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
                         </div>
@@ -225,8 +266,18 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 </div>
                 <div class="panel-body">
                 	<div class="row col-sm-6 ">
+  			        	<?php if (isset($form['clause_litiges_dispositif_arbitrage'])): ?>
+    		            <div class="form-group  <?php if($form['clause_litiges_dispositif_arbitrage']->hasError()): ?>has-error<?php endif; ?>">
+                      <?php echo $form['clause_litiges_dispositif_arbitrage']->renderError(); ?>
+                      <?php echo $form['clause_litiges_dispositif_arbitrage']->renderLabel("Dispositif de médiation :", array('class' => 'col-sm-5 control-label')); ?>
+                      <div class="col-sm-1 pull-right" style="top:-20px;" ><?php echo getPointAideHtml('vrac','condition_observation'); ?></div>
+                      <div class="col-sm-6">
+                          <?php echo $form['clause_litiges_dispositif_arbitrage']->render(); ?>
+                      </div>
+    		            </div>
+  		            <?php endif; ?>
 		            <?php if(isset($form['resiliation_cas'])): ?>
-                <strong>Clause de résiliation</<strong>
+                <strong>Clause de résiliation</strong>
     						<div class="form-group">
     							<?php echo $form['resiliation_cas']->renderError(); ?>
     			        <?php echo $form['resiliation_cas']->renderLabel("Cas de résilitation :", array('class' => 'col-sm-5 control-label')); ?>
@@ -259,7 +310,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 
                       <div class="col-sm-1" style="margin-top:-14px;" >
                       </div>
-			                <?php echo $form['conditions_particulieres']->renderLabel("Observations :"); ?>
+			                <?php echo $form['conditions_particulieres']->renderLabel(VracConfiguration::getInstance()->getSpecificitesProduitHasAmenagementForceMajeur($vrac->produit)? "Aménagements contractuels relatifs à la force majeure" : "Observations :"); ?>
                             &nbsp; <?php echo getPointAideHtml('vrac','condition_observation'); ?>
 			                <?php echo $form['conditions_particulieres']->render(); ?>
 			            </div>
@@ -337,62 +388,121 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 </div>
             </div>
 
-        	<?php if(isset($form['pluriannuel'])): ?>
-            <?php echo $form['pluriannuel']->renderError(); ?>
+
+
+
+        <?php if(isset($form['clause_renegociation_prix'])): ?>
+          <div class="panel panel-default">
+              <?php echo $form['clause_renegociation_prix']->renderError(); ?>
+              <div class="panel-heading">
+                  <h3 class="panel-title">
+                  	<span class="bloc_condition" data-condition-cible="#bloc_renegociationprix"><?php echo $form['clause_renegociation_prix']->render(); ?>&nbsp;&nbsp;<label for="<?php echo $form['clause_renegociation_prix']->renderId(); ?>">Modalités de renégociation du prix</label></span>
+				          </h3>
+              </div>
+              <div id="bloc_renegociationprix" data-condition-value="1" class="panel-body bloc_conditionner">
+                  <div class="row col-sm-6">
+                      <?php if(isset($form['clause_renegociation_prix_conditions'])): ?>
+          						<div class="form-group">
+          							<?php echo $form['clause_renegociation_prix_conditions']->renderError(); ?>
+          			        <?php echo $form['clause_renegociation_prix_conditions']->renderLabel("Conditions et seuils de renégociation :", array('class' => 'col-sm-5 control-label')); ?>
+          							<div class="col-sm-7">
+          									<?php echo $form['clause_renegociation_prix_conditions']->render(['rows' => 2]); ?>
+          							</div>
+          						</div>
+          						<?php endif; ?>
+				          </div>
+                  <div class="row col-sm-6">
+                      <?php if(isset($form['clause_renegociation_prix_delais'])): ?>
+          						<div class="form-group">
+          							<?php echo $form['clause_renegociation_prix_delais']->renderError(); ?>
+          			        <?php echo $form['clause_renegociation_prix_delais']->renderLabel("Le délai est fixé à :", array('class' => 'col-sm-5 control-label')); ?>
+          							<div class="col-sm-7">
+          									<?php echo $form['clause_renegociation_prix_delais']->render(); ?>
+          							</div>
+          						</div>
+          						<?php endif; ?>
+				          </div>
+              </div>
+          </div>
+          <?php endif; ?>
+
+        	<?php if(isset($form['pluriannuel'])||isset($form['contrat_pluriannuel'])): ?>
             <div class="panel panel-default">
+                <?php if(isset($form['pluriannuel'])): ?>
+                <?php echo $form['pluriannuel']->renderError(); ?>
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                    	<span class="bloc_condition" data-condition-cible="#bloc_pluriannuel"  for="<?php echo $form['pluriannuel']->renderId(); ?>"><?php echo $form['pluriannuel']->render(); ?>&nbsp;&nbsp;<label for="vrac_pluriannuel">Contrat pluriannuel</label></span>
-					</h3>
+                    	<span class="bloc_condition" data-condition-cible="#bloc_pluriannuel"><?php echo $form['pluriannuel']->render(); ?>&nbsp;&nbsp;<label for="<?php echo $form['pluriannuel']->renderId(); ?>">Contrat pluriannuel</label></span>
+					          </h3>
                 </div>
+                <?php elseif(isset($form['contrat_pluriannuel'])): ?>
+                <?php echo $form['contrat_pluriannuel']->renderError(); ?>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                    	<span class="bloc_condition" data-condition-cible="#bloc_pluriannuel"><?php echo $form['contrat_pluriannuel']->render(); ?>&nbsp;&nbsp;<label for="<?php echo $form['contrat_pluriannuel']->renderId(); ?>">Contrat pluriannuel</label></span>
+					          </h3>
+                </div>
+                <?php endif; ?>
                 <div id="bloc_pluriannuel" data-condition-value="1" class="panel-body bloc_conditionner">
                     <div class="row col-sm-6">
                         <?php if(isset($form['annee_contrat'])): ?>
-						<div class="form-group">
-							<?php echo $form['annee_contrat']->renderError(); ?>
-			                <?php echo $form['annee_contrat']->renderLabel("Année du contrat :", array('class' => 'col-sm-5 control-label')); ?>
-							<div class="col-sm-7 bloc_condition" data-condition-cible="#bloc_reference|#bloc_seuil|#bloc_variation">
-								<?php echo $form['annee_contrat']->render(); ?>
-							</div>
-						</div>
-						<?php endif; ?>
-					</div>
+            						<div class="form-group">
+            							<?php echo $form['annee_contrat']->renderError(); ?>
+            			                <?php echo $form['annee_contrat']->renderLabel("Année du contrat :", array('class' => 'col-sm-5 control-label')); ?>
+            							<div class="col-sm-7 bloc_condition" data-condition-cible="#bloc_reference|#bloc_seuil|#bloc_variation">
+            								<?php echo $form['annee_contrat']->render(); ?>
+            							</div>
+            						</div>
+            						<?php endif; ?>
+                        <?php if(isset($form['contrat_pluriannuel_duree'])): ?>
+            						<div class="form-group">
+            							<?php echo $form['contrat_pluriannuel_duree']->renderError(); ?>
+            			        <?php echo $form['contrat_pluriannuel_duree']->renderLabel("Durée du contrat pluriannel :", array('class' => 'col-sm-5 control-label')); ?>
+            							<div class="col-sm-7">
+            								<div class="input-group">
+            									<?php echo $form['contrat_pluriannuel_duree']->render(); ?>
+            									<span class="input-group-addon">&nbsp;ans&nbsp;</span>
+            								</div>
+            							</div>
+            						</div>
+            						<?php endif; ?>
+					          </div>
+
                     <div class="row col-sm-6">
-		            	<?php if(isset($form['reference_contrat'])): ?>
-						<div class="form-group" id="bloc_reference" data-condition-value="2|3">
-							<?php echo $form['reference_contrat']->renderError(); ?>
-			                <?php echo $form['reference_contrat']->renderLabel("Référence du contrat :", array('class' => 'col-sm-5 control-label')); ?>
-							<div class="col-sm-7">
-									<?php echo $form['reference_contrat']->render(); ?>
-							</div>
-						</div>
-						<?php endif; ?>
-		            	<?php if(isset($form['seuil_revision'])): ?>
-						<div class="form-group" id="bloc_seuil" data-condition-value="1">
-							<?php echo $form['seuil_revision']->renderError(); ?>
-			                <?php echo $form['seuil_revision']->renderLabel("Seuil de révision du prix :", array('class' => 'col-sm-5 control-label')); ?>
-							<div class="col-sm-7">
-								<div class="input-group">
-									<?php echo $form['seuil_revision']->render(); ?>
-									<span class="input-group-addon">&nbsp;%&nbsp;&nbsp;</span>
-								</div>
-							</div>
-						</div>
-						<?php endif; ?>
-		            	<?php if(isset($form['pourcentage_variation'])): ?>
-						<div class="form-group" id="bloc_variation" data-condition-value="1">
-							<?php echo $form['pourcentage_variation']->renderError(); ?>
-			                <?php echo $form['pourcentage_variation']->renderLabel("Variation max. du volume :", array('class' => 'col-sm-5 control-label')); ?>
-							<div class="col-sm-7">
-								<div class="input-group">
-									<?php echo $form['pourcentage_variation']->render(); ?>
-									<span class="input-group-addon">&nbsp;%&nbsp;&nbsp;</span>
-								</div>
-							</div>
-						</div>
-						<?php endif; ?>
-					</div>
-                    </div>
+    		            	<?php if(isset($form['reference_contrat'])): ?>
+          						<div class="form-group" id="bloc_reference" data-condition-value="2|3">
+          							<?php echo $form['reference_contrat']->renderError(); ?>
+          			                <?php echo $form['reference_contrat']->renderLabel("Référence du contrat :", array('class' => 'col-sm-5 control-label')); ?>
+          							<div class="col-sm-7">
+          									<?php echo $form['reference_contrat']->render(); ?>
+          							</div>
+          						</div>
+          						<?php endif; ?>
+    		            	<?php if(isset($form['seuil_revision'])): ?>
+          						<div class="form-group" id="bloc_seuil" data-condition-value="1">
+          							<?php echo $form['seuil_revision']->renderError(); ?>
+          			                <?php echo $form['seuil_revision']->renderLabel("Seuil de révision du prix :", array('class' => 'col-sm-5 control-label')); ?>
+          							<div class="col-sm-7">
+          								<div class="input-group">
+          									<?php echo $form['seuil_revision']->render(); ?>
+          									<span class="input-group-addon">&nbsp;%&nbsp;&nbsp;</span>
+          								</div>
+          							</div>
+          						</div>
+          						<?php endif; ?>
+    		            	<?php if(isset($form['pourcentage_variation'])): ?>
+          						<div class="form-group" id="bloc_variation" data-condition-value="1">
+          							<?php echo $form['pourcentage_variation']->renderError(); ?>
+          			                <?php echo $form['pourcentage_variation']->renderLabel("Variation max. du volume :", array('class' => 'col-sm-5 control-label')); ?>
+          							<div class="col-sm-7">
+          								<div class="input-group">
+          									<?php echo $form['pourcentage_variation']->render(); ?>
+          									<span class="input-group-addon">&nbsp;%&nbsp;&nbsp;</span>
+          								</div>
+          							</div>
+          						</div>
+          						<?php endif; ?>
+					          </div>
                 </div>
             </div>
             <?php endif; ?>
