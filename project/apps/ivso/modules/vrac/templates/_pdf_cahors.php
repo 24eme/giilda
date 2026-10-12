@@ -16,7 +16,7 @@ if ($vrac->mandataire_exist) {
             $vrac->mandataire->raison_sociale : $vrac->getMandataireObject()->getSociete()->raison_sociale;
 }
 ?>
-\documentclass[a4paper,8pt]{extarticle}
+\documentclass[a4paper,9pt]{extarticle}
 \usepackage{geometry} % paper=a4paper
 \usepackage[frenchb]{babel}
 \usepackage[utf8]{inputenc}
