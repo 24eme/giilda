@@ -310,7 +310,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 
                       <div class="col-sm-1" style="margin-top:-14px;" >
                       </div>
-			                <?php echo $form['conditions_particulieres']->renderLabel("Observations :"); ?>
+			                <?php echo $form['conditions_particulieres']->renderLabel(VracConfiguration::getInstance()->getSpecificitesProduitHasAmenagementForceMajeur($vrac->produit)? "Aménagements contractuels relatifs à la force majeure" : "Observations :"); ?>
                             &nbsp; <?php echo getPointAideHtml('vrac','condition_observation'); ?>
 			                <?php echo $form['conditions_particulieres']->render(); ?>
 			            </div>
