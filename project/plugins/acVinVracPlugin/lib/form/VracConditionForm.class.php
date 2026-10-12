@@ -125,6 +125,10 @@ class VracConditionForm extends VracForm {
             $this->setWidget('revision_prix_frequence', new bsWidgetFormInput());
             $this->setValidator('revision_prix_frequence', new sfValidatorString(array('required' => false)));
         }
+        if ($this->getObject()->exist('clause_litiges_dispositif_arbitrage')) {
+            $this->setWidget('clause_litiges_dispositif_arbitrage', new bsWidgetFormInput());
+            $this->setValidator('clause_litiges_dispositif_arbitrage', new sfValidatorString(array('required' => false)));
+        }
         if ($this->getObject()->exist('contrat_pluriannuel')) {
             $this->setWidget('contrat_pluriannuel', new bsWidgetFormInputCheckbox());
             $this->setValidator('contrat_pluriannuel', new sfValidatorBoolean(array('required' => false)));

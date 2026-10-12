@@ -266,6 +266,16 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 </div>
                 <div class="panel-body">
                 	<div class="row col-sm-6 ">
+  			        	<?php if (isset($form['clause_litiges_dispositif_arbitrage'])): ?>
+    		            <div class="form-group  <?php if($form['clause_litiges_dispositif_arbitrage']->hasError()): ?>has-error<?php endif; ?>">
+                      <?php echo $form['clause_litiges_dispositif_arbitrage']->renderError(); ?>
+                      <?php echo $form['clause_litiges_dispositif_arbitrage']->renderLabel("Dispositif de médiation :", array('class' => 'col-sm-5 control-label')); ?>
+                      <div class="col-sm-1 pull-right" style="top:-20px;" ><?php echo getPointAideHtml('vrac','condition_observation'); ?></div>
+                      <div class="col-sm-6">
+                          <?php echo $form['clause_litiges_dispositif_arbitrage']->render(); ?>
+                      </div>
+    		            </div>
+  		            <?php endif; ?>
 		            <?php if(isset($form['resiliation_cas'])): ?>
                 <strong>Clause de résiliation</strong>
     						<div class="form-group">
