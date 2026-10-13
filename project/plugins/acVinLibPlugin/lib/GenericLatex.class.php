@@ -41,7 +41,7 @@ class GenericLatex {
   }
 
   public function generatePDF() {
-    $cmdCompileLatex = 'latexmk -pdf -output-directory="'.$this->getTEXWorkingDir().'" -interaction=nonstopmode "'.$this->getLatexFile().'" 2>&1';
+    $cmdCompileLatex = 'latexmk -pdf -f -output-directory="'.$this->getTEXWorkingDir().'" -interaction=nonstopmode "'.$this->getLatexFile().'" 2>&1';
     exec($cmdCompileLatex, $output);
     $pdfpath = $this->getLatexFileNameWithoutExtention().'.pdf';
     if (!file_exists($pdfpath)) {
