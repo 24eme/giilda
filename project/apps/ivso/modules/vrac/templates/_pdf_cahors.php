@@ -345,7 +345,13 @@ Conformément aux articles 2367 à 2372 du Code Civil, les parties entendent pla
 \newpage
 
 \textbf{13 - Modalités de renégociation du prix} \\ \\
-\\
+Lorsque le prix des produits concernés par le présent contrat est significativement affecté par des fluctuations des prix [à définir : des matières premières agricoles et alimentaires et des produits agricoles et alimentaires, de l'énergie, du transport et des matériaux entrant dans la composition des emballages], les parties entendent fixer ci-après les modalités de renégociation du prix permettant de prendre en compte ces fluctuations à la hausse comme à la baisse. \\ \\
+\textbf{OUI}~ <?php if ($vrac->getOrAdd('clause_renegociation_prix')): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->getOrAdd('clause_renegociation_prix')): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> \\ \\
+Les parties précisent les conditions et les seuils de déclenchement de la renégociation comme suit : \\ \\
+Les conditions et seuils de renégociation sont : \textbf{<?php echo $vrac->getOrAdd('clause_renegociation_prix_conditions') ?>} \\ \\
+Le délai de renégociation, qui ne peut pas être supérieur à un mois, est le suivant : \\ \\
+Le délai est fixé à : \textbf{<?php echo $vrac->getOrAdd('clause_renegociation_prix_delais') ?>} \\ \\
+Les parties s'engagent à renégocier de bonne foi dans le respect du secret des affaires et tendent à une répartition équitable entre elles de l'accroissement ou de la réduction des coûts de production résultant de ces fluctuations. \\
 
 \textbf{14 - Force majeure} \\ \\
 Conformément à l'article 1218 du code civil, il y a force majeure si un événement échappe au contrôle de l'une des parties, qui ne pouvait être raisonnablement prévu lors de la conclusion du présent contrat et dont les effets ne peuvent être évités par des mesures appropriées, empêchant l'exécution de l'obligation par cette partie. \\ \\
