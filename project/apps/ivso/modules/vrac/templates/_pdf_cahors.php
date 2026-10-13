@@ -301,8 +301,26 @@ $\square$~Le vin est retiré en vrac par l'acheteur et opérations techniques de
 \squareChecked~Agréage : la présente vente est conclue <?php if ($vrac->getOrAdd('conclusion_vente') == 'apres_agreage'): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~après <?php if ($vrac->getOrAdd('conclusion_vente') == 'avant_agreage'): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~avant agréage. Date d'agréage : {\large{\textbf{<?php echo format_date($vrac->getOrAdd('date_agreage'), 'dd/MM/yyyy') ?>}}} \\
 {\small Le contrat n'est transmis à l'interprofession que dès lors que l'agréage est effectué (case "après agréage" cochée et/ou date d'agréage renseignée).} \\
 
-\textbf{8 - Prix} \\ \\
-Le prix convenu est de : {\large{\textbf{\CONTRATPRIXUNITAIRE~\euro/\CONTRATTYPEUNITE}}} \\
+\textbf{8 - Prix<?php if ($vrac->getOrAdd('type_prix') == 'determinable'): ?> déterminable<?php else: ?> déterminé<?php endif; ?>} \\ \\
+<?php if ($vrac->getOrAdd('type_prix') == 'determine_sans_revision_prix'): ?>
+Les parties conviennent d'un prix ferme de {\large{\textbf{\CONTRATPRIXUNITAIRE~\euro/\CONTRATTYPEUNITE}}} \\
+<?php elseif($vrac->getOrAdd('type_prix') == 'determine_avec_revision_prix'): ?>
+Les parties conviennent d'un prix ferme de {\large{\textbf{\CONTRATPRIXUNITAIRE~\euro/\CONTRATTYPEUNITE}}} \\ \\
+Le prix sera révisé à la hausse ou à la baisse selon une formule fixée librement en intégrant et en pondérant au moins les indicateurs suivants : \\ \\
+- Un ou plusieurs indicateurs issus du socle de la proposition de contrat (indicateur(s) relatif(s) aux coûts pertinents de production en agriculture et à l'évolution de ces coûts) ; \\
+- Un ou plusieurs indicateurs relatifs aux prix des produits agricoles et alimentaire constatés sur le ou les marchés sur lesquels opère l'acheteur et à l'évolution de ces prix ; \\
+- Un ou plusieurs indicateurs relatifs aux quantités, à la composition, à la qualité, à l'origine, à la traçabilité des produits ou au respect d'un cahier des charges ; \\ \\
+Formule de révision automatique du prix : \textbf{<?php echo $vrac->getOrAdd('revision_prix_formule') ?>} \\ \\
+Fréquence de révision : \textbf{<?php echo $vrac->getOrAdd('revision_prix_frequence') ?>} \\
+<?php elseif($vrac->getOrAdd('type_prix') == 'determinable'): ?>
+Les parties conviennent de déterminer le prix selon une formule qu'ils fixent librement en intégrant et en pondérant au moins les indicateurs suivants : \\ \\
+- Un ou plusieurs indicateurs issus du socle de la proposition de contrat (indicateur(s) relatif(s) aux coûts pertinents de production en agriculture et à l'évolution de ces coûts) ; \\
+- Un ou plusieurs indicateurs relatifs aux prix des produits agricoles et alimentaire constatés sur le ou les marchés sur lesquels opère l'acheteur et à l'évolution de ces prix ; \\
+- Un ou plusieurs indicateurs relatifs aux quantités, à la composition, à la qualité, à l'origine, à la traçabilité des produits ou au respect d'un cahier des charges ; \\ \\
+Formule de révision automatique du prix : \textbf{<?php echo $vrac->getOrAdd('revision_prix_formule') ?>} \\ \\
+L'acheteur doit communiquer au vendeur le prix qui sera payé avant le premier jour de livraison des produits concernés, de manière lisible et compréhensible. \\
+<?php endif; ?>
+
 
 \textbf{9 - Retiraison}~ <?php if ($vrac->getOrAdd('type_retiraison') == 'retiraison'): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~ ou ~~~ \textbf{livraison}~ <?php if ($vrac->getOrAdd('type_retiraison') == 'livraison'): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Conditions de retiraison {\small (cocher la case le cas échéant)} :\\ \\
 Date de début d'enlèvement : {\large{\textbf{<?php echo format_date($vrac->date_debut_retiraison, 'dd/MM/yyyy') ?>}}} \\
