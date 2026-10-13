@@ -255,8 +255,8 @@ if ($vrac->mandataire_exist) {
     ~ & ~ & ~ & ~ \\
     \multicolumn{4}{|p{160mm}|}{\textbf{COURTIER : \CONTRATCOURTIERNOM}} \\
     ~ & ~ & ~ & ~ \\
-	Adresse : & \textbf{\CONTRATCOURTIERADRESSE} & Tél / Email : & \textbf{\CONTRATACHETEURTELEPHONE} / \textbf{\CONTRATACHETEUREMAIL} \\
-    Commune : & \textbf{\CONTRATCOURTIERCOMMUNE} & ~ & ~ \\
+	Adresse : & \textbf{\CONTRATCOURTIERADRESSE} & N° d'inscription RNCVS: & <?php echo $vrac->mandataire->carte_pro ?> \\
+    Commune : & \textbf{\CONTRATCOURTIERCOMMUNE} & Tél / Email : & \textbf{\CONTRATACHETEURTELEPHONE} / \textbf{\CONTRATACHETEUREMAIL} \\
     ~ & ~ & ~ & ~ \\
 	\hline
 \end{tabularx}
