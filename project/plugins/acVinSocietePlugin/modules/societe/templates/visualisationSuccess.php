@@ -78,6 +78,18 @@
                         <?php include_partial('compte/visualisationAdresse', array('compte' => $societe->getMasterCompte())); ?>
                     </div>
                 </div>
+                <?php if($societe->exist('interpros_metas')): ?>
+                <?php foreach($societe->interpros_metas as $interpro => $fields): ?>
+                <hr />
+                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong><?php echo str_replace("INTERPRO-", "", $interpro)  ?></strong></h5>
+                <?php foreach($fields as $key => $value): ?>
+                  <div class="row">
+                    <div style="margin-bottom: 5px;" class="col-xs-2 text-muted"><?php echo str_replace(["code_comptable_client", "numero_adherent"], ["Comptable", "N° Adhérent"], $key) ?>&nbsp;:</div>
+                    <div style="margin-bottom: 5px;" class="col-xs-2"><?php echo $value ?></div>
+                  </div>
+                <?php endforeach; ?>
+                <?php endforeach; ?>
+                <?php endif; ?>
                 <hr />
                 <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Télédéclaration</strong></h5>
                 <?php include_partial('compte/visualisationLogin', array('compte' => $societe->getMasterCompte())); ?>
