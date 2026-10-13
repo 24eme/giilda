@@ -393,8 +393,4 @@ Le vendeur, & L'acheteur,<?php if ($vrac->mandataire_identifiant): ?> & Le court
 Signé électroniquement le \CONTRATDATESIGNATUREVENDEUR & Signé électroniquement le \CONTRATDATESIGNATUREACHETEUR <?php if ($vrac->mandataire_identifiant): ?>& Signé électroniquement le \CONTRATMANDATAIREVISA<?php endif; ?> \\
 \end{tabularx}
 
-\newpage
-
-\includegraphics[scale=0.85]{<?php echo sfConfig::get('sf_web_dir'); ?>/pdf/_annexe_ivso.pdf}
-
 \end{document}
