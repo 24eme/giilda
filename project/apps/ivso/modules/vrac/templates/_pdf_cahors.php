@@ -186,8 +186,6 @@ if ($vrac->mandataire_exist) {
 \end{tabularx}
 }
 
-\vspace{-0.6em}
-
 \textbf{Relations précontractuelles : Initiative du producteur} \\
 {\small
     Le présent contrat doit être précédé d'une proposition préalable du vendeur. Au titre des critères et modalité de révision ou de détermination du prix,  elle prend en compte un ou plusieurs indicateurs relatifs aux couts pertinents de production en agriculture et à l'évolution de ces couts. Elle constitue le socle de la négociation entre le vendeur et l'acheteur.\\
@@ -201,7 +199,7 @@ if ($vrac->mandataire_exist) {
 {\small
     Le présent modèle de contrat intègre les clauses obligatoires prévues par les dispositions législatives et réglementaires en vigueur, pour lesquelles des modèles de
     rédaction sont mis à disposition.\\
-    Sous réserve de l'intégration de ces clauses obligatoires, les parties demeurent libres d’adapter les stipulations du présent contrat à leur situation propre et peuvent, le cas échéant, y insérer toute clause complémentaire librement convenue entre elles.\\
+    Sous réserve de l'intégration de ces clauses obligatoires, les parties demeurent libres d'adapter les stipulations du présent contrat à leur situation propre et peuvent, le cas échéant, y insérer toute clause complémentaire librement convenue entre elles.\\
 }
 
 \textbf{1 - Désignation des parties}
@@ -265,19 +263,19 @@ if ($vrac->mandataire_exist) {
 
 <?php endif; ?>
 
-\vspace{0.6em}
+\vspace{1.4em}
 
 \textbf{2 - Objet : } \\ \\
-Le présent contrat régit les relations entre l’acheteur et le vendeur. Il formalise la vente de vin en vrac qui répond aux caractéristiques du présent contrat. \\
-Le vendeur s’engage à fournir à l’acheteur le vin en vrac répondant aux caractéristiques du présent contrat. En contrepartie, l’acheteur s’engage à payer le prix dans les conditions prévues au présent contrat. \\
+Le présent contrat régit les relations entre l'acheteur et le vendeur. Il formalise la vente de vin en vrac qui répond aux caractéristiques du présent contrat. \\
+Le vendeur s'engage à fournir à l'acheteur le vin en vrac répondant aux caractéristiques du présent contrat. En contrepartie, l'acheteur s'engage à payer le prix dans les conditions prévues au présent contrat. \\
 
 \textbf{3 - Durée : } \\ \\
-<?php if($vrac->contrat_pluriannuel): ?>
-\textbf{Contrat pluriannuel} \\
-Le présent contrat est prévu pour une durée de : {\textbf{<?php echo $vrac->contrat_pluriannuel_duree ?> années}}. \\
+<?php if($vrac->getOrAdd('contrat_pluriannuel')): ?>
+\textbf{Contrat pluriannuel} \\ \\
+Le présent contrat est prévu pour une durée de : {\textbf{<?php echo $vrac->getOrAdd('contrat_pluriannuel_duree') ?> années}}. \\
 Il entre en vigueur à compter de sa signature par toutes les parties (ou le courtier) et prend fin – à l'issue de la période définie ci-avant – dès lors que son objet est réalisé, soit après la retiraison ou la livraison des marchandises et le complet paiement du prix. \\
 <?php else: ?>
-\textbf{Contrat ponctuel} \\
+\textbf{Contrat ponctuel} \\ \\
 Ce contrat entre en vigueur à compter de sa signature par toutes les parties (ou le courtier) et prend fin dès lors que son objet est réalisé, soit près la retiraison ou la livraison des marchandises et le complet paiement du prix. \\
 <?php endif; ?>
 
@@ -287,13 +285,15 @@ dont le vendeur autorise l'utilisation dans le cadre du présent contrat~~~~\tex
 \textbf{5 - Nom du producteur : } {\large{\textbf{\CONTRATVENDEURNOM}}} \\ \\
 Le vendeur autorise l'utilisation par l'acheteur, dans le cadre du présent contrat de son nom patronymique ou raison sociale et adresse pour la présentation du lot de vin concerné~~~~\textbf{OUI}~ <?php if ($vrac->autorisation_nom_producteur): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->autorisation_nom_producteur): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> \\
 
+\newpage
+
 \textbf{6 - Quantité, origine et qualité des produits - Désignation du vin acheté en vrac : } \\ \\
-<?php if ($vrac->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>\textbf{Retiré en citerne}<?php elseif ($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>\textbf{Retiré en bouteilles}<?php endif; ?> \\
+<?php if ($vrac->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>\textbf{Retiré en citerne}<?php elseif ($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE): ?>\textbf{Retiré en bouteilles}<?php endif; ?> \\ \\
 Volume : {\large{\textbf{\CONTRATPRODUITQUANTITE}}} hl \CONTRATPRODUITLIBELLE ~ \textit{\CONTRATGENERIQUEDOMAINE}} - Millésime {\large{\textbf{\CONTRATPRODUITMILLESIME}}} \\
 
 \textbf{7 - Préparation du vin et embouteillage : } \\ \\
 Commune de vinification : {\large{\textbf{\CONTRATLIEUPRODUIT}}} \\
-Commune de logement : {\large{\textbf{\CONTRATVINIFICATIONPRODUIT}}} \\
+Commune de logement : {\large{\textbf{\CONTRATVINIFICATIONPRODUIT}}} \\ \\
 $\square$~Le vin est retiré en vrac par l'acheteur et opérations techniques de préparation du vin et la mise se font chez l'acheteur. \\
 <?php if ($vrac->preparation_vin == 'ACHETEUR'): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~L'acheteur effectue sous sa responsabilité toutes les opérations techniques de mise (y compris la préparation du vin à la mise). Pour faciliter cette opération, le vendeur met à sa disposition ses installations disponibles ainsi que les branchements et consommation d'eau et électricité. \\
 <?php if ($vrac->preparation_vin == 'VENDEUR'): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~Le vendeur effectue sous sa responsabilité toutes les opérations techniques de préparation du vin à la mise. Le vin prêt à la mise sera soumis à l'agréage de l'acheteur. \\
@@ -329,18 +329,18 @@ Calendrier :{\large{\textbf{<?php echo $vrac->getOrAdd('calendrier_retiraison') 
 <?php if ($vrac->getOrAdd('modalites_retiraison')): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~Autres : {\large{\textbf{<?php echo $vrac->getOrAdd('modalites_retiraison') ?>}}} \\
 
 \textbf{10 - Procédures et délais de paiement : } \\ \\
-Acompte à la signature :~~~~\textbf{OUI}~ <?php if ($vrac->acompte): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->acompte): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~~ Si oui, préciser le montant : <?php if ($vrac->acompte): ?>{\large{\textbf{\CONTRATACOMPTE~\euro}}}<?php endif; ?> \\
+Acompte à la signature :~~~~\textbf{OUI}~ <?php if ($vrac->acompte): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->acompte): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~~ Si oui, préciser le montant : <?php if ($vrac->acompte): ?>{\large{\textbf{\CONTRATACOMPTE~\euro}}}<?php endif; ?> \\ \\
 Délai effectif de paiement du solde du contrat {\small (préciser le délai d'échéance des éventuelles traites)} : \\
 <?php foreach ($delaisDePaiements as $key => $value): ?>
 <?php if ($vrac->delai_paiement == $key): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~<?php echo $value ?> \\
 <?php endforeach; ?>
-Délai de paiement : {\small Selon réglementation en vigueur article L441-11 du Code de Commerce. Ce contrat est soumis aux délais de paiement légaux, ils sont de 60 jours après la date d’émission de la facture. Si la facture est établie par l’acheteur, le délai court à compter de la date de livraison.} \\
+\\ Délai de paiement : {\small Selon réglementation en vigueur article L441-11 du Code de Commerce. Ce contrat est soumis aux délais de paiement légaux, ils sont de 60 jours après la date d'émission de la facture. Si la facture est établie par l'acheteur, le délai court à compter de la date de livraison.} \\
 
 \textbf{11 - Consultation de la commission suivi aval de la qualité} \\ \\
 <?php if ($vrac->autorisation_suivi_aval_qualite): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~Afin d'améliorer la qualité des vins de l'AOP Cahors et des IGP Côtes du Lot, le vendeur et l'acheteur déclarent accepter les investigations et conclusions de la commission du suivi aval qualité quant à la qualité du produit. \\
 
 \textbf{12 - Clause de réserve de proriété:}~~~~\textbf{OUI}~ <?php if ($vrac->clause_reserve_propriete): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->clause_reserve_propriete): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> \\  \\
-Conformément aux articles 2367 à 2372 du Code Civil, les parties entendent placer le présent contrat sous le régime de la réserve de propriété, en application de laquelle le vendeur se réserve la propriété du vin vendu jusqu’à parfait paiement du prix. \\
+Conformément aux articles 2367 à 2372 du Code Civil, les parties entendent placer le présent contrat sous le régime de la réserve de propriété, en application de laquelle le vendeur se réserve la propriété du vin vendu jusqu'à parfait paiement du prix. \\
 
 \newpage
 
@@ -348,16 +348,16 @@ Conformément aux articles 2367 à 2372 du Code Civil, les parties entendent pla
 \\
 
 \textbf{14 - Force majeure} \\ \\
-Conformément à l’article 1218 du code civil, il y a force majeure si un événement échappe au contrôle de l’une des parties, qui ne pouvait être raisonnablement prévu lors de la conclusion du présent contrat et dont les effets ne peuvent être évités par des mesures appropriées, empêchant l'exécution de l’obligation par cette partie. \\ \\
+Conformément à l'article 1218 du code civil, il y a force majeure si un événement échappe au contrôle de l'une des parties, qui ne pouvait être raisonnablement prévu lors de la conclusion du présent contrat et dont les effets ne peuvent être évités par des mesures appropriées, empêchant l'exécution de l'obligation par cette partie. \\ \\
 Si l'empêchement est temporaire : l'exécution de l'obligation du présent contrat est suspendue à moins que le retard qui en résulterait ne justifie la résolution du contrat. \\ \\
 Si l'empêchement est définitif : le présent contrat est résolu de plein droit et les parties sont libérées de leurs obligations. \\ \\
 Aménagements contractuels relatifs à la force majeure (le cas échéant) : \\ \\
 {\textbf{\CONTRATOBSERVATIONS}} \\
 
 \textbf{15 - Résiliation et préavis} \\ \\
-Les parties s’accordent sur des cas de résiliation du contrat, en y attachant le cas échéant des délais de préavis et indemnités. \\ \\
-Si la résiliation se justifie par la modification du mode de production, le délai de préavis ainsi que l’indemnité éventuellement attachés sont minorés. \\ \\
-En cas d’aléa sanitaire ou climatique exceptionnel indépendant de la volonté des parties, aucune pénalité ne peut être imposée au producteur ne respectant pas les volumes prévus au contrat. \\
+Les parties s'accordent sur des cas de résiliation du contrat, en y attachant le cas échéant des délais de préavis et indemnités. \\ \\
+Si la résiliation se justifie par la modification du mode de production, le délai de préavis ainsi que l'indemnité éventuellement attachés sont minorés. \\ \\
+En cas d'aléa sanitaire ou climatique exceptionnel indépendant de la volonté des parties, aucune pénalité ne peut être imposée au producteur ne respectant pas les volumes prévus au contrat. \\
 
 \begin{tabularx}{\textwidth}{|X|X|X|}
 	\hline
@@ -370,9 +370,9 @@ En cas d’aléa sanitaire ou climatique exceptionnel indépendant de la volont�
 \vspace{1.2em}
 
 \textbf{16 - Résolution des litiges} \\ \\
-Si un différend intervient au sujet de la présente transaction, préalablement à toute saisine du juge, il doit faire l'objet d'une procédure de médiation : \\
-<?php if (!$vrac->clause_litiges_dispositif_arbitrage): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~Par le médiateur des relations commerciales agricoles et, en cas d'échec de la médiation, donnera lieu à une saisine du comité de règlement des différends commerciaux agricoles. \\
-<?php if ($vrac->clause_litiges_dispositif_arbitrage): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~Autre dispositif de médiation ou d'arbitrage : {\textbf{<?php echo $vrac->clause_litiges_dispositif_arbitrage ?>}} \\
+Si un différend intervient au sujet de la présente transaction, préalablement à toute saisine du juge, il doit faire l'objet d'une procédure de médiation : \\ \\
+<?php if (!$vrac->getOrAdd('clause_litiges_dispositif_arbitrage')): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~Par le médiateur des relations commerciales agricoles et, en cas d'échec de la médiation, donnera lieu à une saisine du comité de règlement des différends commerciaux agricoles. \\
+<?php if ($vrac->getOrAdd('clause_litiges_dispositif_arbitrage')): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~Autre dispositif de médiation ou d'arbitrage : {\textbf{<?php echo $vrac->getOrAdd('clause_litiges_dispositif_arbitrage') ?>}} \\
 
 \vspace{1.2em}
 
