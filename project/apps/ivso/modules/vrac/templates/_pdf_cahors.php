@@ -17,11 +17,9 @@ if ($vrac->mandataire_exist) {
 }
 ?>
 \documentclass[a4paper,9pt]{extarticle}
-\usepackage{geometry} % paper=a4paper
-\usepackage[frenchb]{babel}
+\usepackage[french]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{units}
-\usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{fp}
 \usepackage[table]{xcolor}
@@ -36,6 +34,25 @@ if ($vrac->mandataire_exist) {
 \usepackage{fmtcount}
 \usepackage{eso-pic}
 
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  textwidth=18cm,
+  top=1cm,
+  bottom=1cm,
+  footskip=1cm,
+  includefoot
+}
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}   % Requis pour \pageref{LastPage}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\fontsize{10}{12}\selectfont Page \thepage\ / \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+
+
 \makeatletter
 \newlength\@tempdim@x
 \newlength\@tempdim@y
@@ -49,29 +66,18 @@ if ($vrac->mandataire_exist) {
 \put(\LenToUnit{\@tempdim@x},\LenToUnit{\@tempdim@y}){#3}%
 \endgroup
 }
-
-
 \makeatother
-
-
-\pagestyle{empty}
 
 \renewcommand\sfdefault{phv}
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand{\TruncateMarker}{\small{...}}
 
 \newcommand{\euro}{\EUR\xspace}
-
 \newcommand{\squareChecked}{\makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$}}
-
-\setlength{\oddsidemargin}{-1cm}
-\setlength{\evensidemargin}{-1cm}
-\setlength{\textwidth}{18cm}
-\setlength{\textheight}{27.9cm}
-\setlength{\topmargin}{-3cm}
 \setlength{\parindent}{0pt}
 
-
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 
 \def\CONTRATNUMENREGISTREMENT{<?php echo substr($vrac->numero_contrat, -6)?>}
 \def\CONTRATVISA{<?php echo $vrac->numero_archive ?>}
@@ -139,9 +145,6 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATGENERIQUEDOMAINE{<?php echo $vrac->renderLabels(); ?>}
 \def\CONTRATCONDITIONNEMENT{<?php if ($vrac->conditionnement_crd == 'NEGOCE_ACHEMINE'): ?>\textbf{P} : Vin préparé pour la mise en bouteille<?php elseif ($vrac->conditionnement_crd == 'ACHAT_TIRE_BOUCHE'): ?>\textbf{TB} : Tiré Bouché<?php endif; ?>}
 \def\CONTRATTAUXCOURTAGE{<?php echo $vrac->courtage_taux ?>}
-
-\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
-\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 
 \begin{document}
 
