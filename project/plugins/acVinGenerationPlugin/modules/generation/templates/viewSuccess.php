@@ -7,7 +7,7 @@
 <div class="page-header no-border" style="display: block;">
     <h2>
       Génération N° <?= ($generation->getMasterGeneration()) ? $generation->getMasterGeneration()->identifiant.' '.$generation->type_document : $generation->identifiant; ?><small style="color: inherit;"> créé le <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->date_maj); ?></small>
-      <a class="btn btn-link pull-right" style="color: white;" href=""><span class="glyphicon glyphicon-link"></span> Partager</a>
+      <a class="btn btn-link pull-right" style="color: white;" href=""><span class="glyphicon glyphicon-link"></span></a>
     </h2>
 </div>
 
