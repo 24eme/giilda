@@ -4,7 +4,7 @@ class factureActions extends sfActions {
 
     private function getInterproFacturable(sfWebRequest $request) {
         if ($this->getUser()->hasCredential(AppUser::CREDENTIAL_ADMIN) && FactureConfiguration::isMultiInterproFacturables()) {
-            $this->interpros = [null => "IVSO", "INTERPRO-UIVC" => "UIVC"];
+            $this->interpros = [];
             $interpro = $request->getParameter('interpro', method_exists($this->getUser()->getCompte(), 'getInterproFacturable') ? $this->getUser()->getCompte()->getInterproFacturable() : null);
             if(!$interpro) {
                 $interpro = null;
