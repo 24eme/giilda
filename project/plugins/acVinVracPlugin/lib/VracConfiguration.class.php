@@ -28,7 +28,7 @@ class VracConfiguration
 		return $this->configuration;
 	}
 
-	public function getTransactions()
+	public function getTransactions($cleanLibelle = false)
 	{
 		$transactions = array();
 		foreach($this->configuration['transactions'] as $key => $transaction) {
@@ -36,7 +36,7 @@ class VracConfiguration
 				continue;
 			}
 
-			$transactions[$key] = $transaction;
+			$transactions[$key] = ($cleanLibelle)? trim(strip_tags($transaction)) : $transaction;
 		}
 
 		return $transactions;
@@ -144,6 +144,10 @@ class VracConfiguration
 	{
 		return $this->configuration['conclusions_vente'];
 	}
+	public function getTypesPrix()
+	{
+		return $this->configuration['types_prix'];
+	}
 
     public function getSoldeSeuil()
 	{
@@ -173,4 +177,31 @@ class VracConfiguration
     {
         return false;
     }
+
+	public function getSpecificitesProduit($hashProduit = null)
+	{
+        if (!$hashProduit) return [];
+		return (isset($this->configuration['specifites_produit']) && !empty($this->configuration['specifites_produit'][$hashProduit]))? $this->configuration['specifites_produit'][$hashProduit] : [];
+	}
+
+	public function getSpecificitesProduitValeur($key, $hashProduit = null)
+	{
+        $specificites = $this->getSpecificitesProduit($hashProduit);
+		return (!empty($specificites[$key]))? $specificites[$key] : [];
+	}
+
+	public function getSpecificitesProduitChampsRequired($hashProduit = null)
+	{
+        return $this->getSpecificitesProduitValeur('champs_required', $hashProduit);
+	}
+
+	public function getSpecificitesProduitTypesVinsAcceptes($hashProduit = null)
+	{
+        return $this->getSpecificitesProduitValeur('types_vins_acceptes', $hashProduit);
+	}
+
+	public function getSpecificitesProduitHasAmenagementForceMajeur($hashProduit = null)
+	{
+        return $this->getSpecificitesProduitValeur('has_amenagement_force_majeur', $hashProduit) == 1;
+	}
 }

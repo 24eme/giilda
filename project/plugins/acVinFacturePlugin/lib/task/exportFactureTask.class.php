@@ -13,6 +13,7 @@ class exportFactureTask extends sfBaseTask
             new sfCommandOption('factureid', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export a specific Facture', ''),
             new sfCommandOption('entete', null, sfCommandOption::PARAMETER_REQUIRED, "Ligne d'entête", true),
             new sfCommandOption('interpro', null, sfCommandOption::PARAMETER_OPTIONAL, 'Interpro'),
+            new sfCommandOption('all', null, sfCommandOption::PARAMETER_OPTIONAL, 'All'),
             // add your own options here
         ));
 
@@ -50,7 +51,13 @@ EOF;
 
             return ;
 	    }
-        foreach(FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta() as $vfacture) {
+        if (!empty($options["all"]) && $options["all"] != "false") {
+            $factures = FactureEtablissementView::getInstance()->getAllFacturesForCompta();
+        } else {
+            $factures = FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta();
+        }
+
+        foreach($factures as $vfacture) {
             if ($options["interpro"] && $vfacture->key[FactureEtablissementView::KEYS_INTERPRO] != $options["interpro"]) {
                 continue;
             }
