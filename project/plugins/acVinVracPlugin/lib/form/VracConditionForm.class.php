@@ -113,6 +113,42 @@ class VracConditionForm extends VracForm {
             $this->setWidget('conclusion_vente', new bsWidgetFormChoice(array('choices' => $this->getConclusionsVente(), 'expanded' => true)));
             $this->setValidator('conclusion_vente', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getConclusionsVente()))));
         }
+        if ($this->getObject()->exist('type_prix')) {
+            $this->setWidget('type_prix', new bsWidgetFormChoice(array('choices' => $this->getTypesPrix(), 'expanded' => true)));
+            $this->setValidator('type_prix', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesPrix()))));
+        }
+        if ($this->getObject()->exist('revision_prix_formule')) {
+            $this->setWidget('revision_prix_formule', new bsWidgetFormInput());
+            $this->setValidator('revision_prix_formule', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('revision_prix_frequence')) {
+            $this->setWidget('revision_prix_frequence', new bsWidgetFormInput());
+            $this->setValidator('revision_prix_frequence', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('clause_litiges_dispositif_arbitrage')) {
+            $this->setWidget('clause_litiges_dispositif_arbitrage', new bsWidgetFormInput());
+            $this->setValidator('clause_litiges_dispositif_arbitrage', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('contrat_pluriannuel')) {
+            $this->setWidget('contrat_pluriannuel', new bsWidgetFormInputCheckbox());
+            $this->setValidator('contrat_pluriannuel', new sfValidatorBoolean(array('required' => false)));
+        }
+        if ($this->getObject()->exist('contrat_pluriannuel_duree')) {
+            $this->setWidget('contrat_pluriannuel_duree', new bsWidgetFormInput());
+            $this->setValidator('contrat_pluriannuel_duree', new sfValidatorInteger(array('required' => false)));
+        }
+        if ($this->getObject()->exist('clause_renegociation_prix')) {
+            $this->setWidget('clause_renegociation_prix', new bsWidgetFormInputCheckbox());
+            $this->setValidator('clause_renegociation_prix', new sfValidatorBoolean(array('required' => false)));
+        }
+        if ($this->getObject()->exist('clause_renegociation_prix_conditions')) {
+            $this->setWidget('clause_renegociation_prix_conditions', new bsWidgetFormTextarea());
+            $this->setValidator('clause_renegociation_prix_conditions', new sfValidatorString(array('required' => false)));
+        }
+        if ($this->getObject()->exist('clause_renegociation_prix_delais')) {
+            $this->setWidget('clause_renegociation_prix_delais', new bsWidgetFormInput());
+            $this->setValidator('clause_renegociation_prix_delais', new sfValidatorString(array('required' => false)));
+        }
 
         $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');
         $this->validatorSchema['date_debut_retiraison']->setMessage('required', 'La date de début de retiraison doit être renseignée.');
@@ -164,6 +200,10 @@ class VracConditionForm extends VracForm {
 
     public function getConclusionsVente() {
         return VracConfiguration::getInstance()->getConclusionsVente();
+    }
+
+    public function getTypesPrix() {
+        return VracConfiguration::getInstance()->getTypesPrix();
     }
 
     public function doUpdateObject($values) {

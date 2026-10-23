@@ -4,14 +4,9 @@
 
 <?php include_partial('facture/preTemplate'); ?>
 
-<div class="page-header no-border">
-    <div class="btn-group pull-right">
-        <?php if($generation->statut == GenerationClient::GENERATION_STATUT_GENERE && GenerationClient::getInstance()->isRegenerable($generation)): ?>
-        <a href="<?php // echo url_for('generation_regenerate', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>" onclick='return confirm("Étes vous sûr de vouloir regénérer les factures ?");' class="btn btn-sm btn-default btn-default-step btn-upper"><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;Regénérer</a>
-        <?php endif; ?>
-    </div>
+<div class="page-header no-border" style="display: block;">
     <h2>
-      Génération N° <?= ($generation->getMasterGeneration()) ? $generation->getMasterGeneration()->identifiant.' '.$generation->type_document : $generation->identifiant; ?><small> créé le <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->date_maj); ?></small>
+      Génération N° <?= ($generation->getMasterGeneration()) ? $generation->getMasterGeneration()->identifiant.' '.$generation->type_document : $generation->identifiant; ?><small style="color: inherit;"> créé le <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->date_maj); ?></small>
     </h2>
 </div>
 
@@ -22,9 +17,9 @@
 <?php endif; ?>
 
 <?php if(count($generation->arguments) > 0): ?>
-<p class="text-center text-muted">
+<p class="text-center text-muted" style="margin-top: 20px;">
     <?php foreach ($generation->arguments as $key => $argument) : ?>
-        <?php echo ucfirst(getLabelForKeyArgument($key)) ?></strong> <?php echo $argument; ?><br />
+        <?php echo ucfirst(getLabelForKeyArgument($key)) ?> <?php echo $argument; ?><br />
     <?php endforeach; ?>
 </p>
 <?php endif; ?>
@@ -89,7 +84,7 @@
 <div class="row row-margin">
     <div class="col-xs-4 text-left">
         <?php if(isset($backUrl) && $backUrl): ?>
-        <a class="btn btn-default btn-default-step btn-lg btn-upper" href="<?php echo $backUrl ?>"><span class="eleganticon arrow_carrot-left"></span>&nbsp;&nbsp;Retour</a>
+        <a class="btn btn-default" href="<?php echo $backUrl ?>"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;&nbsp;Retour</a>
         <?php endif; ?>
     </div>
     <?php if(in_array($generation->statut, array(GenerationClient::GENERATION_STATUT_ENERREUR, GenerationClient::GENERATION_STATUT_GENERE)) && $generation->message): ?>

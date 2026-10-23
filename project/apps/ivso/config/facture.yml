@@ -24,7 +24,7 @@ all:
     facture-interpro-uivc:
       pdf_nom_interpro: "UIVC"
       pdf_ordre_cheque: "Union Interprofessionnelle du vin de Cahors"
-      pdf_nom_ref_client: "N° IVSO"
+      pdf_nom_ref_client: "N°"
       post_generation: BL
       type_cvo:
         identifiant_prefix: null

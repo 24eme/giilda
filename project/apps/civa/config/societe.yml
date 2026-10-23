@@ -15,6 +15,7 @@ all:
         teledeclaration_ds_negoce: "DS Négoce"
         teledeclaration_drm: "DRM"
         teledeclaration_douane: "Transmission Ciel"
+        admin_consultation_production: "Admin consultation production"
         extranet_admin: "Extranet Admin"
         extranet_editeur: "Extranet Éditeur"
         extranet_salarie: "Extranet Salarié"

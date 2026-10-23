@@ -4,9 +4,14 @@ all:
       solde_seuil: "10%"
       repartition_cvo: "50"
       region_departement: false
+      specifites_produit:
+        "/declaration/certifications/AOP/genres/TRANQ/appellations/COS/mentions/DEFAUT/lieux/DEFAUT/couleurs/rouge/cepages/DEFAUT":
+          types_vins_acceptes: ["VIN_VRAC", "VIN_BOUTEILLE"]
+          has_amenagement_force_majeur: 1
+          champs_required: ["type_retiraison", "modalites_retiraison", "calendrier_retiraison", "resiliation_cas", "resiliation_delai_preavis", "resiliation_indemnite", "autorisation_suivi_aval_qualite", "date_agreage", "acheteur_delai_mise", "conclusion_vente", "type_prix", "revision_prix_formule", "revision_prix_frequence", "clause_renegociation_prix", "clause_renegociation_prix_conditions", "clause_renegociation_prix_delais", "clause_litiges_dispositif_arbitrage", "contrat_pluriannuel", "contrat_pluriannuel_duree"]
       champs_supprimes:
         condition:
-          "_ALL": ["tva", "pluriannuel", "annee_contrat", "seuil_revision", "pourcentage_variation", "courtage_taux", "courtage_repartition"]
+          "_ALL": ["tva", "pluriannuel", "annee_contrat", "reference_contrat", "seuil_revision", "pourcentage_variation", "courtage_taux", "courtage_repartition"]
           "RAISINS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
           "MOUTS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
           "VIN_VRAC": ["preparation_vin", "embouteillage", "conditionnement_crd"]
@@ -14,7 +19,6 @@ all:
       delais_paiement:
         "60_JOURS": "60 jours après la date d'émission de la facture"
         "COMPTANT": "Comptant"
-        "45_JOURS": "45 jours à compter du mois d'émission de la facture"
       moyens_paiement:
         "VIREMENT": "Virement bancaire"
         "CB": "Carte bancaire"

@@ -36,6 +36,7 @@ class VracValidation extends DocumentValidation {
         $this->addControle('erreur', 'quantite_raisin_surface_expected', "La quantité et/ou la surface sont requises");
         $this->addControle('erreur', 'cepage_autorise', "Cépage non autorisé pour le produit");
         $this->addControle('erreur', 'label_unique', '');
+        $this->addControle('erreur', 'type_vins_produit_non_accepte', 'Type de transaction non autorisé');
 
     }
 
@@ -91,6 +92,11 @@ class VracValidation extends DocumentValidation {
         $labels = $this->document->label->toArray();
         if ( count($labels) > 1 ) {
             $this->addPoint('erreur', 'label_unique', 'Rubrique Marché - Le label doit être unique.Veuillez sélectionner '.$labels['hve'].' ou '.$labels['agriculture_biologique'].' en suivant ce lien.',$this->generateUrl('vrac_marche', $this->document));
+        }
+        $types = VracConfiguration::getInstance()->getSpecificitesProduitTypesVinsAcceptes($this->document->produit);
+        if ($types && !in_array($this->document->type_transaction, $types)) {
+            $libelles = array_intersect_key(VracConfiguration::getInstance()->getTransactions(true), array_flip($types));
+            $this->addPoint('erreur', 'type_vins_produit_non_accepte', 'Transactions autorisés pour '.$this->document->produit_libelle.' : '.implode(', ', $libelles),$this->generateUrl('vrac_soussigne', $this->document));
         }
     }
 

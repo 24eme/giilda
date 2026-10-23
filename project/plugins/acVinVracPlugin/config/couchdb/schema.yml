@@ -24,6 +24,9 @@ Vrac:
       delai_paiement_libelle: { }
       moyen_paiement: { }
       moyen_paiement_libelle: { }
+      type_prix: { required: false }
+      revision_prix_formule: { required: false }
+      revision_prix_frequence: { required: false }
       type_retiraison: { required: false }
       date_limite_retiraison: { type: date }
       date_debut_retiraison: { type: date }
@@ -32,10 +35,16 @@ Vrac:
       conditions_particulieres: { }
       tva: { }
       pluriannuel: { }
+      contrat_pluriannuel: { required: false }
+      contrat_pluriannuel_duree: { required: false }
       clause_reserve_propriete: { }
       resiliation_cas: { required: false }
       resiliation_delai_preavis: { required: false }
       resiliation_indemnite: { required: false }
+      clause_renegociation_prix: { required: false }
+      clause_renegociation_prix_conditions: { required: false }
+      clause_renegociation_prix_delais: { required: false }
+      clause_litiges_dispositif_arbitrage: { required: false }
       autorisation_nom_vin: { }
       autorisation_nom_producteur: { }
       autorisation_suivi_aval_qualite: { required: false }
@@ -147,7 +156,7 @@ Vrac:
             '*': {  }
       mandataire_identifiant: {  }
       logement: {  }
-      vinification: {  required: false }
+      vinification: { }
       mandataire:
         type: collection
         definition:

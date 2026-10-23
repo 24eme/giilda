@@ -12,6 +12,7 @@ class exportFacturePaiementsTask extends sfBaseTask
             new sfCommandOption('factureid', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export a specific Facture', ''),
             new sfCommandOption('entete', null, sfCommandOption::PARAMETER_REQUIRED, "Ligne d'entête", true),
             new sfCommandOption('interpro', null, sfCommandOption::PARAMETER_OPTIONAL, 'Interpro'),
+            new sfCommandOption('all', null, sfCommandOption::PARAMETER_OPTIONAL, 'All'),
         ));
 
         $this->namespace        = 'export';
@@ -51,7 +52,11 @@ EOF;
             echo $export->exportFacturePaiements();
             return ;
 	    }
-        $all_factures = FactureEtablissementView::getInstance()->getPaiementNonVerseeEnCompta();
+        if (!empty($options["all"]) && $options["all"] != "false") {
+            $all_factures = FactureEtablissementView::getInstance()->getAllFacturesForCompta();
+        } else {
+            $all_factures = FactureEtablissementView::getInstance()->getPaiementNonVerseeEnCompta();
+        }
         foreach($all_factures as $vfacture) {
           $facture = FactureClient::getInstance()->find($vfacture->id);
           if(!$facture) {
