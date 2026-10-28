@@ -24,6 +24,10 @@ use constant produit_type => 18;
 use constant origine_id => 19;
 use constant volume => 20;
 use constant cvo => 21;
+use constant code_tva => 22;
+use constant numero_piece_comptable => 23;
+use constant numero_adherent => 24;
+use constant numero_reglement => 25;
 
 $verbose = shift;
 
