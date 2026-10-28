@@ -3,6 +3,34 @@
 use Encode;
 use Env;
 
+use constant code_journal => 0;
+use constant date => 1;
+use constant date_de_saisie => 2;
+use constant numero_de_facture => 3;
+use constant libelle => 4;
+use constant compte_general => 5;
+use constant compte_tiers => 6;
+use constant compte_analytique => 7;
+use constant date_echeance => 8;
+use constant sens => 9;
+use constant montant => 10;
+use constant piece => 11;
+use constant reference => 12;
+use constant id_couchdb => 13;
+use constant type_ligne => 14;
+use constant nom_client => 15;
+use constant code_comptable_client => 16;
+use constant origine_type => 17;
+use constant produit_type => 18;
+use constant origine_id => 19;
+use constant volume => 20;
+use constant cvo => 21;
+use constant code_tva => 22;
+use constant numero_piece_comptable => 23;
+use constant numero_adherent => 24;
+use constant numero_reglement => 25;
+
+
 $verbose = shift;
 my $htTvaAGG = $ENV{EXPORT_SAGE_FACTURE_HT_TVA_AGG};
 
@@ -23,30 +51,30 @@ if ($ENV{EXPORT_SAGE_MAX_INTITULE}) {
 while(<STDIN>) {
 	chomp;
 	my @field = split/;/ ;
-    next if ($field[0] ne 'VEN' && $field[0] !~ /^[02]+$/);
-	next if ($field[10] == 0  && $field[14] !~ /TVA/);
-	if ($field[14] =~ /TVA/) {
-	    $totalTva += $field[10];
+    next if ($field[code_journal] ne 'VEN' && $field[code_journal] !~ /^[02]+$/);
+	next if ($field[montant] == 0  && $field[type_ligne] !~ /TVA/);
+	if ($field[type_ligne] =~ /TVA/) {
+	    $totalTva += $field[montant];
 	    @infosTva = @field;
         next if ($htTvaAGG == 1);
 	}
-	if ($field[14] =~ /LIGNE/) {
-	    $totalHt += $field[10];
+	if ($field[type_ligne] =~ /LIGNE/) {
+	    $totalHt += $field[montant];
 	    @infosHt = @field;
         next if ($htTvaAGG == 1);
 	}
 	print "Ecriture générale;" if ($verbose);
 	printSageEntryFunction(\@field);
-    if ($field[14] =~ /TVA/) {
+    if ($field[type_ligne] =~ /TVA/) {
 		$montant_tva_isset = 1;
-	    $montant_tva = $field[10];
-	    $compte_tva = $field[5];
+	    $montant_tva = $field[montant];
+	    $compte_tva = $field[compte_general];
 	}
-	if ($field[9] =~ /DEBIT/) {
-	    $montant_ttc = $field[10];
-	    $date = $field[2];
-	    $date_echeance = $field[8];
-	    $code_client = $field[6];
+	if ($field[sens] =~ /DEBIT/) {
+	    $montant_ttc = $field[montant];
+	    $date = $field[date_de_saisie];
+	    $date_echeance = $field[date_echeance];
+	    $code_client = $field[compte_tiers];
 	}
 	if ($montant_tva_isset && $montant_ttc) {
 	    print "MRGT;" if ($verbose);
@@ -127,7 +155,7 @@ while(<STDIN>) {
 	    print "\n";
 	    print "\n";
 	    print "code taxe;" if ($verbose);
-	    print $field[22]."\n";
+	    print $field[code_tva]."\n";
 	    print "\n";
 	    print "\n";
 	    print "\n";
@@ -164,39 +192,39 @@ if ($htTvaAGG == 1) {
 
 sub printSageEntryFunction {
     my @field = @{$_[0]};
-    my $montant = $field[10];
-    $field[10] = sprintf("%.2f", $field[10]);
-    $field[10] =~ s/\./,/;
+    my $montant = $field[montant];
+    $field[montant] = sprintf("%.2f", $field[montant]);
+    $field[montant] =~ s/\./,/;
     print "#MECG\n";
 	print "code journal;" if ($verbose);
-    print $field[0]."\n";
+    print $field[code_journal]."\n";
 	print "date;" if ($verbose);
-	$field[1] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
-	print $field[1]."\n";
+	$field[date] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
+	print $field[date]."\n";
     print "date saisie;" if ($verbose);
-	$field[2] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
-	print $field[2]."\n";
+	$field[date_de_saisie] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
+	print $field[date_de_saisie]."\n";
     print "piece;" if ($verbose);
-	print $field[23]."\n";
+	print $field[numero_piece_comptable]."\n";
     print "numero de facture;" if ($verbose);
-    print $field[3]."\n";
+    print $field[numero_de_facture]."\n";
     print "piece tréso;" if ($verbose);
-    print $field[11]."\n";
+    print $field[piece]."\n";
     print "numero compte general;" if ($verbose);
-    print $field[5]."\n";
+    print $field[compte_general]."\n";
     print "numero compte general contre partie;" if ($verbose);
     print "\n";
     print "numero compte tiers;" if ($verbose);
-    print $field[6]."\n";
+    print $field[compte_tiers]."\n";
     print "numero compte tiers contre partie;" if ($verbose);
     print "\n";
     print "intitule;" if ($verbose);
-    print encode_utf8(substr(decode_utf8($field[4]), 0, $max_intitule))."\n";
+    print encode_utf8(substr(decode_utf8($field[libelle]), 0, $max_intitule))."\n";
     print "numero reglement;" if ($verbose);
-	print $field[24]."\n";
+	print $field[numero_reglement]."\n";
     print "date echeance;" if ($verbose);
-	$field[8] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
-    print $field[8]."\n";
+	$field[date_echeance] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
+    print $field[date_echeance]."\n";
     print "partie;" if ($verbose);
     print "\n";
     print "quantite;" if ($verbose);
@@ -204,13 +232,13 @@ sub printSageEntryFunction {
     print "numero devis;" if ($verbose);
     print "0\n";
     print "sens (credit = 1 / debit = 0);" if ($verbose);
-    if ($field[9] eq 'CREDIT') {
+    if ($field[sens] eq 'CREDIT') {
 		print "1\n";
 	} else {
 		print "0\n";
 	}
     print "montant;" if ($verbose);
-    print $field[10]."\n";
+    print $field[montant]."\n";
     print "numero lettre montant;" if ($verbose);
     print "\n";
     print "numero lettre devis;" if ($verbose);
@@ -226,8 +254,8 @@ sub printSageEntryFunction {
     print "montant devise;" if ($verbose);
     print "\n";
     print "code taxe;" if ($verbose);
-    if ($field[9] eq 'CREDIT') {
-		print $field[22]."\n";
+    if ($field[sens] eq 'CREDIT') {
+		print $field[code_tva]."\n";
 	}else{
 	    print "\n";
 	}
@@ -244,7 +272,7 @@ sub printSageEntryFunction {
     print "????;" if ($verbose);
 	print "\n";
     print "reference;" if ($verbose);
-    print $field[12]."\n";
+    print $field[reference]."\n";
     print "status reglement;" if ($verbose);
     print "0\n";
     print "montant refle;" if ($verbose);
@@ -257,24 +285,24 @@ sub printSageEntryFunction {
 	print "0\n";
     print "?;" if ($verbose);
 	print "\n";
-	if ($field[7]) {
+	if ($field[compte_analytique]) {
 	    print "Ecriture Analytique;" if ($verbose);
 	    print "#MECA\n";
 	    print "numero de plan;" if ($verbose);
 	    print "1\n";
 	    print "section analytique;" if ($verbose);
-	    print $field[7]."\n";
+	    print $field[compte_analytique]."\n";
 	    print "montant;" if ($verbose);
-	    print $field[10]."\n";
+	    print $field[montant]."\n";
 	    print "quantite;" if ($verbose);
 	    print "0,00\n";
 	}
-	if ($field[4] !~ /TVA/) {
+	if ($field[libelle] !~ /TVA/) {
 		print "MIVA;" if ($verbose);
 	    print "#MIVA\n";
 		print "empty;" if ($verbose);
 	    print "\n";
 		print "tiers;" if ($verbose);
-		print encode_utf8(substr(decode_utf8($field[15]), 0, $max_miva))."\n";
+		print encode_utf8(substr(decode_utf8($field[nom_client]), 0, $max_miva))."\n";
 	}
 }
