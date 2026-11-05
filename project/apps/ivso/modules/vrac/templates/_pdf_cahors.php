@@ -221,7 +221,8 @@ if ($vrac->mandataire_exist) {
 	Adresse : & \textbf{\CONTRATVENDEURADRESSE} \\
     Commune : & \textbf{\CONTRATVENDEURCOMMUNE} \\
     ~ & ~ \\
-	Tél / Email : & \textbf{\CONTRATVENDEURTELEPHONE} / \textbf{\CONTRATVENDEUREMAIL} \\
+	Tél : & \textbf{\CONTRATVENDEURTELEPHONE} \\
+    Email : & \textbf{\CONTRATVENDEUREMAIL} \\
     ~ & ~ \\
 	\hline
 \end{tabularx}
@@ -239,7 +240,8 @@ if ($vrac->mandataire_exist) {
 	Adresse : & \textbf{\CONTRATACHETEURADRESSE} \\
     Commune : & \textbf{\CONTRATACHETEURCOMMUNE} \\
     ~ & ~ \\
-	Tél / Email : & \textbf{\CONTRATACHETEURTELEPHONE} / \textbf{\CONTRATACHETEUREMAIL} \\
+	Tél : & \textbf{\CONTRATACHETEURTELEPHONE} \\
+    Email : & \textbf{\CONTRATACHETEUREMAIL} \\
     ~ & ~ \\
 	 \hline
 \end{tabularx}
