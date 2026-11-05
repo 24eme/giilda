@@ -258,7 +258,9 @@ class VracConditionForm extends VracForm {
         }
         if(is_null($this->getObject()->courtage_repartition)){
              $this->setDefault('courtage_repartition','ACHETEUR' );
-
+        }
+        if ($this->getObject()->exist('type_prix') && is_null($this->getObject()->type_prix)) {
+             $this->setDefault('type_prix','determine_sans_revision_prix');
         }
     }
 
