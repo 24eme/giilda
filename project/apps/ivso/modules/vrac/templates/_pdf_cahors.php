@@ -322,6 +322,8 @@ Les parties conviennent de déterminer le prix selon une formule qu'ils fixent l
 Formule de révision automatique du prix : \textbf{<?php echo $vrac->getOrAdd('revision_prix_formule') ?>} \\ \\
 L'acheteur doit communiquer au vendeur le prix qui sera payé avant le premier jour de livraison des produits concernés, de manière lisible et compréhensible. \\
 <?php endif; ?>
+\\
+Acompte obligatoire de 15\% dans les 10 jours suivants la signature du contrat (Article L. 665-3 du Code rural). \\
 
 
 \textbf{9 - Retiraison}~ <?php if ($vrac->getOrAdd('type_retiraison') == 'retiraison'): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~ ou ~~~ \textbf{livraison}~ <?php if ($vrac->getOrAdd('type_retiraison') == 'livraison'): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Conditions de retiraison {\small (cocher la case le cas échéant)} :\\ \\
