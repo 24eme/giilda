@@ -6,7 +6,7 @@ all:
       vrac:
         dernier_contrat_prix: "Indique le prix du contrat exprimé en €/hl."
         marche_prix: "Indiquer le prix du vin, en € /hl."
-
+        marche_degre: "Indiquer le degré du vin. Cette valeur est obligatoire pour France Agrimer."
         condition_delais_paiement: "Sélectionner le délai de paiement dans la liste. Se référer aux accords interprofessionnels afin de connaître les éventuelles dérogations aux délais légaux."
         condition_accompte: "Indiquer le montant de  l’acompte. Se référer aux accords interprofessionnels afin de connaitre les éventuelles dérogations au versement de l’acompte."
         condition_moyen_paiement: "Sélectionner le moyen de paiement dans la liste."
