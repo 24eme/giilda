@@ -89,6 +89,15 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		                </div>
 		            </div>
 		        	<?php endif; ?>
+		        	<?php if (isset($form['delai_paiement_autres'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['delai_paiement_autres']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['delai_paiement_autres']->renderError(); ?>
+		                <?php echo $form['delai_paiement_autres']->renderLabel("Précisez si autres :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-6">
+		                    <?php echo $form['delai_paiement_autres']->render(); ?>
+		                </div>
+		            </div>
+		            <?php endif; ?>
 		        	<?php if (isset($form['moyen_paiement'])): ?>
 		            <div class="form-group col-sm-6 <?php if($form['moyen_paiement']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['moyen_paiement']->renderError(); ?>

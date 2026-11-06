@@ -38,6 +38,7 @@ class VracValidation extends DocumentValidation {
         $this->addControle('erreur', 'cepage_autorise', "Cépage non autorisé pour le produit");
         $this->addControle('erreur', 'label_unique', '');
         $this->addControle('erreur', 'type_vins_produit_non_accepte', 'Type de transaction non autorisé');
+        $this->addControle('erreur', 'delai_paiement_autres', 'Vous devez préciser le délai de paiement');
 
     }
 
@@ -102,6 +103,10 @@ class VracValidation extends DocumentValidation {
         if ($types && !in_array($this->document->type_transaction, $types)) {
             $libelles = array_intersect_key(VracConfiguration::getInstance()->getTransactions(true), array_flip($types));
             $this->addPoint('erreur', 'type_vins_produit_non_accepte', 'Transactions autorisés pour '.$this->document->produit_libelle.' : '.implode(', ', $libelles),$this->generateUrl('vrac_soussigne', $this->document));
+        }
+
+        if ($this->document->exist('delai_paiement_autres') && !$this->document->delai_paiement_autres && $this->document->delai_paiement == 'AUTRES') {
+            $this->addPoint('erreur', 'delai_paiement_autres', 'Modifier le délai de paiement', $this->generateUrl('vrac_condition', $this->document));
         }
     }
 

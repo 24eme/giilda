@@ -79,8 +79,13 @@ class VracConfiguration
 		return $contenances_retour;
 	}
 
-	public function getDelaisPaiement()
+	public function getDelaisPaiement($hashProduit = null)
 	{
+        if ($hashProduit && ($specificites = $this->getSpecificitesProduit($hashProduit))) {
+            if (isset($specificites['delais_paiement']) && !empty($specificites['delais_paiement'])) {
+                return $specificites['delais_paiement'];
+            }
+        }
 		return $this->configuration['delais_paiement'];
 	}
 
