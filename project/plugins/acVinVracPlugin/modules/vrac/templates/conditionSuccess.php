@@ -396,7 +396,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
               <?php echo $form['clause_renegociation_prix']->renderError(); ?>
               <div class="panel-heading">
                   <h3 class="panel-title">
-                  	<span class="bloc_condition" data-condition-cible="#bloc_renegociationprix"><?php echo $form['clause_renegociation_prix']->render(); ?>&nbsp;&nbsp;<label for="<?php echo $form['clause_renegociation_prix']->renderId(); ?>">Modalités de renégociation du prix</label></span>
+                  	<span class="bloc_condition" data-condition-cible="#bloc_renegociationprix"><?php echo $form['clause_renegociation_prix']->render(); ?>&nbsp;&nbsp;<label for="<?php echo $form['clause_renegociation_prix']->renderId(); ?>" style="cursor:pointer;">Modalités de renégociation du prix</label></span>
 				          </h3>
               </div>
               <div id="bloc_renegociationprix" data-condition-value="1" class="panel-body bloc_conditionner">
@@ -432,14 +432,14 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 <?php echo $form['pluriannuel']->renderError(); ?>
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                    	<span class="bloc_condition" data-condition-cible="#bloc_pluriannuel"><?php echo $form['pluriannuel']->render(); ?>&nbsp;&nbsp;<label for="<?php echo $form['pluriannuel']->renderId(); ?>">Contrat pluriannuel</label></span>
+                    	<span class="bloc_condition" data-condition-cible="#bloc_pluriannuel"><?php echo $form['pluriannuel']->render(); ?>&nbsp;&nbsp;<label for="<?php echo $form['pluriannuel']->renderId(); ?>" style="cursor:pointer;">Contrat pluriannuel</label></span>
 					          </h3>
                 </div>
                 <?php elseif(isset($form['contrat_pluriannuel'])): ?>
                 <?php echo $form['contrat_pluriannuel']->renderError(); ?>
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                    	<span class="bloc_condition" data-condition-cible="#bloc_pluriannuel"><?php echo $form['contrat_pluriannuel']->render(); ?>&nbsp;&nbsp;<label for="<?php echo $form['contrat_pluriannuel']->renderId(); ?>">Contrat pluriannuel</label></span>
+                    	<span class="bloc_condition" data-condition-cible="#bloc_pluriannuel"><?php echo $form['contrat_pluriannuel']->render(); ?>&nbsp;&nbsp;<label for="<?php echo $form['contrat_pluriannuel']->renderId(); ?>" style="cursor:pointer;">Contrat pluriannuel</label></span>
 					          </h3>
                 </div>
                 <?php endif; ?>
