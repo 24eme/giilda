@@ -27,6 +27,7 @@ class VracValidation extends DocumentValidation {
             $this->addControle('vigilance', 'prix_definitif_expected', "Le prix définitif de contrat n'a pas été saisi");
         }
         $this->addControle('vigilance', 'dates_retiraison_visa', 'La date de retiraison ne peut pas être inférieure à la date du contrat');
+        $this->addControle('vigilance', 'acompte_obligatoire', 'Acompte obligatoire de 15% dans les 10 jours suivants la signature du contrat (Article L. 665-3 du Code rural)');
 
         $this->addControle('erreur', 'volume_expected', 'Le volume du contrat est manquant');
         $this->addControle('erreur', 'prix_initial_expected', 'Le prix du contrat est manquant');
@@ -84,6 +85,10 @@ class VracValidation extends DocumentValidation {
 
         if ($this->document->exist('versement_fa') && ($this->document->versement_fa == VracClient::VERSEMENT_FA_NOUVEAU) && $this->document->date_debut_retiraison && $this->document->date_debut_retiraison < $this->document->date_campagne) {
             $this->addPoint('vigilance', 'dates_retiraison_visa', 'Modifier la date', $this->generateUrl('vrac_condition', $this->document));
+        }
+
+        if (!$this->document->exist('acompte') || !$this->document->acompte || round($this->document->acompte, 2) < round(0.15 * $this->document->prix_initial_total, 2)) {
+            $this->addPoint('vigilance', 'acompte_obligatoire', 'Modifier l\'acompte', $this->generateUrl('vrac_condition', $this->document));
         }
 
         if (!$this->document->isCepageAutorise()) {
