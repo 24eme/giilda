@@ -113,6 +113,10 @@ class VracMarcheForm extends VracForm {
             $this->setWidget('millesime', new sfWidgetFormInputHidden());
         }
 
+        if ($this->getObject()->produit && VracConfiguration::getInstance()->getSpecificitesProduitNeedProduitKeeped($this->getObject()->produit)) {
+            unset($this['produit']);
+        }
+
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
 
