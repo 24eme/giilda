@@ -335,7 +335,7 @@ Acompte à la signature :~~~~\textbf{OUI}~ <?php if ($vrac->acompte): ?>\squareC
 Acompte obligatoire de 15\% dans les 10 jours suivants la signature du contrat (Article L. 665-3 du Code rural). \\ \\
 Délai effectif de paiement du solde du contrat {\small (préciser le délai d'échéance des éventuelles traites)} : \\
 <?php foreach ($delaisDePaiements as $key => $value): ?>
-<?php if ($vrac->delai_paiement == $key): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~<?php echo $value ?> \\
+<?php if ($vrac->delai_paiement == $key): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~<?php echo $value ?><?php if($key == 'AUTRES' && $vrac->exist('delai_paiement_autres') && !empty($vrac->delai_paiement_autres)); ?> : <?php echo $vrac->delai_paiement_autres ?><?php endif; ?> \\
 <?php endforeach; ?>
 \\ Délai de paiement : {\small Selon réglementation en vigueur article L441-11 du Code de Commerce. Ce contrat est soumis aux délais de paiement légaux, ils sont de 60 jours après la date d'émission de la facture. Si la facture est établie par l'acheteur, le délai court à compter de la date de livraison.} \\
 
