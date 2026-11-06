@@ -322,8 +322,6 @@ Les parties conviennent de déterminer le prix selon une formule qu'ils fixent l
 Formule de révision automatique du prix : \textbf{<?php echo $vrac->getOrAdd('revision_prix_formule') ?>} \\ \\
 L'acheteur doit communiquer au vendeur le prix qui sera payé avant le premier jour de livraison des produits concernés, de manière lisible et compréhensible. \\
 <?php endif; ?>
-\\
-Acompte obligatoire de 15\% dans les 10 jours suivants la signature du contrat (Article L. 665-3 du Code rural). \\
 
 
 \textbf{9 - Retiraison}~ <?php if ($vrac->getOrAdd('type_retiraison') == 'retiraison'): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~ ou ~~~ \textbf{livraison}~ <?php if ($vrac->getOrAdd('type_retiraison') == 'livraison'): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Conditions de retiraison {\small (cocher la case le cas échéant)} :\\ \\
@@ -334,6 +332,7 @@ Calendrier :{\large{\textbf{<?php echo $vrac->getOrAdd('calendrier_retiraison') 
 
 \textbf{10 - Procédures et délais de paiement : } \\ \\
 Acompte à la signature :~~~~\textbf{OUI}~ <?php if ($vrac->acompte): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->acompte): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~~ Si oui, préciser le montant : <?php if ($vrac->acompte): ?>{\large{\textbf{\CONTRATACOMPTE~\euro}}}<?php endif; ?> \\ \\
+Acompte obligatoire de 15\% dans les 10 jours suivants la signature du contrat (Article L. 665-3 du Code rural). \\ \\
 Délai effectif de paiement du solde du contrat {\small (préciser le délai d'échéance des éventuelles traites)} : \\
 <?php foreach ($delaisDePaiements as $key => $value): ?>
 <?php if ($vrac->delai_paiement == $key): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~<?php echo $value ?> \\
