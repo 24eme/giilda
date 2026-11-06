@@ -204,4 +204,9 @@ class VracConfiguration
 	{
         return $this->getSpecificitesProduitValeur('has_amenagement_force_majeur', $hashProduit) == 1;
 	}
+
+	public function getSpecificitesProduitNeedProduitKeeped($hashProduit = null)
+	{
+        return $this->getSpecificitesProduitValeur('need_produit_keeped', $hashProduit) == 1;
+	}
 }
