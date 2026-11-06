@@ -265,12 +265,12 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                     <h3 class="panel-title"><label>Clauses</label></h3>
                 </div>
                 <div class="panel-body">
-                	<div class="row col-sm-6 ">
+                	<div class="col-sm-6 ">
   			        	<?php if (isset($form['clause_litiges_dispositif_arbitrage'])): ?>
     		            <div class="form-group  <?php if($form['clause_litiges_dispositif_arbitrage']->hasError()): ?>has-error<?php endif; ?>">
                       <?php echo $form['clause_litiges_dispositif_arbitrage']->renderError(); ?>
                       <?php echo $form['clause_litiges_dispositif_arbitrage']->renderLabel("Dispositif de médiation :", array('class' => 'col-sm-5 control-label')); ?>
-                      <div class="col-sm-1 pull-right" style="top:-20px;" ><?php echo getPointAideHtml('vrac','condition_observation'); ?></div>
+                      <div class="col-sm-1 pull-right" style="top:-20px;" ><?php echo getPointAideHtml('vrac','condition_dispositif_mediation'); ?></div>
                       <div class="col-sm-6">
                           <?php echo $form['clause_litiges_dispositif_arbitrage']->render(); ?>
                       </div>
@@ -316,7 +316,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 			            </div>
 		            	<?php endif; ?>
 		            </div>
-                	<div class="row col-sm-6">
+                	<div class="col-sm-6">
                     <?php if(isset($form['clause_reserve_propriete'])): ?>
                 <div class="form-group <?php if($form['clause_reserve_propriete']->hasError()): ?>has-error<?php endif; ?>">
                   <div class="col-sm-10 col-sm-offset-2">

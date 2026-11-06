@@ -84,6 +84,7 @@ all:
         condition_observation: "Indiquer toute observation complémentaire éventuelle."
         condition_nom_vin: "Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation du nom de Château / Domaine / Marque dans les actes de commercialisation du vin (étiquettes…)."
         condition_nom_producteur: "Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation de son nom dans les actes de commercialisation du vin (étiquettes…)."
+        condition_dispositif_mediation: "Indiquer le dispositif de médiation ou d'arbitrage si celui ci n'est pas le médiateur des relations agricoles."
 
         #18
         validation_pt_vigilance: "Points non bloquants. Vous pouvez résoudre le point en cliquant sur l’hyperlien."
