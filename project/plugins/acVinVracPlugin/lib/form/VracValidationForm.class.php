@@ -34,7 +34,7 @@ class VracValidationForm extends VracForm {
         $this->setValidator('date_signature', new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => !$this->isTeledeclarationMode)));
 
 
-        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('validation', $this->getObject()->type_transaction));
+        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('validation', $this->getObject()->type_transaction, $this->getObject()->produit));
 
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
