@@ -221,7 +221,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		            </div>
 		            <?php endif; ?>
 		        	<?php if (isset($form['embouteillage'])): ?>
-		            <div class="form-group col-sm-6 <?php if($form['embouteillage']->hasError()): ?>has-error<?php endif; ?>">
+		            <div data-condition-cible="#bloc_mise_acheteur" class="bloc_condition form-group col-sm-6 <?php if($form['embouteillage']->hasError()): ?>has-error<?php endif; ?>">
                         <?php echo $form['embouteillage']->renderError(); ?>
                         <?php echo $form['embouteillage']->renderLabel("Mise en bouteille :", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-7">
@@ -239,14 +239,19 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		            </div>
 		            <?php endif; ?>
 		        	<?php if (isset($form['acheteur_delai_mise'])): ?>
+                <div id="bloc_mise_acheteur" data-condition-value="ACHETEUR">
                 <div class="form-group col-sm-6"></div>
 		            <div class="form-group col-sm-6 <?php if($form['acheteur_delai_mise']->hasError()): ?>has-error<?php endif; ?>">
                         <?php echo $form['acheteur_delai_mise']->renderError(); ?>
                         <?php echo $form['acheteur_delai_mise']->renderLabel("Délai de réalisation de la mise par l'acheteur :", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-6">
-                            <?php echo $form['acheteur_delai_mise']->render(); ?>
+          								<div class="input-group">
+          									<?php echo $form['acheteur_delai_mise']->render(); ?>
+          									<span class="input-group-addon">&nbsp;jours&nbsp;</span>
+          								</div>
                         </div>
 		            </div>
+                </div>
 		            <?php endif; ?>
 		        	<?php if (isset($form['conclusion_vente'])): ?>
 		            <div class="form-group col-sm-6 <?php if($form['conclusion_vente']->hasError()): ?>has-error<?php endif; ?>">
