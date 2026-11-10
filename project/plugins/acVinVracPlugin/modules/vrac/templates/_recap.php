@@ -146,6 +146,12 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                 <?php if ($vrac->prix_initial_unitaire): ?> <small>à</small> <?php echo $vrac->prix_initial_unitaire ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle'] ?><?php endif; ?>
                             </h3>
                         <?php endif; ?>
+                        <?php
+                          $typePrixLibelle = VracConfiguration::getInstance()->getTypesPrix();
+                          if ($vrac->exist('type_prix') && isset($typePrixLibelle[$vrac->get('type_prix')])):
+                        ?>
+                        <p>Prix <?php echo strtolower($typePrixLibelle[$vrac->get('type_prix')]) ?></p>
+                      <?php endif; ?>
                         <?php if ($vrac->exist('volume_enleve') && $vrac->get('volume_enleve') && $vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE): ?>
                             <p><?php echoFloat($vrac->volume_propose - $vrac->volume_enleve); ?> hl restant à enlever</p>
                         <?php elseif ($vrac->exist('volume_enleve') && $vrac->get('volume_enleve') && $vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE): ?>
@@ -202,10 +208,27 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
         <div class="panel panel-default">
             <div class="panel-heading"><strong>Les conditions</strong> <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
+              <?php if ($vrac->exist('contrat_pluriannuel') && $vrac->get('contrat_pluriannuel')): ?>
+                  <li class="list-group-item clearfix">
+                      <span class="col-xs-6">
+                          <strong>Contrat pluriannuel <?php if ($vrac->exist('contrat_pluriannuel_duree') && $vrac->get('contrat_pluriannuel_duree')): ?>(<?php echo $vrac->get('contrat_pluriannuel_duree') ?> ans)<?php endif; ?></strong>
+                      </span>
+                  </li>
+              <?php endif; ?>
+              <?php if (($vrac->exist('revision_prix_formule') && $vrac->get('revision_prix_formule'))||($vrac->exist('revision_prix_frequence') && $vrac->get('revision_prix_frequence'))): ?>
+                  <li class="list-group-item clearfix">
+                      <span class="col-xs-6">
+                          <?php if ($vrac->exist('revision_prix_formule') && $vrac->get('revision_prix_formule')): ?>Formule de <?php if ($vrac->getOrAdd('type_prix') == 'determinable'): ?>détermination<?php else: ?>révision<?php endif; ?> du prix : <strong><?php echo $vrac->get('revision_prix_formule'); ?></strong><?php endif; ?>
+                      </span>
+                      <span class="col-xs-6">
+                          <?php if ($vrac->exist('revision_prix_frequence') && $vrac->get('revision_prix_frequence')): ?>Fréquence de révision : <strong><?php echo $vrac->get('revision_prix_frequence'); ?></strong><?php endif; ?>
+                      </span>
+                  </li>
+              <?php endif; ?>
                 <?php if ($vrac->delai_paiement_libelle || $vrac->moyen_paiement_libelle || $vrac->acompte || $vrac->courtage_taux || $vrac->tva): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6">
-                            <?php if ($vrac->delai_paiement_libelle): ?>Paiement : <strong><?php echo $vrac->delai_paiement_libelle; ?></strong><br/><?php endif; ?>
+                            <?php if ($vrac->delai_paiement_libelle): ?>Paiement : <strong><?php echo $vrac->delai_paiement_libelle; ?><?php if($vrac->delai_paiement == 'AUTRES' && $vrac->exist('delai_paiement_autres') && $vrac->delai_paiement_autres): ?> : <?php echo $vrac->delai_paiement_autres; ?><?php endif; ?></strong><br/><?php endif; ?>
                             <?php if ($vrac->moyen_paiement_libelle): ?>Moyen de paiement : <strong><?php echo $vrac->moyen_paiement_libelle; ?></strong><br/><?php endif; ?>
                             <?php if ($vrac->tva): ?>Facturation <strong><?php echo VracConfiguration::getInstance()->getTva()[$vrac->tva] ?></strong><?php endif; ?>
                         </span>
@@ -216,17 +239,18 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         </span>
                     </li>
                 <?php endif; ?>
-                <?php if ($vrac->date_limite_retiraison || $vrac->date_debut_retiraison || $vrac->clause_reserve_propriete): ?>
+                <?php if (($vrac->exist('type_retiraison') && $vrac->get('type_retiraison')) || $vrac->date_limite_retiraison || $vrac->date_debut_retiraison || ($vrac->exist('modalites_retiraison') && $vrac->get('modalites_retiraison')) || ($vrac->exist('calendrier_retiraison') && $vrac->get('calendrier_retiraison'))): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6">
-                            <?php if ($vrac->date_debut_retiraison): ?>Date début d'enlèvement : <strong><?php echo format_date($vrac->date_debut_retiraison, 'D') ?></strong><?php endif; ?>
-                            <br />
-                            <?php if ($vrac->clause_reserve_propriete): ?>
-                                <strong>Clause de reserve de propriété</strong>
-                            <?php endif; ?>
+                            <?php if ($vrac->exist('type_retiraison') && $vrac->get('type_retiraison')): ?>Type d'enlèvement : <strong><?php echo VracConfiguration::getInstance()->getTypesRetiraison()[$vrac->get('type_retiraison')] ?></strong><br /><?php endif; ?>
+                            <?php if ($vrac->date_debut_retiraison): ?>Date début d'enlèvement : <strong><?php echo format_date($vrac->date_debut_retiraison, 'D') ?></strong><?php endif; ?><br />
+                            <?php if ($vrac->exist('calendrier_retiraison') && $vrac->get('calendrier_retiraison')): ?>Calendrier d'enlèvement : <strong><?php echo $vrac->get('calendrier_retiraison') ?></strong><br /><?php endif; ?>
+
                         </span>
                         <span class="col-xs-6">
-                            <?php if ($vrac->date_limite_retiraison): ?>Date limite d'enlèvement : <strong><?php echo format_date($vrac->date_limite_retiraison, 'D') ?></strong><?php endif; ?>
+                            <?php if ($vrac->exist('type_retiraison') && $vrac->get('type_retiraison')): ?><br /><?php endif; ?>
+                            <?php if ($vrac->date_limite_retiraison): ?>Date limite d'enlèvement : <strong><?php echo format_date($vrac->date_limite_retiraison, 'D') ?></strong><?php endif; ?><br />
+                            <?php if ($vrac->exist('modalites_retiraison') && $vrac->get('modalites_retiraison')): ?>Autres modalités d'enlèvement : <strong><?php echo $vrac->get('modalites_retiraison') ?></strong><br /><?php endif; ?>
                         </span>
                     </li>
                 <?php endif; ?>
@@ -242,34 +266,57 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         </span>
                     </li>
                 <?php endif; ?>
-                <?php if ($vrac->autorisation_nom_vin || $vrac->autorisation_nom_producteur || $vrac->cahier_charge): ?>
+                <?php if ($vrac->clause_reserve_propriete || $vrac->autorisation_nom_vin || $vrac->autorisation_nom_producteur || $vrac->cahier_charge || ($vrac->exist('autorisation_suivi_aval_qualite') && $vrac->get('autorisation_suivi_aval_qualite'))): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6">
-                            <?php if ($vrac->autorisation_nom_vin): ?><strong>Autorisation d'utilisation du nom du vin</strong><?php endif; ?><br />
-                            <?php if ($vrac->cahier_charge): ?><strong>Présence d'un cahier des charges entre le vendeur et l'acheteur</strong><?php endif; ?>
+                            <?php if ($vrac->clause_reserve_propriete): ?><strong>Clause de reserve de propriété</strong><?php endif; ?><br />
+                            <?php if ($vrac->cahier_charge): ?><strong>Présence d'un cahier des charges entre le vendeur et l'acheteur</strong><?php endif; ?><br />
+                            <?php if ($vrac->exist('autorisation_suivi_aval_qualite') && $vrac->get('autorisation_suivi_aval_qualite')): ?><strong>Autorisation du suivi aval de la qualité</strong><?php endif; ?>
                         </span>
                         <span class="col-xs-6">
+                            <?php if ($vrac->autorisation_nom_vin): ?><strong>Autorisation d'utilisation du nom du vin</strong><?php endif; ?><br />
                             <?php if ($vrac->autorisation_nom_producteur): ?><strong>Autorisation d'utilisation du nom du producteur</strong><?php endif; ?>
                         </span>
                     </li>
                 <?php endif; ?>
-                <?php if ($vrac->preparation_vin || $vrac->embouteillage || $vrac->conditionnement_crd): ?>
+                <?php if ($vrac->preparation_vin || $vrac->embouteillage || $vrac->conditionnement_crd || ($vrac->exist('acheteur_delai_mise') && $vrac->get('acheteur_delai_mise')) || ($vrac->exist('conclusion_vente') && $vrac->get('conclusion_vente')) || ($vrac->exist('date_agreage') && $vrac->get('date_agreage'))): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6 ">
                             <?php if ($vrac->preparation_vin): ?>Préparation du vin : <strong><?php echo VracConfiguration::getInstance()->getActeursPreparationVin()[$vrac->preparation_vin] ?></strong><?php endif; ?><br />
-                            <?php if ($vrac->conditionnement_crd): ?>Conditionnement CRD : <strong><?php echo VracConfiguration::getInstance()->getConditionnementsCRD()[$vrac->conditionnement_crd] ?></strong><?php endif; ?>
+                            <?php if ($vrac->conditionnement_crd): ?>Conditionnement CRD : <strong><?php echo VracConfiguration::getInstance()->getConditionnementsCRD()[$vrac->conditionnement_crd] ?></strong><?php endif; ?><br />
+                            <?php if ($vrac->exist('conclusion_vente') && $vrac->get('conclusion_vente')): ?>Conclusion de cette vente : <strong><?php echo VracConfiguration::getInstance()->getConclusionsVente()[$vrac->get('conclusion_vente')] ?></strong><?php endif; ?>
                         </span>
                         <span class="col-xs-6">
-                            <?php if ($vrac->embouteillage): ?>Mise en bouteille : <strong><?php echo VracConfiguration::getInstance()->getActeursEmbouteillage()[$vrac->embouteillage] ?></strong><?php endif; ?>
+                            <?php if ($vrac->embouteillage): ?>Mise en bouteille : <strong><?php echo VracConfiguration::getInstance()->getActeursEmbouteillage()[$vrac->embouteillage] ?></strong><?php endif; ?><br />
+                            <?php if ($vrac->exist('acheteur_delai_mise') && $vrac->get('acheteur_delai_mise')): ?>Délai de réalisation de la mise : <strong><?php echo $vrac->get('acheteur_delai_mise') ?></strong><?php endif; ?><br />
+                            <?php if ($vrac->exist('date_agreage') && $vrac->get('date_agreage')): ?>Date d'agréage : <strong><?php echo $vrac->getDateAgreage('d/m/Y'); ?></strong><?php endif; ?><br />
                         </span>
                     </li>
                 <?php endif; ?>
-                <?php if ($vrac->conditions_particulieres): ?>
+                <?php if ($vrac->conditions_particulieres || ($vrac->exist('clause_litiges_dispositif_arbitrage') && $vrac->get('clause_litiges_dispositif_arbitrage')) || ($vrac->exist('resiliation_cas') && $vrac->get('resiliation_cas')) || ($vrac->exist('resiliation_delai_preavis') && $vrac->get('resiliation_delai_preavis')) || ($vrac->exist('resiliation_indemnite') && $vrac->get('resiliation_indemnite'))): ?>
                     <li class="list-group-item clearfix">
+                        <?php if (($vrac->exist('resiliation_cas') && $vrac->get('resiliation_cas')) || ($vrac->exist('resiliation_delai_preavis') && $vrac->get('resiliation_delai_preavis')) || ($vrac->exist('resiliation_indemnite') && $vrac->get('resiliation_indemnite'))): ?>
+                        <span class="col-xs-12"><strong>Clause de résiliation</strong></span>
+                        <?php endif; ?>
+                        <span class="col-xs-4"><?php if ($vrac->exist('resiliation_cas') && $vrac->get('resiliation_cas')): ?>Cas de résilitation : <strong><?php echo $vrac->get('resiliation_cas'); ?></strong><?php endif; ?></span>
+                        <span class="col-xs-4"><?php if ($vrac->exist('resiliation_delai_preavis') && $vrac->get('resiliation_delai_preavis')): ?>Délai de préavis : <strong><?php echo $vrac->get('resiliation_delai_preavis'); ?></strong><?php endif; ?></span>
+                        <span class="col-xs-4"><?php if ($vrac->exist('resiliation_indemnite') && $vrac->get('resiliation_indemnite')): ?>Indemnité : <strong><?php echo $vrac->get('resiliation_indemnite'); ?></strong><?php endif; ?></span>
                         <span class="col-xs-12">
-                            <?php if ($vrac->conditions_particulieres): ?>Observations : <strong><?php echo $vrac->conditions_particulieres ?></strong><?php endif; ?>
+                            <?php if ($vrac->exist('clause_litiges_dispositif_arbitrage') && $vrac->get('clause_litiges_dispositif_arbitrage')): ?>Dispositif de médiation : <strong><?php echo $vrac->get('clause_litiges_dispositif_arbitrage'); ?></strong><?php endif; ?><br />
+                            <?php if ($vrac->conditions_particulieres): ?><?php echo VracConfiguration::getInstance()->getSpecificitesProduitHasAmenagementForceMajeur($vrac->produit)? "Aménagements contractuels relatifs à la force majeure" : "Observations :" ?> : <strong><?php echo $vrac->conditions_particulieres ?></strong><?php endif; ?>
                         </span>
                     </li>
+                <?php endif; ?>
+                <?php if(($vrac->exist('clause_renegociation_prix') && $vrac->get('clause_renegociation_prix'))): ?>
+                <li class="list-group-item clearfix">
+                    <span class="col-xs-12"><strong>Modalités de renégociation du prix</strong></span>
+                    <span class="col-xs-6">
+                        <?php if ($vrac->exist('clause_renegociation_prix_conditions') && $vrac->get('clause_renegociation_prix_conditions')): ?>Conditions et seuils de renégociation : <strong><?php echo $vrac->get('clause_renegociation_prix_conditions') ?></strong><?php endif; ?>
+                    </span>
+                    <span class="col-xs-6">
+                        <?php if ($vrac->exist('clause_renegociation_prix_delais') && $vrac->get('clause_renegociation_prix_delais')): ?>Le délai est fixé à : <strong><?php echo $vrac->get('clause_renegociation_prix_delais') ?></strong><?php endif; ?>
+                    </span>
+                </li>
                 <?php endif; ?>
                 <?php if(!$isTeledeclarationMode): ?>
                 <li class="list-group-item clearfix">
