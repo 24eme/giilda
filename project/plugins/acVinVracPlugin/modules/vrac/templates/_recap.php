@@ -288,7 +288,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         </span>
                         <span class="col-xs-6">
                             <?php if ($vrac->embouteillage): ?>Mise en bouteille : <strong><?php echo VracConfiguration::getInstance()->getActeursEmbouteillage()[$vrac->embouteillage] ?></strong><?php endif; ?><br />
-                            <?php if ($vrac->exist('acheteur_delai_mise') && $vrac->get('acheteur_delai_mise')): ?>Délai de réalisation de la mise : <strong><?php echo $vrac->get('acheteur_delai_mise') ?></strong><?php endif; ?><br />
+                            <?php if ($vrac->exist('acheteur_delai_mise') && $vrac->get('acheteur_delai_mise')): ?>Délai de réalisation de la mise : <strong><?php echo $vrac->get('acheteur_delai_mise') ?> jours</strong><?php endif; ?><br />
                             <?php if ($vrac->exist('date_agreage') && $vrac->get('date_agreage')): ?>Date d'agréage : <strong><?php echo $vrac->getDateAgreage('d/m/Y'); ?></strong><?php endif; ?><br />
                         </span>
                     </li>
