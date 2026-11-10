@@ -2,7 +2,7 @@
 use_helper('Date');
 use_helper('Display');
 $moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement();
-$delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement();
+$delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement($vrac->produit);
 $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage();
 $vendeur_raison_sociale = ($vrac->vendeur->raison_sociale) ?
         $vrac->vendeur->raison_sociale : $vrac->getVendeurObject()->getSociete()->raison_sociale;
@@ -221,7 +221,8 @@ if ($vrac->mandataire_exist) {
 	Adresse : & \textbf{\CONTRATVENDEURADRESSE} \\
     Commune : & \textbf{\CONTRATVENDEURCOMMUNE} \\
     ~ & ~ \\
-	Tél / Email : & \textbf{\CONTRATVENDEURTELEPHONE} / \textbf{\CONTRATVENDEUREMAIL} \\
+	Tél : & \textbf{\CONTRATVENDEURTELEPHONE} \\
+    Email : & \textbf{\CONTRATVENDEUREMAIL} \\
     ~ & ~ \\
 	\hline
 \end{tabularx}
@@ -239,7 +240,8 @@ if ($vrac->mandataire_exist) {
 	Adresse : & \textbf{\CONTRATACHETEURADRESSE} \\
     Commune : & \textbf{\CONTRATACHETEURCOMMUNE} \\
     ~ & ~ \\
-	Tél / Email : & \textbf{\CONTRATACHETEURTELEPHONE} / \textbf{\CONTRATACHETEUREMAIL} \\
+	Tél : & \textbf{\CONTRATACHETEURTELEPHONE} \\
+    Email : & \textbf{\CONTRATACHETEUREMAIL} \\
     ~ & ~ \\
 	 \hline
 \end{tabularx}
@@ -330,9 +332,10 @@ Calendrier :{\large{\textbf{<?php echo $vrac->getOrAdd('calendrier_retiraison') 
 
 \textbf{10 - Procédures et délais de paiement : } \\ \\
 Acompte à la signature :~~~~\textbf{OUI}~ <?php if ($vrac->acompte): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->acompte): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~~ Si oui, préciser le montant : <?php if ($vrac->acompte): ?>{\large{\textbf{\CONTRATACOMPTE~\euro}}}<?php endif; ?> \\ \\
+Acompte obligatoire de 15\% dans les 10 jours suivants la signature du contrat (Article L. 665-3 du Code rural). \\ \\
 Délai effectif de paiement du solde du contrat {\small (préciser le délai d'échéance des éventuelles traites)} : \\
 <?php foreach ($delaisDePaiements as $key => $value): ?>
-<?php if ($vrac->delai_paiement == $key): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~<?php echo $value ?> \\
+<?php if ($vrac->delai_paiement == $key): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>~<?php echo $value ?><?php if($key == 'AUTRES' && $vrac->exist('delai_paiement_autres') && $vrac->delai_paiement_autres): ?> : <?php echo $vrac->delai_paiement_autres; ?><?php endif; ?> \\
 <?php endforeach; ?>
 \\ Délai de paiement : {\small Selon réglementation en vigueur article L441-11 du Code de Commerce. Ce contrat est soumis aux délais de paiement légaux, ils sont de 60 jours après la date d'émission de la facture. Si la facture est établie par l'acheteur, le délai court à compter de la date de livraison.} \\
 

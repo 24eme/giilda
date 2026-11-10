@@ -3,6 +3,7 @@
 
 # default values
 all:
+  facturation_region: REGION_CVO
   drm_negoce:
     correspondances_produits:
       "/declaration/certifications/AOC/genres/TRANQ": "/declaration/certifications/AOP/genres/TRANQ/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT"

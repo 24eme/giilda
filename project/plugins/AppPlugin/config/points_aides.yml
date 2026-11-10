@@ -46,7 +46,7 @@ all:
         annuaire_fil_saisi_retour_annuaire: "Permet de visualiser la liste des contacts avec qui vous avez passé un contrat par le passé."
         annuaire_fil_saisi_retour_contrat:  "Permet de retourner au contrat en cours de saisie."
         annuaire_selection_type: "Sélectionner le type de contact que vous souhaitez  ajouter: Viticulteur, Représentant, Courtier, Négociant."
-        annuaire_selection_numero: "Inscrire le n° de client interprofessionnel  à 6 chiffres de ce contact (ex: 000001). Ce n° figure sur chacune des factures CVO du contact. Il est identique au n° d’identifiant utilisé par le contact pour son accès au portail de l’interprofession. En cas de problème, contacter l’interprofession."
+        annuaire_selection_numero: "Inscrire le n° de client interprofessionnel à 6 chiffres de ce contact (ex: 000001). Ce n° figure sur chacune des factures CVO du contact. Il est identique au n° d’identifiant utilisé par le contact pour son accès au portail de l’interprofession. Le cas échéant, vous pouvez renseigner le n° CVI, Accises ou SIREN. En cas de problème, contacter l’interprofession."
         #11
         annuaire_verification_infos: "Permet de vérifier l’identité  complète du contact correspondant au n° d’identifiant que vous avez indiqué avant de valider son ajout définitif à votre annuaire."
         #12
@@ -84,6 +84,7 @@ all:
         condition_observation: "Indiquer toute observation complémentaire éventuelle."
         condition_nom_vin: "Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation du nom de Château / Domaine / Marque dans les actes de commercialisation du vin (étiquettes…)."
         condition_nom_producteur: "Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation de son nom dans les actes de commercialisation du vin (étiquettes…)."
+        condition_dispositif_mediation: "Indiquer le dispositif de médiation ou d'arbitrage si celui ci n'est pas le médiateur des relations agricoles."
 
         #18
         validation_pt_vigilance: "Points non bloquants. Vous pouvez résoudre le point en cliquant sur l’hyperlien."
