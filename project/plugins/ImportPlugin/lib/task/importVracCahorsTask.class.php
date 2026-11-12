@@ -44,7 +44,7 @@ EOF;
             $v->numero_contrat = str_replace("00000", "0000", VracClient::getInstance()->buildNumeroContrat(substr($data[8], -4, 4), 0, 0, $data[11]));
             $v->constructId();
             $vToDelete = VracClient::getInstance()->find($v->_id);
-            if($vToDelete && $vToDelete->exist("campagne_archive") && $vToDelete->campagne_archive == "UIVC") {
+            if($vToDelete && $vToDelete->exist("campagne_archive") && $vToDelete->campagne_archive == "UIVCCL") {
                 VracClient::getInstance()->delete($vToDelete);
             } elseif($vToDelete) {
                 echo "Le contrat ".$v->_id." existe déjà !\n";
@@ -52,7 +52,7 @@ EOF;
             }
 
             $v->numero_archive = sprintf("%05d", $data[0]);
-            $v->add('campagne_archive', 'UIVC');
+            $v->add('campagne_archive', 'UIVCCL');
             $v->teledeclare = false;
             $v->type_transaction = VracClient::TYPE_TRANSACTION_VIN_VRAC;
             $produit = $configuration->identifyProductByLibelle("AOP Cahors Rouge");
@@ -60,7 +60,10 @@ EOF;
             if(is_numeric($data[2])) {
                 $v->millesime = intval($data[2]);
             }
-            $vendeur = EtablissementClient::getInstance()->findByCvi($data[3]);
+            $vendeur = EtablissementClient::getInstance()->findByIdentifiant($data[3]);
+            if(!$vendeur) {
+                $vendeur = EtablissementClient::getInstance()->findByCvi($data[3]);
+            }
             if(!$vendeur) {
                 $vendeur = EtablissementClient::getInstance()->retrieveByName($data[4]);
             }
@@ -70,7 +73,10 @@ EOF;
             }
             $v->vendeur_identifiant = $vendeur->_id;
 
-            $acheteur = EtablissementClient::getInstance()->findByCvi($data[5]);
+            $acheteur = EtablissementClient::getInstance()->findByIdentifiant($data[5]);
+            if(!$acheteur) {
+                $acheteur = EtablissementClient::getInstance()->findByCvi($data[5]);
+            }
             if(!$acheteur) {
                 $acheteur = EtablissementClient::getInstance()->retrieveByName($data[6]);
             }
@@ -80,12 +86,13 @@ EOF;
             }
             $v->acheteur_identifiant = $acheteur->_id;
             $v->setInformations();
-            $v->jus_quantite = floatval(str_replace(',', '.', $data[9]));
-            $v->prix_unitaire = floatval(str_replace(',', '.', $data[10]));
+            $v->jus_quantite = floatval(str_replace(",", ".", $data[9]));
+            $v->prix_unitaire = floatval(str_replace(",", ".", $data[10]));
             $v->prix_initial_unitaire = $v->prix_unitaire;
             $v->date_signature = preg_replace("|^(\d)/(\d)/(\d)$|","\3-\2-\1", $data[8]);
             $v->date_campagne = $v->date_signature;
             $v->date_visa = $v->date_signature;
+            $v->volume_enleve = floatval(str_replace(",", ".", $data[12]));
             // $v->valide->date_saisie = $v->date_signature;
             $v->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
             $v->update();
