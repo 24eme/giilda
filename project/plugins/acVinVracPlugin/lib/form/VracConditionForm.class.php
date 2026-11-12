@@ -221,6 +221,37 @@ class VracConditionForm extends VracForm {
         if (isset($values['cahier_charge']) && $values['cahier_charge']) {
             $this->getObject()->cahier_charge = 1;
         }
+        if (isset($values['type_prix']) && ($values['type_prix'] == 'determine_sans_revision_prix'||$values['type_prix'] == 'determinable')) {
+            if ($this->getObject()->exist('revision_prix_formule')) {
+                $this->getObject()->revision_prix_formule = null;
+            }
+            if ($this->getObject()->exist('revision_prix_frequence')) {
+                $this->getObject()->revision_prix_frequence = null;
+            }
+        }
+        if (isset($values['delai_paiement']) && $values['delai_paiement'] != 'AUTRES') {
+            if ($this->getObject()->exist('delai_paiement_autres')) {
+                $this->getObject()->delai_paiement_autres = null;
+            }
+        }
+        if (isset($values['embouteillage']) && $values['embouteillage'] == 'VENDEUR') {
+            if ($this->getObject()->exist('acheteur_delai_mise')) {
+                $this->getObject()->acheteur_delai_mise = null;
+            }
+        }
+        if (!isset($values['clause_renegociation_prix']) || !$values['clause_renegociation_prix']) {
+            if ($this->getObject()->exist('clause_renegociation_prix_conditions')) {
+                $this->getObject()->clause_renegociation_prix_conditions = null;
+            }
+            if ($this->getObject()->exist('clause_renegociation_prix_delais')) {
+                $this->getObject()->clause_renegociation_prix_delais = null;
+            }
+        }
+        if (!isset($values['contrat_pluriannuel']) || !$values['contrat_pluriannuel']) {
+            if ($this->getObject()->exist('contrat_pluriannuel_duree')) {
+                $this->getObject()->contrat_pluriannuel_duree = null;
+            }
+        }
     }
 
     protected function updateDefaultsFromObject() {
