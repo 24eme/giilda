@@ -38,11 +38,15 @@ class ConfigurationDroit extends BaseConfigurationDroit {
     }
 
     public function getMasterDroit() {
-        return $this->getMasterProduit()->getDroitByType($this->date, $this->code);
+        return $this->getMasterProduit()->getDroitByType($this->date, $this->code, $this->getInterproNoeud()->getKey());
     }
 
     public function getStringTaux($brut = false) {
         return $this->getTaux(true, $brut);
+    }
+
+    public function getInterproNoeud() {
+        return $this->getParent()->getInterpro();
     }
 
 }

@@ -441,6 +441,10 @@ class DRMDetail extends BaseDRMDetail {
                 $mouvement->facturable = 0;
             }
 
+            if($this->getCVOInterpro()) {
+                $mouvement->add('interpro', $this->getCVOInterpro());
+            }
+
             $mouvement->version = $this->getDocument()->getVersion();
             $mouvement->date_version = ($this->getDocument()->valide->date_saisie) ? ($this->getDocument()->valide->date_saisie) : date('Y-m-d');
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE;
@@ -528,8 +532,18 @@ class DRMDetail extends BaseDRMDetail {
         return $this->cvo->taux;
     }
 
+    public function getCVOInterpro() {
+        $this->cvo->calcul();
+
+        if(!$this->cvo->exist('interpro')) {
+            return null;
+        }
+
+        return $this->cvo->interpro;
+    }
+
     public function storeDroits() {
-        $this->cvo->taux = null;
+        $this->cvo->init();
         $this->cvo->calcul();
     }
 

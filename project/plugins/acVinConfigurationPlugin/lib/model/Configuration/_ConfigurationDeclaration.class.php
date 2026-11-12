@@ -80,7 +80,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $dates_droits;
     }
 
-    public function getProduitsAll($interpro = null, $departement = null) {
+    public function getProduitsAll() {
         if (is_null($this->produits_all)) {
             $this->produits_all = array();
             foreach ($this->getChildrenNode() as $key => $item) {
