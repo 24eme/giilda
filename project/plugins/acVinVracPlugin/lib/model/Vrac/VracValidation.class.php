@@ -39,7 +39,12 @@ class VracValidation extends DocumentValidation {
         $this->addControle('erreur', 'label_unique', '');
         $this->addControle('erreur', 'type_vins_produit_non_accepte', 'Type de transaction non autorisé');
         $this->addControle('erreur', 'delai_paiement_autres', 'Vous devez préciser le délai de paiement');
-
+        $this->addControle('erreur', 'revision_prix_obligatoire', 'Vous devez préciser un prix déterminé avec révision pour un contrat de plus de 3 ans');
+        $this->addControle('erreur', 'elements_revision_obligatoire', 'Vous devez préciser tous les éléments de détermination du prix');
+        $this->addControle('erreur', 'acheteur_delai_mise_obligatoire', 'Vous devez préciser le délai de réalisation de la mise par l\'acheteur');
+        $this->addControle('erreur', 'clauses_resiliation_obligatoire', 'Vous devez préciser tous les éléments de la clause de résiliation');
+        $this->addControle('erreur', 'contrat_pluriannuel_duree_obligatoire', 'Vous devez préciser la durée du contrat pluriannuel');
+        $this->addControle('erreur', 'modalites_renegociation_prix_obligatoire', 'Vous devez préciser toutes les modalités de renégociation du prix');
     }
 
     public function controle() {
@@ -104,9 +109,36 @@ class VracValidation extends DocumentValidation {
             $libelles = array_intersect_key(VracConfiguration::getInstance()->getTransactions(true), array_flip($types));
             $this->addPoint('erreur', 'type_vins_produit_non_accepte', 'Transactions autorisés pour '.$this->document->produit_libelle.' : '.implode(', ', $libelles),$this->generateUrl('vrac_soussigne', $this->document));
         }
-
         if ($this->document->exist('delai_paiement_autres') && !$this->document->delai_paiement_autres && $this->document->delai_paiement == 'AUTRES') {
             $this->addPoint('erreur', 'delai_paiement_autres', 'Modifier le délai de paiement', $this->generateUrl('vrac_condition', $this->document));
+        }
+        if ($this->document->exist('contrat_pluriannuel_duree') && $this->document->contrat_pluriannuel_duree >= 3 && $this->document->exist('type_prix') && $this->document->type_prix != 'determine_avec_revision_prix') {
+            $this->addPoint('erreur', 'revision_prix_obligatoire', 'Définir un prix déterminé avec révision', $this->generateUrl('vrac_condition', $this->document));
+        }
+        if ($this->document->exist('type_prix') && $this->document->type_prix == 'determine_avec_revision_prix' && (!$this->document->revision_prix_formule||!$this->document->revision_prix_frequence)) {
+            $this->addPoint('erreur', 'elements_revision_obligatoire', 'Compléter les éléments', $this->generateUrl('vrac_condition', $this->document));
+        }
+        if ($this->document->exist('type_prix') && $this->document->type_prix == 'determinable' && !$this->document->revision_prix_formule) {
+            $this->addPoint('erreur', 'elements_revision_obligatoire', 'Compléter la formule de détermination du prix', $this->generateUrl('vrac_condition', $this->document));
+        }
+        if ($this->document->exist('embouteillage') && $this->document->embouteillage == 'ACHETEUR' && $this->document->exist('acheteur_delai_mise') && !$this->document->acheteur_delai_mise) {
+            $this->addPoint('erreur', 'acheteur_delai_mise_obligatoire', 'Définir un délai de réalisation de la mise', $this->generateUrl('vrac_condition', $this->document));
+        }
+        if (
+            $this->document->exist('resiliation_cas') &&
+            $this->document->exist('resiliation_delai_preavis') &&
+            $this->document->exist('resiliation_indemnite') &&
+            (($this->document->resiliation_cas && (!$this->document->resiliation_delai_preavis||!$this->document->resiliation_indemnite)) ||
+            ($this->document->resiliation_delai_preavis && (!$this->document->resiliation_cas||!$this->document->resiliation_indemnite)) ||
+            ($this->document->resiliation_indemnite && (!$this->document->resiliation_delai_preavis||!$this->document->resiliation_cas)))
+        ) {
+            $this->addPoint('erreur', 'clauses_resiliation_obligatoire', 'Compléter les éléments', $this->generateUrl('vrac_condition', $this->document));
+        }
+        if ($this->document->exist('contrat_pluriannuel_duree') && !$this->document->contrat_pluriannuel_duree && $this->document->exist('contrat_pluriannuel') && $this->document->contrat_pluriannuel) {
+            $this->addPoint('erreur', 'contrat_pluriannuel_duree_obligatoire', 'Définir une durée', $this->generateUrl('vrac_condition', $this->document));
+        }
+        if ($this->document->exist('clause_renegociation_prix') && $this->document->exist('clause_renegociation_prix_conditions') && $this->document->exist('clause_renegociation_prix_delais') && $this->document->clause_renegociation_prix && (!$this->document->clause_renegociation_prix_conditions||!$this->document->clause_renegociation_prix_delais)) {
+            $this->addPoint('erreur', 'modalites_renegociation_prix_obligatoire', 'Compléter les modalités', $this->generateUrl('vrac_condition', $this->document));
         }
     }
 
