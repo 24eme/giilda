@@ -154,7 +154,7 @@ class VracSoussigneForm extends VracForm {
       //  $this->validatorSchema['acheteur_producteur']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
       //  $this->validatorSchema['acheteur_negociant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
 
-        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('soussigne', $this->getObject()->type_transaction));
+        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('soussigne', $this->getObject()->type_transaction, $this->getObject()->produit));
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
 

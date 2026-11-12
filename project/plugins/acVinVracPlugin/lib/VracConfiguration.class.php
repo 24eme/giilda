@@ -79,8 +79,13 @@ class VracConfiguration
 		return $contenances_retour;
 	}
 
-	public function getDelaisPaiement()
+	public function getDelaisPaiement($hashProduit = null)
 	{
+        if ($hashProduit && ($specificites = $this->getSpecificitesProduit($hashProduit))) {
+            if (isset($specificites['delais_paiement']) && !empty($specificites['delais_paiement'])) {
+                return $specificites['delais_paiement'];
+            }
+        }
 		return $this->configuration['delais_paiement'];
 	}
 
@@ -114,10 +119,18 @@ class VracConfiguration
 		return $this->configuration['etapes'];
 	}
 
-	public function getChampsSupprimes($etape, $type_transaction)
+	public function getChampsSupprimes($etape, $type_transaction, $hashProduit = null)
 	{
-		$all = (isset($this->configuration['champs_supprimes'][$etape]) && isset($this->configuration['champs_supprimes'][$etape][self::ALL_KEY]))? $this->configuration['champs_supprimes'][$etape][self::ALL_KEY] : array();
-		$champs = (isset($this->configuration['champs_supprimes'][$etape]) && isset($this->configuration['champs_supprimes'][$etape][$type_transaction]))? $this->configuration['champs_supprimes'][$etape][$type_transaction] : array();
+        if ($hashProduit && ($specificites = $this->getSpecificitesProduit($hashProduit))) {
+            $all = (isset($specificites['champs_supprimes']) && isset($specificites['champs_supprimes'][$etape]) && isset($specificites['champs_supprimes'][$etape][self::ALL_KEY]))? $specificites['champs_supprimes'][$etape][self::ALL_KEY] : array();
+            $champs = (isset($specificites['champs_supprimes']) && isset($specificites['champs_supprimes'][$etape]) && isset($specificites['champs_supprimes'][$etape][$type_transaction]))? $specificites['champs_supprimes'][$etape][$type_transaction] : array();
+        }
+        if (!isset($all)||empty($all)) {
+		    $all = (isset($this->configuration['champs_supprimes'][$etape]) && isset($this->configuration['champs_supprimes'][$etape][self::ALL_KEY]))? $this->configuration['champs_supprimes'][$etape][self::ALL_KEY] : array();
+        }
+        if (!isset($champs)||empty($champs)) {
+		    $champs = (isset($this->configuration['champs_supprimes'][$etape]) && isset($this->configuration['champs_supprimes'][$etape][$type_transaction]))? $this->configuration['champs_supprimes'][$etape][$type_transaction] : array();
+        }
 		return array_merge($all, $champs);
 	}
 	public function getUnites()
@@ -203,5 +216,10 @@ class VracConfiguration
 	public function getSpecificitesProduitHasAmenagementForceMajeur($hashProduit = null)
 	{
         return $this->getSpecificitesProduitValeur('has_amenagement_force_majeur', $hashProduit) == 1;
+	}
+
+	public function getSpecificitesProduitNeedProduitKeeped($hashProduit = null)
+	{
+        return $this->getSpecificitesProduitValeur('need_produit_keeped', $hashProduit) == 1;
 	}
 }

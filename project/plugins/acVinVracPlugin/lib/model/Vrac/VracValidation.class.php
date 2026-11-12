@@ -27,6 +27,7 @@ class VracValidation extends DocumentValidation {
             $this->addControle('vigilance', 'prix_definitif_expected', "Le prix définitif de contrat n'a pas été saisi");
         }
         $this->addControle('vigilance', 'dates_retiraison_visa', 'La date de retiraison ne peut pas être inférieure à la date du contrat');
+        $this->addControle('vigilance', 'acompte_obligatoire', 'Acompte obligatoire de 15% dans les 10 jours suivants la signature du contrat (Article L. 665-3 du Code rural)');
 
         $this->addControle('erreur', 'volume_expected', 'Le volume du contrat est manquant');
         $this->addControle('erreur', 'prix_initial_expected', 'Le prix du contrat est manquant');
@@ -37,6 +38,7 @@ class VracValidation extends DocumentValidation {
         $this->addControle('erreur', 'cepage_autorise', "Cépage non autorisé pour le produit");
         $this->addControle('erreur', 'label_unique', '');
         $this->addControle('erreur', 'type_vins_produit_non_accepte', 'Type de transaction non autorisé');
+        $this->addControle('erreur', 'delai_paiement_autres', 'Vous devez préciser le délai de paiement');
 
     }
 
@@ -86,6 +88,10 @@ class VracValidation extends DocumentValidation {
             $this->addPoint('vigilance', 'dates_retiraison_visa', 'Modifier la date', $this->generateUrl('vrac_condition', $this->document));
         }
 
+        if (!$this->document->exist('acompte') || !$this->document->acompte || round($this->document->acompte, 2) < round(0.15 * $this->document->prix_initial_total, 2)) {
+            $this->addPoint('vigilance', 'acompte_obligatoire', 'Modifier l\'acompte', $this->generateUrl('vrac_condition', $this->document));
+        }
+
         if (!$this->document->isCepageAutorise()) {
             $this->addPoint('erreur', 'cepage_autorise', 'Modifier le cépage', $this->generateUrl('vrac_marche', $this->document));
         }
@@ -97,6 +103,10 @@ class VracValidation extends DocumentValidation {
         if ($types && !in_array($this->document->type_transaction, $types)) {
             $libelles = array_intersect_key(VracConfiguration::getInstance()->getTransactions(true), array_flip($types));
             $this->addPoint('erreur', 'type_vins_produit_non_accepte', 'Transactions autorisés pour '.$this->document->produit_libelle.' : '.implode(', ', $libelles),$this->generateUrl('vrac_soussigne', $this->document));
+        }
+
+        if ($this->document->exist('delai_paiement_autres') && !$this->document->delai_paiement_autres && $this->document->delai_paiement == 'AUTRES') {
+            $this->addPoint('erreur', 'delai_paiement_autres', 'Modifier le délai de paiement', $this->generateUrl('vrac_condition', $this->document));
         }
     }
 
