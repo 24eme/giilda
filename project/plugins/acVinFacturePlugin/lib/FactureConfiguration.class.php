@@ -248,6 +248,23 @@ class FactureConfiguration {
         return isset($conf["multi_interpro_facturables"])? $conf["multi_interpro_facturables"] : false;
     }
 
+    public static function getInterproFacturables() {
+        if(!self::isMultiInterproFacturables()) {
+            return [];
+        }
+
+        $conf = sfConfig::get("facture_configuration_facture", []);
+
+        $interpros = is_array($conf["multi_interpro_facturables"])? $conf["multi_interpro_facturables"] : [];
+
+        if(array_key_exists("DEFAULT", $interpros)) {
+            $interpros[null] = $interpros["DEFAULT"];
+            unset($interpros["DEFAULT"]);
+        }
+
+        return $interpros;
+    }
+
     public function getEcheanceFinDeMois() {
   		return isset($this->configuration['echeance_fin_de_mois']) ? $this->configuration['echeance_fin_de_mois'] : false;
   	}

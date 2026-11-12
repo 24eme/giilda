@@ -12,12 +12,11 @@
 
 <?php if(isset($interpros) && count($interpros)): ?>
 <ul class="nav nav-tabs">
-<?php foreach($interpros as $keyInterpro => $interpro): ?>
-  <li role="presentation" class="<?php echo ($keyInterpro == $interproFacturable) ? "active" : null ?>"><a href="<?php echo url_for('facture', ['interpro' => $keyInterpro]) ?>"><?php echo $interpro ?></a></li>
-<?php endforeach; ?>
+  <?php foreach($interpros as $keyInterpro => $interpro): ?>
+    <li role="presentation" class="<?php echo ($keyInterpro == $interproFacturable) ? "active" : null ?>"><a href="<?php echo url_for('facture', ($keyInterpro ? ['interpro' => $keyInterpro] : [])) ?>"><?php echo $interpro ?></a></li>
+  <?php endforeach; ?>
 </ul>
 <?php endif; ?>
-
 <div class="row">
     <div class="col-xs-12">
         <h2>Génération des factures</h2>

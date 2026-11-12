@@ -18,11 +18,12 @@ use_helper('Float');
       <div class="col-xs-12">
     <ul class="nav nav-tabs">
     <?php foreach($interpros as $keyInterpro => $interpro): ?>
-      <li role="presentation" class="<?php echo ($keyInterpro == $interproFacturable) ? "active" : null ?>"><a href="<?php echo url_for('facture_societe', ['sf_subject' => $societe, 'interpro' => $keyInterpro]) ?>"><?php echo $interpro ?></a></li>
+      <li role="presentation" class="<?php echo ($keyInterpro == $interproFacturable) ? "active" : null ?>"><a href="<?php echo url_for('facture_societe', ($keyInterpro ? ['sf_subject' => $societe, 'interpro' => $keyInterpro] : ['sf_subject' => $societe])) ?>"><?php echo $interpro ?></a></li>
     <?php endforeach; ?>
     </ul>
     </div>
     <?php endif; ?>
+
     <div class="col-xs-12">
         <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures, 'interpro' => $interproFacturable)); ?>
           <?php
