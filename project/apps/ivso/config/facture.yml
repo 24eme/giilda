@@ -25,7 +25,7 @@ all:
       pdf_nom_interpro: "UIVCCL"
       pdf_ordre_cheque: "Union Interprofessionnelle du vin de Cahors et des Côtes du Lot"
       pdf_nom_ref_client: "N°"
-      post_generation: BL
+      post_generation: bin/exportEbpBL.sh
       type_cvo:
         identifiant_prefix: null
       type_libre:

@@ -310,6 +310,13 @@ class FactureConfiguration {
         if (!isset($this->configuration['post_generation'])) {
             return false;
         }
-        return ($this->configuration['post_generation'] == 'BL');
+        return boolval($this->configuration['post_generation']);
+    }
+
+    public function getPostGenerationBLScript() {
+        if (!isset($this->configuration['post_generation'])) {
+            return null;
+        }
+        return $this->configuration['post_generation'];
     }
 }
