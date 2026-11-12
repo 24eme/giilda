@@ -149,11 +149,15 @@ class VracConditionForm extends VracForm {
             $this->setWidget('clause_renegociation_prix_delais', new bsWidgetFormInput());
             $this->setValidator('clause_renegociation_prix_delais', new sfValidatorString(array('required' => false)));
         }
+        if ($this->getObject()->exist('delai_paiement_autres')) {
+            $this->setWidget('delai_paiement_autres', new bsWidgetFormInput());
+            $this->setValidator('delai_paiement_autres', new sfValidatorString(array('required' => false)));
+        }
 
         $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');
         $this->validatorSchema['date_debut_retiraison']->setMessage('required', 'La date de début de retiraison doit être renseignée.');
 
-        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('condition', $this->getObject()->type_transaction));
+        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('condition', $this->getObject()->type_transaction, $this->getObject()->produit));
 
         if (!$this->getObject()->mandataire_exist) {
             unset($this['courtage_taux'], $this['courtage_repartition']);
@@ -162,7 +166,7 @@ class VracConditionForm extends VracForm {
     }
 
     public function getDelaiPaiement() {
-        return VracConfiguration::getInstance()->getDelaisPaiement();
+        return VracConfiguration::getInstance()->getDelaisPaiement($this->getObject()->produit);
     }
 
     public function getMoyenPaiement() {
@@ -217,6 +221,37 @@ class VracConditionForm extends VracForm {
         if (isset($values['cahier_charge']) && $values['cahier_charge']) {
             $this->getObject()->cahier_charge = 1;
         }
+        if (isset($values['type_prix']) && ($values['type_prix'] == 'determine_sans_revision_prix'||$values['type_prix'] == 'determinable')) {
+            if ($this->getObject()->exist('revision_prix_formule')) {
+                $this->getObject()->revision_prix_formule = null;
+            }
+            if ($this->getObject()->exist('revision_prix_frequence')) {
+                $this->getObject()->revision_prix_frequence = null;
+            }
+        }
+        if (isset($values['delai_paiement']) && $values['delai_paiement'] != 'AUTRES') {
+            if ($this->getObject()->exist('delai_paiement_autres')) {
+                $this->getObject()->delai_paiement_autres = null;
+            }
+        }
+        if (isset($values['embouteillage']) && $values['embouteillage'] == 'VENDEUR') {
+            if ($this->getObject()->exist('acheteur_delai_mise')) {
+                $this->getObject()->acheteur_delai_mise = null;
+            }
+        }
+        if (!isset($values['clause_renegociation_prix']) || !$values['clause_renegociation_prix']) {
+            if ($this->getObject()->exist('clause_renegociation_prix_conditions')) {
+                $this->getObject()->clause_renegociation_prix_conditions = null;
+            }
+            if ($this->getObject()->exist('clause_renegociation_prix_delais')) {
+                $this->getObject()->clause_renegociation_prix_delais = null;
+            }
+        }
+        if (!isset($values['contrat_pluriannuel']) || !$values['contrat_pluriannuel']) {
+            if ($this->getObject()->exist('contrat_pluriannuel_duree')) {
+                $this->getObject()->contrat_pluriannuel_duree = null;
+            }
+        }
     }
 
     protected function updateDefaultsFromObject() {
@@ -258,7 +293,9 @@ class VracConditionForm extends VracForm {
         }
         if(is_null($this->getObject()->courtage_repartition)){
              $this->setDefault('courtage_repartition','ACHETEUR' );
-
+        }
+        if ($this->getObject()->exist('type_prix') && is_null($this->getObject()->type_prix)) {
+             $this->setDefault('type_prix','determine_sans_revision_prix');
         }
     }
 

@@ -288,6 +288,7 @@ DRM:
                                                                                                                 fields:
                                                                                                                   taux: { type: float }
                                                                                                                   volume_taxable: { type: float }
+                                                                                                                  interpro: { required: false }
                                                                                                             stocks_debut:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud

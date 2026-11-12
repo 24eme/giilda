@@ -106,11 +106,15 @@ class VracMarcheForm extends VracForm {
         $this->validatorSchema['degre']->setMessage('min', '7° minimum');
         $this->validatorSchema['degre']->setMessage('max', '15° maximum');
 
-        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('marche', $this->getObject()->type_transaction));
+        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('marche', $this->getObject()->type_transaction, $this->getObject()->produit));
 
         if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS))) {
 
             $this->setWidget('millesime', new sfWidgetFormInputHidden());
+        }
+
+        if ($this->getObject()->produit && VracConfiguration::getInstance()->getSpecificitesProduitNeedProduitKeeped($this->getObject()->produit)) {
+            unset($this['produit']);
         }
 
         $this->widgetSchema->setNameFormat('vrac[%s]');

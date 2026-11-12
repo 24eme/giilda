@@ -4,7 +4,7 @@ class factureActions extends sfActions {
 
     private function getInterproFacturable(sfWebRequest $request) {
         if ($this->getUser()->hasCredential(AppUser::CREDENTIAL_ADMIN) && FactureConfiguration::isMultiInterproFacturables()) {
-            $this->interpros = [];
+            $this->interpros = FactureConfiguration::getInterproFacturables();
             $interpro = $request->getParameter('interpro', method_exists($this->getUser()->getCompte(), 'getInterproFacturable') ? $this->getUser()->getCompte()->getInterproFacturable() : null);
             if(!$interpro) {
                 $interpro = null;
@@ -157,10 +157,10 @@ class factureActions extends sfActions {
         ini_set('memory_limit', '256M');
 
         $this->societe = $this->getRoute()->getSociete();
-        $interproFacturable = $this->getInterproFacturable($request);
+        $this->interproFacturable = $this->getInterproFacturable($request);
         $this->values = array();
 
-        $this->form = ($interproFacturable)? new FactureGenerationForm(['interpro' => $interproFacturable]) : new FactureGenerationForm();
+        $this->form = ($this->interproFacturable)? new FactureGenerationForm(['interpro' => $this->interproFacturable]) : new FactureGenerationForm();
         if (!$request->isMethod(sfWebRequest::POST)) {
 
             return sfView::SUCCESS;
@@ -178,7 +178,7 @@ class factureActions extends sfActions {
 
         if(!$f) {
 
-            return $this->redirect('facture_societe', ['sf_subject' => $this->societe, 'interpro' => $interproFacturable]);
+            return $this->redirect('facture_societe', ['sf_subject' => $this->societe, 'interpro' => $this->interproFacturable]);
 
         }
 
@@ -187,7 +187,7 @@ class factureActions extends sfActions {
         $generation = FactureClient::getInstance()->createGenerationForOneFacture($f);
         $generation->save();
 
-        return $this->redirect('facture_societe', ['sf_subject' => $this->societe, 'interpro' => $interproFacturable]);
+        return $this->redirect('facture_societe', ['sf_subject' => $this->societe, 'interpro' => $this->interproFacturable]);
     }
 
     public function executeDefacturer(sfWebRequest $resquest) {

@@ -295,6 +295,13 @@ class Vrac extends BaseVrac {
         return $this->getDate('date_debut_retiraison', $format);
     }
 
+    public function getDateAgreage($format = 'Y-m-d') {
+        if (!$this->exist('date_agreage')) {
+            return null;
+        }
+        return $this->getDate('date_agreage', $format);
+    }
+
     public function setDateSignature($d) {
         return $this->setDate('date_signature', $d);
     }
@@ -306,7 +313,7 @@ class Vrac extends BaseVrac {
 
     public function setDelaiPaiement($value) {
         $this->_set('delai_paiement', $value);
-        $a = VracConfiguration::getInstance()->getDelaisPaiement();
+        $a = VracConfiguration::getInstance()->getDelaisPaiement($this->produit);
         if (isset($a[$value])) {
             $this->delai_paiement_libelle = $a[$value];
         }

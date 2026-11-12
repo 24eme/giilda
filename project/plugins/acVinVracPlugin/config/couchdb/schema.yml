@@ -22,6 +22,7 @@ Vrac:
       degre: { type: float }
       delai_paiement: { }
       delai_paiement_libelle: { }
+      delai_paiement_autres: { required: false }
       moyen_paiement: { }
       moyen_paiement_libelle: { }
       type_prix: { required: false }
