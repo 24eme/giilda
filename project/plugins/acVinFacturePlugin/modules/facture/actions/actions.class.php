@@ -4,13 +4,18 @@ class factureActions extends sfActions {
 
     private function getInterproFacturable(sfWebRequest $request) {
         if ($this->getUser()->hasCredential(AppUser::CREDENTIAL_ADMIN) && FactureConfiguration::isMultiInterproFacturables()) {
-            $this->interpros = [];
+            $this->interpros = FactureConfiguration::getInterproFacturables();
             $interpro = $request->getParameter('interpro', method_exists($this->getUser()->getCompte(), 'getInterproFacturable') ? $this->getUser()->getCompte()->getInterproFacturable() : null);
             if(!$interpro) {
                 $interpro = null;
             }
             return $interpro;
         }
+
+        if (!$this->getUser()->hasCredential(AppUser::CREDENTIAL_ADMIN) && $this->getUser()->hasCredential(AppUser::CREDENTIAL_FACTURE) && FactureConfiguration::isMultiInterproFacturables() && $this->getUser()->getCompte()->getDroitValue('facture')) {
+            return $this->getUser()->getCompte()->getDroitValue('facture');
+        }
+
         return null;
     }
 
@@ -138,10 +143,11 @@ class factureActions extends sfActions {
     }
 
     public function executeEtablissement(sfWebRequest $request) {
+        $this->interproFacturable = $this->getInterproFacturable($request);
         if (!$this->getRoute()->getEtablissement()->getSociete()) {
             throw new Exception('Pas de sociéte pour l\'etablissement : '.$this->getRoute()->getEtablissement()->_id);
         }
-        return $this->redirect('facture_societe', $this->getRoute()->getEtablissement()->getSociete());
+        return $this->redirect('facture_societe', ['sf_subject' => $this->getRoute()->getEtablissement()->getSociete(), 'interpro' => $this->interproFacturable]);
     }
 
     public function executeMonEspace(sfWebRequest $request) {
@@ -157,10 +163,10 @@ class factureActions extends sfActions {
         ini_set('memory_limit', '256M');
 
         $this->societe = $this->getRoute()->getSociete();
-        $interproFacturable = $this->getInterproFacturable($request);
+        $this->interproFacturable = $this->getInterproFacturable($request);
         $this->values = array();
 
-        $this->form = ($interproFacturable)? new FactureGenerationForm(['interpro' => $interproFacturable]) : new FactureGenerationForm();
+        $this->form = ($this->interproFacturable)? new FactureGenerationForm(['interpro' => $this->interproFacturable]) : new FactureGenerationForm();
         if (!$request->isMethod(sfWebRequest::POST)) {
 
             return sfView::SUCCESS;
@@ -178,7 +184,7 @@ class factureActions extends sfActions {
 
         if(!$f) {
 
-            return $this->redirect('facture_societe', ['sf_subject' => $this->societe, 'interpro' => $interproFacturable]);
+            return $this->redirect('facture_societe', ['sf_subject' => $this->societe, 'interpro' => $this->interproFacturable]);
 
         }
 
@@ -187,7 +193,7 @@ class factureActions extends sfActions {
         $generation = FactureClient::getInstance()->createGenerationForOneFacture($f);
         $generation->save();
 
-        return $this->redirect('facture_societe', ['sf_subject' => $this->societe, 'interpro' => $interproFacturable]);
+        return $this->redirect('facture_societe', ['sf_subject' => $this->societe, 'interpro' => $this->interproFacturable]);
     }
 
     public function executeDefacturer(sfWebRequest $resquest) {
@@ -318,13 +324,13 @@ class factureActions extends sfActions {
 
     public function executeAttente(sfWebRequest $request)
     {
-        $interpro = $this->getInterproFacturable($request);
+        $this->interpro = $this->getInterproFacturable($request);
         $this->mvtsVersionnes = $request->getParameter('versionnes');
         $this->onlyMvtsNextFacturation = $request->getParameter('only_mvts_next_facturation');
         $this->onlyVersionnesFactures = $request->getParameter('only_versionnes_factures');
         $this->withDetails = $request->getParameter('details', false);
 
-        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($interpro, sfConfig::get('app_facturation_region'));
+        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->interpro, sfConfig::get('app_facturation_region'));
 
         $this->mouvements = [];
         $montant_ht_total_en_attente = [];
@@ -348,7 +354,7 @@ class factureActions extends sfActions {
 
         if ($this->onlyMvtsNextFacturation) {
             foreach($montant_ht_total_en_attente as $etabId => $montantHtTotal) {
-                if (round($montantHtTotal*1.2, 2) < round(FactureConfiguration::getInstance($interpro)->getSeuilMinimum(),2)) {
+                if (round($montantHtTotal*1.2, 2) < round(FactureConfiguration::getInstance($this->interpro)->getSeuilMinimum(),2)) {
                     unset($this->mouvements[$etabId]);
                 }
             }

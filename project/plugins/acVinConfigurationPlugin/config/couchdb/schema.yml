@@ -634,6 +634,7 @@ Configuration:
                                                                               taux: {  }
                                                                               code: {  }
                                                                               libelle: {  }
+                                                                              interpro: { required : false }
                                                 departements:
                                                   type: array_collection
                                                   definition:

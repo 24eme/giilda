@@ -1,12 +1,4 @@
-all:
-  is_secure: false
-
-home:
-  is_secure: true
-
-deconnexionUsurpation:
-  is_secure: true
-  credentials: [[teledeclaration_drm, teledeclaration_vrac]]
-
 logout:
+  is_secure: false
+forbidden:
   is_secure: false

@@ -93,6 +93,9 @@ class AnnuaireClient extends acCouchdbClient {
     public function findSocieteByTypeAndTiers($type, $identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         $societe = SocieteClient::getInstance()->find($identifiant);
         if (!$societe) {
+            if ($etablissement = EtablissementClient::getInstance()->findAny($identifiant)) {
+                return $etablissement->getSociete();
+            }
             return null;
         }
         if (!$societe->isActif()) {

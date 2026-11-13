@@ -16,9 +16,17 @@ class generationActions extends sfActions {
   public function executeView(sfWebRequest $request) {
       $this->generation = $this->getGenerationFromRequest($request);
       $this->retour = $request->getParameter('retour',false);
+      $this->interpro = $request->getParameter('interpro');
       $this->type_generation = $this->generation->type_document;
       $this->sous_generations_conf = [];
-      $this->backUrl = ($this->retour)? $this->retour : $this->generateUrl('facture');
+      if ($this->retour) {
+          $this->backUrl = $this->retour;
+      } else {
+          $this->backUrl = $this->generateUrl('facture');
+          if ($this->interpro) {
+              $this->backUrl .= '?interpro='.$this->interpro;
+          }
+      }
 
       if ($this->generation->statut === GenerationClient::GENERATION_STATUT_GENERE &&
           GenerationConfiguration::getInstance()->hasSousGeneration($this->type_generation))

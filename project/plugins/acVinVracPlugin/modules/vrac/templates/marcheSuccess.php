@@ -35,18 +35,24 @@ $etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrinci
                             <?php if (isset($form['millesime'])): ?><?php echo $form['millesime']->renderError(); ?><?php endif; ?>
                               <div class="form-group">
                                 <?php if (isset($form['produit'])): ?>
-
-                                      <div class="col-xs-7 <?php if ($form['produit']->hasError()): ?>has-error<?php endif; ?>">
-                                        <div class="row">
-                                          <div class="col-xs-1 pull-right">
-                                            <?php echo getPointAideHtml('vrac','marche_selection_produit'); ?>
-                                          </div>
-                                          <div class="col-xs-11" >
-                                            <?php echo $form['produit']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un produit', 'tabindex' => '0', 'autofocus' => 'autofocus')); ?>
-                                          </div>
-                                        </div>
+                                  <div class="col-xs-7 <?php if ($form['produit']->hasError()): ?>has-error<?php endif; ?>">
+                                    <div class="row">
+                                      <div class="col-xs-1 pull-right">
+                                        <?php echo getPointAideHtml('vrac','marche_selection_produit'); ?>
                                       </div>
-
+                                      <div class="col-xs-11" >
+                                        <?php echo $form['produit']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un produit', 'tabindex' => '0', 'autofocus' => 'autofocus')); ?>
+                                      </div>
+                                    </div>
+                                  </div>
+                                <?php elseif ($form->getObject()->produit): ?>
+                                  <div class="col-xs-7">
+                                    <div class="row">
+                                      <div class="col-xs-12" style="padding-top: 8px;">
+                                        <strong><?php echo $form->getObject()->produit_libelle; ?></strong>
+                                      </div>
+                                    </div>
+                                  </div>
                                 <?php endif; ?>
 
                                 <?php if (isset($form['millesime'])): ?>

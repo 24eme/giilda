@@ -56,11 +56,11 @@ EOF;
             continue;
         }
 
-        $societe->add('interpros_metas')->add('INTERPRO-UIVC')->remove('code_comptable');
-        $societe->add('interpros_metas')->add('INTERPRO-UIVC')->remove('code_comptable_client');
-        $societe->add('interpros_metas')->add('INTERPRO-UIVC')->remove('numero_adherant');
-        $societe->add('interpros_metas')->add('INTERPRO-UIVC')->add('numero_adherent', $data[0]);
-        $societe->add('interpros_metas')->add('INTERPRO-UIVC')->add('code_comptable_client', $data[6]);
+        $societe->add('interpros_metas')->add('INTERPRO-UIVCCL')->remove('code_comptable');
+        $societe->add('interpros_metas')->add('INTERPRO-UIVCCL')->remove('code_comptable_client');
+        $societe->add('interpros_metas')->add('INTERPRO-UIVCCL')->remove('numero_adherant');
+        $societe->add('interpros_metas')->add('INTERPRO-UIVCCL')->add('numero_adherent', $data[0]);
+        $societe->add('interpros_metas')->add('INTERPRO-UIVCCL')->add('code_comptable_client', $data[6]);
         $societe->save();
     }
   }

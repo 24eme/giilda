@@ -12,7 +12,7 @@ all:
       pdf_display_code_comptable: true
       echeance: "+30 days"
       export_shell: "%sf_root_dir%/bin/exportSage.sh"
-      multi_interpro_facturables: true
+      multi_interpro_facturables: { "": "IVSO", INTERPRO-UIVCCL: "UIVCCL" }
       pdf_nom_interpro: "IVSO"
       pdf_ordre_cheque: "Interprofession des Vins du Sud Ouest"
       type_cvo:
@@ -20,12 +20,11 @@ all:
       type_libre:
         identifiant_prefix: "L"
       pdf_nom_ref_client: "N° IVSO"
-    facture-interpro-ivso:
-    facture-interpro-uivc:
-      pdf_nom_interpro: "UIVC"
-      pdf_ordre_cheque: "Union Interprofessionnelle du vin de Cahors"
+    facture-interpro-uivccl:
+      pdf_nom_interpro: "UIVCCL"
+      pdf_ordre_cheque: "Union Interprofessionnelle du vin de Cahors et des Côtes du Lot"
       pdf_nom_ref_client: "N°"
-      post_generation: BL
+      post_generation: bin/exportEbpBL.sh
       type_cvo:
         identifiant_prefix: null
       type_libre:

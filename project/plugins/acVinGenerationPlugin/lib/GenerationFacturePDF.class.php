@@ -116,9 +116,14 @@ class GenerationFacturePDF extends GenerationPDF {
             $interpro = $arguments['interpro'];
         }
 
-        if (!FactureConfiguration::getInstance($interpro)->hasPostGenerationBL()  || !file_exists(sfConfig::get('sf_root_dir').'/bin/postGenerationFacturePDF.sh') )
+        if (!FactureConfiguration::getInstance($interpro)->hasPostGenerationBL()) {
             return false;
-        exec(sfConfig::get('sf_root_dir').'/bin/postGenerationFacturePDF.sh', $generatedFiles);
+        }
+
+        if(!file_exists(sfConfig::get('sf_root_dir')."/".FactureConfiguration::getInstance($interpro)->getPostGenerationBLScript())) {
+            throw new Exception("Script doesn't exist");
+        }
+        exec("cd ".sfConfig::get('sf_root_dir')." && bash ".FactureConfiguration::getInstance($interpro)->getPostGenerationBLScript(), $generatedFiles);
         foreach($generatedFiles as $file) {
             $names = explode('|', $file);
             $this->generation->add('fichiers')->add($this->publishFile($names[0], $this->generation->date_emission.'-'.$names[1], ''), $names[2]);

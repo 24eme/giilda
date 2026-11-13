@@ -4,13 +4,14 @@
 <?php include_partial('facture/preTemplate'); ?>
 
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('facture') ?>">Factures</a></li>
+    <li><a href="<?php echo url_for('facture') ?><?php if($interpro): ?>?interpro=<?php echo $interpro ?><?php endif; ?>">Factures</a></li>
     <li class="active">En attente</li>
 </ol>
 
 <h2>Mouvements de facturation en attente<?php if($mvtsVersionnes): ?> issus de rectificatives<?php endif; ?></h2>
 
 <form action="<?php echo url_for('facture_en_attente') ?>" method="get">
+    <?php if($interpro): ?><input type="hidden" name="interpro" value="<?php echo $interpro ?>" /><?php endif; ?>
     <input type="hidden" name="versionnes" value="<?php echo $mvtsVersionnes ?>" />
     <input type="hidden" name="details" value="<?php echo $withDetails ?>" />
     <div class="checkbox">
@@ -27,7 +28,7 @@
 
 <h4 class="page-header"><?php echo count($mouvements) ?> opérateurs avec des mouvements en attente</h4>
 
-<a href="<?php echo url_for('facture_en_attente', array('csv' => 1, 'versionnes' => $mvtsVersionnes, 'only_mvts_next_facturation' => $onlyMvtsNextFacturation, 'only_versionnes_factures' => $onlyVersionnesFactures)) ?>" class="btn btn-link pull-right"><span class="glyphicon glyphicon-download-alt"></span> CSV</a>
+<a href="<?php echo url_for('facture_en_attente', array('interpro' => $interpro, 'csv' => 1, 'versionnes' => $mvtsVersionnes, 'only_mvts_next_facturation' => $onlyMvtsNextFacturation, 'only_versionnes_factures' => $onlyVersionnesFactures)) ?>" class="btn btn-link pull-right"><span class="glyphicon glyphicon-download-alt"></span> CSV</a>
 
     <table class="table table-striped table-condensed">
       <thead>
@@ -39,7 +40,7 @@
             <tr>
                 <td colspan="3" title="<?php echo $id ?>"><?php echo $etablissement->raison_sociale ?> <small class="text-muted"><?php echo $etablissement->famille; ?></small></td>
                 <td colspan="3">
-                    <a href="<?php echo url_for('facture_etablissement', ['identifiant' => $id]) ?>" class="btn btn-xs btn-default pull-right">
+                    <a href="<?php echo url_for('facture_etablissement', ['identifiant' => $id, 'interpro' => $interpro]) ?>" class="btn btn-xs btn-default pull-right">
                         <?php if($withDetails): ?>
                         Voir l'espace facture
                         <?php else: ?>

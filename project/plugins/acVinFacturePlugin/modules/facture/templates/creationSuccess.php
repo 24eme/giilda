@@ -13,6 +13,15 @@ use_helper('Float');
     <div class="col-xs-12" id="formEtablissementChoice">
         <?php include_component('facture', 'chooseSociete', array('identifiant' => $societe->identifiant)); ?>
     </div>
+    <?php if(isset($interpros) && count($interpros)): ?>
+      <div class="col-xs-12">
+    <ul class="nav nav-tabs">
+    <?php foreach($interpros as $keyInterpro => $interpro): ?>
+      <li role="presentation" class="<?php echo ($keyInterpro == $interproFacturable) ? "active" : null ?>"><a href="<?php echo url_for('facture_creation', ($keyInterpro ? ['sf_subject' => $societe, 'interpro' => $keyInterpro] : ['sf_subject' => $societe])) ?>"><?php echo $interpro ?></a></li>
+    <?php endforeach; ?>
+    </ul>
+    </div>
+    <?php endif; ?>
     <div class="col-xs-12">
         <h2>Génération de facture</h2>
         <?php if ($sf_user->hasFlash('notice')): ?>
