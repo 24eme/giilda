@@ -138,10 +138,11 @@ class factureActions extends sfActions {
     }
 
     public function executeEtablissement(sfWebRequest $request) {
+        $this->interproFacturable = $this->getInterproFacturable($request);
         if (!$this->getRoute()->getEtablissement()->getSociete()) {
             throw new Exception('Pas de sociéte pour l\'etablissement : '.$this->getRoute()->getEtablissement()->_id);
         }
-        return $this->redirect('facture_societe', $this->getRoute()->getEtablissement()->getSociete());
+        return $this->redirect('facture_societe', ['sf_subject' => $this->getRoute()->getEtablissement()->getSociete(), 'interpro' => $this->interproFacturable]);
     }
 
     public function executeMonEspace(sfWebRequest $request) {
@@ -318,13 +319,13 @@ class factureActions extends sfActions {
 
     public function executeAttente(sfWebRequest $request)
     {
-        $interpro = $this->getInterproFacturable($request);
+        $this->interpro = $this->getInterproFacturable($request);
         $this->mvtsVersionnes = $request->getParameter('versionnes');
         $this->onlyMvtsNextFacturation = $request->getParameter('only_mvts_next_facturation');
         $this->onlyVersionnesFactures = $request->getParameter('only_versionnes_factures');
         $this->withDetails = $request->getParameter('details', false);
 
-        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($interpro, sfConfig::get('app_facturation_region'));
+        $mouvements_en_attente = MouvementfactureFacturationView::getInstance()->getMouvementsEnAttente($this->interpro, sfConfig::get('app_facturation_region'));
 
         $this->mouvements = [];
         $montant_ht_total_en_attente = [];
@@ -348,7 +349,7 @@ class factureActions extends sfActions {
 
         if ($this->onlyMvtsNextFacturation) {
             foreach($montant_ht_total_en_attente as $etabId => $montantHtTotal) {
-                if (round($montantHtTotal*1.2, 2) < round(FactureConfiguration::getInstance($interpro)->getSeuilMinimum(),2)) {
+                if (round($montantHtTotal*1.2, 2) < round(FactureConfiguration::getInstance($this->interpro)->getSeuilMinimum(),2)) {
                     unset($this->mouvements[$etabId]);
                 }
             }
