@@ -11,6 +11,11 @@ class factureActions extends sfActions {
             }
             return $interpro;
         }
+
+        if (!$this->getUser()->hasCredential(AppUser::CREDENTIAL_ADMIN) && $this->getUser()->hasCredential(AppUser::CREDENTIAL_FACTURE) && FactureConfiguration::isMultiInterproFacturables() && $this->getUser()->getCompte()->getDroitValue('facture')) {
+            return $this->getUser()->getCompte()->getDroitValue('facture');
+        }
+
         return null;
     }
 
