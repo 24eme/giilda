@@ -194,6 +194,7 @@ class VracConfiguration
 	public function getSpecificitesProduit($hashProduit = null)
 	{
         if (!$hashProduit) return [];
+        $hashProduit = $this->getAppellationHashFromProduitHash($hashProduit);
 		return (isset($this->configuration['specifites_produit']) && !empty($this->configuration['specifites_produit'][$hashProduit]))? $this->configuration['specifites_produit'][$hashProduit] : [];
 	}
 
@@ -222,4 +223,9 @@ class VracConfiguration
 	{
         return $this->getSpecificitesProduitValeur('need_produit_keeped', $hashProduit) == 1;
 	}
+
+    private function getAppellationHashFromProduitHash($hash) {
+        $pos = strpos($hash, '/mentions/');
+        return ($pos !== false) ? substr($hash, 0, $pos) : $hash;
+    }
 }
