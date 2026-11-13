@@ -100,6 +100,16 @@
        ));
 	endif;
 
+  if (!$sf_user->hasCredential('transactions') && $sf_user->hasCredential(Roles::FACTURE)):
+    include_component('common', 'navItem', array(
+          'libelle' => 'Factures',
+          'prefix' => 'facture',
+          'route' => 'facture',
+          'route_etablissement' => ($etablissement) ? 'facture_etablissement' : 'facture_societe',
+          'etablissement' => ($etablissement) ? $etablissement : $societe,
+          'target' => '_self'
+    ));
+  endif;
 ?>
 <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
 <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION_VRAC)):

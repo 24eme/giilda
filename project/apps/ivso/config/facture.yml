@@ -20,7 +20,6 @@ all:
       type_libre:
         identifiant_prefix: "L"
       pdf_nom_ref_client: "N° IVSO"
-    facture-interpro-ivso:
     facture-interpro-uivccl:
       pdf_nom_interpro: "UIVCCL"
       pdf_ordre_cheque: "Union Interprofessionnelle du vin de Cahors et des Côtes du Lot"
