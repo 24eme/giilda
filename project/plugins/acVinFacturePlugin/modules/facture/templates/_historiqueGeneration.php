@@ -3,7 +3,7 @@
         <h3>10 dernières générations <small>(<a href="<?php echo url_for('generation_list', array('type_document' => array(GenerationClient::TYPE_DOCUMENT_FACTURES, GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL, GenerationClient::TYPE_DOCUMENT_EXPORT_RELANCES, GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX), 'limite' => 1000, 'interpro' => $interproFacturable)); ?>">voir tout</a>)</small></h3>
 
         <?php if (count($generations) > 0): ?>
-            <?php include_partial('generation/list', array('generations' => $generations)) ?>
+            <?php include_partial('generation/list', array('generations' => $generations, 'interpro' => $interproFacturable)) ?>
         <?php else : ?>
             <p>Aucune génération de facture</p>
         <?php endif; ?>

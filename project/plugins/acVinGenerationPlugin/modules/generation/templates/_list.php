@@ -15,7 +15,7 @@
         <?php foreach ($generations as $generation): ?>
             <?php $documents = $generation->value[GenerationClient::HISTORY_VALUES_DOCUMENTS]; ?>
             <tr>
-                <td><?php echo link_to("n° ". $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'generation_view', array('type_document' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT], 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])); ?></td>
+                <td><?php echo link_to("n° ". $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'generation_view', array('type_document' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT], 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'interpro' => $interpro)); ?></td>
                 <td>
                     <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION]); ?>
                 </td>
@@ -26,7 +26,7 @@
                     echoFloat($generation->value[GenerationClient::HISTORY_VALUES_SOMME]);
                     ?>&nbsp;€ HT<?php endif; ?>
                 </td>
-                <td class="text-center"><a href="<?php echo url_for('generation_view', array('type_document' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT], 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])) ?>" class="btn btn-xs btn-<?php echo statutToCssClass($generation->value[GenerationClient::HISTORY_VALUES_STATUT]) ?>"><?php echo statutToLibelle($generation->value[GenerationClient::HISTORY_VALUES_STATUT]); ?></a></td>
+                <td class="text-center"><a href="<?php echo url_for('generation_view', array('type_document' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT], 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'interpro' => $interpro)) ?>" class="btn btn-xs btn-<?php echo statutToCssClass($generation->value[GenerationClient::HISTORY_VALUES_STATUT]) ?>"><?php echo statutToLibelle($generation->value[GenerationClient::HISTORY_VALUES_STATUT]); ?></a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
