@@ -24,6 +24,10 @@ class commonActions extends sfActions {
             return $this->redirect('drm');
         }
 
+        if ($this->getUser()->hasCredential('facture')) {
+            return $this->redirect('facture');
+        }
+
         if (!$this->getUser()->hasCredential('operateur')) {
 
             return $this->redirectWithCredentials($this->getUser()->getCompte()->identifiant);

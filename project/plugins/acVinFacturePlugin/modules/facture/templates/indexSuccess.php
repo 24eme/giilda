@@ -4,11 +4,13 @@
     <li class="active"><a href="<?php echo url_for('facture') ?>">Factures</a></li>
 </ol>
 
+<?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
 <div class="row">
     <div class="col-xs-12" id="formEtablissementChoice">
         <?php include_component('facture', 'chooseSociete'); ?>
     </div>
 </div>
+<?php endif; ?>
 
 <?php if(isset($interpros) && count($interpros)): ?>
 <ul class="nav nav-tabs">
