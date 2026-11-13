@@ -31,6 +31,7 @@
     </div>
 </div>
 
+<?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
 <hr />
 
 <div class="row">
@@ -39,5 +40,6 @@
         <a href="<?php echo url_for('facture_mouvements', ['interpro' => $interproFacturable]); ?>" class="btn btn-md btn-default">Créer des mouvements de facturation libre</a>
     </div>
 </div>
+<?php endif; ?>
 
 <?php include_partial('facture/postTemplate'); ?>
