@@ -30,4 +30,4 @@ all:
       type_libre:
         identifiant_prefix: null
       export_shell: null
-    facture-interpro-uivccl-cahors: *config_facture_uivccl
+    facture-interpro-uivccl-cdl: *config_facture_uivccl
