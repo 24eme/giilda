@@ -248,7 +248,7 @@ class FactureConfiguration {
         return isset($conf["multi_interpro_facturables"])? $conf["multi_interpro_facturables"] : false;
     }
 
-    public static function getInterproFacturables() {
+    public static function getInterproFacturables($filter = null) {
         if(!self::isMultiInterproFacturables()) {
             return [];
         }
@@ -257,9 +257,10 @@ class FactureConfiguration {
 
         $interpros = is_array($conf["multi_interpro_facturables"])? $conf["multi_interpro_facturables"] : [];
 
-        if(array_key_exists("DEFAULT", $interpros)) {
-            $interpros[null] = $interpros["DEFAULT"];
-            unset($interpros["DEFAULT"]);
+        if($filter) {
+            $interpros = array_filter($interpros, function($k) use($filter) {
+                return strpos($k, $filter) === 0;
+            }, ARRAY_FILTER_USE_KEY);
         }
 
         return $interpros;
