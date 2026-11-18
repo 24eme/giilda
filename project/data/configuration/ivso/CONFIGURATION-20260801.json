@@ -1298,7 +1298,7 @@
                           "taux": "4.48",
                           "code": "CVO",
                           "libelle": "Cvo",
-                          "interpro": "INTERPRO-UIVCCL"
+                          "interpro": "INTERPRO-UIVCCL-CAHORS"
                         }
                       ]
                     }
@@ -12783,7 +12783,7 @@
                           "taux": "0.78",
                           "code": "CVO",
                           "libelle": "Cvo",
-                          "interpro": "INTERPRO-UIVCCL"
+                          "interpro": "INTERPRO-UIVCCL-CDL"
                         }
                       ]
                     },
