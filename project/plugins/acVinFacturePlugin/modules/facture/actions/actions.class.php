@@ -379,10 +379,13 @@ class factureActions extends sfActions {
         }
 
         if ($request->getParameter('csv')) {
-            $csv_file = "Id etablissement;DRM;Date mvt;Produit;Type mvt;Detail mvt;Volume;Prix;Id Origine\n";
-            foreach($this->mouvements as $mouvements) {
+            $csv_file = "Id etablissement;Nom établissement;Famille;Période;Date mvt;Produit;Type mvt;Detail mvt;Volume;Prix;Id Origine\n";
+            foreach($this->mouvements as $id => $mouvements) {
+                $etablissement = EtablissementClient::getInstance()->retrieveById($id, acCouchdbClient::HYDRATE_JSON);
                 foreach($mouvements as $mouvement) {
                     $csv_file .= $mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID].';';
+                    $csv_file .= '"'.$etablissement->raison_sociale.'";';
+                    $csv_file .= $etablissement->famille.';';
                     $csv_file .= $mouvement->key[MouvementfactureFacturationView::KEYS_PERIODE].';';
                     $csv_file .= $mouvement->key[MouvementfactureFacturationView::KEYS_DATE].';';
                     $csv_file .= $mouvement->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE].';';
