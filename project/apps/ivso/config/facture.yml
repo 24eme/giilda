@@ -20,14 +20,23 @@ all:
       type_libre:
         identifiant_prefix: "L"
       pdf_nom_ref_client: "N° IVSO"
-    facture-interpro-uivccl-cahors: &config_facture_uivccl
+    facture-interpro-uivccl-cahors:
       pdf_nom_interpro: "UIVCCL"
       pdf_ordre_cheque: "Union Interprofessionnelle du vin de Cahors et des Côtes du Lot"
       pdf_nom_ref_client: "N°"
       post_generation: bin/exportEbpBL.sh
       type_cvo:
-        identifiant_prefix: null
+        identifiant_prefix: "CAH"
       type_libre:
-        identifiant_prefix: null
+        identifiant_prefix: "CAH"
       export_shell: null
-    facture-interpro-uivccl-cdl: *config_facture_uivccl
+    facture-interpro-uivccl-cdl:
+      pdf_nom_interpro: "UIVCCL"
+      pdf_ordre_cheque: "Union Interprofessionnelle du vin de Cahors et des Côtes du Lot"
+      pdf_nom_ref_client: "N°"
+      post_generation: bin/exportEbpBL.sh
+      type_cvo:
+        identifiant_prefix: "CDL"
+      type_libre:
+        identifiant_prefix: "CDL"
+      export_shell: null
